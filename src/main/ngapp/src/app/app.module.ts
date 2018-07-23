@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './/app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HelloComponent } from './hello/hello.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -21,7 +20,6 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
-    DashboardComponent,
     HelloComponent,
     TopbarComponent,
     FooterComponent,
