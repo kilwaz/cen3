@@ -40,10 +40,10 @@ public class XMLImporter {
 
             Element docEle = dom.getDocumentElement();
             if ("Sources".equals(docEle.getTagName())) {
-                NodeList sourceNodeList = docEle.getElementsByTagName("Source");
+                NodeList sourceNodeList = docEle.getElementsByTagName("SourceAPI");
                 Prober prober = new Prober();
 
-                for (int i = 0; i < sourceNodeList.getLength(); i++) { // Loop through each Source
+                for (int i = 0; i < sourceNodeList.getLength(); i++) { // Loop through each SourceAPI
                     Element sourceNode = (Element) sourceNodeList.item(i);
 
                     String name = sourceNode.getElementsByTagName("name").item(0).getTextContent();

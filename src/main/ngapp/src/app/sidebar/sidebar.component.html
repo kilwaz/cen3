@@ -6,15 +6,21 @@
 
   <ul class="list-unstyled components">
     <li>
-      <a href="hello">
+      <a [routerLink]="['/base']">
         <i class="fa fa-car"></i>
-        Hello
+        Base
       </a>
     </li>
     <li>
-      <a href="hello2">
+      <a [routerLink]="['/import']">
         <i class="fa fa-car"></i>
-        Hello2
+        Import
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/editor']">
+        <i class="fa fa-car"></i>
+        Editor
       </a>
     </li>
   </ul>

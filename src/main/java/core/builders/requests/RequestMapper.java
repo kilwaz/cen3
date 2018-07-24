@@ -42,7 +42,7 @@ public class RequestMapper {
                     JSONContainer incomingRequestData = new JSONContainer(json);
                     JSONObject jsonObject = incomingRequestData.toJSONObject();
 
-                    JSONContainer jsonContainer = sparkRequest.get(jsonObject);
+                    JSONContainer jsonContainer = sparkRequest.get(request);
                     return jsonContainer.writeResponse();
                 } catch (Exception ex) {
                     log.info("err", ex);
