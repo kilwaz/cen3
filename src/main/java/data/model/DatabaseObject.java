@@ -43,7 +43,7 @@ public class DatabaseObject {
 //            databaseObject.load();
 //        }
 
-        if (databaseObjectManager.objectExists(uuid)) {
+        if (databaseObjectManager.objectExists(uuid)) { // Check if it already exists within cache
             loadedObject = databaseObjectManager.getDatabaseObject(uuid);
         } else {
             loadedObject = create(clazz);
@@ -116,9 +116,5 @@ public class DatabaseObject {
         } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             Error.DATABASE_LOAD_CLASS_INIT.record().additionalInformation("Class " + this.getClass()).create(ex);
         }
-    }
-
-    public JSONObject asJSON() {
-        return JSONMapper.build().process(this);
     }
 }

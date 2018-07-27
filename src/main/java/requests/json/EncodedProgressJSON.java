@@ -28,7 +28,7 @@ public class EncodedProgressJSON extends Request {
             if (!uuid.isEmpty()) {
                 Clip clip = Clip.load(UUID.fromString(uuid), Clip.class);
 
-                JSONContainer jsonContainer = new JSONContainer(clip.getEncodedProgress().asJSON());
+                JSONContainer jsonContainer = new JSONContainer().dbDataItem(clip.getEncodedProgress());
                 jsonContainer.writeToResponse(response);
             }
         }

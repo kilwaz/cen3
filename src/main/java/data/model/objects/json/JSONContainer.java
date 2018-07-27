@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,9 +19,19 @@ public class JSONContainer<DatabaseObject> {
 
     private List<DatabaseObject> data = new ArrayList<>();
     private String rawData = null;
+    private String errorMessage = null;
+    private List<String> filter = new ArrayList<>();
+    private Integer status = null;
 
     public JSONContainer() {
 
+    }
+
+    public JSONContainer filter(String returnValuesStr) {
+        if (returnValuesStr != null) {
+            filter = Arrays.asList(returnValuesStr.split("\\s*,\\s*"));
+        }
+        return this;
     }
 
     public JSONContainer(String rawData) {
@@ -37,6 +48,11 @@ public class JSONContainer<DatabaseObject> {
         return this;
     }
 
+    public JSONContainer status(Integer status) {
+        this.status = status;
+        return this;
+    }
+
     public JSONContainer dbDataItem(DatabaseObject dataItem) {
         this.data = new ArrayList<>();
         this.data.add(dataItem);
@@ -44,8 +60,15 @@ public class JSONContainer<DatabaseObject> {
         return this;
     }
 
+    public JSONContainer error(String errorMessage) {
+        this.data = new ArrayList<>();
+        this.rawData = null;
+        this.errorMessage = errorMessage;
+        return this;
+    }
+
     public JSONArray getData() {
-        return JSONMapper.build().process(data);
+        return JSONMapper.build().process(data, filter);
     }
 
     public JSONContainer rawData(String rawData) {
@@ -71,13 +94,19 @@ public class JSONContainer<DatabaseObject> {
 
     public String writeResponse() {
         StringBuilder sb = new StringBuilder();
-        if (rawData != null) {
+        if (errorMessage != null) {
+            sb.append(new JSONObject().append("error", errorMessage));
+        } else if (rawData != null) {
             sb.append(toJSONObject());
         } else {
             sb.append(getData());
         }
 
         return sb.toString();
+    }
+
+    public Boolean isError() {
+        return errorMessage != null;
     }
 
     public void writeToResponseAsDataTable(HttpServletResponse response) {
@@ -94,7 +123,7 @@ public class JSONContainer<DatabaseObject> {
     }
 
     public String writeToString() {
-        return JSONMapper.build().process(data).toString();
+        return JSONMapper.build().process(data, filter).toString();
     }
 
     public JSONObject toJSONObject() {
@@ -112,5 +141,9 @@ public class JSONContainer<DatabaseObject> {
             }
         }
         return new JSONObject();
+    }
+
+    public Integer getStatus() {
+        return status;
     }
 }

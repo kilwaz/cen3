@@ -2,7 +2,6 @@ package core.builders.requests;
 
 import data.model.objects.json.JSONContainer;
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import requests.annotations.RequestName;
@@ -12,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Set;
 
-import static spark.Spark.get;
+import static spark.Spark.*;
 
 public class RequestMapper {
     private static Logger log = Logger.getLogger(RequestMapper.class);
@@ -38,17 +37,54 @@ public class RequestMapper {
                 try {
                     response.type("application/json");
 
-                    String json = request.queryParams("json");
-                    JSONContainer incomingRequestData = new JSONContainer(json);
-                    JSONObject jsonObject = incomingRequestData.toJSONObject();
+//                    String json = request.queryParams("json");
+//                    JSONContainer incomingRequestData = new JSONContainer(json);
+//                    JSONObject jsonObject = incomingRequestData.toJSONObject();
 
                     JSONContainer jsonContainer = sparkRequest.get(request);
-                    return jsonContainer.writeResponse();
+                    jsonContainer.filter(request.queryParams("filter"));
+                    if (jsonContainer.isError()) {
+                        if (jsonContainer.getStatus() != null) {
+                            response.status(jsonContainer.getStatus());
+                        } else {
+                            response.status(400);
+                        }
+                        return jsonContainer.writeResponse();
+                    } else {
+                        if (jsonContainer.getStatus() != null) {
+                            response.status(jsonContainer.getStatus());
+                        }
+                        return jsonContainer.writeResponse();
+                    }
                 } catch (Exception ex) {
                     log.info("err", ex);
                 }
-
+                response.status(500);
                 return "ERROR";
+            });
+
+            post("/" + requestNameAnnotation.value(), (request, response) -> {
+                log.info("We got a post request to " + request.url());
+                response.type("application/json");
+
+                JSONContainer jsonContainer = sparkRequest.post(request);
+                if (jsonContainer.isError()) {
+                    if (jsonContainer.getStatus() != null) {
+                        response.status(jsonContainer.getStatus());
+                    } else {
+                        response.status(400);
+                    }
+                    return jsonContainer.writeResponse();
+                } else {
+                    return jsonContainer.writeResponse();
+                }
+            });
+
+            options("/" + requestNameAnnotation.value(), (request, response) -> {
+//                response.header("Access-Control-Allow-Origin","http://kilwaz.me ");
+//                response.header("Access-Control-Allow-Methods","POST, GET, OPTIONS");
+
+                return "";
             });
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
             ex.printStackTrace();

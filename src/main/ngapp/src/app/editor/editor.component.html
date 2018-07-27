@@ -1,36 +1,38 @@
 <label for="sourceSelect">Source: </label>
-<select name="sourceSelect" id="sourceSelect">
+<select id="sourceSelect" [(ngModel)]="selectedSource">
   <option value="" selected="selected"></option>
   <option *ngFor="let source of sources" [ngValue]="source">{{source.name}}</option>
 </select>
 
 <!--<table id="searchTextResults">-->
-<!--<tr>-->
-<!--<th>Duration</th>-->
-<!--<th>Format</th>-->
-<!--<th>Bit rate</th>-->
-<!--<th>Resolution</th>-->
-<!--<th>Aspect Ratio</th>-->
-<!--<th>FPS</th>-->
-<!--</tr>-->
-<!--<tr>-->
-<!--<td>{{selectedSource.sourceInfo.format.duration | number : 2}}</td>-->
-<!--<td>{{selectedSource.sourceInfo.format.format_long_name}}</td>-->
-<!--<td>{{selectedSource.sourceInfo.format.bit_rate}}</td>-->
-<!--<td>{{selectedSource.sourceInfo.streams[0].width}} x {{source.sourceInfo.streams[0].height}}-->
-<!--</td>-->
-<!--<td>{{selectedSource.sourceInfo.streams[0].display_aspect_ratio}}</td>-->
-<!--<td>{{selectedSource.sourceInfo.streams[0].avg_frame_rate}}</td>-->
-<!--</tr>-->
+  <!--<tr>-->
+    <!--<th>Duration</th>-->
+    <!--<th>Format</th>-->
+    <!--<th>Bit rate</th>-->
+    <!--<th>Resolution</th>-->
+    <!--<th>Aspect Ratio</th>-->
+    <!--<th>FPS</th>-->
+  <!--</tr>-->
+  <!--<tr>-->
+    <!--<td>{{selectedSource.sourceInfo.format.duration | number : 2}}</td>-->
+    <!--<td>{{selectedSource.sourceInfo.format.format_long_name}}</td>-->
+    <!--<td>{{selectedSource.sourceInfo.format.bit_rate}}</td>-->
+    <!--<td>{{selectedSource.sourceInfo.streams[0].width}} x {{selectedSource.sourceInfo.streams[0].height}}-->
+    <!--</td>-->
+    <!--<td>{{selectedSource.sourceInfo.streams[0].display_aspect_ratio}}</td>-->
+    <!--<td>{{selectedSource.sourceInfo.streams[0].avg_frame_rate}}</td>-->
+  <!--</tr>-->
 <!--</table>-->
 
-<!--<video id="player" class="embed-responsive" controls source-video-->
-<!--video-current-time="currentTime"-->
-<!--ng-src="{{ currentVideo }}"-->
-<!--time-sec-tens="timeSecTens" time-sec-ones="timeSecOnes"-->
-<!--time-min-tens="timeMinTens" time-min-ones="timeMinOnes" time-hour-tens="timeHourTens"-->
-<!--time-hour-ones="timeHourOnes" time-frame-tens="timeFrameTens" time-frame-ones="timeFrameOnes">-->
-<!--</video>-->
+<div *ngIf="selectedSource">
+  <div>
+    {{selectedSource.url}}
+  </div>
+
+  <video id="playerElement" class="embed-responsive" controls [src]="selectedSource.url" [(ngModel)]="player"
+         (timeupdate)="timeUpdate()"></video>
+  <label>TimeStamp: {{duration}}</label>
+</div>
 
 <!--<input type="number" min="0" max="9" ng-model="timeHourTens"/>-->
 <!--<input type="number" min="0" max="9" ng-model="timeHourOnes"/>-->

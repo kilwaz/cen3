@@ -1,21 +1,30 @@
 import {Component, OnInit} from '@angular/core';
-import {Source} from "../source";
-import {SourceService} from "../source.service";
+import {PrivateService, Source} from "..";
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css']
+  styleUrls: ['./editor.component.css'],
+  providers: [PrivateService]
 })
 export class EditorComponent implements OnInit {
   sources: Source[];
+  selectedSource: Source;
+  player: HTMLVideoElement;
+  duration: number;
 
-  constructor(private sourceService: SourceService) {
+  constructor(private privateService: PrivateService) {
   }
 
   getSources(): void {
-    this.sourceService.getSources()
-      .subscribe(sources => this.sources = sources);
+    this.privateService.getSource(undefined, "uuid,name,url").subscribe(sources => this.sources = sources);
+  }
+
+  timeUpdate(): void {
+    if (this.player === undefined) {
+      this.player = document.getElementById("playerElement") as HTMLVideoElement;
+    }
+    this.duration = this.player.currentTime;
   }
 
   ngOnInit() {
