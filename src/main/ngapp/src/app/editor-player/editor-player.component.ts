@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Source} from "..";
 
 @Component({
@@ -8,8 +8,7 @@ import {Source} from "..";
 })
 export class EditorPlayerComponent implements OnInit {
   @Input() selectedSource: Source;
-
-  player: HTMLVideoElement;
+  @ViewChild('player') player: any;
 
   frameRate = 23.98;
 
@@ -31,7 +30,7 @@ export class EditorPlayerComponent implements OnInit {
   }
 
   setSourceTime(): void {
-    this.player.currentTime = this.convertToSeconds();
+    this.player.nativeElement.currentTime = this.convertToSeconds();
   }
 
   convertToSeconds(): number {
@@ -45,12 +44,9 @@ export class EditorPlayerComponent implements OnInit {
   };
 
   timeUpdate(): void {
-    if (this.player === undefined) {
-      this.player = document.getElementById("playerElement") as HTMLVideoElement;
-    }
-    this.duration = this.player.currentTime;
+    this.duration = this.player.nativeElement.currentTime;
 
-    let time = this.player.currentTime;
+    let time = this.player.nativeElement.currentTime;
 
     let timeHour = Math.floor(time / 3600);
     this.timeHourTens = Math.floor(timeHour / 10 % 10);

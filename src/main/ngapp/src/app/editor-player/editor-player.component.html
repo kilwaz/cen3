@@ -1,4 +1,7 @@
-<video name="player" id="player" class="embed-responsive" controls [src]="selectedSource.url" [(ngModel)]="player" (timeupdate)="timeUpdate()"></video>
+<video id="player" class="embed-responsive" controls #player
+       (timeupdate)="timeUpdate()">
+  <source [src]="selectedSource.url"/>
+</video>
 
 <input name="timeHourTens" type="number" min="0" max="9" [(ngModel)]="timeHourTens"/>
 <input name="timeHourOnes" type="number" min="0" max="9" [(ngModel)]="timeHourOnes"/>
@@ -14,4 +17,6 @@
 
 <button type="button" class="btn btn-primary" (click)="setSourceTime()">Set</button>
 
-<input type="number" [(ngModel)]="player.playbackRate"/>
+<div *ngIf="player">
+  <input type="number" [(ngModel)]="player.playbackRate"/>
+</div>
