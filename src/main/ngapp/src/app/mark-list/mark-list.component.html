@@ -1,0 +1,15 @@
+<div class="col">
+  Marks:
+  <button type="button" class="btn btn-primary" (click)="createMark()">Mark</button>
+  <div *ngFor="let mark of selectedSource.marks" class="card">
+    <div class="card-body">
+      {{ formatTime(mark.time) }}
+      <button type="button" class="btn btn-primary"
+              (click)="jumpToMark(mark)">Show
+      </button>
+      <button type="button" class="btn btn-primary"
+              (click)="deleteMark(mark)">Delete
+      </button>
+    </div>
+  </div>
+</div>

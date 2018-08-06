@@ -27,6 +27,11 @@ public class JSONContainer<DatabaseObject> {
 
     }
 
+    public JSONContainer OK() {
+        this.rawData = "{'response':'OK'}";
+        return this;
+    }
+
     public JSONContainer filter(String returnValuesStr) {
         if (returnValuesStr != null) {
             filter = Arrays.asList(returnValuesStr.split("\\s*,\\s*"));

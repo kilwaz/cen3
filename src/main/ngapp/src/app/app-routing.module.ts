@@ -5,7 +5,7 @@ import {EditorComponent} from "./editor/editor.component";
 import {PeopleComponent} from "./people/people.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+  {path: '', redirectTo: '/editor', pathMatch: 'full'},
   {path: 'import', component: ImportComponent},
   {path: 'people', component: PeopleComponent},
   {path: 'editor', component: EditorComponent}

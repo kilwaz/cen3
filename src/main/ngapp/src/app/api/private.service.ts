@@ -18,7 +18,9 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { Clip } from '../model/clip';
 import { EncodedProgress } from '../model/encodedProgress';
+import { Mark } from '../model/mark';
 import { Source } from '../model/source';
 import { SourceInfo } from '../model/sourceInfo';
 
@@ -57,6 +59,202 @@ export class PrivateService {
         return false;
     }
 
+
+    /**
+     * Create a Mark
+     * 
+     * @param uuid Pass a source uuid to create a mark against
+     * @param time Pass the time that the mark should be made at
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createMark(uuid: string, time: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Mark>>;
+    public createMark(uuid: string, time: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Mark>>>;
+    public createMark(uuid: string, time: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Mark>>>;
+    public createMark(uuid: string, time: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling createMark.');
+        }
+        if (time === null || time === undefined) {
+            throw new Error('Required parameter time was null or undefined when calling createMark.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (uuid !== undefined) {
+            queryParameters = queryParameters.set('uuid', <any>uuid);
+        }
+        if (time !== undefined) {
+            queryParameters = queryParameters.set('time', <any>time);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.put<Array<Mark>>(`${this.basePath}/mark`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Delete a Clip
+     * 
+     * @param uuid Pass a clip uuid to delete that clip
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteClip(uuid: string, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public deleteClip(uuid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public deleteClip(uuid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public deleteClip(uuid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling deleteClip.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (uuid !== undefined) {
+            queryParameters = queryParameters.set('uuid', <any>uuid);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.delete<string>(`${this.basePath}/clip`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Delete a Mark
+     * 
+     * @param uuid Pass a mark uuid to delete that mark
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteMark(uuid: string, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public deleteMark(uuid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public deleteMark(uuid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public deleteMark(uuid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling deleteMark.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (uuid !== undefined) {
+            queryParameters = queryParameters.set('uuid', <any>uuid);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.delete<string>(`${this.basePath}/mark`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Retrieves detailed information about a clip
+     * 
+     * @param uuid Pass a source uuid to return a list of clips
+     * @param filter Comma Separated list of specific values to return
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getClip(uuid: string, filter?: string, observe?: 'body', reportProgress?: boolean): Observable<Array<Clip>>;
+    public getClip(uuid: string, filter?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Clip>>>;
+    public getClip(uuid: string, filter?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Clip>>>;
+    public getClip(uuid: string, filter?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling getClip.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (uuid !== undefined) {
+            queryParameters = queryParameters.set('uuid', <any>uuid);
+        }
+        if (filter !== undefined) {
+            queryParameters = queryParameters.set('filter', <any>filter);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.get<Array<Clip>>(`${this.basePath}/clip`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
 
     /**
      * Retrieves source encoding information
@@ -98,6 +296,56 @@ export class PrivateService {
         ];
 
         return this.httpClient.get<Array<EncodedProgress>>(`${this.basePath}/encodedProgress`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Retrieves detailed information about a mark
+     * 
+     * @param uuid Pass a source uuid to return a list of marks
+     * @param filter Comma Separated list of specific values to return
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getMark(uuid: string, filter?: string, observe?: 'body', reportProgress?: boolean): Observable<Array<Mark>>;
+    public getMark(uuid: string, filter?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Mark>>>;
+    public getMark(uuid: string, filter?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Mark>>>;
+    public getMark(uuid: string, filter?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling getMark.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (uuid !== undefined) {
+            queryParameters = queryParameters.set('uuid', <any>uuid);
+        }
+        if (filter !== undefined) {
+            queryParameters = queryParameters.set('filter', <any>filter);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.get<Array<Mark>>(`${this.basePath}/mark`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -158,7 +406,7 @@ export class PrivateService {
     /**
      * Retrieves detailed information about a source
      * 
-     * @param uuid Pass a uuid to return an encoded progress object
+     * @param uuid Pass a source uuid to return an encoded progress object
      * @param filter Comma Separated list of specific values to return
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

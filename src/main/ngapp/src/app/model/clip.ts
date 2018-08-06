@@ -9,16 +9,18 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Clip } from './clip';
+import { EncodedProgress } from './encodedProgress';
 import { Mark } from './mark';
-import { SourceInfo } from './sourceInfo';
+import { Source } from './source';
 
 
-export interface Source {
+export interface Clip {
     uuid: string;
-    name: string;
-    url: string;
-    clips: Array<Clip>;
-    marks: Array<Mark>;
-    sourceInfo?: SourceInfo;
+    startMark?: Mark;
+    endMark?: Mark;
+    fileName?: string;
+    lockedIn?: boolean;
+    encodedProgress?: EncodedProgress;
+    published?: boolean;
+    source?: Source;
 }

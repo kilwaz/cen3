@@ -6,6 +6,7 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import requests.annotations.RequestName;
 import requests.spark.SparkRequest;
+import spark.Response;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ public class RequestMapper {
         try {
             SparkRequest sparkRequest = requestClass.getConstructor().newInstance();
 
+            // GET
             get("/" + requestNameAnnotation.value(), (request, response) -> {
                 try {
                     response.type("application/json");
@@ -43,19 +45,7 @@ public class RequestMapper {
 
                     JSONContainer jsonContainer = sparkRequest.get(request);
                     jsonContainer.filter(request.queryParams("filter"));
-                    if (jsonContainer.isError()) {
-                        if (jsonContainer.getStatus() != null) {
-                            response.status(jsonContainer.getStatus());
-                        } else {
-                            response.status(400);
-                        }
-                        return jsonContainer.writeResponse();
-                    } else {
-                        if (jsonContainer.getStatus() != null) {
-                            response.status(jsonContainer.getStatus());
-                        }
-                        return jsonContainer.writeResponse();
-                    }
+                    return handleResponse(jsonContainer, response);
                 } catch (Exception ex) {
                     log.info("err", ex);
                 }
@@ -63,31 +53,42 @@ public class RequestMapper {
                 return "ERROR";
             });
 
+            // POST
             post("/" + requestNameAnnotation.value(), (request, response) -> {
-                log.info("We got a post request to " + request.url());
                 response.type("application/json");
+                return handleResponse(sparkRequest.post(request), response);
+            });
 
-                JSONContainer jsonContainer = sparkRequest.post(request);
-                if (jsonContainer.isError()) {
-                    if (jsonContainer.getStatus() != null) {
-                        response.status(jsonContainer.getStatus());
-                    } else {
-                        response.status(400);
-                    }
-                    return jsonContainer.writeResponse();
-                } else {
-                    return jsonContainer.writeResponse();
-                }
+            // PUT
+            put("/" + requestNameAnnotation.value(), (request, response) -> {
+                response.type("application/json");
+                return handleResponse(sparkRequest.put(request), response);
+            });
+
+            // PUT
+            delete("/" + requestNameAnnotation.value(), (request, response) -> {
+                response.type("application/json");
+                return handleResponse(sparkRequest.delete(request), response);
             });
 
             options("/" + requestNameAnnotation.value(), (request, response) -> {
-//                response.header("Access-Control-Allow-Origin","http://kilwaz.me ");
-//                response.header("Access-Control-Allow-Methods","POST, GET, OPTIONS");
-
                 return "";
             });
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private static String handleResponse(JSONContainer jsonContainer, Response response) {
+        if (jsonContainer.isError()) {
+            if (jsonContainer.getStatus() != null) {
+                response.status(jsonContainer.getStatus());
+            } else {
+                response.status(400);
+            }
+            return jsonContainer.writeResponse();
+        } else {
+            return jsonContainer.writeResponse();
         }
     }
 }

@@ -12,6 +12,9 @@ import {ImportComponent} from './import/import.component';
 import {ProcessesComponent} from './processes/processes.component';
 import {EditorComponent} from './editor/editor.component';
 import {PeopleComponent} from './people/people.component';
+import { EditorPlayerComponent } from './editor-player/editor-player.component';
+import { ClipListComponent } from './clip-list/clip-list.component';
+import { MarkListComponent } from './mark-list/mark-list.component';
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import {PeopleComponent} from './people/people.component';
     ImportComponent,
     ProcessesComponent,
     EditorComponent,
-    PeopleComponent
+    PeopleComponent,
+    EditorPlayerComponent,
+    ClipListComponent,
+    MarkListComponent
   ],
   imports: [
     BrowserModule,

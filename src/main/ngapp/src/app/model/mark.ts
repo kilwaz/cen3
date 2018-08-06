@@ -9,16 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Clip } from './clip';
-import { Mark } from './mark';
-import { SourceInfo } from './sourceInfo';
+import { Source } from './source';
 
 
-export interface Source {
+export interface Mark {
     uuid: string;
-    name: string;
-    url: string;
-    clips: Array<Clip>;
-    marks: Array<Mark>;
-    sourceInfo?: SourceInfo;
+    time?: number;
+    source?: Source;
 }
