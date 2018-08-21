@@ -1,6 +1,7 @@
 package core.builders.requests;
 
 import data.model.objects.json.JSONContainer;
+import error.Error;
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -23,7 +24,7 @@ public class RequestMapper {
         Set<Class<? extends SparkRequest>> spark = new Reflections("requests.spark", new SubTypesScanner(false)).getSubTypesOf(SparkRequest.class);
         spark.forEach(RequestMapper::buildSpark);
 
-        get("/", (request, response) -> "Yeah this is something");
+        get("/", (request, response) -> "Yeah this is something, but it isn't handled");
     }
 
     private static void buildSpark(Class<? extends SparkRequest> requestClass) {
@@ -36,6 +37,7 @@ public class RequestMapper {
 
             // GET
             get("/" + requestNameAnnotation.value(), (request, response) -> {
+                log.info("GET " + requestNameAnnotation.value());
                 try {
                     response.type("application/json");
 
@@ -47,7 +49,7 @@ public class RequestMapper {
                     jsonContainer.filter(request.queryParams("filter"));
                     return handleResponse(jsonContainer, response);
                 } catch (Exception ex) {
-                    log.info("err", ex);
+                    Error.GET_EXCEPTION.record().additionalInformation("URL: " + request.url()).create(ex);
                 }
                 response.status(500);
                 return "ERROR";
@@ -55,27 +57,56 @@ public class RequestMapper {
 
             // POST
             post("/" + requestNameAnnotation.value(), (request, response) -> {
-                response.type("application/json");
-                return handleResponse(sparkRequest.post(request), response);
+                try {
+                    log.info("POST " + requestNameAnnotation.value());
+                    response.type("application/json");
+                    return handleResponse(sparkRequest.post(request), response);
+                } catch (Exception ex) {
+                    Error.POST_EXCEPTION.record().additionalInformation("URL: " + request.url()).create(ex);
+                }
+                response.status(500);
+                return "ERROR";
             });
 
             // PUT
             put("/" + requestNameAnnotation.value(), (request, response) -> {
-                response.type("application/json");
-                return handleResponse(sparkRequest.put(request), response);
+                try {
+                    log.info("PUT " + requestNameAnnotation.value());
+                    response.type("application/json");
+                    return handleResponse(sparkRequest.put(request), response);
+                } catch (Exception ex) {
+                    Error.PUT_EXCEPTION.record().additionalInformation("URL: " + request.url()).create(ex);
+                }
+                response.status(500);
+                return "ERROR";
             });
 
-            // PUT
+            // DELETE
             delete("/" + requestNameAnnotation.value(), (request, response) -> {
-                response.type("application/json");
-                return handleResponse(sparkRequest.delete(request), response);
+                try {
+
+                    log.info("DELETE " + requestNameAnnotation.value());
+                    response.type("application/json");
+                    return handleResponse(sparkRequest.delete(request), response);
+                } catch (Exception ex) {
+                    Error.DELETE_EXCEPTION.record().additionalInformation("URL: " + request.url()).create(ex);
+                }
+                response.status(500);
+                return "ERROR";
             });
 
             options("/" + requestNameAnnotation.value(), (request, response) -> {
-                return "";
+                try {
+                    log.info("OPTIONS " + requestNameAnnotation.value());
+                    return "";
+                } catch (Exception ex) {
+                    Error.OPTIONS_EXCEPTION.record().additionalInformation("URL: " + request.url()).create(ex);
+                }
+                response.status(500);
+                return "ERROR";
             });
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-            ex.printStackTrace();
+            Error.GENERIC_REQUEST_EXCEPTION.record().create(ex);
         }
     }
 

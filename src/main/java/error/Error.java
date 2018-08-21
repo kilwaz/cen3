@@ -30,7 +30,13 @@ public enum Error {
     FILE_UPLOAD_ERROR(89, "File could not be uploaded"),
     SDE_JOIN_THREAD(58, "Error joining SDE Thread"),
     NOT_VALID_JSON(32, "Not valid JSON"),
-    PROCESS_LISTEN(33, "Exception listening to process"),;
+    PROCESS_LISTEN(33, "Exception listening to process"),
+    GET_EXCEPTION(200, "Exception within GET method"),
+    POST_EXCEPTION(201, "Exception within POST method"),
+    PUT_EXCEPTION(202, "Exception within PUT method"),
+    DELETE_EXCEPTION(203, "Exception within DELETE method"),
+    OPTIONS_EXCEPTION(204, "Exception within OPTIONS method"),
+    GENERIC_REQUEST_EXCEPTION(205, "Exception within request");
 
     private Integer code;
     private String description;

@@ -61,6 +61,53 @@ export class PrivateService {
 
 
     /**
+     * Create a Clip
+     * 
+     * @param uuid Pass a source uuid to create a clip against
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createClip(uuid: string, observe?: 'body', reportProgress?: boolean): Observable<Array<Clip>>;
+    public createClip(uuid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Clip>>>;
+    public createClip(uuid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Clip>>>;
+    public createClip(uuid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling createClip.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (uuid !== undefined) {
+            queryParameters = queryParameters.set('uuid', <any>uuid);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.put<Array<Clip>>(`${this.basePath}/clip`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Create a Mark
      * 
      * @param uuid Pass a source uuid to create a mark against
@@ -443,6 +490,61 @@ export class PrivateService {
         ];
 
         return this.httpClient.get<Array<SourceInfo>>(`${this.basePath}/sourceInfo`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Update a Clip
+     * 
+     * @param uuid Pass a clip uuid to be updated
+     * @param startMark Mark uuid to be used as start Mark
+     * @param endMark Mark uuid to be used as end Mark
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateClip(uuid: string, startMark?: string, endMark?: string, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public updateClip(uuid: string, startMark?: string, endMark?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public updateClip(uuid: string, startMark?: string, endMark?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public updateClip(uuid: string, startMark?: string, endMark?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling updateClip.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (uuid !== undefined) {
+            queryParameters = queryParameters.set('uuid', <any>uuid);
+        }
+        if (startMark !== undefined) {
+            queryParameters = queryParameters.set('startMark', <any>startMark);
+        }
+        if (endMark !== undefined) {
+            queryParameters = queryParameters.set('endMark', <any>endMark);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.post<string>(`${this.basePath}/clip`,
+            null,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

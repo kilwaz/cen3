@@ -32,7 +32,7 @@ public class Clip extends DatabaseObject {
         this.published = published;
     }
 
-    @JSONMappable("source")
+    //    @JSONMappable("source")
     public Source getSource() {
         return source;
     }
@@ -100,7 +100,7 @@ public class Clip extends DatabaseObject {
         this.lockedIn = lockedIn;
     }
 
-    @JSONMappable("encodedProgress")
+    //    @JSONMappable("encodedProgress")
     public EncodedProgress getEncodedProgress() {
         return encodedProgress;
     }

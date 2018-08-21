@@ -7,7 +7,7 @@
       <div [ngSwitch]="clip.lockedIn">
         <div *ngSwitchDefault>
           <select [(ngModel)]="clip.startMark"
-                  (change)="setClipStart(clip)">
+                  (change)="setStartMark(clip)">
             <option *ngFor="let mark of selectedSource.marks"
                     [ngValue]="mark">
               {{ formatTime(mark.time) }}
@@ -15,7 +15,7 @@
           </select>
           -
           <select [(ngModel)]="clip.endMark"
-                  (change)="setClipEnd(clip)">
+                  (change)="setEndMark(clip)">
             <option *ngFor="let mark of selectedSource.marks"
                     [ngValue]="mark">
               {{ formatTime(mark.time) }}

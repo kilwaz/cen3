@@ -28,6 +28,7 @@ public class JSONContainer<DatabaseObject> {
     }
 
     public JSONContainer OK() {
+        log.info("Doing an OK response");
         this.rawData = "{'response':'OK'}";
         return this;
     }
