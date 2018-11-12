@@ -15,6 +15,7 @@ import {PeopleComponent} from './people/people.component';
 import { EditorPlayerComponent } from './editor-player/editor-player.component';
 import { ClipListComponent } from './clip-list/clip-list.component';
 import { MarkListComponent } from './mark-list/mark-list.component';
+import { QrcodeComponent } from './qrcode/qrcode.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { MarkListComponent } from './mark-list/mark-list.component';
     PeopleComponent,
     EditorPlayerComponent,
     ClipListComponent,
-    MarkListComponent
+    MarkListComponent,
+    QrcodeComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 package data.model.objects.json;
 
+import data.model.DatabaseObject;
 import error.Error;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -14,10 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class JSONContainer<DatabaseObject> {
+public class JSONContainer<DBO extends DatabaseObject> {
     private static Logger log = Logger.getLogger(JSONContainer.class);
 
-    private List<DatabaseObject> data = new ArrayList<>();
+    private List<DBO> dataObjectList = new ArrayList<>();
+    private DBO dataObject = null;
     private String rawData = null;
     private String errorMessage = null;
     private List<String> filter = new ArrayList<>();
@@ -48,8 +50,8 @@ public class JSONContainer<DatabaseObject> {
         this.rawData = jsonObject.toString();
     }
 
-    public JSONContainer dbDataList(List<DatabaseObject> dataList) {
-        this.data = dataList;
+    public JSONContainer dbDataList(List<DBO> dataList) {
+        this.dataObjectList = dataList;
         this.rawData = null;
         return this;
     }
@@ -59,27 +61,30 @@ public class JSONContainer<DatabaseObject> {
         return this;
     }
 
-    public JSONContainer dbDataItem(DatabaseObject dataItem) {
-        this.data = new ArrayList<>();
-        this.data.add(dataItem);
+    public JSONContainer dbDataItem(DBO dataItem) {
+        this.dataObject = dataItem;
         this.rawData = null;
         return this;
     }
 
     public JSONContainer error(String errorMessage) {
-        this.data = new ArrayList<>();
+        this.dataObjectList = new ArrayList<>();
         this.rawData = null;
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public JSONArray getData() {
-        return JSONMapper.build().process(data, filter);
+    private JSONArray getDataObjectList() {
+        return JSONMapper.build().process(dataObjectList, filter);
+    }
+
+    private JSONObject getDataObject() {
+        return JSONMapper.build().process(dataObject, filter);
     }
 
     public JSONContainer rawData(String rawData) {
         this.rawData = rawData;
-        this.data = null;
+        this.dataObjectList = null;
         return this;
     }
 
@@ -89,7 +94,7 @@ public class JSONContainer<DatabaseObject> {
             if (rawData != null) {
                 out.print(toJSONObject());
             } else {
-                out.print(getData());
+                out.print(getDataObjectList());
             }
 
             out.flush();
@@ -104,8 +109,10 @@ public class JSONContainer<DatabaseObject> {
             sb.append(new JSONObject().append("error", errorMessage));
         } else if (rawData != null) {
             sb.append(toJSONObject());
+        } else if (dataObject != null) {
+            sb.append(getDataObject());
         } else {
-            sb.append(getData());
+            sb.append(getDataObjectList());
         }
 
         return sb.toString();
@@ -117,7 +124,7 @@ public class JSONContainer<DatabaseObject> {
 
     public void writeToResponseAsDataTable(HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("data", getData());
+        jsonObject.put("data", getDataObjectList());
 
         try {
             PrintWriter out = response.getWriter();
@@ -129,7 +136,7 @@ public class JSONContainer<DatabaseObject> {
     }
 
     public String writeToString() {
-        return JSONMapper.build().process(data, filter).toString();
+        return JSONMapper.build().process(dataObjectList, filter).toString();
     }
 
     public JSONObject toJSONObject() {

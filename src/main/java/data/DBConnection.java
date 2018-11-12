@@ -1,9 +1,11 @@
 package data;
 
 import core.builders.resources.ResourceFileMapper;
+import error.Error;
 import org.apache.log4j.Logger;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
+import org.flywaydb.core.api.Location;
 import org.flywaydb.core.internal.sqlscript.FlywaySqlScriptException;
 import utils.SDEUtils;
 
@@ -14,7 +16,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import error.Error;
 
 public class DBConnection {
     private static Logger log = Logger.getLogger(DBConnection.class);
@@ -149,20 +150,18 @@ public class DBConnection {
     public void migrateFlyway() {
         try {
             // Migrate the database
-            Flyway flyway = new Flyway();
-            log.info("Migrating " + connectionString);
-            flyway.setDataSource(connectionString, username, password);
-
             String sqlMigrationPath = "sql/migration/";
 
-            flyway.setLocations(sqlMigrationPath);
+            Flyway flyway = Flyway.configure().dataSource(connectionString, username, password).load();
+            Flyway.configure().locations(sqlMigrationPath);
 
-            String[] flywayLocations = flyway.getLocations();
-            for (String aLoc : flywayLocations) {
-                log.info("Flyway location for sql = " + aLoc);
+            Location[] flywayLocations = Flyway.configure().getLocations();
+            for (Location aLoc : flywayLocations) {
+                log.info("Flyway location for sql = " + aLoc.getPath());
             }
 
-            flyway.setBaselineOnMigrate(true);
+            log.info("Migrating " + connectionString);
+            Flyway.configure().baselineOnMigrate(true);
             flyway.migrate();
         } catch (FlywaySqlScriptException ex) {
             Error.DATABASE_MIGRATE_SQL_FAILED.record().create(ex);
