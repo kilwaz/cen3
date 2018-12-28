@@ -23,9 +23,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css"
             ],
-            "scripts": []
+            "scripts": [
+              "../../main/ngapp/node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -72,9 +75,12 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css"
             ],
-            "scripts": ["ext/js/bootstrap-4.1.1.min.js"],
+            "scripts": [
+              "../../main/ngapp/node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

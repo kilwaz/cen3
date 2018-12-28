@@ -1,7 +1,0 @@
-<label for="textForQRCode">Text for QR Code</label>
-<input type="text" id="textForQRCode" [(ngModel)]="qrText">
-
-<button type="button" class="btn btn-primary" (click)="createQRCode()">Create</button>
-<div *ngIf="qrCode">
-  <img [src]="qrCode.url">
-</div>

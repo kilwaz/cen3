@@ -1,9 +1,9 @@
 package utils.managers;
 
 import error.Error;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+//import javafx.application.Platform;
+//import javafx.collections.FXCollections;
+//import javafx.collections.ObservableList;
 import log.LogClass;
 import log.LogMessage;
 import org.apache.log4j.Logger;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class LogManager {
     private static Logger log = Logger.getLogger(LogManager.class);
     private static LogManager instance;
-    private ObservableList<LogClass> logClasses = FXCollections.observableArrayList();
+//    private ObservableList<LogClass> logClasses = FXCollections.observableArrayList();
     private String logOutputFilePath = null;
 
     public LogManager() {
@@ -37,9 +37,9 @@ public class LogManager {
         return instance;
     }
 
-    public ObservableList<LogClass> getLogClasses() {
-        return logClasses;
-    }
+//    public ObservableList<LogClass> getLogClasses() {
+//        return logClasses;
+//    }
 
     public String getLogOutputDirectoryPath() {
         if ("".equals(AppParams.getLogDirectory())) {
@@ -89,21 +89,21 @@ public class LogManager {
 
     public void addLogMessage(LogMessage logMessage) {
         // Because we are changing the log classes object we need to make sure this is done in a safe thread
-        Platform.runLater(() -> {
-            Boolean found = false;
-            // Find a more efficient way to do this?
-            for (LogClass logClass : logClasses) {
-                if (logClass.getClassName().equals(logMessage.getLoggerName())) {
-                    logClass.addLogMessage(logMessage);
-                    found = true;
-                }
-            }
-
-            if (!found) {
-                LogClass newClass = new LogClass(logMessage.getLoggerName());
-                newClass.addLogMessage(logMessage);
-                logClasses.add(newClass);
-            }
-        });
+//        Platform.runLater(() -> {
+//            Boolean found = false;
+//            // Find a more efficient way to do this?
+//            for (LogClass logClass : logClasses) {
+//                if (logClass.getClassName().equals(logMessage.getLoggerName())) {
+//                    logClass.addLogMessage(logMessage);
+//                    found = true;
+//                }
+//            }
+//
+//            if (!found) {
+//                LogClass newClass = new LogClass(logMessage.getLoggerName());
+//                newClass.addLogMessage(logMessage);
+//                logClasses.add(newClass);
+//            }
+//        });
     }
 }

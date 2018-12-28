@@ -1,16 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
-import {ImportComponent} from "./import/import.component";
-import {EditorComponent} from "./editor/editor.component";
-import {PeopleComponent} from "./people/people.component";
-import {QrcodeComponent} from "./qrcode/qrcode.component";
+import {FaqComponent} from "./faq/faq.component";
+import {HomeComponent} from "./home/home.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/editor', pathMatch: 'full'},
-  {path: 'import', component: ImportComponent},
-  {path: 'people', component: PeopleComponent},
-  {path: 'editor', component: EditorComponent},
-  {path: 'qrcode', component: QrcodeComponent}
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent},
+  {path: 'faq', component: FaqComponent}
 ];
 
 @NgModule({

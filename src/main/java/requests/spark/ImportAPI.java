@@ -1,6 +1,6 @@
 package requests.spark;
 
-import data.imports.XMLImporter;
+import data.imports.ExcelImporter;
 import data.model.objects.json.JSONContainer;
 import error.Error;
 import org.apache.commons.fileupload.FileItem;
@@ -45,18 +45,14 @@ public class ImportAPI extends SparkRequest {
                         e.printStackTrace();
                     }
 
+                    new ExcelImporter(importFile);
+
                     log.info("Saved file '" + fileName + "'");
                 }
             }
         } catch (FileUploadException | IOException ex) {
             Error.FILE_UPLOAD_ERROR.record().create(ex);
         }
-
-        if (importFile != null && importFile.exists()) {
-            log.info("Trying to import the XML");
-            XMLImporter.build().file(importFile).execute();
-        }
-
 
         return new JSONContainer();
     }

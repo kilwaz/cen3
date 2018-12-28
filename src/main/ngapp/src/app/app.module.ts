@@ -8,15 +8,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {TopbarComponent} from './topbar/topbar.component';
 import {FooterComponent} from './footer/footer.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
-import {ImportComponent} from './import/import.component';
-import {ProcessesComponent} from './processes/processes.component';
-import {EditorComponent} from './editor/editor.component';
-import {PeopleComponent} from './people/people.component';
-import { EditorPlayerComponent } from './editor-player/editor-player.component';
-import { ClipListComponent } from './clip-list/clip-list.component';
-import { MarkListComponent } from './mark-list/mark-list.component';
-import { QrcodeComponent } from './qrcode/qrcode.component';
-
+import {FaqComponent} from './faq/faq.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +17,8 @@ import { QrcodeComponent } from './qrcode/qrcode.component';
     TopbarComponent,
     FooterComponent,
     SidebarComponent,
-    ImportComponent,
-    ProcessesComponent,
-    EditorComponent,
-    PeopleComponent,
-    EditorPlayerComponent,
-    ClipListComponent,
-    MarkListComponent,
-    QrcodeComponent
+    FaqComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
