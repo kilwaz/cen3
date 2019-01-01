@@ -1,22 +1,46 @@
-<nav class="navbar navbar-default">
+<div class="container">
+  <div class="row">
+    <div class="col text-center grey-text wedding-of">
+      THE WEDDING OF
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col text-right big-name spaced-letters align-self-center">
+      MILI GUDKA
+    </div>
+    <div class="col-1 text-center big-and">
+      &
+    </div>
+    <div class="col text-left big-name spaced-letters align-self-center">
+      ALEX BROWN
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col text-center grey-text wedding-date">
+      MAY 26th, 2019
+    </div>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
-    <div class="navbar-header mr-auto">
-      <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-        <i class="fa fa-car"></i>
-        <span>Toggle Sidebar</span>
+    <div class="navbar-header">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
       </button>
     </div>
-
-    <form class="form-inline my-2 my-lg-0">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-                            <span class="input-group-text" id="search-addon">
-                                <i class="fa fa-search"></i>
-                            </span>
-        </div>
-        <input type="search" class="form-control" placeholder="Search" aria-label="Search"
-               aria-describedby="search-addon">
-      </div>
-    </form>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="nav navbar-nav mx-auto">
+        <a class="nav-item nav-link" [routerLink]="['/home']">Home</a>
+        <a class="nav-link nav-link" [routerLink]="['/faq']">FAQ</a>
+        <a class="nav-link nav-link" [routerLink]="['/faq']">Item 1</a>
+        <a class="nav-link nav-link" [routerLink]="['/faq']">Item 2</a>
+        <a class="nav-link nav-link" [routerLink]="['/faq']">Item 3</a>
+        <a class="nav-link nav-link" [routerLink]="['/faq']">Item 4</a>
+      </ul>
+    </div>
   </div>
 </nav>
