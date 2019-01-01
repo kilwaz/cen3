@@ -23,3 +23,28 @@
 .wedding-of {
   letter-spacing: 2px;
 }
+
+.main-header {
+  background-image: url('assets/images/background-sky.jpg');
+  background-size: cover;
+}
+
+.home {
+  background-image: url('assets/images/pic.jpg');
+}
+
+.hut-centered-text {
+  top: 45%;
+}
+
+.hut-link {
+  text-decoration: none!important;
+  cursor: pointer;
+  color: green;
+}
+
+.hut-link:hover {
+  color: black ;
+  text-decoration: none!important;
+  cursor: pointer;
+}
