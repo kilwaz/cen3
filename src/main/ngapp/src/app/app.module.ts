@@ -11,6 +11,9 @@ import {SidebarComponent} from './sidebar/sidebar.component';
 import {FaqComponent} from './faq/faq.component';
 import { HomeComponent } from './home/home.component';
 import { RsvpComponent } from './rsvp/rsvp.component';
+import { VenueComponent } from './venue/venue.component';
+import { AuthComponent } from './auth/auth.component';
+import {Globals} from "./globals";
 
 @NgModule({
   declarations: [
@@ -20,7 +23,9 @@ import { RsvpComponent } from './rsvp/rsvp.component';
     SidebarComponent,
     FaqComponent,
     HomeComponent,
-    RsvpComponent
+    RsvpComponent,
+    VenueComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,7 @@ import { RsvpComponent } from './rsvp/rsvp.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [Globals],
   bootstrap: [AppComponent]
 })
 export class AppModule {

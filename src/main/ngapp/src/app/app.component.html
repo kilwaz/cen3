@@ -1,11 +1,16 @@
 <div class="wrapper">
-  <!-- Page Content Holder -->
-  <div id="content">
-    <app-topbar></app-topbar>
 
-    <div class="container-fluid">
-      <router-outlet></router-outlet>
-    </div>
+  <div *ngIf="!validated; else validatedTemplate">
+    <app-auth (validatedOutput)="validatedOutputMethod($event)"></app-auth>
   </div>
+
+  <ng-template #validatedTemplate>
+    <div id="content">
+      <app-topbar></app-topbar>
+
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </ng-template>
 </div>
-<!--<app-footer></app-footer>-->

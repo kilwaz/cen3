@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
-import {Rsvp} from '../rsvp';
+import {Component, OnInit} from '@angular/core';
+import {Rsvp} from "../rsvp";
 
 @Component({
   selector: 'app-rsvp',
@@ -15,8 +14,12 @@ export class RsvpComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() { this.submitted = true; }
+  onSubmit() {
+    this.submitted = true;
+  }
 
   // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.rsvp); }
+  get diagnostic() {
+    return JSON.stringify(this.rsvp);
+  }
 }
