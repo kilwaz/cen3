@@ -1,8 +1,5 @@
 <div class="container">
   <h1>FAQ</h1>
-  <div class="row">
-    <h3>Section one</h3>
-  </div>
 
   <div class="row">
     <div class="accordion" id="accordionExample">
@@ -11,22 +8,14 @@
           <h5 class="mb-0">
             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
                     aria-expanded="false" aria-controls="collapseOne">
-              Collapsible Group Item #1
+              What time does the wedding actually start?
             </button>
           </h5>
         </div>
 
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
           <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
-            officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3
-            wolf
-            moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil
-            anim
-            keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-            butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-            probably
-            haven't heard of them accusamus labore sustainable VHS.
+            We kindly ask for all guests to arrive by 11.45am and be seated by 12noon latest. The Civil Ceremony must start on time (no indian timing!), so no latecomers will be allowed in the room after this time.
           </div>
         </div>
       </div>
@@ -35,21 +24,14 @@
           <h5 class="mb-0">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="false" aria-controls="collapseTwo">
-              Collapsible Group Item #2
+              Are children welcome?
             </button>
           </h5>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
           <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
-            officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3
-            wolf
-            moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil
-            anim
-            keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-            butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-            probably
-            haven't heard of them accusamus labore sustainable VHS.
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">For the Mehndi night we have chosen for this to be a young adults evening only to allow this to be an informal party for friends and family to meet prior to the wedding day.</span>
+            Children are welcome to the Wedding and Reception but we kindly ask to please keep noise to a minimum during the Civil Ceremony. Activity packs will be provided in the evening to help keep them occupied!
           </div>
         </div>
       </div>
@@ -58,80 +40,64 @@
           <h5 class="mb-0">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
                     aria-expanded="false" aria-controls="collapseThree">
-              Collapsible Group Item #3
+              What can I do in between the wedding and the reception?
             </button>
           </h5>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
           <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
-            officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3
-            wolf
-            moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil
-            anim
-            keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-            butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-            probably
-            haven't heard of them accusamus labore sustainable VHS.
+            You will have around 2 hours to relax (4pm-6pm) between the events of the day. You are welcome to stay in the venue where there will be lots of seating and refreshments available.
+            Alternatively if you have a hotel booked nearby, feel free to go back and get ready for the evening events!
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <h3>Section Two</h3>
-    </div>
-
-    <div class="row">
-      <div class="accordion" id="ae">
-        <div class="card">
-          <div class="card-header" id="h1">
-            <h5 class="mb-0">
-              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#c1"
-                      aria-expanded="false" aria-controls="c1">
-                Collapsible Group Item #1
-              </button>
-            </h5>
-          </div>
-
-          <div id="c1" class="collapse show" aria-labelledby="h1" data-parent="#ae">
-            <div class="card-body">
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-              moon
-              officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch
-              3 wolf
-              moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-              Nihil anim
-              keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
-              excepteur
-              butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-              probably
-              haven't heard of them accusamus labore sustainable VHS.
-            </div>
+      <div class="card">
+        <div class="card-header" id="heading4">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse4"
+                    aria-expanded="false" aria-controls="heading4">
+              What am I expected to wear for each event?
+            </button>
+          </h5>
+        </div>
+        <div id="collapse4" class="collapse" aria-labelledby="collapse4" data-parent="#accordionExample">
+          <div class="card-body">
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">For the Mehndi night we have kept the dress code informal - you can wear Western or Traditional Indian dress as you prefer.</span>
+            <br>For the civil ceremony - this is a Western event so we ask as many guests as possible to wear Suit and Tie/Western dresses.
+            <br>For the reception - this is an Indian event so we ask as many guests as possible to wear Tradition Indian dress or Formal attire.
+            <br>Do not worry if you do not have the correct attire for the event - all guests are not expected to change between events!
+            <br>For those who will be changing from Western attire to Indian attire for the evening, there will be changing rooms provided at the venue between 4pm-6pm to use if you do not have a hotel room nearby.
           </div>
         </div>
-        <div class="card">
-          <div class="card-header" id="h2">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#c2"
-                      aria-expanded="false" aria-controls="c2">
-                Collapsible Group Item #2
-              </button>
-            </h5>
+      </div>
+      <div class="card">
+        <div class="card-header" id="heading5">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse5"
+                    aria-expanded="false" aria-controls="heading5">
+              What type of cuisine will there be at each event?
+            </button>
+          </h5>
+        </div>
+        <div id="collapse5" class="collapse" aria-labelledby="collapse5" data-parent="#accordionExample">
+          <div class="card-body">
+            All food provided on the wedding day will be vegetarian. As our big day is a fusion of Western and Indian cultures, we will have an English afternoon tea after the Civil Ceremony and
+            Traditional Indian food for the evening reception.
           </div>
-          <div id="c2" class="collapse" aria-labelledby="h2" data-parent="#ae">
-            <div class="card-body">
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-              moon
-              officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch
-              3 wolf
-              moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-              Nihil anim
-              keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
-              excepteur
-              butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-              probably
-              haven't heard of them accusamus labore sustainable VHS.
-            </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="heading6">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse6"
+                    aria-expanded="false" aria-controls="heading6">
+              Is there a recommended hotel?
+            </button>
+          </h5>
+        </div>
+        <div id="collapse6" class="collapse" aria-labelledby="collapse6" data-parent="#accordionExample">
+          <div class="card-body">
+            Please see our Accommodation page on the website for a list of suggested hotels nearby.
           </div>
         </div>
       </div>

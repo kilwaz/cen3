@@ -2,55 +2,86 @@
   <h1>RSVP</h1>
 
   <div class="container">
-    <form>
-      <fieldset class="form-group row">
-        <legend class="col-form-legend col-sm-2">Attendance</legend>
-        <div class="col-sm-10">
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                     [(ngModel)]="rsvp.accepted" value="yes">
-              Accepts, with pleasure (Yes, I will be attending the wedding reception)
-            </label>
-          </div>
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                     [(ngModel)]="rsvp.accepted" value="no">
-              Decline with regrets
-            </label>
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset class="form-group row">
-        <legend class="col-form-legend col-sm-2">Details</legend>
-        <div class="form-group row">
-          <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="firstName" placeholder="First Name" required
-                   [(ngModel)]="rsvp.firstName" name="firstName">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="lastName" placeholder="Last Name" required
-                   [(ngModel)]="rsvp.lastName" name="lastName">
-          </div>
-        </div>
-      </fieldset>
-
+    <div class="col-sm-10">
       <div class="form-group row">
-        <label for="email" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" placeholder="Email" required
-                 [(ngModel)]="rsvp.email" name="email">
+        <label for="numberOfGuests" class="col-sm-3 col-form-label">Number of guests:</label>
+        <div class="col-sm">
+          <select (change)="selectedCount($event.target.value)" class="form-control" id="numberOfGuests">
+            <option *ngFor="let count of numbers" [value]="count" [selected]="count == 0">{{count}}</option>
+          </select>
         </div>
       </div>
+    </div>
+    <form>
+      <div *ngFor="let person of rsvp.people; let guestIndex = index" class="border rounded mt-2 border-dark">
+        <h3 class="col-form-legend col-sm-2">Guest {{guestIndex + 1}}</h3>
+        <fieldset class="form-group ml-2">
+          <mat-form-field appearance="outline" class="col-sm">
+            <mat-label>First Name</mat-label>
+            <input matInput [(ngModel)]="person.firstName" placeholder="First Name" [name]='"firstName"+guestIndex'>
+          </mat-form-field>
 
-      <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10">
+          <mat-form-field appearance="outline" class="col-sm">
+            <mat-label>Last Name</mat-label>
+            <input matInput [(ngModel)]="person.lastName" placeholder="Last Name" [name]='"lastName"+guestIndex'>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-sm">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="person.email" placeholder="Email" [name]='"email"+guestIndex'>
+          </mat-form-field>
+        </fieldset>
+
+        <fieldset class="form-group" *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
+          <mat-radio-group [(ngModel)]="person.mehndiAccepted" name="mehndiParty{{guestIndex}}"
+                           class="rsvp-radio-group">
+            <label class="col-sm-2 col-form-label">Mehndi Party* -</label>
+            <mat-radio-button class="rsvp-radio-button col-sm-3"
+                              *ngFor="let numberValue of [0,1,2]; let radioIndex = index"
+                              [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+            <div class="col-sm-12 text-danger" style="font-size: 12px">
+              * This is a young adults event only, if this is not on your invite please select '{{rsvpYesNo[2]}}'.
+            </div>
+            <div class="col-sm-12"></div>
+          </mat-radio-group>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <mat-radio-group [(ngModel)]="person.civilAccepted" name="civilCeremony{{guestIndex}}"
+                           class="rsvp-radio-group">
+            <label class="col-sm-2 col-form-label">Civil Ceremony -</label>
+            <mat-radio-button class="rsvp-radio-button col-sm-3"
+                              *ngFor="let numberValue of [0,1]; let radioIndex = index"
+                              [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+          </mat-radio-group>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <mat-radio-group [(ngModel)]="person.receptionAccepted" name="receptionAccepted{{guestIndex}}"
+                           class="rsvp-radio-group">
+            <label class="col-sm-2 col-form-label">Reception -</label>
+            <mat-radio-button class="rsvp-radio-button col-sm-3"
+                              *ngFor="let numberValue of [0,1]; let radioIndex = index"
+                              [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+          </mat-radio-group>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <mat-tree [treeControl]="nestedTreeControl">
+            <mat-tree-node>Wine</mat-tree-node>
+            <mat-tree-node>
+              <mat-checkbox>Check me!</mat-checkbox>
+            </mat-tree-node>
+            <mat-tree-node>
+              <mat-checkbox>Check me TOO!</mat-checkbox>
+            </mat-tree-node>
+          </mat-tree>
+
+        </fieldset>
+      </div>
+
+      <div *ngIf="rsvp.people.length > 0" class="form-group row">
+        <div class="align-items-center">
           <button type="submit" class="btn btn-primary">RSVP</button>
         </div>
       </div>

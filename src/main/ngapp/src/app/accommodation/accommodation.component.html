@@ -1,3 +1,174 @@
-<div class="container">
+<div class="container bg-info">
   <h1>Accommodation</h1>
+
+  <div>
+    <p>All hotels listed below are within approximately 25 minutes drive from Three Rivers Golf & Country Club</p>
+  </div>
+
+  <div class="card-columns">
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>The Prince of Wales (4 rooms)</h5></div>
+      <div class="card-body text-dark">
+        <p class="card-text"><b>Address:</b> Woodham Road, Stow Maries, Chelmsford, Essex, CM3 6SA<br>
+          <b>Telephone:</b> 01621 828971<br>
+          <b>Website: </b> <a href="http://www.prince-stowmaries.net">www.prince-stowmaries.net</a><br>
+          <b>Cost:</b> £80 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 2 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 26 mins</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>Purleigh Barns B&B (2 rooms)</h5></div>
+      <div class="card-body text-dark">
+
+        <p class="card-text"><b>Address:</b> Purleigh Barns Farm, Cold Norton Road, Latchingdon, Essex, CM3 6NS<br>
+          <b>Telephone:</b> 01621 741274<br>
+          <b>Website: </b> <a href="http://www.purlieghbarnsbandbmaldon.com">www.purlieghbarnsbandbmaldon.com</a><br>
+          <b>Cost:</b> £80-90 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 4 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 30 mins</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>The Oakland Hotel ( 36 rooms)</h5></div>
+      <div class="card-body text-dark">
+
+        <p class="card-text"><b>Address:</b> 2-6 Reeves Way, South Woodham Ferrers, Essex, CM3 5XF<br>
+          <b>Telephone:</b> 01245 322811<br>
+          <b>Website: </b> <a href="http://www.theoaklandhotel.co.uk">www.theoaklandhotel.co.uk</a><br>
+          <b>Cost:</b> £64 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 7 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 24 mins</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-columns">
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>The Limes Guest House (15 rooms)</h5></div>
+      <div class="card-body">
+
+        <p class="card-text"><b>Address:</b> 21 Market Hill, Maldon, Essex<br>
+          <b>Telephone:</b> 01621 850350<br>
+          <b>Website: </b> <a href="http://www.limes-maldon.uk">www.limes-maldon.uk</a><br>
+          <b>Cost:</b> £110 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 11 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 37 mins</div>
+        </div>
+      </div>
+    </div>
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>Travelodge Basildon Wickford (24 rooms)</h5></div>
+      <div class="card-body">
+
+        <p class="card-text"><b>Address:</b> Runwell Road, Wickford, Essex, SS11 7QJ<br>
+          <b>Telephone:</b> 08715 591802<br>
+          <b>Website: </b> <a href="http://www.travelodge.co.uk">www.travelodge.co.uk</a><br>
+          <b>Cost:</b> £64 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 11 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 19 mins</div>
+        </div>
+      </div>
+    </div>
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>The Lodge Country Inn (8 rooms)</h5></div>
+      <div class="card-body">
+
+        <p class="card-text"><b>Address:</b> Burnham Rd, Battlesbridge, Essex, SS11 7QT<br>
+          <b>Telephone:</b> 01245 320060<br>
+          <b>Website: </b> <a href="http://www.lodge-inn.net">www.lodge-inn.net</a><br>
+          <b>Cost:</b> £70 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 11 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 20 mins</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-columns">
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>Premier Inn Basildon Rayleigh</h5></div>
+      <div class="card-body">
+
+        <p class="card-text"><b>Address:</b> Rayleigh Weir, Arterial Road, Basildon, SS6 7SP<br>
+          <b>Telephone:</b> 08715 278058<br>
+          <b>Website: </b> <a href="http://www.premierinn.com">www.premierinn.com</a><br>
+          <b>Cost:</b> £40 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 19 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 18 mins</div>
+        </div>
+      </div>
+    </div>
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>Premier Inn Basildon East Mayne</h5></div>
+      <div class="card-body">
+
+        <p class="card-text"><b>Address:</b> Felmores, East Mayne, Basildon, SS13 1BW<br>
+          <b>Telephone:</b> 08715 278054<br>
+          <b>Website: </b> <a href="http://www.premierinn.com">www.premierinn.com</a><br>
+          <b>Cost:</b> £38 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 22 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 14 mins</div>
+        </div>
+      </div>
+    </div>
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>Travelodge Basildon</h5></div>
+      <div class="card-body">
+
+        <p class="card-text"><b>Address:</b> Festival Leisure Park, Festival Way, Basildon, SS14 3WB<br>
+          <b>Telephone:</b> 08715 278054<br>
+          <b>Website: </b> <a href="http://www.travelodge.co.uk">www.travelodge.co.uk</a><br>
+          <b>Cost:</b> £39 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 23 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 16 mins</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-columns">
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>Premier Inn Basildon Festival Park</h5></div>
+      <div class="card-body">
+
+        <p class="card-text"><b>Address:</b> Festival Leisure Park, Pipps Hill Road South, Off Cranes Farm Road, SS14
+          3WB<br>
+          <b>Telephone:</b> 08715 278056<br>
+          <b>Website: </b> <a href="http://www.premierinn.com">www.premierinn.com</a><br>
+          <b>Cost:</b> £38 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 24 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 17 mins</div>
+        </div>
+      </div>
+    </div>
+    <div class="card border-dark mb-3">
+      <div class="card-header text-white hotel-border"><h5>Holiday Inn Basildon</h5></div>
+      <div class="card-body">
+
+        <p class="card-text"><b>Address:</b> Cranes Farm Road, Waterfront Walk, Festival Leisure Park, Essex, SS14
+          3DG<br>
+          <b>Telephone:</b> 08719 429003<br>
+          <b>Website: </b> <a href="http://www.ihg.com/holidayinn/hotels">www.ihg.com/holidayinn/hotels</a><br>
+          <b>Cost:</b> £73 per room<br></p>
+        <div class="text-success">
+          <b>Travel time from Wedding venue:</b> 24 mins<br>
+          <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 17 mins</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

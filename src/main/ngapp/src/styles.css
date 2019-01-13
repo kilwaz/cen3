@@ -1,3 +1,5 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 .big-name {
   color: #15f2fd;
   font-size: 30px;
@@ -48,3 +50,18 @@
   text-decoration: none!important;
   cursor: pointer;
 }
+
+.rsvp-radio-group {
+  flex-direction: column;
+}
+
+.rsvp-radio-button {
+  margin: 6px;
+}
+
+.hotel-border {
+  background-color: #041b3e !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -7,13 +7,16 @@ import {AppRoutingModule} from './/app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {TopbarComponent} from './topbar/topbar.component';
 import {FaqComponent} from './faq/faq.component';
-import { HomeComponent } from './home/home.component';
-import { RsvpComponent } from './rsvp/rsvp.component';
-import { VenueComponent } from './venue/venue.component';
-import { AuthComponent } from './auth/auth.component';
-import { AccommodationComponent } from './accommodation/accommodation.component';
-import { ResponsesComponent } from './responses/responses.component';
-import { AgGridModule } from 'ag-grid-angular';
+import {HomeComponent} from './home/home.component';
+import {RsvpComponent} from './rsvp/rsvp.component';
+import {VenueComponent} from './venue/venue.component';
+import {AuthComponent} from './auth/auth.component';
+import {AccommodationComponent} from './accommodation/accommodation.component';
+import {ResponsesComponent} from './responses/responses.component';
+import {AgGridModule} from 'ag-grid-angular';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule, MatCheckboxModule, MatRadioModule, MatInputModule, MatTreeModule} from '@angular/material';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +28,21 @@ import { AgGridModule } from 'ag-grid-angular';
     VenueComponent,
     AuthComponent,
     AccommodationComponent,
-    ResponsesComponent
+    ResponsesComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatInputModule,
+    MatTreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
