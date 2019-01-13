@@ -25,7 +25,9 @@
             "styles": [
               "src/styles.css",
               "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css",
-              "../../main/ngapp/node_modules/font-awesome/css/font-awesome.css"
+              "../../main/ngapp/node_modules/font-awesome/css/font-awesome.css",
+              "../../main/ngapp/node_modules/ag-grid-community/dist/styles/ag-grid.css",
+              "../../main/ngapp/node_modules/ag-grid-community/dist/styles/ag-theme-balham.css"
             ],
             "scripts": [
               "../../main/ngapp/node_modules/jquery/dist/jquery.min.js",
@@ -79,7 +81,9 @@
             "styles": [
               "src/styles.css",
               "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css",
-              "../../main/ngapp/node_modules/font-awesome/css/font-awesome.css"
+              "../../main/ngapp/node_modules/font-awesome/css/font-awesome.css",
+              "../../main/ngapp/node_modules/ag-grid-community/dist/styles/ag-grid.css",
+              "../../main/ngapp/node_modules/ag-grid-community/dist/styles/ag-theme-balham.css"
             ],
             "scripts": [
               "../../main/ngapp/node_modules/jquery/dist/jquery.min.js",

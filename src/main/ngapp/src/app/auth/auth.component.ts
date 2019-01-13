@@ -1,4 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ValidatedRSVP} from "../validatedRSVP";
+import {SessionService} from "../session.service";
 
 @Component({
   selector: 'app-auth',
@@ -6,19 +8,28 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  @Input() validated: boolean;
-  @Output() validatedOutput = new EventEmitter<boolean>();
+  validatedRSVP: ValidatedRSVP;
+  sessionService: SessionService;
 
   password: string = "";
 
-  constructor() {
+  constructor(sessionService: SessionService) {
+    this.sessionService = sessionService;
+    this.validatedRSVP = this.sessionService.validatedRSVP;
   }
 
   checkPassword() {
-    if (this.password == "Aqua" || this.password == "Beach") {
-      this.validated = true;
-      this.validatedOutput.emit(this.validated);
+    if (this.password == "Aqua") {
+      this.validatedRSVP.validated = true;
+      this.validatedRSVP.rsvpType = ValidatedRSVP.RSVP_TYPE_ALL;
+    } else if (this.password == "Beach") {
+      this.validatedRSVP.validated = true;
+      this.validatedRSVP.rsvpType = ValidatedRSVP.RSVP_TYPE_WEDDING_ONLY;
+    } else {
+      this.validatedRSVP.validated = false;
     }
+
+    this.sessionService.validatedRSVP = this.validatedRSVP;
   }
 
   ngOnInit(): void {

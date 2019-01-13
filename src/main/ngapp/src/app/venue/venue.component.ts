@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ValidatedRSVP} from "../validatedRSVP";
+import {SessionService} from "../session.service";
 
 @Component({
   selector: 'app-venue',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./venue.component.css']
 })
 export class VenueComponent implements OnInit {
+  validatedRSVP: ValidatedRSVP = new ValidatedRSVP();
 
-  constructor() { }
+  RSVP_TYPE_ALL: number = ValidatedRSVP.RSVP_TYPE_ALL;
 
-  ngOnInit() {
+  constructor(sessionService: SessionService) {
+    this.validatedRSVP = sessionService.validatedRSVP;
   }
 
+  ngOnInit() {
+
+  }
 }

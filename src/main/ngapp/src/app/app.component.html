@@ -1,7 +1,6 @@
-<div class="wrapper">
-
-  <div *ngIf="!validated; else validatedTemplate">
-    <app-auth (validatedOutput)="validatedOutputMethod($event)"></app-auth>
+<div class="h-100 wrapper">
+  <div *ngIf="!validatedRSVP.validated; else validatedTemplate">
+    <app-auth></app-auth>
   </div>
 
   <ng-template #validatedTemplate>
