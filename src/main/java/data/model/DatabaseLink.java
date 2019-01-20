@@ -1,14 +1,14 @@
 package data.model;
 
 import data.model.links.*;
-import data.model.objects.*;
 import data.model.objects.Process;
+import data.model.objects.*;
+import error.Error;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import error.Error;
 
 public class DatabaseLink {
     private static HashMap<Class, Class> linkClasses = new HashMap<>();
@@ -22,6 +22,8 @@ public class DatabaseLink {
         linkClasses.put(Mark.class, MarkDatabaseLink.class);
         linkClasses.put(Person.class, PersonDatabaseLink.class);
         linkClasses.put(Appearance.class, AppearanceDatabaseLink.class);
+        linkClasses.put(RSVP.class, RSVPDatabaseLink.class);
+        linkClasses.put(Guest.class, GuestDatabaseLink.class);
     }
 
     private String tableName = "";

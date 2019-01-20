@@ -8,16 +8,16 @@ import java.net.UnknownHostException;
 
 public class AppParams {
     // Application information
-    public final static String APP_TITLE = "CEN3";
+    public final static String APP_TITLE = "Wedding";
     public final static String APP_VERSION = "v0.3.0";
 
     // Current user logged into the application
     public static final String CURRENT_USER = "alex";
 
     // Database information - Defaults are displayed here and can be overridden by the SDE.xml file
-    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://127.0.0.1/cen?autoReconnect=true&useSSL=false";
+    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://127.0.0.1/wedding?autoReconnect=true&useSSL=false";
     private static String REMOTE_DATABASE_USERNAME = "kilwaz";
-    private static String REMOTE_DATABASE_PASSWORD = "CenDatabase123";
+    private static String REMOTE_DATABASE_PASSWORD = "kilwaz";
 
     // Uploaded files settings
     private static String UPLOAD_FILE_TMP_LOCATION = "/home/kilwaz/tmp/";

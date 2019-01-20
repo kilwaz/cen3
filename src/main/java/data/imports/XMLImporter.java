@@ -67,9 +67,9 @@ public class XMLImporter {
                 prober.execute();
             }
             if ("People".equals(docEle.getTagName())) {
-                NodeList personNodeList = docEle.getElementsByTagName("Person");
+                NodeList personNodeList = docEle.getElementsByTagName("Guest");
 
-                for (int i = 0; i < personNodeList.getLength(); i++) { // Loop through each Person
+                for (int i = 0; i < personNodeList.getLength(); i++) { // Loop through each Guest
                     Element personNode = (Element) personNodeList.item(i);
 
                     String firstName = personNode.getElementsByTagName("firstName").item(0).getTextContent();

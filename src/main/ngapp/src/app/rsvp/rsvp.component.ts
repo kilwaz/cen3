@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Rsvp} from "../rsvp";
 import {ValidatedRSVP} from "../validatedRSVP";
 import {SessionService} from "../session.service";
 import {NestedTreeControl} from "@angular/cdk/tree";
+import {PublicService} from "..";
+import {RSVP} from "../RSVP";
 
 export class FileNode {
   children: FileNode[];
@@ -13,11 +14,12 @@ export class FileNode {
 @Component({
   selector: 'app-rsvp',
   templateUrl: './rsvp.component.html',
-  styleUrls: ['./rsvp.component.css']
+  styleUrls: ['./rsvp.component.css'],
+  providers: [PublicService]
 })
 export class RsvpComponent implements OnInit {
 
-  rsvp = new Rsvp();
+  rsvp = new RSVP();
   submitted = false;
   numbers: number[] = [0, 1, 2, 3, 4, 5, 6];
   rsvpYesNo: string[] = ["Yes, I can attend", "No, I am unable to attend", "Non Applicable"];
@@ -67,7 +69,7 @@ export class RsvpComponent implements OnInit {
 
   private _getChildren = (node: FileNode) => node.children;
 
-  constructor(sessionService: SessionService) {
+  constructor(sessionService: SessionService, private publicService: PublicService) {
     this.validatedRSVP = sessionService.validatedRSVP;
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
 
@@ -101,7 +103,11 @@ export class RsvpComponent implements OnInit {
     }, []);
   }
 
-
+  submitForm() {
+    this.publicService.postRSVP(JSON.stringify(this.rsvp)).subscribe(response => {
+      this.submitted = true;
+    });
+  }
 
   // TODO: Remove this when we're done
   get diagnostic() {
