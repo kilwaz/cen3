@@ -63,5 +63,12 @@
   background-color: #041b3e !important;
 }
 
+.count-down-number {
+  padding: 3px 29px;
+  background: #ccba97;
+  font-family: Roboto,sans-serif;
+  font-weight: 300;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

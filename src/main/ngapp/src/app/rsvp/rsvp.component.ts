@@ -18,7 +18,6 @@ export class FileNode {
   providers: [PublicService]
 })
 export class RsvpComponent implements OnInit {
-
   rsvp = new RSVP();
   submitted = false;
   numbers: number[] = [0, 1, 2, 3, 4, 5, 6];

@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './/app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {TopbarComponent} from './topbar/topbar.component';
@@ -15,8 +15,8 @@ import {AccommodationComponent} from './accommodation/accommodation.component';
 import {ResponsesComponent} from './responses/responses.component';
 import {AgGridModule} from 'ag-grid-angular';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatRadioModule, MatInputModule, MatTreeModule} from '@angular/material';
-import { ScheduleComponent } from './schedule/schedule.component';
+import {MatButtonModule, MatCheckboxModule, MatInputModule, MatRadioModule, MatTreeModule} from '@angular/material';
+import {ScheduleComponent} from './schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,8 @@ import { ScheduleComponent } from './schedule/schedule.component';
     MatCheckboxModule,
     MatRadioModule,
     MatInputModule,
-    MatTreeModule
+    MatTreeModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

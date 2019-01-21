@@ -7,7 +7,7 @@ export class RSVP implements APIRSVP {
   }
 
   guestCount: number;
-  guests: Array<APIGuest> = new Array<APIGuest>();
+  guests: Array<Guest> = new Array<Guest>();
   id: string;
 
   createPeople(count: number) {

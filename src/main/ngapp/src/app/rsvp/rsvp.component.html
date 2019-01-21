@@ -23,51 +23,75 @@
           <fieldset class="form-group ml-2">
             <mat-form-field appearance="outline" class="col-sm">
               <mat-label>First Name</mat-label>
-              <input matInput [(ngModel)]="guest.firstName" placeholder="First Name" [name]='"firstName"+guestIndex'>
+              <input matInput [formControl]="guest.firstNameValidator" placeholder="First Name" required
+                     [name]='"firstName"+guestIndex'>
+              <mat-error
+                *ngIf="guest.firstNameValidator.invalid">{{guest.getNameErrorMessage(guest.firstNameValidator)}}</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="col-sm">
               <mat-label>Last Name</mat-label>
-              <input matInput [(ngModel)]="guest.lastName" placeholder="Last Name" [name]='"lastName"+guestIndex'>
+              <input matInput [formControl]="guest.lastNameValidator" placeholder="Last Name" required
+                     [name]='"lastName"+guestIndex'>
+              <mat-error
+                *ngIf="guest.lastNameValidator.invalid">{{guest.getNameErrorMessage(guest.lastNameValidator)}}</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="col-sm">
               <mat-label>Email</mat-label>
-              <input matInput [(ngModel)]="guest.email" placeholder="Email" [name]='"email"+guestIndex'>
+              <input matInput [formControl]="guest.emailValidator" placeholder="Email" required
+                     [name]='"email"+guestIndex'>
+              <mat-error
+                *ngIf="guest.emailValidator.invalid">{{guest.getEmailErrorMessage(guest.emailValidator)}}</mat-error>
             </mat-form-field>
           </fieldset>
 
           <fieldset class="form-group" *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
-            <mat-radio-group [(ngModel)]="guest.mehndiAccepted" name="mehndiParty{{guestIndex}}"
+            <mat-radio-group [formControl]="guest.mehndiAcceptedValidator" name="mehndiParty{{guestIndex}}"
                              class="rsvp-radio-group">
               <label class="col-sm-2 col-form-label"><h6>Mehndi Party*-</h6></label>
               <mat-radio-button class="rsvp-radio-button col-sm-3"
                                 *ngFor="let numberValue of [0,1,2]; let radioIndex = index"
                                 [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
-              <div class="col-sm-12 text-danger" style="font-size: 12px">
-                * This is a young adults event only, if this is not on your invite please select '{{rsvpYesNo[2]}}'.
+              <div class="col-sm">
+                <mat-error
+                  *ngIf="guest.mehndiAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.mehndiAcceptedValidator)}}</mat-error>
               </div>
-              <div class="col-sm-12"></div>
+              <div class="col-sm-12 text-danger">
+                <h6>
+                  <small>* This is a young adults event only, if this is not on your invite please select
+                    '{{rsvpYesNo[2]}}'
+                  </small>
+                </h6>
+              </div>
             </mat-radio-group>
           </fieldset>
 
           <fieldset class="form-group">
-            <mat-radio-group [(ngModel)]="guest.civilAccepted" name="civilCeremony{{guestIndex}}"
+            <mat-radio-group [formControl]="guest.civilAcceptedValidator" name="civilCeremony{{guestIndex}}"
                              class="rsvp-radio-group">
               <label class="col-sm-2 col-form-label"><h6>Civil Ceremony -</h6></label>
               <mat-radio-button class="rsvp-radio-button col-sm-3"
                                 *ngFor="let numberValue of [0,1]; let radioIndex = index"
                                 [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+              <div class="col-sm">
+                <mat-error
+                  *ngIf="guest.civilAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.civilAcceptedValidator)}}</mat-error>
+              </div>
             </mat-radio-group>
           </fieldset>
 
           <fieldset class="form-group">
-            <mat-radio-group [(ngModel)]="guest.receptionAccepted" name="receptionAccepted{{guestIndex}}"
+            <mat-radio-group [formControl]="guest.receptionAcceptedValidator" name="receptionAccepted{{guestIndex}}"
                              class="rsvp-radio-group">
               <label class="col-sm-2 col-form-label"><h6>Reception -</h6></label>
               <mat-radio-button class="rsvp-radio-button col-sm-3"
                                 *ngFor="let numberValue of [0,1]; let radioIndex = index"
                                 [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+              <div class="col-sm">
+                <mat-error
+                  *ngIf="guest.receptionAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.receptionAcceptedValidator)}}</mat-error>
+              </div>
             </mat-radio-group>
           </fieldset>
 
@@ -89,9 +113,6 @@
         </div>
       </form>
     </div>
-
-    {{diagnostic}}
-
   </div>
 </div>
 
