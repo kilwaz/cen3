@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.currentDate = new Date();
-    this.weddingDate = new Date("2019-05-26T12:00:00");
+    this.weddingDate = new Date("2019-05-26T13:00:00");
 
     this.setupTimer();
     this.calcTimeNumbers();
