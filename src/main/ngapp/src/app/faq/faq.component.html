@@ -63,7 +63,7 @@
         <div id="collapse4" class="collapse" aria-labelledby="collapse4" data-parent="#accordionExample">
           <div class="card-body">
             <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">For the Mehndi night we have kept the dress code informal - you can wear Western or Traditional Indian dress as you prefer.</span>
-            <br>For the civil ceremony - this is a Western event so we ask as many guests as possible to wear Suit and Tie/Western dresses.
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY"><br>For the civil ceremony - this is a Western event so we ask as many guests as possible to wear Suit and Tie/Western dresses.</span>
             <br>For the reception - this is an Indian event so we ask as many guests as possible to wear Tradition Indian dress or Formal attire.
             <br>Do not worry if you do not have the correct attire for the event - all guests are not expected to change between events!
             <br>For those who will be changing from Western attire to Indian attire for the evening, there will be changing rooms provided at the venue between 4pm-6pm to use if you do not have a hotel room nearby.

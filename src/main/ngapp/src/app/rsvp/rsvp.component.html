@@ -20,93 +20,121 @@
       <form>
         <div *ngFor="let guest of rsvp.guests; let guestIndex = index" class="border rounded mt-2 border-dark">
           <h3 class="col-form-legend col-sm-2">Guest {{guestIndex + 1}}</h3>
-          <fieldset class="form-group ml-2">
-            <mat-form-field appearance="outline" class="col-sm">
-              <mat-label>First Name</mat-label>
-              <input matInput [formControl]="guest.firstNameValidator" placeholder="First Name" required
-                     [name]='"firstName"+guestIndex'>
-              <mat-error
-                *ngIf="guest.firstNameValidator.invalid">{{guest.getNameErrorMessage(guest.firstNameValidator)}}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="col-sm">
-              <mat-label>Last Name</mat-label>
-              <input matInput [formControl]="guest.lastNameValidator" placeholder="Last Name" required
-                     [name]='"lastName"+guestIndex'>
-              <mat-error
-                *ngIf="guest.lastNameValidator.invalid">{{guest.getNameErrorMessage(guest.lastNameValidator)}}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="col-sm">
-              <mat-label>Email</mat-label>
-              <input matInput [formControl]="guest.emailValidator" placeholder="Email" required
-                     [name]='"email"+guestIndex'>
-              <mat-error
-                *ngIf="guest.emailValidator.invalid">{{guest.getEmailErrorMessage(guest.emailValidator)}}</mat-error>
-            </mat-form-field>
-          </fieldset>
-
-          <fieldset class="form-group" *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
-            <mat-radio-group [formControl]="guest.mehndiAcceptedValidator" name="mehndiParty{{guestIndex}}"
-                             class="rsvp-radio-group">
-              <label class="col-sm-2 col-form-label"><h6>Mehndi Party*-</h6></label>
-              <mat-radio-button class="rsvp-radio-button col-sm-3"
-                                *ngFor="let numberValue of [0,1,2]; let radioIndex = index"
-                                [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
-              <div class="col-sm">
+          <div class="border rounded m-2 border-dark">
+            <h5 class="col-sm-10">Details</h5>
+            <fieldset class="form-group ml-2">
+              <mat-form-field appearance="outline" class="col-sm">
+                <mat-label>First Name</mat-label>
+                <input matInput [formControl]="guest.firstNameValidator" placeholder="First Name" required
+                       [name]='"firstName"+guestIndex'>
                 <mat-error
-                  *ngIf="guest.mehndiAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.mehndiAcceptedValidator)}}</mat-error>
-              </div>
-              <div class="col-sm-12 text-danger">
-                <h6>
-                  <small>* This is a young adults event only, if this is not on your invite please select
-                    '{{rsvpYesNo[2]}}'
-                  </small>
-                </h6>
-              </div>
-            </mat-radio-group>
-          </fieldset>
+                  *ngIf="guest.firstNameValidator.invalid">{{guest.getNameErrorMessage(guest.firstNameValidator)}}</mat-error>
+              </mat-form-field>
 
-          <fieldset class="form-group">
-            <mat-radio-group [formControl]="guest.civilAcceptedValidator" name="civilCeremony{{guestIndex}}"
-                             class="rsvp-radio-group">
-              <label class="col-sm-2 col-form-label"><h6>Civil Ceremony -</h6></label>
-              <mat-radio-button class="rsvp-radio-button col-sm-3"
-                                *ngFor="let numberValue of [0,1]; let radioIndex = index"
-                                [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
-              <div class="col-sm">
+              <mat-form-field appearance="outline" class="col-sm">
+                <mat-label>Last Name</mat-label>
+                <input matInput [formControl]="guest.lastNameValidator" placeholder="Last Name" required
+                       [name]='"lastName"+guestIndex'>
                 <mat-error
-                  *ngIf="guest.civilAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.civilAcceptedValidator)}}</mat-error>
-              </div>
-            </mat-radio-group>
-          </fieldset>
+                  *ngIf="guest.lastNameValidator.invalid">{{guest.getNameErrorMessage(guest.lastNameValidator)}}</mat-error>
+              </mat-form-field>
 
-          <fieldset class="form-group">
-            <mat-radio-group [formControl]="guest.receptionAcceptedValidator" name="receptionAccepted{{guestIndex}}"
-                             class="rsvp-radio-group">
-              <label class="col-sm-2 col-form-label"><h6>Reception -</h6></label>
-              <mat-radio-button class="rsvp-radio-button col-sm-3"
-                                *ngFor="let numberValue of [0,1]; let radioIndex = index"
-                                [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
-              <div class="col-sm">
+              <mat-form-field appearance="outline" class="col-sm">
+                <mat-label>Email</mat-label>
+                <input matInput [formControl]="guest.emailValidator" placeholder="Email" required
+                       [name]='"email"+guestIndex'>
                 <mat-error
-                  *ngIf="guest.receptionAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.receptionAcceptedValidator)}}</mat-error>
-              </div>
-            </mat-radio-group>
-          </fieldset>
+                  *ngIf="guest.emailValidator.invalid">{{guest.getEmailErrorMessage(guest.emailValidator)}}</mat-error>
+              </mat-form-field>
+            </fieldset>
+          </div>
 
-          <fieldset class="form-group">
-            <mat-tree [treeControl]="nestedTreeControl">
-              <mat-tree-node>Wine</mat-tree-node>
-              <mat-tree-node>
-                <mat-checkbox>Check me!</mat-checkbox>
-              </mat-tree-node>
-              <mat-tree-node>
-                <mat-checkbox>Check me TOO!</mat-checkbox>
-              </mat-tree-node>
-            </mat-tree>
+          <div class="border rounded m-2 border-dark">
+            <h5 class="col-sm-10">Attendance</h5>
+            <fieldset class="form-group" *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
+              <mat-radio-group [formControl]="guest.mehndiAcceptedValidator" name="mehndiParty{{guestIndex}}"
+                               class="rsvp-radio-group">
+                <label class="col-sm-2 col-form-label"><h6>Mehndi Party*-</h6></label>
+                <mat-radio-button class="rsvp-radio-button col-sm-3"
+                                  *ngFor="let numberValue of [0,1,2]; let radioIndex = index"
+                                  [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+                <div class="col-sm">
+                  <mat-error
+                    *ngIf="guest.mehndiAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.mehndiAcceptedValidator)}}</mat-error>
+                </div>
+                <div class="col-sm-12 text-danger">
+                  <h6>
+                    <small>* This is a young adults event only, if this is not on your invite please select
+                      '{{rsvpYesNo[2]}}'
+                    </small>
+                  </h6>
+                </div>
+              </mat-radio-group>
+            </fieldset>
 
-          </fieldset>
+            <fieldset class="form-group"
+                      *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY">
+              <mat-radio-group [formControl]="guest.civilAcceptedValidator" name="civilCeremony{{guestIndex}}"
+                               class="rsvp-radio-group">
+                <label class="col-sm-2 col-form-label"><h6>Civil Ceremony -</h6></label>
+                <mat-radio-button class="rsvp-radio-button col-sm-3"
+                                  *ngFor="let numberValue of [0,1]; let radioIndex = index"
+                                  [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+                <div class="col-sm">
+                  <mat-error
+                    *ngIf="guest.civilAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.civilAcceptedValidator)}}</mat-error>
+                </div>
+              </mat-radio-group>
+            </fieldset>
+
+
+            <fieldset class="form-group">
+              <mat-radio-group [formControl]="guest.receptionAcceptedValidator" name="receptionAccepted{{guestIndex}}"
+                               class="rsvp-radio-group">
+                <label class="col-sm-2 col-form-label"><h6>Reception -</h6></label>
+                <mat-radio-button class="rsvp-radio-button col-sm-3"
+                                  *ngFor="let numberValue of [0,1]; let radioIndex = index"
+                                  [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+                <div class="col-sm">
+                  <mat-error
+                    *ngIf="guest.receptionAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.receptionAcceptedValidator)}}</mat-error>
+                </div>
+              </mat-radio-group>
+            </fieldset>
+          </div>
+
+          <div class="border rounded m-2 border-dark">
+            <h5 class="col-sm-10">Drinks</h5>
+            <div class="col-sm-10 pt-2">
+              Please select if you have any drink preferences below.
+            </div>
+
+            <fieldset class="form-group">
+              <label class="col-sm-2 col-form-label"><h6>Wine -</h6></label>
+              <mat-checkbox class="col-sm-3" [value]="guest.whiteWine">White</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [value]="guest.redWine">Red</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [value]="guest.roseWine">Rose</mat-checkbox>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label class="col-sm-2 col-form-label"><h6>Beer -</h6></label>
+              <mat-checkbox class="col-sm-3">Don't know</mat-checkbox>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label class="col-sm-2 col-form-label"><h6>Spirits -</h6></label>
+              <mat-checkbox class="col-sm-auto" [value]="guest.vodka">Vodka</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [value]="guest.gin">Gin</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [value]="guest.whiskey">Whiskey</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [value]="guest.rum">Rum</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [value]="guest.disaronno">Disaronno</mat-checkbox>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label class="col-sm-2 col-form-label"><h6>Non-alcoholic option -</h6></label>
+              <mat-checkbox class="col-sm-auto" [value]="guest.nonAlcoholicOption">Non-alcoholic option</mat-checkbox>
+            </fieldset>
+          </div>
         </div>
         <div *ngIf="rsvp.guests.length > 0" class="form-group border rounded mt-2 border-dark">
           <button type="submit" (click)="submitForm()" class="btn btn-primary btn-block">RSVP</button>

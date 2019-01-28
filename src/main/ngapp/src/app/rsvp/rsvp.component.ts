@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ValidatedRSVP} from "../validatedRSVP";
 import {SessionService} from "../session.service";
-import {NestedTreeControl} from "@angular/cdk/tree";
 import {PublicService} from "..";
 import {RSVP} from "../RSVP";
 
@@ -23,65 +22,24 @@ export class RsvpComponent implements OnInit {
   numbers: number[] = [0, 1, 2, 3, 4, 5, 6];
   rsvpYesNo: string[] = ["Yes, I can attend", "No, I am unable to attend", "Non Applicable"];
 
-  nestedTreeControl = null;
-
   validatedRSVP: ValidatedRSVP = new ValidatedRSVP();
   RSVP_TYPE_ALL: number = ValidatedRSVP.RSVP_TYPE_ALL;
+  RSVP_TYPE_WEDDING_ONLY: number = ValidatedRSVP.RSVP_TYPE_WEDDING_ONLY;
+  RSVP_TYPE_RECEPTION_ONLY: number = ValidatedRSVP.RSVP_TYPE_RECEPTION_ONLY;
 
   data = null;
-
-  TREE_DATA = JSON.stringify({
-    Applications: {
-      Calendar: 'app',
-      Chrome: 'app',
-      Webstorm: 'app'
-    },
-    Documents: {
-      angular: {
-        src: {
-          compiler: 'ts',
-          core: 'ts'
-        }
-      },
-      material2: {
-        src: {
-          button: 'ts',
-          checkbox: 'ts',
-          input: 'ts'
-        }
-      }
-    },
-    Downloads: {
-      October: 'pdf',
-      November: 'pdf',
-      Tutorial: 'html'
-    },
-    Pictures: {
-      'Photo Booth Library': {
-        Contents: 'dir',
-        Pictures: 'dir'
-      },
-      Sun: 'png',
-      Woods: 'jpg'
-    }
-  });
 
   private _getChildren = (node: FileNode) => node.children;
 
   constructor(sessionService: SessionService, private publicService: PublicService) {
     this.validatedRSVP = sessionService.validatedRSVP;
-    this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
-
-    const dataObject = JSON.parse(this.TREE_DATA);
-
-    this.data = this.buildFileTree(dataObject, 0);
   }
 
   ngOnInit() {
   }
 
   selectedCount(count: number) {
-    this.rsvp.createPeople(count);
+    this.rsvp.createPeople(count, this.validatedRSVP.rsvpType);
   }
 
   buildFileTree(obj: { [key: string]: any }, level: number): FileNode[] {
@@ -103,9 +61,11 @@ export class RsvpComponent implements OnInit {
   }
 
   submitForm() {
-    this.publicService.postRSVP(JSON.stringify(this.rsvp)).subscribe(response => {
-      this.submitted = true;
-    });
+    if (this.rsvp.getIsValidData()) {
+      this.publicService.postRSVP(JSON.stringify(this.rsvp)).subscribe(response => {
+        this.submitted = true;
+      });
+    }
   }
 
   // TODO: Remove this when we're done

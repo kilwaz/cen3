@@ -1,3 +1,181 @@
 <div class="container">
   <h1>Schedule</h1>
+
+  <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col text-center">
+          <h2>Mehndi Party - Saturday 25th May 2019</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          An 'Arabian nights' inspired evening of mehndi, fun and games.
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          7.15pm
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Event start time
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          7.30pm - 9:00pm
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Buffet dinner will be served.
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          9.00pm - 11:00pm
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Let the fun and games begin! There will also be the option for guests to have Mehndi done during this time at
+          our very own Mehndi stalls.
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          12:00pm
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Event finish time
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid p-2">
+      <div class="row">
+        Venue: Jaguar Bar at Orsett Hall Hotel
+      </div>
+      <div class="row">
+        Dress code: Smart Casual - Western or Traditional Indian dress
+      </div>
+      <div class="row">
+        Please note: this is a young adults event only - therefore we kindly request no children allowed
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY">
+    <div class="container-fluid pt-5">
+      <div class="row">
+        <div class="col text-center">
+          <h2>Civil Ceremony - Sunday 26th May 2019</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          11.45am
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Guests to arrive
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          12.00am
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Guests to be seated. As this is a Civil Ceremony, the ceremony must start promptly (no indian timing please) -
+          latecomers will not be allowed in the hall after this time.
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          After ceremony
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Buffet Afternoon Tea will be served after the civil ceremony and refreshments will be provided throughout.
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          3:00pm
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Group photo sessions will begin. A list of the photos will be posted on here prior to the wedding so you will
+          know which group you are in.
+          Please check the list prior to the wedding day to help the photo session run smoothly.
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          4:00pm - 6:00pm
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          After the group photo session, there will be some free time for guests to relax. You are welcome to stay in
+          the
+          venue where there will be lots
+          of seating and refreshments available and you can explore the grounds at your leisure.
+          Changing rooms will also be provided at the venue for those who are changing their outfits in between the
+          events.
+          Alternatively if you have a hotel booked nearby, feel free to go back and get ready for the evening events!
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid p-2">
+      <div class="row">
+        Venue: Rivers Suite at the Three Rivers Golf and Country Club (located upstairs from the main entrance).
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="container-fluid pt-5">
+      <div class="row">
+        <div class="col text-center">
+          <h2>Reception - Sunday 26th May 2019</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          6:00pm onwards
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Welcome drinks reception
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          6:30pm
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          uests kindly to be seated for Bride and Groom arrival. A 3 course Indian Buffet Dinner will be served during
+          the evening followed by a fun-filled night of music and dancing!
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          12:00pm
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8">
+          Carriages
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid p-2">
+      <div class="row">
+        Venue: Kings Suite at the Three Rivers Golf and Country Club (located downstairs from the main entrance)
+      </div>
+      <div class="row">
+        Dress code: Traditional Indian/ Formal attire
+      </div>
+    </div>
+  </div>
 </div>

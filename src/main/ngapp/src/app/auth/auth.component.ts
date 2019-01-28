@@ -19,12 +19,15 @@ export class AuthComponent implements OnInit {
   }
 
   checkPassword() {
-    if (this.password == "Aqua") {
+    if (this.password == "Aqua2019") {
       this.validatedRSVP.validated = true;
       this.validatedRSVP.rsvpType = ValidatedRSVP.RSVP_TYPE_ALL;
-    } else if (this.password == "Beach") {
+    } else if (this.password == "Beach2019") {
       this.validatedRSVP.validated = true;
       this.validatedRSVP.rsvpType = ValidatedRSVP.RSVP_TYPE_WEDDING_ONLY;
+    } else if (this.password == "Sand2019") {
+      this.validatedRSVP.validated = true;
+      this.validatedRSVP.rsvpType = ValidatedRSVP.RSVP_TYPE_RECEPTION_ONLY;
     } else {
       this.validatedRSVP.validated = false;
     }

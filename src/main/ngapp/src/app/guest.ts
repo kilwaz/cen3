@@ -1,5 +1,6 @@
 import {APIGuest} from "./model/aPIGuest";
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ValidatedRSVP} from "./validatedRSVP";
 
 export class Guest implements APIGuest {
   firstName: string;
@@ -10,6 +11,21 @@ export class Guest implements APIGuest {
   mehndiAccepted: boolean;
   receptionAccepted: boolean;
 
+  whiteWine:boolean;
+  redWine:boolean;
+  roseWine:boolean;
+
+  beer:boolean;
+
+  vodka:boolean;
+  gin:boolean;
+  whiskey:boolean;
+  rum:boolean;
+  disaronno:boolean;
+
+  nonAlcoholicOption: boolean;
+
+
   firstNameValidator = new FormControl('', [Validators.required]);
   lastNameValidator = new FormControl('', [Validators.required]);
   emailValidator = new FormControl('', [Validators.required, Validators.email]);
@@ -18,7 +34,12 @@ export class Guest implements APIGuest {
   civilAcceptedValidator = new FormControl('', [Validators.required]);
   receptionAcceptedValidator = new FormControl('', [Validators.required]);
 
-  constructor() {
+  rsvpType: number;
+  form: FormGroup;
+
+  constructor(rsvpType: number) {
+    this.rsvpType = rsvpType;
+
     this.emailValidator.valueChanges.subscribe(form => {
       this.email = this.emailValidator.value;
     });
@@ -38,6 +59,32 @@ export class Guest implements APIGuest {
     this.receptionAcceptedValidator.valueChanges.subscribe(form => {
       this.receptionAccepted = this.receptionAcceptedValidator.value;
     });
+
+    if (this.rsvpType == ValidatedRSVP.RSVP_TYPE_ALL) {
+      this.form = new FormGroup({
+        firstName: this.firstNameValidator,
+        lastName: this.lastNameValidator,
+        email: this.emailValidator,
+        mehndiAccepted: this.mehndiAcceptedValidator,
+        civilAccepted: this.civilAcceptedValidator,
+        receptionAccepted: this.receptionAcceptedValidator,
+      });
+    } else if (this.rsvpType == ValidatedRSVP.RSVP_TYPE_WEDDING_ONLY) {
+      this.form = new FormGroup({
+        firstName: this.firstNameValidator,
+        lastName: this.lastNameValidator,
+        email: this.emailValidator,
+        civilAccepted: this.civilAcceptedValidator,
+        receptionAccepted: this.receptionAcceptedValidator,
+      });
+    } else if (this.rsvpType == ValidatedRSVP.RSVP_TYPE_RECEPTION_ONLY) {
+      this.form = new FormGroup({
+        firstName: this.firstNameValidator,
+        lastName: this.lastNameValidator,
+        email: this.emailValidator,
+        receptionAccepted: this.receptionAcceptedValidator,
+      });
+    }
   }
 
   getEmailErrorMessage(validator: FormControl) {
@@ -47,5 +94,9 @@ export class Guest implements APIGuest {
 
   getNameErrorMessage(validator: FormControl) {
     return validator.touched && validator.hasError('required') ? 'You must enter a value' : '';
+  }
+
+  getIsValidData() {
+    return this.form.valid;
   }
 }

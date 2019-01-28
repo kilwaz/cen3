@@ -1,9 +1,10 @@
 export class ValidatedRSVP {
-  private _validated: boolean = false;
-  private _rsvpType: number = 0;
+  private _validated: boolean = true;
+  private _rsvpType: number = 1;
 
   public static RSVP_TYPE_ALL = 1;
   public static RSVP_TYPE_WEDDING_ONLY = 2;
+  public static RSVP_TYPE_RECEPTION_ONLY = 3;
 
   constructor() {
   }
