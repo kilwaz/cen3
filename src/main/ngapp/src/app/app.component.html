@@ -1,5 +1,5 @@
 <div class="h-100 wrapper">
-  <div *ngIf="!validatedRSVP.validated; else validatedTemplate">
+  <div class="h-100" *ngIf="!validatedRSVP.validated; else validatedTemplate">
     <app-auth></app-auth>
   </div>
 
@@ -7,7 +7,7 @@
     <div id="content">
       <app-topbar></app-topbar>
 
-      <div class="container-fluid">
+      <div class="container-fluid h-100">
         <router-outlet></router-outlet>
       </div>
     </div>

@@ -12,7 +12,6 @@ import {RsvpComponent} from './rsvp/rsvp.component';
 import {VenueComponent} from './venue/venue.component';
 import {AuthComponent} from './auth/auth.component';
 import {AccommodationComponent} from './accommodation/accommodation.component';
-import {ResponsesComponent} from './responses/responses.component';
 import {AgGridModule} from 'ag-grid-angular';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule, MatInputModule, MatRadioModule, MatTreeModule} from '@angular/material';
@@ -28,7 +27,6 @@ import {ScheduleComponent} from './schedule/schedule.component';
     VenueComponent,
     AuthComponent,
     AccommodationComponent,
-    ResponsesComponent,
     ScheduleComponent
   ],
   imports: [

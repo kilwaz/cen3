@@ -72,3 +72,15 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.auth-background {
+  background-image: url('assets/images/auth-background.jpg');
+  background-attachment:fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.auth-clouded-background {
+  background-color: rgba(147, 255, 247, 0.6);
+  box-shadow: 0 0 5px 10px rgba(147, 255, 247, 0.6);
+}

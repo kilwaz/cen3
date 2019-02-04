@@ -6,7 +6,6 @@ import {RsvpComponent} from "./rsvp/rsvp.component";
 import {AuthComponent} from "./auth/auth.component";
 import {VenueComponent} from "./venue/venue.component";
 import {AccommodationComponent} from "./accommodation/accommodation.component";
-import {ResponsesComponent} from "./responses/responses.component";
 import {ScheduleComponent} from "./schedule/schedule.component";
 
 const routes: Routes = [
@@ -20,8 +19,7 @@ const routes: Routes = [
     path: 'venue', component: VenueComponent,
     data: {test: 'Variable'}
   },
-  {path: 'accommodation', component: AccommodationComponent},
-  {path: 'responses', component: ResponsesComponent}
+  {path: 'accommodation', component: AccommodationComponent}
 ];
 
 @NgModule({
