@@ -37,20 +37,21 @@ public class RSVPAPI extends SparkRequest {
                 guest.setEmail(jsonGuest.getString("email"));
             }
             if (jsonGuest.has("mehndiAccepted")) {
-                guest.setMehndiAccepted(jsonGuest.getInt("mehndiAccepted"));
+                guest.setMehndiAccepted(jsonGuest.getString("mehndiAccepted"));
             }
             if (jsonGuest.has("receptionAccepted")) {
-                guest.setReceptionAccepted(jsonGuest.getInt("receptionAccepted"));
+                guest.setReceptionAccepted(jsonGuest.getString("receptionAccepted"));
             }
             if (jsonGuest.has("civilAccepted")) {
-                guest.setCivilAccepted(jsonGuest.getInt("civilAccepted"));
+                guest.setCivilAccepted(jsonGuest.getString("civilAccepted"));
+            }
+            if (jsonGuest.has("rsvpType")) {
+                guest.setRsvpType(jsonGuest.getString("rsvpType"));
             }
 
             guest.setParentRSVP(rsvp);
-
             guest.save();
         }
-
 
         rsvp.save();
 

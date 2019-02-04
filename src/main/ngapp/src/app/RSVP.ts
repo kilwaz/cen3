@@ -27,4 +27,24 @@ export class RSVP implements APIRSVP {
 
     return valid;
   }
+
+  createJSON() {
+    let jsonObject = {
+      "guestCount": this.guestCount,
+      "id": this.id,
+      "guests": this.createGuestJSON()
+    };
+
+    return jsonObject;
+  }
+
+  createGuestJSON() {
+    let guestJSONArray = [];
+
+    for (let i = 0; i < this.guests.length; i++) {
+      guestJSONArray.push(this.guests[i].createJSON());
+    }
+
+    return guestJSONArray;
+  }
 }

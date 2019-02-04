@@ -14,12 +14,13 @@ public class GuestDatabaseLink extends DatabaseLink {
         // Make sure the order is the same as column order in database
         link("uuid", method("getUuidString"), method("setUuid", UUID.class)); // 1
         link("rsvp_id", method("getRSVPUUID"), method("setRSVPUUID", RSVP.class)); // 2
+        link("rsvp_type", method("getRsvpType"), method("setRsvpType", String.class)); // 3
         link("first_name", method("getFirstName"), method("setFirstName", String.class)); // 3
         link("last_name", method("getLastName"), method("setLastName", String.class)); // 4
         link("email", method("getEmail"), method("setEmail", String.class)); // 5
-        link("mehndiAccepted", method("getMehndiAccepted"), method("setMehndiAccepted", Integer.class)); // 6
-        link("receptionAccepted", method("getReceptionAccepted"), method("setReceptionAccepted", Integer.class)); // 7
-        link("civilAccepted", method("getCivilAccepted"), method("setCivilAccepted", Integer.class)); // 8
+        link("mehndiAccepted", method("getMehndiAccepted"), method("setMehndiAccepted", String.class)); // 6
+        link("receptionAccepted", method("getReceptionAccepted"), method("setReceptionAccepted", String.class)); // 7
+        link("civilAccepted", method("getCivilAccepted"), method("setCivilAccepted", String.class)); // 8
     }
 }
 

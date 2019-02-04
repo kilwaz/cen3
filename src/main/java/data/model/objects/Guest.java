@@ -1,10 +1,7 @@
 package data.model.objects;
 
 import data.model.DatabaseObject;
-import data.model.objects.json.JSONMappable;
 import org.apache.log4j.Logger;
-
-import java.util.UUID;
 
 public class Guest extends DatabaseObject {
     private static Logger log = Logger.getLogger(Clip.class);
@@ -14,49 +11,25 @@ public class Guest extends DatabaseObject {
     private String email = null;
     private RSVP parentRSVP = null;
 
-    private Integer mehndiAccepted = null;
-    private Integer receptionAccepted = null;
-    private Integer civilAccepted = null;
+    private String mehndiAccepted = null;
+    private String receptionAccepted = null;
+    private String civilAccepted = null;
+
+    private String rsvpType = null;
 
     public Guest() {
         super();
     }
 
-    public Guest(UUID uuid, RSVP parentRSVP, String firstName, String lastName, String email, Integer mehndiAccepted, Integer receptionAccepted, Integer civilAccepted) {
-        super(uuid);
+    public Guest(String firstName, String lastName, String email, RSVP parentRSVP, String mehndiAccepted, String receptionAccepted, String civilAccepted, String rsvpType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.parentRSVP = parentRSVP;
         this.mehndiAccepted = mehndiAccepted;
         this.receptionAccepted = receptionAccepted;
         this.civilAccepted = civilAccepted;
-        this.parentRSVP = parentRSVP;
-    }
-
-    @JSONMappable("firstName")
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    @JSONMappable("lastName")
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public RSVP getParentRSVP() {
-        return parentRSVP;
-    }
-
-    public void setParentRSVP(RSVP parentRSVP) {
-        this.parentRSVP = parentRSVP;
+        this.rsvpType = rsvpType;
     }
 
     public String getRSVPUUID() {
@@ -71,6 +44,22 @@ public class Guest extends DatabaseObject {
         this.parentRSVP = parentRSVP;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -79,27 +68,43 @@ public class Guest extends DatabaseObject {
         this.email = email;
     }
 
-    public Integer getMehndiAccepted() {
+    public RSVP getParentRSVP() {
+        return parentRSVP;
+    }
+
+    public void setParentRSVP(RSVP parentRSVP) {
+        this.parentRSVP = parentRSVP;
+    }
+
+    public String getMehndiAccepted() {
         return mehndiAccepted;
     }
 
-    public void setMehndiAccepted(Integer mehndiAccepted) {
+    public void setMehndiAccepted(String mehndiAccepted) {
         this.mehndiAccepted = mehndiAccepted;
     }
 
-    public Integer getReceptionAccepted() {
+    public String getReceptionAccepted() {
         return receptionAccepted;
     }
 
-    public void setReceptionAccepted(Integer receptionAccepted) {
+    public void setReceptionAccepted(String receptionAccepted) {
         this.receptionAccepted = receptionAccepted;
     }
 
-    public Integer getCivilAccepted() {
+    public String getCivilAccepted() {
         return civilAccepted;
     }
 
-    public void setCivilAccepted(Integer civilAccepted) {
+    public void setCivilAccepted(String civilAccepted) {
         this.civilAccepted = civilAccepted;
+    }
+
+    public String getRsvpType() {
+        return rsvpType;
+    }
+
+    public void setRsvpType(String rsvpType) {
+        this.rsvpType = rsvpType;
     }
 }

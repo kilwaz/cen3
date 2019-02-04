@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class PublicService {
 
-    protected basePath = 'http://localhost:4200';
+    protected basePath = 'https://api.mili-alex.wedding';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 

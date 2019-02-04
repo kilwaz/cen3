@@ -14,8 +14,19 @@
 export interface APIGuest { 
     firstName: string;
     lastName: string;
-    mehndiAccepted: boolean;
-    civilAccepted: boolean;
-    receptionAccepted: boolean;
+    mehndiAccepted: number;
+    civilAccepted: number;
+    receptionAccepted: number;
+    rsvpType?: number;
     email: string;
+    whiteWine?: boolean;
+    redWine?: boolean;
+    roseWine?: boolean;
+    beer?: boolean;
+    vodka?: boolean;
+    gin?: boolean;
+    whiskey?: boolean;
+    rum?: boolean;
+    disaronno?: boolean;
+    nonAlcoholicOption?: boolean;
 }

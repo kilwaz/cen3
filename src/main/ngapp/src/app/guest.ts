@@ -7,24 +7,23 @@ export class Guest implements APIGuest {
   lastName: string;
   email: string;
 
-  civilAccepted: boolean;
-  mehndiAccepted: boolean;
-  receptionAccepted: boolean;
+  civilAccepted: number;
+  mehndiAccepted: number;
+  receptionAccepted: number;
 
-  whiteWine:boolean;
-  redWine:boolean;
-  roseWine:boolean;
+  whiteWine: boolean;
+  redWine: boolean;
+  roseWine: boolean;
 
-  beer:boolean;
+  beer: boolean;
 
-  vodka:boolean;
-  gin:boolean;
-  whiskey:boolean;
-  rum:boolean;
-  disaronno:boolean;
+  vodka: boolean;
+  gin: boolean;
+  whiskey: boolean;
+  rum: boolean;
+  disaronno: boolean;
 
   nonAlcoholicOption: boolean;
-
 
   firstNameValidator = new FormControl('', [Validators.required]);
   lastNameValidator = new FormControl('', [Validators.required]);
@@ -98,5 +97,62 @@ export class Guest implements APIGuest {
 
   getIsValidData() {
     return this.form.valid;
+  }
+
+  createJSON() {
+    let jsonObject = {
+      "firstName": this.firstName,
+      "lastName": this.lastName,
+      "email": this.email,
+      "civilAccepted": this.returnTextAccepted(this.civilAccepted),
+      "mehndiAccepted": this.returnTextAccepted(this.mehndiAccepted),
+      "receptionAccepted": this.returnTextAccepted(this.receptionAccepted),
+      "rsvpType": this.returnRSVPType(this.rsvpType)
+    };
+
+    return jsonObject;
+  }
+
+  // whiteWine: boolean;
+  // redWine: boolean;
+  // roseWine: boolean;
+  //
+  // beer: boolean;
+  //
+  // vodka: boolean;
+  // gin: boolean;
+  // whiskey: boolean;
+  // rum: boolean;
+  // disaronno: boolean;
+  //
+  // nonAlcoholicOption: boolean;
+
+
+  private returnTextAccepted(acceptedValue) {
+    if (acceptedValue == 0) {
+      return "Yes";
+    } else if (acceptedValue == 1) {
+      return "No";
+    } else if (acceptedValue == 2) {
+      return "N/A";
+    }
+  }
+
+  private returnCheckBox(checkboxValue) {
+    if (checkboxValue) {
+      return "Yes";
+    } else if (!checkboxValue) {
+      return "No";
+    }
+  }
+
+  private returnRSVPType(rsvpValue) {
+    if (rsvpValue == ValidatedRSVP.RSVP_TYPE_ALL) {
+      return "ALL";
+    } else if (rsvpValue == ValidatedRSVP.RSVP_TYPE_RECEPTION_ONLY) {
+      return "RECEPTION_ONLY";
+    } else if (rsvpValue == ValidatedRSVP.RSVP_TYPE_WEDDING_ONLY) {
+      return "WEDDING_ONLY";
+    }
   }
 }

@@ -17,7 +17,7 @@ public class AppParams {
     // Database information - Defaults are displayed here and can be overridden by the SDE.xml file
     private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://127.0.0.1/wedding?autoReconnect=true&useSSL=false";
     private static String REMOTE_DATABASE_USERNAME = "kilwaz";
-    private static String REMOTE_DATABASE_PASSWORD = "kilwaz";
+    private static String REMOTE_DATABASE_PASSWORD = "CenDatabase123";
 
     // Uploaded files settings
     private static String UPLOAD_FILE_TMP_LOCATION = "/home/kilwaz/tmp/";

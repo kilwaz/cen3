@@ -62,14 +62,9 @@ export class RsvpComponent implements OnInit {
 
   submitForm() {
     if (this.rsvp.getIsValidData()) {
-      this.publicService.postRSVP(JSON.stringify(this.rsvp)).subscribe(response => {
+      this.publicService.postRSVP(JSON.stringify(this.rsvp.createJSON())).subscribe(response => {
         this.submitted = true;
       });
     }
-  }
-
-  // TODO: Remove this when we're done
-  get diagnostic() {
-    return JSON.stringify(this.rsvp);
   }
 }
