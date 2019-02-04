@@ -25,6 +25,9 @@ export class Guest implements APIGuest {
 
   nonAlcoholicOption: boolean;
 
+  vegan: boolean;
+  jain: boolean;
+
   firstNameValidator = new FormControl('', [Validators.required]);
   lastNameValidator = new FormControl('', [Validators.required]);
   emailValidator = new FormControl('', [Validators.required, Validators.email]);
@@ -32,6 +35,23 @@ export class Guest implements APIGuest {
   mehndiAcceptedValidator = new FormControl('', [Validators.required]);
   civilAcceptedValidator = new FormControl('', [Validators.required]);
   receptionAcceptedValidator = new FormControl('', [Validators.required]);
+
+  whiteWineValidator = new FormControl('', []);
+  redWineValidator = new FormControl('', []);
+  roseWineValidator = new FormControl('', []);
+
+  beerValidator = new FormControl('', []);
+
+  vodkaValidator = new FormControl('', []);
+  ginValidator = new FormControl('', []);
+  whiskeyValidator = new FormControl('', []);
+  rumValidator = new FormControl('', []);
+  disaronnoValidator = new FormControl('', []);
+
+  nonAlcoholicOptionValidator = new FormControl('', []);
+
+  veganValidator = new FormControl('', []);
+  jainValidator = new FormControl('', []);
 
   rsvpType: number;
   form: FormGroup;
@@ -59,6 +79,47 @@ export class Guest implements APIGuest {
       this.receptionAccepted = this.receptionAcceptedValidator.value;
     });
 
+    this.whiteWineValidator.valueChanges.subscribe(form => {
+      this.whiteWine = this.whiteWineValidator.value;
+    });
+    this.redWineValidator.valueChanges.subscribe(form => {
+      this.redWine = this.redWineValidator.value;
+    });
+    this.roseWineValidator.valueChanges.subscribe(form => {
+      this.roseWine = this.roseWineValidator.value;
+    });
+
+    this.beerValidator.valueChanges.subscribe(form => {
+      this.beer = this.beerValidator.value;
+    });
+
+    this.vodkaValidator.valueChanges.subscribe(form => {
+      this.vodka = this.vodkaValidator.value;
+    });
+    this.ginValidator.valueChanges.subscribe(form => {
+      this.gin = this.ginValidator.value;
+    });
+    this.whiskeyValidator.valueChanges.subscribe(form => {
+      this.whiskey = this.whiskeyValidator.value;
+    });
+    this.rumValidator.valueChanges.subscribe(form => {
+      this.rum = this.rumValidator.value;
+    });
+    this.disaronnoValidator.valueChanges.subscribe(form => {
+      this.disaronno = this.disaronnoValidator.value;
+    });
+
+    this.nonAlcoholicOptionValidator.valueChanges.subscribe(form => {
+      this.nonAlcoholicOption = this.nonAlcoholicOptionValidator.value;
+    });
+
+    this.veganValidator.valueChanges.subscribe(form => {
+      this.vegan = this.veganValidator.value;
+    });
+    this.jainValidator.valueChanges.subscribe(form => {
+      this.jain = this.jainValidator.value;
+    });
+
     if (this.rsvpType == ValidatedRSVP.RSVP_TYPE_ALL) {
       this.form = new FormGroup({
         firstName: this.firstNameValidator,
@@ -67,6 +128,18 @@ export class Guest implements APIGuest {
         mehndiAccepted: this.mehndiAcceptedValidator,
         civilAccepted: this.civilAcceptedValidator,
         receptionAccepted: this.receptionAcceptedValidator,
+        whiteWine: this.whiteWineValidator,
+        redWine: this.redWineValidator,
+        roseWine: this.roseWineValidator,
+        beer: this.beerValidator,
+        vodka: this.vodkaValidator,
+        gin: this.ginValidator,
+        whiskey: this.whiskeyValidator,
+        rum: this.rumValidator,
+        disaronno: this.disaronnoValidator,
+        nonAlcoholicOption: this.nonAlcoholicOptionValidator,
+        vegan: this.veganValidator,
+        jain: this.jainValidator
       });
     } else if (this.rsvpType == ValidatedRSVP.RSVP_TYPE_WEDDING_ONLY) {
       this.form = new FormGroup({
@@ -75,6 +148,18 @@ export class Guest implements APIGuest {
         email: this.emailValidator,
         civilAccepted: this.civilAcceptedValidator,
         receptionAccepted: this.receptionAcceptedValidator,
+        whiteWine: this.whiteWineValidator,
+        redWine: this.redWineValidator,
+        roseWine: this.roseWineValidator,
+        beer: this.beerValidator,
+        vodka: this.vodkaValidator,
+        gin: this.ginValidator,
+        whiskey: this.whiskeyValidator,
+        rum: this.rumValidator,
+        disaronno: this.disaronnoValidator,
+        nonAlcoholicOption: this.nonAlcoholicOptionValidator,
+        vegan: this.veganValidator,
+        jain: this.jainValidator
       });
     } else if (this.rsvpType == ValidatedRSVP.RSVP_TYPE_RECEPTION_ONLY) {
       this.form = new FormGroup({
@@ -82,6 +167,18 @@ export class Guest implements APIGuest {
         lastName: this.lastNameValidator,
         email: this.emailValidator,
         receptionAccepted: this.receptionAcceptedValidator,
+        whiteWine: this.whiteWineValidator,
+        redWine: this.redWineValidator,
+        roseWine: this.roseWineValidator,
+        beer: this.beerValidator,
+        vodka: this.vodkaValidator,
+        gin: this.ginValidator,
+        whiskey: this.whiskeyValidator,
+        rum: this.rumValidator,
+        disaronno: this.disaronnoValidator,
+        nonAlcoholicOption: this.nonAlcoholicOptionValidator,
+        vegan: this.veganValidator,
+        jain: this.jainValidator
       });
     }
   }
@@ -107,26 +204,23 @@ export class Guest implements APIGuest {
       "civilAccepted": this.returnTextAccepted(this.civilAccepted),
       "mehndiAccepted": this.returnTextAccepted(this.mehndiAccepted),
       "receptionAccepted": this.returnTextAccepted(this.receptionAccepted),
-      "rsvpType": this.returnRSVPType(this.rsvpType)
+      "rsvpType": this.returnRSVPType(this.rsvpType),
+      "whiteWine": this.returnCheckBox(this.whiteWine),
+      "redWine": this.returnCheckBox(this.redWine),
+      "roseWine": this.returnCheckBox(this.roseWine),
+      "beer": this.returnCheckBox(this.beer),
+      "vodka": this.returnCheckBox(this.vodka),
+      "gin": this.returnCheckBox(this.gin),
+      "whiskey": this.returnCheckBox(this.whiskey),
+      "rum": this.returnCheckBox(this.rum),
+      "disaronno": this.returnCheckBox(this.disaronno),
+      "nonAlcoholicOption": this.returnCheckBox(this.nonAlcoholicOption),
+      "vegan": this.returnCheckBox(this.vegan),
+      "jain": this.returnCheckBox(this.jain)
     };
 
     return jsonObject;
   }
-
-  // whiteWine: boolean;
-  // redWine: boolean;
-  // roseWine: boolean;
-  //
-  // beer: boolean;
-  //
-  // vodka: boolean;
-  // gin: boolean;
-  // whiskey: boolean;
-  // rum: boolean;
-  // disaronno: boolean;
-  //
-  // nonAlcoholicOption: boolean;
-
 
   private returnTextAccepted(acceptedValue) {
     if (acceptedValue == 0) {

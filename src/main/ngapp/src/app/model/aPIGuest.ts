@@ -29,4 +29,6 @@ export interface APIGuest {
     rum?: boolean;
     disaronno?: boolean;
     nonAlcoholicOption?: boolean;
+    vegan?: boolean;
+    jain?: boolean;
 }

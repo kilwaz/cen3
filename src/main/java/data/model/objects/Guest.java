@@ -17,11 +17,28 @@ public class Guest extends DatabaseObject {
 
     private String rsvpType = null;
 
+    private String whiteWine = null;
+    private String redWine = null;
+    private String roseWine = null;
+
+    private String beer = null;
+
+    private String vodka = null;
+    private String gin = null;
+    private String whiskey = null;
+    private String rum = null;
+    private String disaronno = null;
+
+    private String nonAlcoholicOption = null;
+
+    private String vegan = null;
+    private String jain = null;
+
     public Guest() {
         super();
     }
 
-    public Guest(String firstName, String lastName, String email, RSVP parentRSVP, String mehndiAccepted, String receptionAccepted, String civilAccepted, String rsvpType) {
+    public Guest(String firstName, String lastName, String email, RSVP parentRSVP, String mehndiAccepted, String receptionAccepted, String civilAccepted, String rsvpType, String whiteWine, String redWine, String roseWine, String beer, String vodka, String gin, String whiskey, String rum, String disaronno, String nonAlcoholicOption, String vegan, String jain) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -30,6 +47,18 @@ public class Guest extends DatabaseObject {
         this.receptionAccepted = receptionAccepted;
         this.civilAccepted = civilAccepted;
         this.rsvpType = rsvpType;
+        this.whiteWine = whiteWine;
+        this.redWine = redWine;
+        this.roseWine = roseWine;
+        this.beer = beer;
+        this.vodka = vodka;
+        this.gin = gin;
+        this.whiskey = whiskey;
+        this.rum = rum;
+        this.disaronno = disaronno;
+        this.nonAlcoholicOption = nonAlcoholicOption;
+        this.vegan = vegan;
+        this.jain = jain;
     }
 
     public String getRSVPUUID() {
@@ -106,5 +135,101 @@ public class Guest extends DatabaseObject {
 
     public void setRsvpType(String rsvpType) {
         this.rsvpType = rsvpType;
+    }
+
+    public String getWhiteWine() {
+        return whiteWine;
+    }
+
+    public void setWhiteWine(String whiteWine) {
+        this.whiteWine = whiteWine;
+    }
+
+    public String getRedWine() {
+        return redWine;
+    }
+
+    public void setRedWine(String redWine) {
+        this.redWine = redWine;
+    }
+
+    public String getRoseWine() {
+        return roseWine;
+    }
+
+    public void setRoseWine(String roseWine) {
+        this.roseWine = roseWine;
+    }
+
+    public String getBeer() {
+        return beer;
+    }
+
+    public void setBeer(String beer) {
+        this.beer = beer;
+    }
+
+    public String getVodka() {
+        return vodka;
+    }
+
+    public void setVodka(String vodka) {
+        this.vodka = vodka;
+    }
+
+    public String getGin() {
+        return gin;
+    }
+
+    public void setGin(String gin) {
+        this.gin = gin;
+    }
+
+    public String getWhiskey() {
+        return whiskey;
+    }
+
+    public void setWhiskey(String whiskey) {
+        this.whiskey = whiskey;
+    }
+
+    public String getRum() {
+        return rum;
+    }
+
+    public void setRum(String rum) {
+        this.rum = rum;
+    }
+
+    public String getDisaronno() {
+        return disaronno;
+    }
+
+    public void setDisaronno(String disaronno) {
+        this.disaronno = disaronno;
+    }
+
+    public String getNonAlcoholicOption() {
+        return nonAlcoholicOption;
+    }
+
+    public void setNonAlcoholicOption(String nonAlcoholicOption) {
+        this.nonAlcoholicOption = nonAlcoholicOption;
+    }
+
+    public String getVegan() {
+        return vegan;
+    }
+
+    public void setVegan(String vegan) {
+        this.vegan = vegan;
+    }
+
+    public String getJain() {
+        return jain;
+    }
+
+    public void setJain(String jain) {
+        this.jain = jain;
     }
 }

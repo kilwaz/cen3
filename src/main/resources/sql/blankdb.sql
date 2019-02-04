@@ -29,4 +29,6 @@ create table guest(
     rum varchar(200),
     disaronno varchar(200),
     nonAlcoholicOption varchar(200),
+    vegan varchar(200),
+    jain varchar(200),
     PRIMARY KEY (uuid));

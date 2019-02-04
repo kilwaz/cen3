@@ -48,6 +48,42 @@ public class RSVPAPI extends SparkRequest {
             if (jsonGuest.has("rsvpType")) {
                 guest.setRsvpType(jsonGuest.getString("rsvpType"));
             }
+            if (jsonGuest.has("whiteWine")) {
+                guest.setWhiteWine(jsonGuest.getString("whiteWine"));
+            }
+            if (jsonGuest.has("redWine")) {
+                guest.setRedWine(jsonGuest.getString("redWine"));
+            }
+            if (jsonGuest.has("roseWine")) {
+                guest.setRoseWine(jsonGuest.getString("roseWine"));
+            }
+            if (jsonGuest.has("beer")) {
+                guest.setBeer(jsonGuest.getString("beer"));
+            }
+            if (jsonGuest.has("vodka")) {
+                guest.setVodka(jsonGuest.getString("vodka"));
+            }
+            if (jsonGuest.has("gin")) {
+                guest.setGin(jsonGuest.getString("beer"));
+            }
+            if (jsonGuest.has("whiskey")) {
+                guest.setWhiskey(jsonGuest.getString("whiskey"));
+            }
+            if (jsonGuest.has("rum")) {
+                guest.setRum(jsonGuest.getString("rum"));
+            }
+            if (jsonGuest.has("disaronno")) {
+                guest.setDisaronno(jsonGuest.getString("disaronno"));
+            }
+            if (jsonGuest.has("nonAlcoholicOption")) {
+                guest.setNonAlcoholicOption(jsonGuest.getString("nonAlcoholicOption"));
+            }
+            if (jsonGuest.has("vegan")) {
+                guest.setVegan(jsonGuest.getString("vegan"));
+            }
+            if (jsonGuest.has("jain")) {
+                guest.setJain(jsonGuest.getString("jain"));
+            }
 
             guest.setParentRSVP(rsvp);
             guest.save();

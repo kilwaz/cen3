@@ -111,28 +111,29 @@
 
             <fieldset class="form-group">
               <label class="col-sm-2 col-form-label"><h6>Wine -</h6></label>
-              <mat-checkbox class="col-sm-3" [value]="guest.whiteWine">White</mat-checkbox>
-              <mat-checkbox class="col-sm-3" [value]="guest.redWine">Red</mat-checkbox>
-              <mat-checkbox class="col-sm-3" [value]="guest.roseWine">Rose</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.whiteWineValidator">White</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.redWineValidator">Red</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.roseWineValidator">Rose</mat-checkbox>
             </fieldset>
 
             <fieldset class="form-group">
               <label class="col-sm-2 col-form-label"><h6>Beer -</h6></label>
-              <mat-checkbox class="col-sm-3">Beer</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.beerValidator">Beer</mat-checkbox>
             </fieldset>
 
             <fieldset class="form-group">
               <label class="col-sm-2 col-form-label"><h6>Spirits -</h6></label>
-              <mat-checkbox class="col-sm-auto" [value]="guest.vodka">Vodka</mat-checkbox>
-              <mat-checkbox class="col-sm-auto" [value]="guest.gin">Gin</mat-checkbox>
-              <mat-checkbox class="col-sm-auto" [value]="guest.whiskey">Whiskey</mat-checkbox>
-              <mat-checkbox class="col-sm-auto" [value]="guest.rum">Rum</mat-checkbox>
-              <mat-checkbox class="col-sm-auto" [value]="guest.disaronno">Disaronno</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.vodkaValidator">Vodka</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.ginValidator">Gin</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.whiskeyValidator">Whiskey</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.rumValidator">Rum</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.disaronnoValidator">Disaronno</mat-checkbox>
             </fieldset>
 
             <fieldset class="form-group">
               <label class="col-sm-2 col-form-label"><h6>Non-alcoholic option -</h6></label>
-              <mat-checkbox class="col-sm-auto" [value]="guest.nonAlcoholicOption">Non-alcoholic option</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.nonAlcoholicOptionValidator">Non-alcoholic option
+              </mat-checkbox>
             </fieldset>
           </div>
           <div class="border rounded m-2 border-dark">
@@ -143,17 +144,16 @@
 
             <fieldset class="form-group">
               <label class="col-sm-2 col-form-label"><h6></h6></label>
-              <mat-checkbox class="col-sm-3" [value]="guest.whiteWine">Vegan</mat-checkbox>
-              <mat-checkbox class="col-sm-3" [value]="guest.redWine">Jain option (without garlic and onion)</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.veganValidator">Vegan</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.jainValidator">Jain option (without garlic and onion)
+              </mat-checkbox>
             </fieldset>
           </div>
         </div>
         <div *ngIf="rsvp.guests.length > 0" class="form-group border rounded mt-2 border-dark">
-          <button type="submit" (click)="submitForm()" class="btn btn-primary btn-block">RSVP</button>
+          <button type="button" (click)="submitForm()" class="btn btn-primary btn-block">RSVP</button>
         </div>
       </form>
     </div>
   </div>
 </div>
-
-
