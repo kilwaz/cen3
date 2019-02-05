@@ -75,7 +75,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .auth-background {
   background-image: url('assets/images/auth-background.jpg');
-  background-attachment:fixed;
+}
+
+.reception-background {
+  background-image: url('assets/images/reception.jpg');
+}
+
+.mehndi-background {
+  background-image: url('assets/images/Mehndi.png');
+}
+
+.background-image {
   background-repeat: no-repeat;
   background-size: cover;
 }
