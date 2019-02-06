@@ -78,11 +78,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .reception-background {
-  background-image: url('assets/images/reception.jpg');
+  background-image: url('assets/images/reception-small.jpg');
 }
 
+.reception-background-top {
+  background-image: url('assets/images/reception-small-top.jpg');
+}
+
+
 .mehndi-background {
-  background-image: url('assets/images/Mehndi.png');
+  background-image: url('assets/images/Mehndi-short.png');
+}
+
+.mehndi-background-flipped {
+  background-image: url('assets/images/Mehndi-short-flipped.png');
+}
+
+.mehndi-background-pink {
+  background-image: url('assets/images/Mehndi-pink.png');
+}
+
+.civil-background {
+  background-image: url('assets/images/seaside-small.jpg');
+  font-weight: 600;
 }
 
 .background-image {
@@ -93,4 +111,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .auth-clouded-background {
   background-color: rgba(147, 255, 247, 0.6);
   box-shadow: 0 0 5px 10px rgba(147, 255, 247, 0.6);
+}
+
+.white-text {
+  color: white;
+}
+
+.top-link-hut {
+  max-height: 25px;
+}
+
+.gold-outline {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #a98504;
 }

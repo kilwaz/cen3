@@ -24,57 +24,11 @@
   </div>
 
   <div class="row d-none d-sm-none d-md-flex d-lg-flex d-xl-flex">
-    <div class="col text-center">
-      <a class="hut-link" [routerLink]="['/home']">
-        <img class="img-fluid" src="assets/images/blue-hut.png">
-
+    <div *ngFor="let link of links;" class="col text-center">
+      <a class="hut-link" [routerLink]="['/' + link.link]">
+        <img class="img-fluid" [src]="['assets/images/' + link.picture + '-hut.png']">
         <div class="carousel-caption text-center hut-centered-text">
-          <div>Home</div>
-        </div>
-      </a>
-    </div>
-    <div class="col text-center">
-      <a class="hut-link" [routerLink]="['/schedule']">
-        <img class="img-fluid" src="assets/images/light-blue-hut.png">
-
-        <div class="carousel-caption text-center hut-centered-text">
-          <div>Schedule</div>
-        </div>
-      </a>
-    </div>
-    <div class="col text-center">
-      <a class="hut-link" [routerLink]="['/venue']">
-        <img class="img-fluid" src="assets/images/yellow-hut.png">
-
-        <div class="carousel-caption text-center hut-centered-text">
-          <div>Venue</div>
-        </div>
-      </a>
-    </div>
-    <div class="col text-center">
-      <a class="hut-link" [routerLink]="['/accommodation']">
-        <img class="img-fluid" src="assets/images/purple-hut.png">
-
-        <div class="carousel-caption text-center hut-centered-text">
-          <div>Accommodation</div>
-        </div>
-      </a>
-    </div>
-    <div class="col text-center">
-      <a class="hut-link" [routerLink]="['/rsvp']">
-        <img class="img-fluid" src="assets/images/green-hut.png">
-
-        <div class="carousel-caption text-center hut-centered-text">
-          <div>RSVP</div>
-        </div>
-      </a>
-    </div>
-    <div class="col text-center">
-      <a class="hut-link" [routerLink]="['/faq']">
-        <img class="img-fluid" src="assets/images/red-hut.png">
-
-        <div class="carousel-caption text-center hut-centered-text">
-          <div>FAQ</div>
+          <div>{{link.text}}</div>
         </div>
       </a>
     </div>
@@ -92,12 +46,21 @@
           </div>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="nav navbar-nav mx-auto">
-              <a class="nav-item nav-link" [routerLink]="['/home']">Home</a>
-              <a class="hut-link nav-link" [routerLink]="['/schedule']">Schedule</a>
-              <a class="hut-link nav-link" [routerLink]="['/venue']">Venue</a>
-              <a class="hut-link nav-link" [routerLink]="['/accommodation']">Accommodation</a>
-              <a class="nav-link nav-link" [routerLink]="['/rsvp']">RSVP</a>
-              <a class="nav-link nav-link" [routerLink]="['/faq']">FAQ</a>
+              <li *ngFor="let link of links;" class="nav-item nav-link">
+                <a [routerLink]="['/' + link.link]">
+                  <div class="row">
+                    <div class="col">
+                      <img class="img-fluid top-link-hut" [src]="['assets/images/' + link.picture + '-hut.png']">
+                    </div>
+                    <div class="col-6">
+                      <span class="grey-text">{{link.text}}</span>
+                    </div>
+                    <div class="col">
+                      <img class="img-fluid top-link-hut" [src]="['assets/images/' + link.picture + '-hut.png']">
+                    </div>
+                  </div>
+                </a>
+              </li>
             </ul>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ValidatedRSVP} from "../validatedRSVP";
 import {SessionService} from "../session.service";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-auth',
@@ -11,11 +12,17 @@ export class AuthComponent implements OnInit {
   validatedRSVP: ValidatedRSVP;
   sessionService: SessionService;
 
+  passwordValidator = new FormControl('', []);
+
   password: string = "";
 
   constructor(sessionService: SessionService) {
     this.sessionService = sessionService;
     this.validatedRSVP = this.sessionService.validatedRSVP;
+
+    this.passwordValidator.valueChanges.subscribe(form => {
+      this.password = this.passwordValidator.value;
+    });
   }
 
   checkPassword() {
@@ -30,6 +37,7 @@ export class AuthComponent implements OnInit {
       this.validatedRSVP.rsvpType = ValidatedRSVP.RSVP_TYPE_RECEPTION_ONLY;
     } else {
       this.validatedRSVP.validated = false;
+      this.passwordValidator.setValue("");
     }
 
     this.sessionService.validatedRSVP = this.validatedRSVP;

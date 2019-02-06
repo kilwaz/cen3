@@ -18,14 +18,14 @@
       </div>
       <form>
         <div class="row justify-content-center pt-lg-4">
-          <div class="col-auto">
-            <input type="text" class="form-control"
-                   id="password" placeholder="Password" required
-                   [(ngModel)]="password" name="password">
-          </div>
-          <div class="col-auto">
-            <button style="min-width: 100px" (click)="checkPassword()" type="submit" class="btn btn-primary">Enter
-            </button>
+          <mat-form-field appearance="outline" class="col-sm">
+            <mat-label>Password</mat-label>
+            <input matInput [formControl]="passwordValidator" placeholder="Password" required>
+            <mat-error
+              *ngIf="passwordValidator.invalid">Incorrect password</mat-error>
+          </mat-form-field>
+          <div class="col-auto mt-3">
+            <button mat-button (click)="checkPassword()" type="submit" class="btn btn-primary">Enter</button>
           </div>
         </div>
       </form>
