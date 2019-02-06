@@ -1,53 +1,101 @@
-<div class="container">
-  <h1>Venue</h1>
+<div class="p-3">
+  <h1 class="pl-3">Venue</h1>
 
-  <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
-    <h2>Orsett Hall</h2>
-
-    <div>
-      <div class="mapouter">
-        <div class="gmap_canvas">
-          <iframe width="600" height="500" id="gmap_canvas"
-                  src="https://maps.google.com/maps?q=orsett%20hall&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
-                  scrolling="no" marginheight="0" marginwidth="0"></iframe>
-          <a href="https://www.crocothemes.net">wordpress themes homebase</a></div>
-        <style>.mapouter {
-          text-align: right;
-          height: 500px;
-          width: 600px;
-        }
-
-        .gmap_canvas {
-          overflow: hidden;
-          background: none !important;
-          height: 500px;
-          width: 600px;
-        }</style>
+  <div class="row justify-content-md-center pb-5">
+    <div class="col-sm-6 ">
+      <div class="map-responsive">
+        <iframe style="width: 100%;height: 100%;"
+                src="https://maps.google.com/maps?q=Three%20Rivers%20golf%20and%20country%20club&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col">
+          <h5>Three Rivers Golf and Country Club</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h5>Stow Road, Cold Norton</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Purleigh, Essex
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          CM3 6RR
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Telephone:</b> +44 (0)1621 829781
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Email:</b> info@threeriversclub.com
+        </div>
       </div>
     </div>
   </div>
 
-  <h2>Three Rivers Golf and Country Club</h2>
-
-  <div>
-    <div class="mapouter">
-      <div class="gmap_canvas">
-        <iframe width="600" height="500" id="gmap_canvas"
-                src="https://maps.google.com/maps?q=Three%20Rivers%20golf%20and%20country%20club&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-        <a href="https://www.crocothemes.net">wordpress themes homebase</a></div>
-      <style>.mapouter {
-        text-align: right;
-        height: 500px;
-        width: 600px;
-      }
-
-      .gmap_canvas {
-        overflow: hidden;
-        background: none !important;
-        height: 500px;
-        width: 600px;
-      }</style>
+  <div class="row justify-content-md-center" *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
+    <div class="col-sm-6">
+      <div class="map-responsive">
+        <iframe style="width: 100%;height: 100%;"
+                src="https://maps.google.com/maps?q=orsett%20hall&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+                scrolling="no" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col">
+          <h5>Orsett Hall</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          ​Prince Charles Avenue
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Orsett
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Essex RM16 3HS
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          United Kingdom
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Telephone:</b> +44 (0) 1375 891402
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Email:</b> reception@orsetthall.co.uk
+        </div>
+      </div>
+      <div class="row pt-2">
+        <div class="col">
+          Located in Thurrock, Essex, Orsett Hall is just off the M25 junction 30/3, near the QE2 Bridge to Dartford.
+          They
+          are close to Basildon and Tilbury Dock, and just 15 minutes from Lakeside Shopping Centre. London City Airport
+          is 30 minutes by car; London Stansted Airport is 35 miles away. The Grays, Stanford-Le-Hope and West Horndon
+          railway stations are all on the London Fenchurch Street C2C train line.
+        </div>
+      </div>
     </div>
   </div>
 </div>
