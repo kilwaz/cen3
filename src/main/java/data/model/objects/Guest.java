@@ -34,11 +34,14 @@ public class Guest extends DatabaseObject {
     private String vegan = null;
     private String jain = null;
 
+    private String ipAddress = null;
+    private String rsvpDate = null;
+
     public Guest() {
         super();
     }
 
-    public Guest(String firstName, String lastName, String email, RSVP parentRSVP, String mehndiAccepted, String receptionAccepted, String civilAccepted, String rsvpType, String whiteWine, String redWine, String roseWine, String beer, String vodka, String gin, String whiskey, String rum, String disaronno, String nonAlcoholicOption, String vegan, String jain) {
+    public Guest(String firstName, String lastName, String email, RSVP parentRSVP, String mehndiAccepted, String receptionAccepted, String civilAccepted, String rsvpType, String whiteWine, String redWine, String roseWine, String beer, String vodka, String gin, String whiskey, String rum, String disaronno, String nonAlcoholicOption, String vegan, String jain, String ipAddress, String rsvpDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -59,6 +62,8 @@ public class Guest extends DatabaseObject {
         this.nonAlcoholicOption = nonAlcoholicOption;
         this.vegan = vegan;
         this.jain = jain;
+        this.ipAddress = ipAddress;
+        this.rsvpDate = rsvpDate;
     }
 
     public String getRSVPUUID() {
@@ -231,5 +236,21 @@ public class Guest extends DatabaseObject {
 
     public void setJain(String jain) {
         this.jain = jain;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public String getRsvpDate() {
+        return rsvpDate;
+    }
+
+    public void setRsvpDate(String rsvpDate) {
+        this.rsvpDate = rsvpDate;
     }
 }

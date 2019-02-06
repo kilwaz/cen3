@@ -31,4 +31,6 @@ create table guest(
     nonAlcoholicOption varchar(200),
     vegan varchar(200),
     jain varchar(200),
+    rsvp_date varchar(200),
+    ip_address varchar(200),
     PRIMARY KEY (uuid));

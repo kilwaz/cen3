@@ -9,6 +9,11 @@ import org.json.JSONObject;
 import requests.annotations.RequestName;
 import spark.Request;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+
 @RequestName("rsvpSubmit")
 public class RSVPAPI extends SparkRequest {
     private static Logger log = Logger.getLogger(RSVPAPI.class);
@@ -84,6 +89,14 @@ public class RSVPAPI extends SparkRequest {
             if (jsonGuest.has("jain")) {
                 guest.setJain(jsonGuest.getString("jain"));
             }
+
+            log.info("IP ADDRESS IS " + request.host());
+            guest.setIpAddress(request.ip());
+
+            String pattern = "EEEEE dd MMMMM yyyy HH:mm:ss.SSSZ";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale.Builder().setLanguage("en").setRegion("GB").build());
+            String date = simpleDateFormat.format(new Date());
+            guest.setRsvpDate(date);
 
             guest.setParentRSVP(rsvp);
             guest.save();

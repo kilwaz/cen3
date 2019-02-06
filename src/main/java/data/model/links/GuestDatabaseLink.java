@@ -5,6 +5,7 @@ import data.model.DatabaseLink;
 import data.model.objects.Guest;
 import data.model.objects.RSVP;
 
+import java.sql.Date;
 import java.util.UUID;
 
 public class GuestDatabaseLink extends DatabaseLink {
@@ -33,6 +34,8 @@ public class GuestDatabaseLink extends DatabaseLink {
         link("nonAlcoholicOption", method("getNonAlcoholicOption"), method("setNonAlcoholicOption", String.class)); // 19
         link("vegan", method("getVegan"), method("setVegan", String.class)); // 20
         link("jain", method("getJain"), method("setJain", String.class)); // 21
+        link("ip_address", method("getRsvpDate"), method("setRsvpDate", String.class)); // 22
+        link("rsvp_date", method("getIpAddress"), method("setIpAddress", String.class)); // 23
     }
 }
 
