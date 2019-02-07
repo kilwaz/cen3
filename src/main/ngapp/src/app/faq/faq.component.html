@@ -1,9 +1,9 @@
-<div class="p-3">
-  <h1 class="ml-3">FAQ</h1>
-
-  <div class="row">
+<h1 class="pl-3 mb-2">FAQ</h1>
+<div class="p-3 civil-background background-image">
+  <div class="row m-4 m-sm-1">
     <div class="accordion" id="accordionExample">
-      <div class="card">
+      <div class="card"
+           *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY">
         <div class="card-header" id="headingOne">
           <h5 class="mb-0">
             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
@@ -31,13 +31,23 @@
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
           <div class="card-body">
-            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">For the Mehndi night we have chosen for this to be a young adults evening only to allow this to be an informal party for friends and family to meet prior to the wedding day.</span>
-            Children are welcome to the Wedding and Reception but we kindly ask to please keep noise to a minimum during
-            the Civil Ceremony. Activity packs will be provided in the evening to help keep them occupied!
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
+              For the Mehndi night we have chosen for this to be a young adults evening only to allow this to be an informal party for friends and family to meet prior to the wedding day.
+              Children are welcome to the Wedding and Reception but we kindly ask to please keep noise to a minimum during
+              the Civil Ceremony. Activity packs will be provided in the evening to help keep them occupied!
+            </span>
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY">
+              Children are welcome to the Wedding and Reception but we kindly ask to please keep noise to a minimum during
+              the Civil Ceremony. Activity packs will be provided in the evening to help keep them occupied!
+            </span>
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_RECEPTION_ONLY">
+              Children are welcome to the Reception. Activity packs will be provided in the evening to help keep them occupied!
+            </span>
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card"
+           *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY">
         <div class="card-header" id="headingThree">
           <h5 class="mb-0">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
@@ -48,7 +58,8 @@
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
           <div class="card-body">
-            You will have around 2 hours to relax (4pm-6pm) between the events of the day. You are welcome to stay in the
+            You will have around 2 hours to relax (4pm-6pm) between the events of the day. You are welcome to stay in
+            the
             venue where there will be lots of seating and refreshments available.
             Alternatively if you have a hotel booked nearby, feel free to go back and get ready for the evening events!
           </div>
@@ -59,20 +70,32 @@
           <h5 class="mb-0">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse4"
                     aria-expanded="false" aria-controls="heading4">
-              What am I expected to wear for each event?
+              What am I expected to wear?
             </button>
           </h5>
         </div>
         <div id="collapse4" class="collapse" aria-labelledby="collapse4" data-parent="#accordionExample">
           <div class="card-body">
-            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">For the Mehndi night we have kept the dress code informal - you can wear Western or Traditional Indian dress as you prefer.</span>
-            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY"><br>For the civil ceremony - this is a Western event so we ask as many guests as possible to wear Suit and Tie/Western dresses.</span>
-            <br>For the reception - this is an Indian event so we ask as many guests as possible to wear Tradition Indian
-            dress or Formal attire.
-            <br>Do not worry if you do not have the correct attire for the event - all guests are not expected to change
-            between events!
-            <br>For those who will be changing from Western attire to Indian attire for the evening, there will be
-            changing rooms provided at the venue between 4pm-6pm to use if you do not have a hotel room nearby.
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
+              For the Mehndi night we have kept the dress code informal - you can wear Western or Traditional Indian dress as you prefer.
+              <br/>For the civil ceremony - this is a Western event so we ask as many guests as possible to wear Suit and Tie/Western dresses.
+              <br/>For the reception - this is an Indian event so we ask as many guests as possible to wear Tradition
+              Indian dress or Formal attire.
+              <br/>Do not worry if you do not have the correct attire for the event - all guests are not expected to change between events!
+              For those who will be changing from Western attire to Indian attire for the evening, there will be
+              changing rooms provided at the venue between 4pm-6pm to use if you do not have a hotel room nearby.
+            </span>
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY">
+              For the civil ceremony - this is a Western event so we ask as many guests as possible to wear Suit and Tie/Western dresses.
+              <br/>For the reception - this is an Indian event so we ask as many guests as possible to wear Tradition
+              Indian dress or Formal attire.
+              <br/>Do not worry if you do not have the correct attire for the event - all guests are not expected to change between events!
+              For those who will be changing from Western attire to Indian attire for the evening, there will be
+              changing rooms provided at the venue between 4pm-6pm to use if you do not have a hotel room nearby.
+            </span>
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_RECEPTION_ONLY">
+              For the reception - this is an Indian event so we ask as many guests as possible to wear Tradition Indian dress or Formal attire.
+            </span>
           </div>
         </div>
       </div>
@@ -81,15 +104,20 @@
           <h5 class="mb-0">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse5"
                     aria-expanded="false" aria-controls="heading5">
-              What type of cuisine will there be at each event?
+              What type of cuisine will there be?
             </button>
           </h5>
         </div>
         <div id="collapse5" class="collapse" aria-labelledby="collapse5" data-parent="#accordionExample">
           <div class="card-body">
-            All food provided on the wedding day will be vegetarian. As our big day is a fusion of Western and Indian
-            cultures, we will have an English afternoon tea after the Civil Ceremony and
-            Traditional Indian food for the evening reception.
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY">
+              All food provided on the wedding day will be vegetarian. As our big day is a fusion of Western and Indian
+              cultures, we will have an English afternoon tea after the Civil Ceremony and
+              Traditional Indian food for the evening reception.
+            </span>
+            <span *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_RECEPTION_ONLY">
+              All food provided will be traditional Indian food for the evening reception.
+            </span>
           </div>
         </div>
       </div>

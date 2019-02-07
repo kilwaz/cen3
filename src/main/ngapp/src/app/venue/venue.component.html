@@ -1,15 +1,8 @@
-<div class="p-3">
-  <h1 class="pl-3">Venue</h1>
-
-  <div class="row justify-content-md-center pb-5">
-    <div class="col-sm-6 ">
-      <div class="map-responsive">
-        <iframe style="width: 100%;height: 100%;"
-                src="https://maps.google.com/maps?q=Three%20Rivers%20golf%20and%20country%20club&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-      </div>
-    </div>
-    <div class="col-sm-6">
+<h1 class="pl-3 mb-2">Venue</h1>
+<div class="pb-5 pl-5 pr-5 civil-background background-image">
+  <div style="height:50px;"></div>
+  <div class="row justify-content-md-center mt-2 pb-2 auth-clouded-background">
+    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
       <div class="row">
         <div class="col">
           <h5>Three Rivers Golf and Country Club</h5>
@@ -41,17 +34,19 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="row justify-content-md-center" *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
-    <div class="col-sm-6">
+    <div class="col-sm-6 col-md-8 col-lg-8 col-xl-8">
       <div class="map-responsive">
-        <iframe style="width: 100%;height: 100%;"
-                src="https://maps.google.com/maps?q=orsett%20hall&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
-                scrolling="no" marginheight="0" marginwidth="0"></iframe>
+        <iframe style="width: 100%;height: 100%; min-height: 250px;"
+                src="https://maps.google.com/maps?q=Three%20Rivers%20golf%20and%20country%20club&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
       </div>
     </div>
-    <div class="col-sm-6">
+  </div>
+  <div style="height:50px;"></div>
+  <div class="row justify-content-md-center mt-4 auth-clouded-background"
+       *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
+    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
       <div class="row">
         <div class="col">
           <h5>Orsett Hall</h5>
@@ -95,6 +90,14 @@
           is 30 minutes by car; London Stansted Airport is 35 miles away. The Grays, Stanford-Le-Hope and West Horndon
           railway stations are all on the London Fenchurch Street C2C train line.
         </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-8 col-lg-8 col-xl-8">
+      <div class="map-responsive">
+        <iframe style="width: 100%;height: 100%;"
+                src="https://maps.google.com/maps?q=orsett%20hall&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+                scrolling="no" marginheight="0" marginwidth="0"></iframe>
       </div>
     </div>
   </div>
