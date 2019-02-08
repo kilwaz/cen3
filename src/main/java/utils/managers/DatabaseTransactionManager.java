@@ -15,6 +15,7 @@ import utils.Timer;
 import utils.timers.TransactionJob;
 
 import java.sql.SQLException;
+import java.sql.SQLNonTransientConnectionException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +65,9 @@ public class DatabaseTransactionManager {
             }
             pendingQueryList.clear();
             pendingQueryList.add(selectQuery);
+        } catch (SQLNonTransientConnectionException ex) {
+            attemptReconnection();
+            addSelect(selectQuery);
         } catch (SQLException ex) {
             Error.DATABASE_TRANSACTION.record().create(ex);
         }
@@ -78,13 +82,16 @@ public class DatabaseTransactionManager {
     }
 
     public synchronized void addUpdate(UpdateQuery updateQuery) {
-//       log.info("Update - " + updateQuery.getQuery());
-//        logQueryParams(updateQuery);
+        //log.info("Update - " + updateQuery.getQuery());
+        logQueryParams(updateQuery);
         if (!inTransaction) {
             try {
                 inTransaction = true;
                 DBConnectionManager.getInstance().getApplicationConnection().getConnection().setAutoCommit(false);
-//                log.info("Transaction started");
+                //log.info("Transaction started");
+            } catch (SQLNonTransientConnectionException ex) {
+                attemptReconnection();
+                addUpdate(updateQuery);
             } catch (SQLException ex) {
                 Error.DATABASE_TRANSACTION.record().create(ex);
             }
@@ -122,6 +129,15 @@ public class DatabaseTransactionManager {
                 //log.info("Committing " + pendingQueryList.size() + " query transactions after 1000ms");
                 finaliseTransactions();
             }
+        }
+    }
+
+    private void attemptReconnection() {
+        //log.info("Attempt reconnect");
+        inTransaction = false;
+        if (!DBConnectionManager.getInstance().isConnected()) {
+            //log.info("Doing the reconnect");
+            DBConnectionManager.getInstance().createApplicationConnection();
         }
     }
 }
