@@ -18,6 +18,10 @@
   color: #ccba97;
 }
 
+.black-text {
+  color: black;
+}
+
 .wedding-date {
   font-weight: 700;
 }
@@ -27,7 +31,7 @@
 }
 
 .main-header {
-  background-image: url('assets/images/background-sky.jpg');
+  background: url('assets/images/top-background.jpg') center no-repeat;
   background-size: cover;
 }
 
@@ -85,7 +89,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-image: url('assets/images/reception-small-top.jpg');
 }
 
-
 .mehndi-background {
   background-image: url('assets/images/Mehndi-short.png');
 }
@@ -113,6 +116,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   box-shadow: 0 0 5px 10px rgba(147, 255, 247, 0.6);
 }
 
+.venue-clouded-background {
+  background-color: rgba(210, 255, 248, 0.6);
+  box-shadow: 0 0 5px 10px rgba(210, 255, 248, 0.6);
+}
+
 .white-text {
   color: white;
 }
@@ -124,4 +132,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .gold-outline {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: #a98504;
+}
+
+.venue-text {
+  color: #a57c00;
+}
+
+.rsvp-form-background {
+  background-color: rgba(242, 244, 191, 0.8);
+  box-shadow: 0 0 5px 10px rgba(242, 244, 191, 0.8);
+}
+
+.rsvp-background {
+  background: url('assets/images/auth-background.jpg') no-repeat;
+  background-size: cover;
 }
