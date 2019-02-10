@@ -14,7 +14,9 @@
           <b>Website: </b> <a href="http://www.prince-stowmaries.net">www.prince-stowmaries.net</a><br>
           <b>Cost:</b> £80 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 2 mins<br>
+          <b>Travel time
+            from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}}
+            venue:</b> 2 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 26 mins</div>
         </div>
       </div>
@@ -29,7 +31,7 @@
           <b>Website: </b> <a href="http://www.purlieghbarnsbandbmaldon.com">www.purlieghbarnsbandbmaldon.com</a><br>
           <b>Cost:</b> £80-90 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 4 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 4 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 30 mins</div>
         </div>
       </div>
@@ -44,7 +46,7 @@
           <b>Website: </b> <a href="http://www.theoaklandhotel.co.uk">www.theoaklandhotel.co.uk</a><br>
           <b>Cost:</b> £64 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 7 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 7 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 24 mins</div>
         </div>
       </div>
@@ -60,7 +62,7 @@
           <b>Website: </b> <a href="http://www.limes-maldon.uk">www.limes-maldon.uk</a><br>
           <b>Cost:</b> £110 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 11 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 11 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 37 mins</div>
         </div>
       </div>
@@ -74,7 +76,7 @@
           <b>Website: </b> <a href="http://www.travelodge.co.uk">www.travelodge.co.uk</a><br>
           <b>Cost:</b> £64 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 11 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 11 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 19 mins</div>
         </div>
       </div>
@@ -88,7 +90,7 @@
           <b>Website: </b> <a href="http://www.lodge-inn.net">www.lodge-inn.net</a><br>
           <b>Cost:</b> £70 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 11 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 11 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 20 mins</div>
         </div>
       </div>
@@ -104,7 +106,7 @@
           <b>Website: </b> <a href="http://www.premierinn.com">www.premierinn.com</a><br>
           <b>Cost:</b> £40 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 19 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 19 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 18 mins</div>
         </div>
       </div>
@@ -118,7 +120,7 @@
           <b>Website: </b> <a href="http://www.premierinn.com">www.premierinn.com</a><br>
           <b>Cost:</b> £38 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 22 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 22 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 14 mins</div>
         </div>
       </div>
@@ -132,7 +134,7 @@
           <b>Website: </b> <a href="http://www.travelodge.co.uk">www.travelodge.co.uk</a><br>
           <b>Cost:</b> £39 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 23 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 23 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 16 mins</div>
         </div>
       </div>
@@ -149,7 +151,7 @@
           <b>Website: </b> <a href="http://www.premierinn.com">www.premierinn.com</a><br>
           <b>Cost:</b> £38 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 24 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 24 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 17 mins</div>
         </div>
       </div>
@@ -164,7 +166,7 @@
           <b>Website: </b> <a href="http://www.ihg.com/holidayinn/hotels">www.ihg.com/holidayinn/hotels</a><br>
           <b>Cost:</b> £73 per room<br></p>
         <div class="text-success">
-          <b>Travel time from Wedding venue:</b> 24 mins<br>
+          <b>Travel time from {{(validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY) ? "Wedding" : "Reception"}} venue:</b> 24 mins<br>
           <div *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL"><b>Travel time from Mehndi venue:</b> 17 mins</div>
         </div>
       </div>
