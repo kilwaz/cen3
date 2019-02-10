@@ -41,7 +41,7 @@
 
               <mat-form-field appearance="outline" class="col-sm">
                 <mat-label>Email</mat-label>
-                <input matInput [formControl]="guest.emailValidator" placeholder="Email" required
+                <input matInput [formControl]="guest.emailValidator" placeholder="Email" required type="email"
                        [name]='"email"+guestIndex'>
                 <mat-error
                   *ngIf="guest.emailValidator.invalid">{{guest.getEmailErrorMessage(guest.emailValidator)}}</mat-error>

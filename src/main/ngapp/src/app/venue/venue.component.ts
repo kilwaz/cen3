@@ -8,7 +8,7 @@ import {SessionService} from "../session.service";
   styleUrls: ['./venue.component.css']
 })
 export class VenueComponent implements OnInit {
-  validatedRSVP: ValidatedRSVP = new ValidatedRSVP();
+  validatedRSVP: ValidatedRSVP = null;
 
   RSVP_TYPE_ALL: number = ValidatedRSVP.RSVP_TYPE_ALL;
   RSVP_TYPE_WEDDING_ONLY: number = ValidatedRSVP.RSVP_TYPE_WEDDING_ONLY;

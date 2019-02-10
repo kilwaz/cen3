@@ -9,7 +9,7 @@ import {SessionService} from "../session.service";
 })
 export class AccommodationComponent implements OnInit {
 
-  validatedRSVP: ValidatedRSVP = new ValidatedRSVP();
+  validatedRSVP: ValidatedRSVP = null;
   RSVP_TYPE_ALL: number = ValidatedRSVP.RSVP_TYPE_ALL;
 
   constructor(sessionService: SessionService) {

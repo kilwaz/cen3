@@ -49,6 +49,5 @@ export class HomeComponent implements OnInit {
     this.remainingMinutes = Math.floor(dividedTime / 60);
     dividedTime = dividedTime - this.remainingMinutes * 60;
     this.remainingSeconds = dividedTime;
-
   }
 }

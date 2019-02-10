@@ -43,6 +43,12 @@ export class AuthComponent implements OnInit {
     this.sessionService.validatedRSVP = this.validatedRSVP;
   }
 
+  enterPressedCheck(event) {
+    if (event.keyCode == 13) {
+      this.checkPassword();
+    }
+  }
+
   ngOnInit(): void {
   }
 }

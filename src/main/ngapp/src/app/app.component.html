@@ -1,15 +1,13 @@
 <div class="h-100 wrapper">
-  <div class="h-100" *ngIf="!validatedRSVP.validated; else validatedTemplate">
+  <div class="h-100" *ngIf="!validatedRSVP.validated;">
     <app-auth></app-auth>
   </div>
 
-  <ng-template #validatedTemplate>
-    <div id="content">
-      <app-topbar></app-topbar>
+  <div id="content" *ngIf="validatedRSVP.validated;">
+    <app-topbar></app-topbar>
 
-      <div class="h-100">
-        <router-outlet></router-outlet>
-      </div>
+    <div class="h-100">
+      <router-outlet></router-outlet>
     </div>
-  </ng-template>
+  </div>
 </div>

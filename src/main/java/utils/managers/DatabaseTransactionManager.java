@@ -119,7 +119,11 @@ public class DatabaseTransactionManager {
     private void logQueryParams(Query query) {
         List<Object> params = query.getParameters();
         for (Object o : params) {
-            log.info("   " + o.toString());
+            if (o != null) {
+                log.info("   " + o.toString());
+            } else {
+                log.info("   null");
+            }
         }
     }
 

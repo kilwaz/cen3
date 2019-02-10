@@ -22,7 +22,7 @@ export class RsvpComponent implements OnInit {
   numbers: number[] = [0, 1, 2, 3, 4, 5, 6];
   rsvpYesNo: string[] = ["Yes, I can attend", "No, I am unable to attend", "Non Applicable"];
 
-  validatedRSVP: ValidatedRSVP = new ValidatedRSVP();
+  validatedRSVP: ValidatedRSVP = null;
   RSVP_TYPE_ALL: number = ValidatedRSVP.RSVP_TYPE_ALL;
   RSVP_TYPE_WEDDING_ONLY: number = ValidatedRSVP.RSVP_TYPE_WEDDING_ONLY;
   RSVP_TYPE_RECEPTION_ONLY: number = ValidatedRSVP.RSVP_TYPE_RECEPTION_ONLY;
