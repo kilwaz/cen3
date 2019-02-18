@@ -1,0 +1,158 @@
+<h1 class="ml-3">RSVP</h1>
+
+<div class="rsvp-background pt-4 pb-4">
+  <div class="container rsvp-form-background">
+    <div *ngIf="submitted" class="col-sm-10">
+      Your RSVP is complete
+    </div>
+
+    <div *ngIf="!submitted">
+      <div class="col-sm-10">
+        <div class="form-group row">
+          <label for="numberOfGuests" class="col-sm-3 col-form-label">Number of guests:</label>
+          <div class="col-sm">
+            <select (change)="selectedCount($event.target.value)" class="form-control" id="numberOfGuests">
+              <option *ngFor="let count of numbers" [value]="count" [selected]="count == 0">{{count}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <form>
+        <div *ngFor="let guest of rsvp.guests; let guestIndex = index" class="border rounded mt-2 border-dark">
+          <h3 class="col-form-legend col-sm-2">Guest {{guestIndex + 1}}</h3>
+          <div class="border rounded m-2 border-dark">
+            <h5 class="col-sm-10">Details</h5>
+            <fieldset class="form-group ml-2">
+              <mat-form-field appearance="outline" class="col-sm">
+                <mat-label>First Name</mat-label>
+                <input matInput [formControl]="guest.firstNameValidator" placeholder="First Name" required
+                       [name]='"firstName"+guestIndex'>
+                <mat-error
+                  *ngIf="guest.firstNameValidator.invalid">{{guest.getNameErrorMessage(guest.firstNameValidator)}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="col-sm">
+                <mat-label>Last Name</mat-label>
+                <input matInput [formControl]="guest.lastNameValidator" placeholder="Last Name" required
+                       [name]='"lastName"+guestIndex'>
+                <mat-error
+                  *ngIf="guest.lastNameValidator.invalid">{{guest.getNameErrorMessage(guest.lastNameValidator)}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="col-sm">
+                <mat-label>Email</mat-label>
+                <input matInput [formControl]="guest.emailValidator" placeholder="Email" required type="email"
+                       [name]='"email"+guestIndex'>
+                <mat-error
+                  *ngIf="guest.emailValidator.invalid">{{guest.getEmailErrorMessage(guest.emailValidator)}}</mat-error>
+              </mat-form-field>
+            </fieldset>
+          </div>
+
+          <div class="border rounded m-2 border-dark">
+            <h5 class="col-sm-10">Attendance</h5>
+            <fieldset class="form-group" *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL">
+              <mat-radio-group [formControl]="guest.mehndiAcceptedValidator" name="mehndiParty{{guestIndex}}"
+                               class="rsvp-radio-group">
+                <label class="col-sm-2 col-form-label"><h6>Mehndi Party*-</h6></label>
+                <mat-radio-button class="rsvp-radio-button col-sm"
+                                  *ngFor="let numberValue of [0,1,2]; let radioIndex = index"
+                                  [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+                <div class="col-sm">
+                  <mat-error
+                    *ngIf="guest.mehndiAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.mehndiAcceptedValidator)}}</mat-error>
+                </div>
+                <div class="col-sm-12 text-danger">
+                  <h6>
+                    <small>* This is a young adults event only, if this is not on your invite please select
+                      '{{rsvpYesNo[2]}}'
+                    </small>
+                  </h6>
+                </div>
+              </mat-radio-group>
+            </fieldset>
+
+            <fieldset class="form-group"
+                      *ngIf="validatedRSVP.rsvpType == RSVP_TYPE_ALL || validatedRSVP.rsvpType == RSVP_TYPE_WEDDING_ONLY">
+              <mat-radio-group [formControl]="guest.civilAcceptedValidator" name="civilCeremony{{guestIndex}}"
+                               class="rsvp-radio-group">
+                <label class="col-sm-2 col-form-label"><h6>Civil Ceremony -</h6></label>
+                <mat-radio-button class="rsvp-radio-button col-sm"
+                                  *ngFor="let numberValue of [0,1]; let radioIndex = index"
+                                  [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+                <div class="col-sm">
+                  <mat-error
+                    *ngIf="guest.civilAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.civilAcceptedValidator)}}</mat-error>
+                </div>
+              </mat-radio-group>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <mat-radio-group [formControl]="guest.receptionAcceptedValidator" name="receptionAccepted{{guestIndex}}"
+                               class="rsvp-radio-group">
+                <label class="col-sm-2 col-form-label"><h6>Reception -</h6></label>
+                <mat-radio-button class="rsvp-radio-button col-sm"
+                                  *ngFor="let numberValue of [0,1]; let radioIndex = index"
+                                  [value]="numberValue">{{rsvpYesNo[radioIndex]}}</mat-radio-button>
+                <div class="col-sm">
+                  <mat-error
+                    *ngIf="guest.receptionAcceptedValidator.invalid">{{guest.getNameErrorMessage(guest.receptionAcceptedValidator)}}</mat-error>
+                </div>
+              </mat-radio-group>
+            </fieldset>
+          </div>
+
+          <div class="border rounded m-2 border-dark">
+            <h5 class="col-sm-10">Drinks</h5>
+            <div class="col-sm-10 pt-2">
+              Please tick preferences below:
+            </div>
+
+            <fieldset class="form-group">
+              <label class="col-sm-2 col-form-label"><h6>Wine -</h6></label>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.whiteWineValidator">White</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.redWineValidator">Red</mat-checkbox>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.roseWineValidator">Rose</mat-checkbox>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label class="col-sm-2 col-form-label"><h6>Beer -</h6></label>
+              <mat-checkbox class="col-sm-3" [formControl]="guest.beerValidator">Beer</mat-checkbox>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label class="col-sm-2 col-form-label"><h6>Spirits -</h6></label>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.vodkaValidator">Vodka</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.ginValidator">Gin</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.whiskeyValidator">Whiskey</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.rumValidator">Rum</mat-checkbox>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.disaronnoValidator">Disaronno</mat-checkbox>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label class="col-sm-2 col-form-label"><h6>Non-alcoholic option -</h6></label>
+              <mat-checkbox class="col-sm-auto" [formControl]="guest.nonAlcoholicOptionValidator">Non-alcoholic option
+              </mat-checkbox>
+            </fieldset>
+          </div>
+          <!--<div class="border rounded m-2 border-dark">-->
+            <!--<h5 class="col-sm-10">Dietary Requirements - Please note: All food provided will be Vegetarian (some may include dairy and eggs)</h5>-->
+            <!--<div class="col-sm-10 pt-2">-->
+              <!--Please tick if the following apply:-->
+            <!--</div>-->
+
+            <!--<fieldset class="form-group">-->
+              <!--<label class="col-sm-2 col-form-label"><h6></h6></label>-->
+              <!--<mat-checkbox class="col-sm-3" [formControl]="guest.veganValidator">Vegan</mat-checkbox>-->
+              <!--<mat-checkbox class="col-sm-3" [formControl]="guest.jainValidator">Jain option (without garlic and onion)-->
+              <!--</mat-checkbox>-->
+            <!--</fieldset>-->
+          <!--</div>-->
+        </div>
+        <div *ngIf="rsvp.guests.length > 0" class="form-group border rounded mt-2 border-dark">
+          <button type="button" (click)="submitForm()" class="btn btn-primary btn-block">RSVP</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

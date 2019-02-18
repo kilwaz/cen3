@@ -23,10 +23,15 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
-              "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css"
+              "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css",
+              "../../main/ngapp/node_modules/font-awesome/css/font-awesome.css",
+              "../../main/ngapp/node_modules/ag-grid-community/dist/styles/ag-grid.css",
+              "../../main/ngapp/node_modules/ag-grid-community/dist/styles/ag-theme-balham.css"
             ],
             "scripts": [
+              "../../main/ngapp/node_modules/jquery/dist/jquery.min.js",
               "../../main/ngapp/node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
@@ -53,7 +58,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngapp:build"
+            "browserTarget": "ngapp:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -75,10 +81,15 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
-              "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css"
+              "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css",
+              "../../main/ngapp/node_modules/font-awesome/css/font-awesome.css",
+              "../../main/ngapp/node_modules/ag-grid-community/dist/styles/ag-grid.css",
+              "../../main/ngapp/node_modules/ag-grid-community/dist/styles/ag-theme-balham.css"
             ],
             "scripts": [
+              "../../main/ngapp/node_modules/jquery/dist/jquery.min.js",
               "../../main/ngapp/node_modules/bootstrap/dist/js/bootstrap.min.js"
             ],
             "assets": [

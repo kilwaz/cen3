@@ -1,5 +1,6 @@
 package data;
 
+import error.Error;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
@@ -10,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
-import error.Error;
+
 public class DataBank {
     private static Logger log = Logger.getLogger(DataBank.class);
 
@@ -98,6 +99,7 @@ public class DataBank {
             if (!dbConnection.isConnected() && dbConnection.isApplicationConnection()) { // If we are not connected anymore, report this to the user status bar
                 log.info("Trying to reconnect via the exception");
                 dbConnection.connect();
+                runSelectQuery(dbConnection, selectQuery);
             }
         }
 
@@ -111,19 +113,23 @@ public class DataBank {
     public static UpdateResult runUpdateQuery(DBConnection dbConnection, UpdateQuery updateQuery) {
         UpdateResult updateResult = new UpdateResult();
         try {
+            //log.info("Trying update " + updateQuery.getQuery());
             if (dbConnection.isConnected()) {
                 PreparedStatement preparedStatement = dbConnection.getPreparedStatement(updateQuery.getQuery());
                 if (preparedStatement != null) {
                     setParameters(preparedStatement, updateQuery);
                     updateResult.setResultNumber(preparedStatement.executeUpdate());
                     preparedStatement.close();
+                    //log.info("DONE");
                 }
             } else {
                 if (dbConnection.isApplicationConnection()) {
                     DBConnectionManager.getInstance().getApplicationConnection().getConnection().setAutoCommit(false);
                     // Reconnect to the DB
-                    log.info("Trying to reconnect after seeing  the exception");
-                    dbConnection.connect();
+                    //log.info("Trying to reconnect after seeing the exception");
+//                    dbConnection.connect();
+                    DBConnectionManager.getInstance().createApplicationConnection();
+                    runUpdateQuery(DBConnectionManager.getInstance().getApplicationConnection(), updateQuery);
                 }
             }
         } catch (SQLException ex) {
@@ -139,10 +145,12 @@ public class DataBank {
 
             Error.UPDATE_QUERY.record().additionalInformation(updateQuery.getQuery()).additionalInformation(params.toString()).create(ex);
             if (!dbConnection.isConnected() && dbConnection.isApplicationConnection()) { // If we are not connected anymore, report this to the user status bar
-                log.info("Trying to reconnect via the exception");
+                //log.info("Trying to reconnect via the exception");
                 dbConnection.connect();
             }
         }
+
+        //log.info("Out the end");
 
         return updateResult;
     }

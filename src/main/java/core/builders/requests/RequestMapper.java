@@ -22,6 +22,7 @@ public class RequestMapper {
 
     public static void buildMappings() {
         Set<Class<? extends SparkRequest>> spark = new Reflections("requests.spark", new SubTypesScanner(false)).getSubTypesOf(SparkRequest.class);
+        port(4568);
         spark.forEach(RequestMapper::buildSpark);
 
         get("/", (request, response) -> "Yeah this is something, but it isn't handled");

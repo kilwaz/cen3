@@ -1,3 +1,3 @@
-export * from './private.service';
-import { PrivateService } from './private.service';
-export const APIS = [PrivateService];
+export * from './public.service';
+import { PublicService } from './public.service';
+export const APIS = [PublicService];

@@ -1,22 +1,86 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header mr-auto">
-      <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-        <i class="fa fa-car"></i>
-        <span>Toggle Sidebar</span>
-      </button>
+<div class="container-fluid main-header">
+  <div class="row">
+    <div class="col text-center gold-text wedding-of">
+      THE WEDDING OF
     </div>
-
-    <form class="form-inline my-2 my-lg-0">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-                            <span class="input-group-text" id="search-addon">
-                                <i class="fa fa-search"></i>
-                            </span>
-        </div>
-        <input type="search" class="form-control" placeholder="Search" aria-label="Search"
-               aria-describedby="search-addon">
-      </div>
-    </form>
   </div>
-</nav>
+
+  <div class="d-none d-sm-none d-md-block d-lg-block d-xl-block">
+    <div class="row">
+      <div class="col-5 text-right big-name spaced-letters align-self-center">
+        MILI GUDKA
+      </div>
+      <div class="col-2 text-center big-and">
+        &
+      </div>
+      <div class="col-5 text-left big-name spaced-letters align-self-center">
+        ALEX BROWN
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 mb-4 d-block d-sm-block d-md-none d-lg-none d-xl-none">
+    <div class="row">
+      <div class="col-5 text-center big-name-small spaced-letters align-self-center">
+        MILI GUDKA
+      </div>
+      <div class="col-2 text-center big-and-small">
+        &
+      </div>
+      <div class="col-5 text-center big-name-small spaced-letters align-self-center">
+        ALEX BROWN
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col text-center gold-text">
+      MAY 26th, 2019
+    </div>
+  </div>
+
+  <div class="row d-none d-sm-none d-md-flex d-lg-flex d-xl-flex">
+    <div *ngFor="let link of links;" class="col text-center">
+      <a class="hut-link" [routerLink]="['/' + link.link]">
+        <img class="img-fluid" [src]="['assets/images/' + link.picture + '-hut.png']">
+        <div class="carousel-caption text-center hut-centered-text">
+          <div>{{link.text}}</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row d-flex d-sm-flex d-md-none d-lg-none d-xl-none">
+    <div class="col text-center">
+      <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="nav navbar-nav mx-auto">
+              <li *ngFor="let link of links;" class="nav-item nav-link">
+                <a [routerLink]="['/' + link.link]">
+                  <div class="row">
+                    <div class="col">
+                      <img class="img-fluid top-link-hut" [src]="['assets/images/' + link.picture + '-hut.png']">
+                    </div>
+                    <div class="col-6">
+                      <span class="black-text">{{link.text}}</span>
+                    </div>
+                    <div class="col">
+                      <img class="img-fluid top-link-hut" [src]="['assets/images/' + link.picture + '-hut.png']">
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>

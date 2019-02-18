@@ -1,14 +1,13 @@
-<div class="wrapper">
-  <app-sidebar></app-sidebar>
+<div class="h-100 wrapper">
+  <div class="h-100" *ngIf="!validatedRSVP.validated;">
+    <app-auth></app-auth>
+  </div>
 
-  <!-- Page Content Holder -->
-  <div id="content">
+  <div id="content" *ngIf="validatedRSVP.validated;">
     <app-topbar></app-topbar>
 
-    <div class="container-fluid">
+    <div class="h-100">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
-<app-footer></app-footer>
