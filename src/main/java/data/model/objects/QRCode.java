@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import java.util.UUID;
 
 public class QRCode extends DatabaseObject {
-    private static Logger log = Logger.getLogger(Clip.class);
+    private static Logger log = Logger.getLogger(QRCode.class);
 
     private String url = "";
 

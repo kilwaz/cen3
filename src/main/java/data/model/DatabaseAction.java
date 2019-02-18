@@ -2,9 +2,6 @@ package data.model;
 
 import data.*;
 import data.model.dao.DAO;
-import data.model.objects.EncodedProgress;
-import data.model.objects.Mark;
-import data.model.objects.Source;
 import data.model.objects.json.JSONContainer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -173,24 +170,6 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                                 String uuid = resultRow.getString(modelColumn.getColumnName());
                                 if (uuid != null && !uuid.isEmpty()) {
                                     modelColumn.getObjectLoadMethod().invoke(dbObject, DAO.UUIDFromString(uuid));
-                                }
-                            } else if (loadParameterClass.equals(EncodedProgress.class)) { // ENCODED PROGRESS
-                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
-                                if (uuidStr != null && !uuidStr.isEmpty()) {
-                                    EncodedProgress encodedProgress = loadCachedObject(uuidStr, EncodedProgress.class);
-                                    modelColumn.getObjectLoadMethod().invoke(dbObject, encodedProgress);
-                                }
-                            } else if (loadParameterClass.equals(Mark.class)) { // MARK
-                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
-                                if (uuidStr != null && !uuidStr.isEmpty()) {
-                                    Mark mark = loadCachedObject(uuidStr, Mark.class);
-                                    modelColumn.getObjectLoadMethod().invoke(dbObject, mark);
-                                }
-                            } else if (loadParameterClass.equals(Source.class)) { // SOURCE
-                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
-                                if (uuidStr != null && !uuidStr.isEmpty()) {
-                                    Source source = loadCachedObject(uuidStr, Source.class);
-                                    modelColumn.getObjectLoadMethod().invoke(dbObject, source);
                                 }
                             } else if (loadParameterClass.equals(Object.class)) { // OBJECT
                                 modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getColumnObject(modelColumn.getColumnName()));

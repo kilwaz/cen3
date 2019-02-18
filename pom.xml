@@ -117,7 +117,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>HelloWorld</mainClass>
+                            <mainClass>ApplicationInitialiser</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

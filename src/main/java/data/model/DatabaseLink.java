@@ -1,8 +1,8 @@
 package data.model;
 
-import data.model.links.*;
-import data.model.objects.Process;
-import data.model.objects.*;
+//import data.model.links.*;
+//import data.model.objects.Process;
+//import data.model.objects.*;
 import error.Error;
 
 import java.lang.reflect.Method;
@@ -15,15 +15,15 @@ public class DatabaseLink {
 
     // Need to find an alternative to doing this, something automated
     static {
-        linkClasses.put(Source.class, SourceDatabaseLink.class);
-        linkClasses.put(Process.class, ProcessDatabaseLink.class);
-        linkClasses.put(EncodedProgress.class, EncodedProgressDatabaseLink.class);
-        linkClasses.put(Clip.class, ClipDatabaseLink.class);
-        linkClasses.put(Mark.class, MarkDatabaseLink.class);
-        linkClasses.put(Person.class, PersonDatabaseLink.class);
-        linkClasses.put(Appearance.class, AppearanceDatabaseLink.class);
-        linkClasses.put(RSVP.class, RSVPDatabaseLink.class);
-        linkClasses.put(Guest.class, GuestDatabaseLink.class);
+//        linkClasses.put(Source.class, SourceDatabaseLink.class);
+//        linkClasses.put(Process.class, ProcessDatabaseLink.class);
+//        linkClasses.put(EncodedProgress.class, EncodedProgressDatabaseLink.class);
+//        linkClasses.put(Clip.class, ClipDatabaseLink.class);
+//        linkClasses.put(Mark.class, MarkDatabaseLink.class);
+//        linkClasses.put(Person.class, PersonDatabaseLink.class);
+//        linkClasses.put(Appearance.class, AppearanceDatabaseLink.class);
+//        linkClasses.put(RSVP.class, RSVPDatabaseLink.class);
+//        linkClasses.put(Guest.class, GuestDatabaseLink.class);
     }
 
     private String tableName = "";
