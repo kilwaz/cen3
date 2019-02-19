@@ -7,10 +7,10 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import requests.annotations.RequestName;
 import requests.spark.SparkRequest;
+import requests.spark.websockets.EchoWebSocket;
 import spark.Response;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Set;
 
 import static spark.Spark.*;
@@ -18,9 +18,9 @@ import static spark.Spark.*;
 public class RequestMapper {
     private static Logger log = Logger.getLogger(RequestMapper.class);
 
-    private static HashMap<String, RequestMapping> mapping = new HashMap<>();
-
     public static void buildMappings() {
+        webSocket("/echo", EchoWebSocket.class);
+
         Set<Class<? extends SparkRequest>> spark = new Reflections("requests.spark", new SubTypesScanner(false)).getSubTypesOf(SparkRequest.class);
         port(4568);
         spark.forEach(RequestMapper::buildSpark);

@@ -1,8 +1,8 @@
 {
-  "/rsvpSubmit": {
-    "target": "http://localhost:4567/rsvpSubmit",
+  "/echo": {
+    "target": "http://localhost:4567/echo",
     "secure": false,
-    "pathRewrite": {"^/rsvpSubmit" : ""},
+    "pathRewrite": {"^/echo" : ""},
     "logLevel": "debug",
     "changeOrigin": true
   }
