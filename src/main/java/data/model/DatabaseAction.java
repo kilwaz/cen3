@@ -5,6 +5,7 @@ import data.model.dao.DAO;
 import data.model.objects.json.JSONContainer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.json.JSONObject;
 import utils.managers.DatabaseObjectManager;
 
@@ -156,6 +157,8 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                                 modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getString(modelColumn.getColumnName()));
                             } else if (loadParameterClass.equals(Double.class)) { // DOUBLE
                                 modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getDouble(modelColumn.getColumnName()));
+                            } else if (loadParameterClass.equals(DateTime.class)) { // DATE TIME
+                                modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getDateTime(modelColumn.getColumnName()));
                             } else if (loadParameterClass.equals(Integer.class)) { // INTEGER
                                 modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getInt(modelColumn.getColumnName()));
                             } else if (loadParameterClass.equals(Boolean.class)) { // BOOLEAN

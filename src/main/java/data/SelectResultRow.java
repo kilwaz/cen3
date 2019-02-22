@@ -1,7 +1,9 @@
 package data;
 
 
+import error.Error;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -9,7 +11,7 @@ import java.math.BigInteger;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.HashMap;
-import error.Error;
+
 public class SelectResultRow {
     private static Logger log = Logger.getLogger(SelectResultRow.class);
     HashMap<String, Object> rowValues = new HashMap<>();
@@ -50,6 +52,10 @@ public class SelectResultRow {
 
     public Double getDouble(String colName) {
         return (Double) rowValues.get(colName);
+    }
+
+    public DateTime getDateTime(String colName) {
+        return new DateTime(rowValues.get(colName));
     }
 
     public Boolean getBoolean(String colName) {

@@ -8,8 +8,8 @@
 //import java.sql.Date;
 //import java.util.UUID;
 //
-//public class GuestDatabaseLink extends DatabaseLink {
-//    public GuestDatabaseLink() {
+//public class ExampleDatabaseLink extends DatabaseLink {
+//    public ExampleDatabaseLink() {
 //        super("guest", Guest.class);
 //
 //        // Make sure the order is the same as column order in database

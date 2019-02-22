@@ -6,7 +6,7 @@ public class ApplicationInitialiser {
     private static Logger log = Logger.getLogger(ApplicationInitialiser.class);
 
     public static void main(String[] args) {
-//        AppManager.init();
+        AppManager.init();
         RequestMapper.buildMappings();
     }
 }

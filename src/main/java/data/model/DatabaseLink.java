@@ -1,8 +1,5 @@
 package data.model;
 
-//import data.model.links.*;
-//import data.model.objects.Process;
-//import data.model.objects.*;
 import error.Error;
 
 import java.lang.reflect.Method;
@@ -13,7 +10,7 @@ import java.util.List;
 public class DatabaseLink {
     private static HashMap<Class, Class> linkClasses = new HashMap<>();
 
-    // Need to find an alternative to doing this, something automated
+    // Need to find an alternative to doing this, something automated, could use annotations?
     static {
 //        linkClasses.put(Source.class, SourceDatabaseLink.class);
 //        linkClasses.put(Process.class, ProcessDatabaseLink.class);

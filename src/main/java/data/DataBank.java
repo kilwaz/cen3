@@ -97,7 +97,6 @@ public class DataBank {
         } catch (SQLException ex) {
             Error.SELECT_QUERY.record().additionalInformation(selectQuery.getQuery()).create(ex);
             if (!dbConnection.isConnected() && dbConnection.isApplicationConnection()) { // If we are not connected anymore, report this to the user status bar
-                log.info("Trying to reconnect via the exception");
                 dbConnection.connect();
                 runSelectQuery(dbConnection, selectQuery);
             }
@@ -113,21 +112,17 @@ public class DataBank {
     public static UpdateResult runUpdateQuery(DBConnection dbConnection, UpdateQuery updateQuery) {
         UpdateResult updateResult = new UpdateResult();
         try {
-            //log.info("Trying update " + updateQuery.getQuery());
             if (dbConnection.isConnected()) {
                 PreparedStatement preparedStatement = dbConnection.getPreparedStatement(updateQuery.getQuery());
                 if (preparedStatement != null) {
                     setParameters(preparedStatement, updateQuery);
                     updateResult.setResultNumber(preparedStatement.executeUpdate());
                     preparedStatement.close();
-                    //log.info("DONE");
                 }
             } else {
                 if (dbConnection.isApplicationConnection()) {
                     DBConnectionManager.getInstance().getApplicationConnection().getConnection().setAutoCommit(false);
                     // Reconnect to the DB
-                    //log.info("Trying to reconnect after seeing the exception");
-//                    dbConnection.connect();
                     DBConnectionManager.getInstance().createApplicationConnection();
                     runUpdateQuery(DBConnectionManager.getInstance().getApplicationConnection(), updateQuery);
                 }
@@ -145,12 +140,9 @@ public class DataBank {
 
             Error.UPDATE_QUERY.record().additionalInformation(updateQuery.getQuery()).additionalInformation(params.toString()).create(ex);
             if (!dbConnection.isConnected() && dbConnection.isApplicationConnection()) { // If we are not connected anymore, report this to the user status bar
-                //log.info("Trying to reconnect via the exception");
                 dbConnection.connect();
             }
         }
-
-        //log.info("Out the end");
 
         return updateResult;
     }
@@ -172,8 +164,8 @@ public class DataBank {
                 } else if (value instanceof UUID) {
                     preparedStatement.setString(valueCount, value.toString());
                 } else if (value instanceof DateTime) {
-                    java.sql.Date date = new java.sql.Date(((DateTime) value).getMillis());
-                    preparedStatement.setDate(valueCount, date);
+                    java.sql.Timestamp timestamp = new java.sql.Timestamp(((DateTime) value).getMillis());
+                    preparedStatement.setTimestamp(valueCount, timestamp);
                 } else if (value instanceof JSONObject) {
                     preparedStatement.setString(valueCount, value.toString());
                 } else if (value == null) {

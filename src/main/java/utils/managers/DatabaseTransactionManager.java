@@ -120,7 +120,7 @@ public class DatabaseTransactionManager {
         List<Object> params = query.getParameters();
         for (Object o : params) {
             if (o != null) {
-                log.info("   " + o.toString());
+                //log.info("   " + o.toString());
             } else {
                 log.info("   null");
             }
