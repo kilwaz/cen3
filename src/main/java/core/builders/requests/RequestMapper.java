@@ -3,11 +3,11 @@ package core.builders.requests;
 import data.model.objects.json.JSONContainer;
 import error.Error;
 import org.apache.log4j.Logger;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import requests.annotations.RequestName;
 import requests.spark.SparkRequest;
-import requests.spark.websockets.EchoWebSocket;
 import spark.Response;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,16 +19,24 @@ public class RequestMapper {
     private static Logger log = Logger.getLogger(RequestMapper.class);
 
     public static void buildMappings() {
-        webSocket("/echo", EchoWebSocket.class);
-
-        Set<Class<? extends SparkRequest>> spark = new Reflections("requests.spark", new SubTypesScanner(false)).getSubTypesOf(SparkRequest.class);
         port(4568);
-        spark.forEach(RequestMapper::buildSpark);
+
+        Set<Class<?>> webSockets = new Reflections("requests.spark.websockets").getTypesAnnotatedWith(WebSocket.class);
+        webSockets.forEach(RequestMapper::buildWebsocket);
+
+        Set<Class<? extends SparkRequest>> spark = new Reflections("requests.spark.requests", new SubTypesScanner(false)).getSubTypesOf(SparkRequest.class);
+        spark.forEach(RequestMapper::buildRequest);
 
         get("/", (request, response) -> "Yeah this is something, but it isn't handled");
     }
 
-    private static void buildSpark(Class<? extends SparkRequest> requestClass) {
+    private static void buildWebsocket(Class<?> requestClass) {
+        log.info("Building spark websocket of " + requestClass.getName());
+
+        webSocket("/" + requestClass.getAnnotation(RequestName.class).value(), requestClass);
+    }
+
+    private static void buildRequest(Class<? extends SparkRequest> requestClass) {
         RequestName requestNameAnnotation = requestClass.getAnnotation(RequestName.class);
 
         log.info("Building spark request of " + requestClass.getName());
@@ -41,10 +49,6 @@ public class RequestMapper {
                 log.info("GET " + requestNameAnnotation.value());
                 try {
                     response.type("application/json");
-
-//                    String json = request.queryParams("json");
-//                    JSONContainer incomingRequestData = new JSONContainer(json);
-//                    JSONObject jsonObject = incomingRequestData.toJSONObject();
 
                     JSONContainer jsonContainer = sparkRequest.get(request);
                     jsonContainer.filter(request.queryParams("filter"));

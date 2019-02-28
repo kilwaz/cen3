@@ -1,26 +1,24 @@
 package data.model;
 
+import data.model.objects.annotations.DatabaseLinkClass;
 import error.Error;
+import org.reflections.Reflections;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class DatabaseLink {
     private static HashMap<Class, Class> linkClasses = new HashMap<>();
 
-    // Need to find an alternative to doing this, something automated, could use annotations?
     static {
-//        linkClasses.put(Source.class, SourceDatabaseLink.class);
-//        linkClasses.put(Process.class, ProcessDatabaseLink.class);
-//        linkClasses.put(EncodedProgress.class, EncodedProgressDatabaseLink.class);
-//        linkClasses.put(Clip.class, ClipDatabaseLink.class);
-//        linkClasses.put(Mark.class, MarkDatabaseLink.class);
-//        linkClasses.put(Person.class, PersonDatabaseLink.class);
-//        linkClasses.put(Appearance.class, AppearanceDatabaseLink.class);
-//        linkClasses.put(RSVP.class, RSVPDatabaseLink.class);
-//        linkClasses.put(Guest.class, GuestDatabaseLink.class);
+        Set<Class<?>> links = new Reflections("data.model.links").getTypesAnnotatedWith(DatabaseLinkClass.class);
+
+        for (Class<?> link : links) {
+            linkClasses.put(link.getAnnotation(DatabaseLinkClass.class).linkClass(), link);
+        }
     }
 
     private String tableName = "";
@@ -28,9 +26,10 @@ public class DatabaseLink {
     private List<DeleteColumn> onDeleteColumns = new ArrayList<>();
     private Class linkClass;
 
-    public DatabaseLink(String tableName, Class linkClass) {
-        this.tableName = tableName;
-        this.linkClass = linkClass;
+    public DatabaseLink() {
+        DatabaseLinkClass databaseLinkAnnotation = getClass().getAnnotation(DatabaseLinkClass.class);
+        this.tableName = databaseLinkAnnotation.tableName();
+        this.linkClass = databaseLinkAnnotation.linkClass();
     }
 
     public static Class getLinkClass(Class clazz) {
