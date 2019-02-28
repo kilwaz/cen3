@@ -6,7 +6,7 @@ import utils.managers.LogManager;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class AppParams {
+public class ApplicationParams {
     // Application information
     public final static String APP_TITLE = "Master";
     public final static String APP_VERSION = "v0.3.0";
@@ -15,6 +15,7 @@ public class AppParams {
     public static final String CURRENT_USER = "alex";
 
     // Database information - Defaults are displayed here and can be overridden by the SDE.xml file
+    private static Boolean DATABASE_ENABLED = false;
     private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://127.0.0.1:13306/date_test?autoReconnect=true&useSSL=false";
     private static String REMOTE_DATABASE_USERNAME = "kilwaz";
     private static String REMOTE_DATABASE_PASSWORD = "CenDatabase123";
@@ -110,5 +111,9 @@ public class AppParams {
 
     public static String getUploadFileTmpLocation() {
         return UPLOAD_FILE_TMP_LOCATION;
+    }
+
+    public static Boolean getDatabaseEnabled() {
+        return DATABASE_ENABLED;
     }
 }

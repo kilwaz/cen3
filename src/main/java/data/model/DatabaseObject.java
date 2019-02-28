@@ -1,11 +1,9 @@
 package data.model;
 
 import data.model.objects.json.JSONMappable;
-import data.model.objects.json.JSONMapper;
-import org.apache.log4j.Logger;
-import org.json.JSONObject;
-import utils.managers.DatabaseObjectManager;
 import error.Error;
+import org.apache.log4j.Logger;
+import utils.managers.DatabaseObjectManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
@@ -13,7 +11,6 @@ import java.util.UUID;
 public class DatabaseObject {
     private static Logger log = Logger.getLogger(DatabaseObject.class);
     private UUID uuid = UUID.randomUUID();
-    private Class jsonMapper = null;
 
     public DatabaseObject() {
         // Here the UUID is generated for us
@@ -27,21 +24,6 @@ public class DatabaseObject {
     public static <DBObject extends DatabaseObject> DBObject load(UUID uuid, Class<DBObject> clazz) {
         var databaseObjectManager = DatabaseObjectManager.getInstance();
         DatabaseObject loadedObject;
-
-//        try {
-//            databaseObject = databaseObjectManager.getDatabaseObjects().get(uuid.toString(), () -> {
-//                DatabaseObject loadedObject = create(clazz);
-//                loadedObject.setUuid(uuid);
-//                //loadedObject.load();
-//
-//                return loadedObject;
-//            });
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//        if (databaseObject != null) {
-//            databaseObject.load();
-//        }
 
         if (databaseObjectManager.objectExists(uuid)) { // Check if it already exists within cache
             loadedObject = databaseObjectManager.getDatabaseObject(uuid);
@@ -86,15 +68,13 @@ public class DatabaseObject {
         return uuid.toString();
     }
 
-    public void scheduleToSave() {
-
-    }
-
     public void save() {
         try {
             new DatabaseAction<>().save(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance());
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             Error.DATABASE_SAVE_CLASS_INIT.record().additionalInformation("Class " + this.getClass()).create(ex);
+        } catch (DatabaseNotEnabled ex) {
+            Error.DATABASE_NOT_ENABLED_EXCEPTION.record().create(ex);
         } catch (NullPointerException ex) {
             Error.DATABASE_SAVE_CLASS_INIT.record()
                     .additionalInformation("Class/DBLink likely not defined")
@@ -105,6 +85,8 @@ public class DatabaseObject {
     public void delete() {
         try {
             new DatabaseAction<>().delete(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance());
+        } catch (DatabaseNotEnabled ex) {
+            Error.DATABASE_NOT_ENABLED_EXCEPTION.record().create(ex);
         } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             Error.DATABASE_DELETE_CLASS_INIT.record().additionalInformation("Class " + this.getClass()).create(ex);
         }
@@ -113,6 +95,8 @@ public class DatabaseObject {
     public void load() {
         try {
             new DatabaseAction<>().load(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance());
+        } catch (DatabaseNotEnabled ex) {
+            Error.DATABASE_NOT_ENABLED_EXCEPTION.record().create(ex);
         } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             Error.DATABASE_LOAD_CLASS_INIT.record().additionalInformation("Class " + this.getClass()).create(ex);
         }

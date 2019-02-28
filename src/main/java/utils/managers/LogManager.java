@@ -4,13 +4,12 @@ import error.Error;
 //import javafx.application.Platform;
 //import javafx.collections.FXCollections;
 //import javafx.collections.ObservableList;
-import log.LogClass;
 import log.LogMessage;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import utils.AppParams;
+import utils.ApplicationParams;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class LogManager {
 //    }
 
     public String getLogOutputDirectoryPath() {
-        if ("".equals(AppParams.getLogDirectory())) {
+        if ("".equals(ApplicationParams.getLogDirectory())) {
 //            String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 //            try {
 //                path = URLDecoder.decode(path + "../../../logs/", "UTF-8");
@@ -54,7 +53,7 @@ public class LogManager {
 
             return path;
         } else {
-            return AppParams.getLogDirectory();
+            return ApplicationParams.getLogDirectory();
         }
     }
 

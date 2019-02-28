@@ -3,22 +3,28 @@ package data.model;
 import data.*;
 import data.model.dao.DAO;
 import data.model.objects.json.JSONContainer;
+import error.Error;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
+import utils.ApplicationParams;
 import utils.managers.DatabaseObjectManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import error.Error;
+
 public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends DatabaseLink> {
     private static Logger log = Logger.getLogger(DatabaseAction.class);
 
     private static ConcurrentHashMap<String, DelayedLoad> delayedLoadedObjects = new ConcurrentHashMap<>();
 
-    public void save(DBObject dbObject, DBLink dbLink) {
+    void save(DBObject dbObject, DBLink dbLink) throws DatabaseNotEnabled {
+        if (!ApplicationParams.getDatabaseEnabled()) {
+            throw new DatabaseNotEnabled("Save operation attempted with database disabled");
+        }
+
         // Building the update query string
         var updateQueryBuilder = new StringBuilder();
         updateQueryBuilder.append("update ")
@@ -99,7 +105,11 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         }
     }
 
-    public void delete(DBObject dbObject, DBLink dbLink) {
+    void delete(DBObject dbObject, DBLink dbLink) throws DatabaseNotEnabled {
+        if (!ApplicationParams.getDatabaseEnabled()) {
+            throw new DatabaseNotEnabled("Save operation attempted with database disabled");
+        }
+
         // Create query object and fill in parameters
         var deleteQuery = new UpdateQuery("delete from " + dbLink.getTableName() + " where uuid = ?");
         for (ModelColumn modelColumn : dbLink.getModelColumns()) {
@@ -116,7 +126,11 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         deleteQuery.execute();
     }
 
-    public void load(DBObject dbObject, DBLink dbLink) {
+    void load(DBObject dbObject, DBLink dbLink) throws DatabaseNotEnabled {
+        if (!ApplicationParams.getDatabaseEnabled()) {
+            throw new DatabaseNotEnabled("Save operation attempted with database disabled");
+        }
+
         // Building the select query string
         var selectQueryBuilder = new StringBuilder();
         selectQueryBuilder.append("select ");
@@ -193,12 +207,6 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         if (uuidStr != null && !uuidStr.isEmpty()) {
             UUID uuid = DAO.UUIDFromString(uuidStr);
             DatabaseObject databaseObject = null;
-
-//            try {
-//                databaseObject = databaseObjectManager.getDatabaseObjects().get(uuid.toString(), () -> DatabaseObject.load(uuid, clazz));
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
 
             if (databaseObjectManager.objectExists(uuid)) {
                 databaseObject = databaseObjectManager.getDatabaseObject(uuid);

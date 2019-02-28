@@ -10,7 +10,7 @@ import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.TriggerBuilder;
-import utils.AppParams;
+import utils.ApplicationParams;
 import utils.Timer;
 import utils.timers.TransactionJob;
 
@@ -74,11 +74,11 @@ public class DatabaseTransactionManager {
     }
 
     public synchronized void scheduledDelete() {
-        new UpdateQuery("delete from http_headers where forDelete = 1 limit " + AppParams.getDatabaseDeleteLimit()).execute();
-        new UpdateQuery("delete from http_proxies where forDelete = 1 limit " + AppParams.getDatabaseDeleteLimit()).execute();
-        new UpdateQuery("delete from recorded_requests where forDelete = 1 limit " + AppParams.getDatabaseDeleteLimit()).execute();
-        new UpdateQuery("delete from test_command where forDelete = 1 limit " + AppParams.getDatabaseDeleteLimit()).execute();
-        new UpdateQuery("delete from test where forDelete = 1 limit " + AppParams.getDatabaseDeleteLimit()).execute();
+        new UpdateQuery("delete from http_headers where forDelete = 1 limit " + ApplicationParams.getDatabaseDeleteLimit()).execute();
+        new UpdateQuery("delete from http_proxies where forDelete = 1 limit " + ApplicationParams.getDatabaseDeleteLimit()).execute();
+        new UpdateQuery("delete from recorded_requests where forDelete = 1 limit " + ApplicationParams.getDatabaseDeleteLimit()).execute();
+        new UpdateQuery("delete from test_command where forDelete = 1 limit " + ApplicationParams.getDatabaseDeleteLimit()).execute();
+        new UpdateQuery("delete from test where forDelete = 1 limit " + ApplicationParams.getDatabaseDeleteLimit()).execute();
     }
 
     public synchronized void addUpdate(UpdateQuery updateQuery) {

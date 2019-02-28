@@ -36,7 +36,8 @@ public enum Error {
     PUT_EXCEPTION(202, "Exception within PUT method"),
     DELETE_EXCEPTION(203, "Exception within DELETE method"),
     OPTIONS_EXCEPTION(204, "Exception within OPTIONS method"),
-    GENERIC_REQUEST_EXCEPTION(205, "Exception within request");
+    GENERIC_REQUEST_EXCEPTION(205, "Exception within request"),
+    DATABASE_NOT_ENABLED_EXCEPTION(206, "Database action attempted with database set to disabled");
 
     private Integer code;
     private String description;

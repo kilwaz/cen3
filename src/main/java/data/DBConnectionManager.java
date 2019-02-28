@@ -1,7 +1,7 @@
 package data;
 
 import org.apache.log4j.Logger;
-import utils.AppParams;
+import utils.ApplicationParams;
 import utils.managers.DatabaseTransactionManager;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class DBConnectionManager {
             applicationConnection.close();
         }
 
-        applicationConnection = new DBConnection(AppParams.getRemoteDatabaseConnection(), AppParams.getRemoteDatabaseUsername(), AppParams.getRemoteDatabasePassword(), true);
+        applicationConnection = new DBConnection(ApplicationParams.getRemoteDatabaseConnection(), ApplicationParams.getRemoteDatabaseUsername(), ApplicationParams.getRemoteDatabasePassword(), true);
 
         addConnection(applicationConnection);
         if (!applicationConnection.connect()) {

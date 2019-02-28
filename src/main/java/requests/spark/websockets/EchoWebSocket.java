@@ -1,6 +1,5 @@
 package requests.spark.websockets;
 
-import data.model.objects.ExampleObject;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -31,12 +30,6 @@ public class EchoWebSocket {
     @OnWebSocketMessage
     public void message(Session session, String message) throws IOException {
         System.out.println("Got: " + message);   // Print message
-
-        ExampleObject exampleObject = ExampleObject.create(ExampleObject.class);
-
-        exampleObject.setValue("woop");
-        exampleObject.save();
-
         session.getRemote().sendString(message); // and send it back
     }
 }

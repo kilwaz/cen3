@@ -6,7 +6,9 @@ public class AppManager {
     private static DBConnectionManager dbConnectionManager;
 
     public static void init() {
-        dbConnectionManager = DBConnectionManager.getInstance();
-        dbConnectionManager.createApplicationConnection();
+        if (ApplicationParams.getDatabaseEnabled()) {
+            dbConnectionManager = DBConnectionManager.getInstance();
+            dbConnectionManager.createApplicationConnection();
+        }
     }
 }
