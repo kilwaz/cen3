@@ -1,5 +1,6 @@
 package requests.spark.websockets;
 
+import data.model.objects.json.JSONContainer;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -27,14 +28,19 @@ public class WebSocketListener {
     }
 
     @OnWebSocketClose
-    public void closed(Session session, int sltatusCode, String reason) {
+    public void closed(Session session, int statusCode, String reason) {
         log.info("Session closed - " + reason);
         sessions.remove(session);
     }
 
     @OnWebSocketMessage
-    public void message(Session session, String message) throws IOException {
-        System.out.println("Got: " + message);   // Print message
-        session.getRemote().sendString(message); // and send it back
+    public void message(Session session, String rawMessage) throws IOException {
+        log.info("Got raw JSON - " + rawMessage);
+
+        JSONContainer jsonContainer = new JSONContainer(rawMessage);
+
+        log.info(jsonContainer.writeResponse());
+
+        session.getRemote().sendString(jsonContainer.writeResponse()); // and send it back
     }
 }

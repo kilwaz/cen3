@@ -19,9 +19,12 @@ export class WebSocketService {
     this.ws.subscribe();
   }
 
-  private static received(msg: any) {
-    console.log('message received: ' + msg);
+  private static received(msgRaw: any) {
+    console.log('message received: ' + msgRaw);
+
+    // let message: Message = JSON.parse(msgRaw);
   }
+
 
   private static error(err: any) {
     console.log('error happened ' + err);
