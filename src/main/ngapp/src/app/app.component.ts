@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {WebSocketService} from "./websocket.service";
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,10 @@ import {Component} from '@angular/core';
   providers: []
 })
 export class AppComponent {
-  constructor() {
-    let webSocket = new WebSocket("ws://localhost:4568/echo");
-    webSocket.onopen = function () {
-      webSocket.send("Hello we are connected");
-    };
+
+
+  constructor(private webSocketService: WebSocketService) {
+
+    webSocketService.getHello();
   }
 }

@@ -1,5 +1,6 @@
 package requests.spark.websockets;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -12,13 +13,16 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @WebSocket
-@RequestName("echo")
-public class EchoWebSocket {
+@RequestName("ws")
+public class WebSocketEntrance {
+    private static Logger log = Logger.getLogger(WebSocketEntrance.class);
+
     // Store sessions if you want to, for example, broadcast a message to all users
     private static final Queue<Session> sessions = new ConcurrentLinkedQueue<>();
 
     @OnWebSocketConnect
     public void connected(Session session) {
+        log.info("Newly connected session");
         sessions.add(session);
     }
 

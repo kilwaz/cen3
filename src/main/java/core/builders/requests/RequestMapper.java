@@ -31,7 +31,7 @@ public class RequestMapper {
     }
 
     private static void buildWebsocket(Class<?> requestClass) {
-        log.info("Building spark websocket of " + requestClass.getName());
+        log.info("Building spark websocket of " + requestClass.getName() + " accessed via /" + requestClass.getAnnotation(RequestName.class).value());
 
         webSocket("/" + requestClass.getAnnotation(RequestName.class).value(), requestClass);
     }
@@ -39,7 +39,7 @@ public class RequestMapper {
     private static void buildRequest(Class<? extends SparkRequest> requestClass) {
         RequestName requestNameAnnotation = requestClass.getAnnotation(RequestName.class);
 
-        log.info("Building spark request of " + requestClass.getName());
+        log.info("Building spark request of " + requestClass.getName() + " accessed via /" + requestNameAnnotation.value());
 
         try {
             SparkRequest sparkRequest = requestClass.getConstructor().newInstance();
