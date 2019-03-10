@@ -14,8 +14,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 @WebSocket
 @RequestName("ws")
-public class WebSocketEntrance {
-    private static Logger log = Logger.getLogger(WebSocketEntrance.class);
+public class WebSocketListener {
+    private static Logger log = Logger.getLogger(WebSocketListener.class);
 
     // Store sessions if you want to, for example, broadcast a message to all users
     private static final Queue<Session> sessions = new ConcurrentLinkedQueue<>();
@@ -27,7 +27,8 @@ public class WebSocketEntrance {
     }
 
     @OnWebSocketClose
-    public void closed(Session session, int statusCode, String reason) {
+    public void closed(Session session, int sltatusCode, String reason) {
+        log.info("Session closed - " + reason);
         sessions.remove(session);
     }
 

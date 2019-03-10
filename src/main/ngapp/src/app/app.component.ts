@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {WebSocketService} from "./websocket.service";
+import {Message} from "./wsObjects/message";
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,8 @@ import {WebSocketService} from "./websocket.service";
   providers: []
 })
 export class AppComponent {
-
-
   constructor(private webSocketService: WebSocketService) {
-
-    webSocketService.getHello();
+    webSocketService.send(new Message("Message 1 sent"));
+    webSocketService.send(new Message("Message 2 sent"));
   }
 }

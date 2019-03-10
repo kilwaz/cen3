@@ -8,10 +8,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule, MatInputModule, MatRadioModule, MatTreeModule} from '@angular/material';
 
-import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
-
-const config: SocketIoConfig = {url: 'ws://localhost:4568/ws', options: {}};
-
 @NgModule({
   declarations: [
     AppComponent
@@ -27,8 +23,7 @@ const config: SocketIoConfig = {url: 'ws://localhost:4568/ws', options: {}};
     MatRadioModule,
     MatInputModule,
     MatTreeModule,
-    ReactiveFormsModule,
-    SocketIoModule.forRoot(config)
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

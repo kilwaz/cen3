@@ -1,41 +1,41 @@
 import {Injectable} from '@angular/core';
-import {Socket} from 'ngx-socket-io';
 import {Message} from "./wsObjects/message";
+import {webSocket} from "rxjs/webSocket";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService {
-  currentDocument = this.socket.fromEvent<Message>('message');
-  documents = this.socket.fromEvent<string[]>('documents');
+  public ws: any;
 
-  constructor(private socket: Socket) {
+  constructor() {
+    this.ws = webSocket("ws://localhost:4568/ws");
+    this.ws.subscribe(
+      msg => WebSocketService.received(msg),
+      err => WebSocketService.error(err),
+      () => WebSocketService.complete()
+    );
+
+    this.ws.subscribe();
   }
 
-  getHello() {
-    this.socket.emit('hello', "err");
+  private static received(msg: any) {
+    console.log('message received: ' + msg);
   }
 
-  getDocument(id: string) {
-    this.socket.emit('getDoc', id);
+  private static error(err: any) {
+    console.log('error happened ' + err);
   }
 
-  newDocument() {
-    this.socket.emit('addDoc', {id: this.docId(), doc: ''});
+  private static complete() {
+    console.log('complete');
   }
 
-  editDocument(document: Document) {
-    this.socket.emit('editDoc', document);
+  close() {
+    this.ws.complete();
   }
 
-  private docId() {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (let i = 0; i < 5; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-
-    return text;
+  send(message: Message) {
+    this.ws.next(JSON.stringify(message));
   }
 }
