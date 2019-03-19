@@ -7,6 +7,7 @@ import {webSocket} from "rxjs/webSocket";
 })
 export class WebSocketService {
   public ws: any;
+  public static connected: boolean = false;
 
   constructor() {
     this.buildSocket();
@@ -21,7 +22,7 @@ export class WebSocketService {
     );
 
     this.ws.subscribe();
-    this.ws.next
+    WebSocketService.connected = true;
   }
 
   private static received(msgRaw: any) {
@@ -37,6 +38,7 @@ export class WebSocketService {
 
   private static complete() {
     console.log('complete');
+    this.connected = false;
   }
 
   close() {
@@ -44,10 +46,11 @@ export class WebSocketService {
   }
 
   send(message: Message) {
-    if (this.ws.closed) {
+    if (!WebSocketService.connected) {
       console.log("The connection is closed...");
-    } else {
-      this.ws.next(JSON.stringify(message));
+      this.buildSocket();
     }
+
+    this.ws.next(JSON.stringify(message));
   }
 }

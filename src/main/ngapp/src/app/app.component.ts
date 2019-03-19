@@ -29,4 +29,8 @@ export class AppComponent {
   onEnter() {
     this.sendMessage();
   }
+
+  closeConnection() {
+    this.webSocketService.close();
+  }
 }
