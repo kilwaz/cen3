@@ -37,7 +37,8 @@ public enum Error {
     DELETE_EXCEPTION(203, "Exception within DELETE method"),
     OPTIONS_EXCEPTION(204, "Exception within OPTIONS method"),
     GENERIC_REQUEST_EXCEPTION(205, "Exception within request"),
-    DATABASE_NOT_ENABLED_EXCEPTION(206, "Database action attempted with database set to disabled");
+    DATABASE_NOT_ENABLED_EXCEPTION(206, "Database action attempted with database set to disabled"),
+    GENERIC_WEBSOCKET_EXCEPTION(207, "Exception within websocket");
 
     private Integer code;
     private String description;

@@ -10,7 +10,7 @@ import {Message} from "./wsObjects/message";
 })
 export class AppComponent {
   constructor(private webSocketService: WebSocketService) {
-    webSocketService.send(new Message("text", "Message 1 sent",));
-    webSocketService.send(new Message("text", "Message 2 sent"));
+    webSocketService.send(new Message("ChatMessage", "Message 1 sent",));
+    webSocketService.send(new Message("ChatMessage", "Message 2 sent"));
   }
 }

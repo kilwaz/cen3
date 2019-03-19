@@ -141,6 +141,14 @@ public class JSONContainer<DBO extends DatabaseObject> {
 
     public JSONObject toJSONObject() {
         try {
+            rawData = rawData.replace("\\\"", "\""); // Remove any escaping, better way to do this?
+            if (rawData.startsWith("\"")) { // For some reason the message starts with a "
+                rawData = rawData.substring(1);
+            }
+            if (rawData.endsWith("\"")) { // For some reason the message ends with a "
+                rawData = rawData.substring(0, rawData.length() - 1);
+            }
+
             return new JSONObject(Objects.requireNonNullElse(rawData, ""));
         } catch (JSONException ex) {
             try {

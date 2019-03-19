@@ -1,4 +1,5 @@
 import core.builders.requests.RequestMapper;
+import core.builders.requests.WebSocketMessageMapping;
 import org.apache.log4j.Logger;
 import utils.AppManager;
 
@@ -8,5 +9,6 @@ public class ApplicationInitialiser {
     public static void main(String[] args) {
         AppManager.init();
         RequestMapper.buildMappings();
+        WebSocketMessageMapping.buildMappings();
     }
 }

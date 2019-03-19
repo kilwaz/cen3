@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import requests.annotations.RequestName;
+import requests.spark.websockets.objects.Message;
 
 import java.io.IOException;
 import java.util.Queue;
@@ -35,12 +36,13 @@ public class WebSocketListener {
 
     @OnWebSocketMessage
     public void message(Session session, String rawMessage) throws IOException {
-        log.info("Got raw JSON - " + rawMessage);
+        JSONContainer messageContainer = new JSONContainer(rawMessage);
 
-        JSONContainer jsonContainer = new JSONContainer(rawMessage);
+        Message message = Message.decode(messageContainer);
+        if (message != null) {
+            message.process();
+        }
 
-        log.info(jsonContainer.writeResponse());
-
-        session.getRemote().sendString(jsonContainer.writeResponse()); // and send it back
+        session.getRemote().sendString(messageContainer.writeResponse()); // and send it back
     }
 }
