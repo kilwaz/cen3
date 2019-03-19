@@ -5,4 +5,7 @@
   <div class="col-4">
     Your app is working!
   </div>
+
+  <input type="text" #inputMessage [value]="chatMessage" (keyup)="onKey(inputMessage.value)" (keyup.enter)="onEnter()">
+  <button (click)="sendMessage()">Send</button>
 </div>

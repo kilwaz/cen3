@@ -9,8 +9,24 @@ import {Message} from "./wsObjects/message";
   providers: []
 })
 export class AppComponent {
-  constructor(private webSocketService: WebSocketService) {
-    webSocketService.send(new Message("ChatMessage", "Message 1 sent",));
-    webSocketService.send(new Message("ChatMessage", "Message 2 sent"));
+  chatMessage: string = "initial";
+  webSocketService: WebSocketService;
+
+  constructor(private webSocketServiceConst: WebSocketService) {
+    this.webSocketService = webSocketServiceConst;
+
+    this.webSocketService.send(new Message("ChatMessage", "Message 1 sent"));
+  }
+
+  sendMessage() {
+    this.webSocketService.send(new Message("ChatMessage", this.chatMessage));
+  }
+
+  onKey(value: string) {
+    this.chatMessage = value;
+  }
+
+  onEnter() {
+    this.sendMessage();
   }
 }

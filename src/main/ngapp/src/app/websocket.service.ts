@@ -9,6 +9,10 @@ export class WebSocketService {
   public ws: any;
 
   constructor() {
+    this.buildSocket();
+  }
+
+  private buildSocket() {
     this.ws = webSocket("ws://localhost:4568/ws");
     this.ws.subscribe(
       msg => WebSocketService.received(msg),
@@ -17,6 +21,7 @@ export class WebSocketService {
     );
 
     this.ws.subscribe();
+    this.ws.next
   }
 
   private static received(msgRaw: any) {
@@ -39,6 +44,10 @@ export class WebSocketService {
   }
 
   send(message: Message) {
-    this.ws.next(JSON.stringify(message));
+    if (this.ws.closed) {
+      console.log("The connection is closed...");
+    } else {
+      this.ws.next(JSON.stringify(message));
+    }
   }
 }
