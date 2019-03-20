@@ -20,7 +20,6 @@ export class WebSocketService {
       err => WebSocketService.error(err),
       () => WebSocketService.complete()
     );
-
     this.ws.subscribe();
     WebSocketService.connected = true;
   }
