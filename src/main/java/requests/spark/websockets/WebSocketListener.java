@@ -24,25 +24,27 @@ public class WebSocketListener {
 
     @OnWebSocketConnect
     public void connected(Session session) {
-        log.info("Newly connected session");
         sessions.add(session);
+        log.info("Newly connected session - Total sessions " + sessions.size());
     }
 
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
-        log.info("Session closed - " + reason);
         sessions.remove(session);
+        log.info("Session closed - " + reason + " - Total sessions " + sessions.size());
     }
 
     @OnWebSocketMessage
     public void message(Session session, String rawMessage) throws IOException {
+        log.info("Incoming message " + rawMessage);
+
         JSONContainer messageContainer = new JSONContainer(rawMessage);
 
         Message message = Message.decode(messageContainer);
         if (message != null) {
-            message.process();
+            message.process(session);
         }
 
-        session.getRemote().sendString(messageContainer.writeResponse()); // and send it back
+        //session.getRemote().sendString(messageContainer.writeResponse()); // and send it back
     }
 }

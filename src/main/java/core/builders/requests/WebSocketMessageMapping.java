@@ -1,5 +1,6 @@
 package core.builders.requests;
 
+import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 import requests.spark.websockets.objects.MessageType;
 
@@ -7,6 +8,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class WebSocketMessageMapping {
+    private static Logger log = Logger.getLogger(WebSocketMessageMapping.class);
+
     private static HashMap<String, Class> MESSAGE_MAPPINGS = new HashMap<>();
 
     public static void buildMappings() {
@@ -15,6 +18,7 @@ public class WebSocketMessageMapping {
         for (Class clazz : messageTypes) {
             MessageType messageType = (MessageType) clazz.getAnnotation(MessageType.class);
             MESSAGE_MAPPINGS.put(messageType.value(), clazz);
+            log.info("Mapped ws message " + messageType.value() + " to " + clazz);
         }
     }
 

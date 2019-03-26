@@ -1,9 +1,18 @@
-export class Message {
-  message: string;
-  type: string;
+import {Guid} from "guid-typescript";
 
-  constructor(type: string, message: string) {
-    this.type = type;
-    this.message = message;
+export class Message {
+  private _type: string;
+  private _callbackUUID: string;
+
+  constructor() {
+    this._callbackUUID = Guid.create().toString();
+  }
+
+  set type(value: string) {
+    this._type = value;
+  }
+
+  get callbackUUID(): string {
+    return this._callbackUUID;
   }
 }

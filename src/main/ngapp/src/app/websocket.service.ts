@@ -8,6 +8,7 @@ import {webSocket} from "rxjs/webSocket";
 export class WebSocketService {
   public ws: any;
   public static connected: boolean = false;
+  private static callBacks: { [key: string]: () => any } = {};
 
   constructor() {
     this.buildSocket();
@@ -25,11 +26,17 @@ export class WebSocketService {
   }
 
   private static received(msgRaw: any) {
-    console.log('message received: ' + msgRaw);
+    console.log('message player uuid: ' + msgRaw.playerUUID);
+    console.log('message callback uuid: ' + msgRaw.callBackUUID);
+    console.log('message type: ' + msgRaw.type);
 
-    // let message: Message = JSON.parse(msgRaw);
+    let callback = this.callBacks[msgRaw.callBackUUID];
+    if (callback != undefined) {
+      callback();
+
+      this.callBacks[msgRaw.callBackUUID] = undefined;
+    }
   }
-
 
   private static error(err: any) {
     console.log('error happened ' + err);
@@ -42,6 +49,11 @@ export class WebSocketService {
 
   close() {
     this.ws.complete();
+  }
+
+  sendCallback(message: Message, callback: () => any) {
+    WebSocketService.callBacks[message.callbackUUID] = callback;
+    this.send(message);
   }
 
   send(message: Message) {

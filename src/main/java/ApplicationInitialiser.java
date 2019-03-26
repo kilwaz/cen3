@@ -1,5 +1,6 @@
 import core.builders.requests.RequestMapper;
 import core.builders.requests.WebSocketMessageMapping;
+import game.GameManager;
 import org.apache.log4j.Logger;
 import utils.AppManager;
 
@@ -10,5 +11,6 @@ public class ApplicationInitialiser {
         AppManager.init();
         RequestMapper.buildMappings();
         WebSocketMessageMapping.buildMappings();
+        GameManager.getInstance().createNewGame();
     }
 }
