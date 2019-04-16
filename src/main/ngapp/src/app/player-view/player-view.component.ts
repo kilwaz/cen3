@@ -10,7 +10,7 @@ import {JoinGame} from "../wsObjects/joinGame";
 export class PlayerViewComponent implements OnInit {
   webSocketService: WebSocketService;
 
-  connected: string = "Not Connected";
+  webSocketServiceReference = WebSocketService;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -18,11 +18,10 @@ export class PlayerViewComponent implements OnInit {
 
   ngOnInit(): void {
     let joinGame: JoinGame = new JoinGame();
-    let _this: PlayerViewComponent = this;
+    // let _this: PlayerViewComponent = this;
 
     this.webSocketService.sendCallback(joinGame, function () {
-      console.log("We got back the thing from our saved game");
-      _this.connected = "We are connected!";
+
     });
   }
 }

@@ -15,18 +15,21 @@ public class Message {
 
     private String type;
     private String callBackUUID;
+    private Session session;
 
-    public static Message decode(JSONContainer jsonContainer) {
-        JSONObject jsonObject = jsonContainer.toJSONObject();
+    private JSONObject jsonResponse = new JSONObject();
 
-        Class mappingClass = WebSocketMessageMapping.mappingClass(jsonObject.getString("_type"));
+    public static Message decode(JSONContainer jsonContainerDecoder) {
+        JSONObject jsonObjectDecoded = jsonContainerDecoder.toJSONObject();
+
+        Class mappingClass = WebSocketMessageMapping.mappingClass(jsonObjectDecoded.getString("_type"));
 
         try {
             if (mappingClass != null) {
                 Message message = (Message) mappingClass.getConstructor().newInstance();
-                message.setType(jsonObject.getString("_type"));
-                message.setCallBackUUID(jsonObject.getString("_callbackUUID"));
-                message.populate(jsonObject);
+                message.setType(jsonObjectDecoded.getString("_type"));
+                message.setCallBackUUID(jsonObjectDecoded.getString("_callbackUUID"));
+                message.populate(jsonObjectDecoded);
                 return message;
             }
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
@@ -39,7 +42,7 @@ public class Message {
 
     }
 
-    public void process(Session session) throws IOException {
+    public void process() {
 
     }
 
@@ -57,5 +60,30 @@ public class Message {
 
     void setCallBackUUID(String callBackUUID) {
         this.callBackUUID = callBackUUID;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public Message session(Session session) {
+        this.session = session;
+        return this;
+    }
+
+    public void addResponseData(String name, Object value) {
+        jsonResponse.put(name, value);
+    }
+
+    public void handleResponse() {
+        try {
+            addResponseData("type", this.getClass().getSimpleName());
+            addResponseData("callBackUUID", this.getCallBackUUID());
+
+            JSONContainer jsonContainer = new JSONContainer(jsonResponse);
+            getSession().getRemote().sendString(jsonContainer.writeResponse());
+        } catch (IOException ex) {
+            Error.WEBSOCKET_RESPONSE_EXCEPTION.record().create(ex);
+        }
     }
 }

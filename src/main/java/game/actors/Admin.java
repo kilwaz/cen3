@@ -1,12 +1,11 @@
-package game;
+package game.actors;
 
 import java.util.UUID;
 
-public class Player {
-
+public class Admin {
     public UUID uuid;
 
-    public Player() {
+    public Admin() {
         uuid = UUID.randomUUID();
     }
 

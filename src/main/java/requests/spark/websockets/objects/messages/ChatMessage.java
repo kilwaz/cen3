@@ -11,7 +11,8 @@ public class ChatMessage extends Message {
     private static Logger log = Logger.getLogger(ChatMessage.class);
     private String message;
 
-    public void process(Session session) {
+    public void process() {
+
         log.info("Our message is " + message);
     }
 

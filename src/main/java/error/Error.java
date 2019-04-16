@@ -38,7 +38,8 @@ public enum Error {
     OPTIONS_EXCEPTION(204, "Exception within OPTIONS method"),
     GENERIC_REQUEST_EXCEPTION(205, "Exception within request"),
     DATABASE_NOT_ENABLED_EXCEPTION(206, "Database action attempted with database set to disabled"),
-    GENERIC_WEBSOCKET_EXCEPTION(207, "Exception within websocket");
+    GENERIC_WEBSOCKET_EXCEPTION(207, "Exception within websocket"),
+    WEBSOCKET_RESPONSE_EXCEPTION(208, "Error sending websocket response");
 
     private Integer code;
     private String description;

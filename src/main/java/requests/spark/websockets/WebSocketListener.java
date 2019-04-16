@@ -10,7 +10,6 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import requests.annotations.RequestName;
 import requests.spark.websockets.objects.Message;
 
-import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -35,16 +34,15 @@ public class WebSocketListener {
     }
 
     @OnWebSocketMessage
-    public void message(Session session, String rawMessage) throws IOException {
+    public void message(Session session, String rawMessage) {
         log.info("Incoming message " + rawMessage);
 
         JSONContainer messageContainer = new JSONContainer(rawMessage);
 
         Message message = Message.decode(messageContainer);
         if (message != null) {
-            message.process(session);
+            message.session(session);
+            message.process();
         }
-
-        //session.getRemote().sendString(messageContainer.writeResponse()); // and send it back
     }
 }

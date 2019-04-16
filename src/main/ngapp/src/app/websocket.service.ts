@@ -39,16 +39,27 @@ export class WebSocketService {
   }
 
   private static error(err: any) {
-    console.log('error happened ' + err);
+    console.log('Websocket error happened ' + err);
+    console.log('Code ' + err.code);
+
+    if (err.type == "close" || err.type == "error") {
+      WebSocketService.complete();
+    }
+
+    if (err.code == 1006) {
+      console.log("Server has gone away");
+    } else if (err.code == undefined) {
+      console.log("Server could not be found");
+    }
   }
 
   private static complete() {
-    console.log('complete');
-    this.connected = false;
+    console.log('Websocket connection closed');
+    WebSocketService.connected = false;
   }
 
-  close() {
-    this.ws.complete();
+  static close() {
+    WebSocketService.complete();
   }
 
   sendCallback(message: Message, callback: () => any) {
