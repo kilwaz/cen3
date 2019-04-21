@@ -13,13 +13,16 @@ public class JoinGame extends Message {
     private static Logger log = Logger.getLogger(JoinGame.class);
 
     public void process() {
+        // Perform required action
         Game currentGame = GameManager.getInstance().getCurrentGame();
         Player newPlayer = currentGame.createPlayer();
 
+        // Add response values
         addResponseData("playerUUID", newPlayer.getUuid());
 
         log.info("Created a new player for the game");
 
+        // Send response
         handleResponse();
     }
 

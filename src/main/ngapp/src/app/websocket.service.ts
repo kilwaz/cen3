@@ -9,6 +9,7 @@ export class WebSocketService {
   public ws: any;
   public static connected: boolean = false;
   private static callBacks: { [key: string]: () => any } = {};
+  private static callObjs: { [key: string]: Message } = {};
 
   constructor() {
     this.buildSocket();
@@ -31,6 +32,14 @@ export class WebSocketService {
     console.log('message type: ' + msgRaw.type);
 
     let callback = this.callBacks[msgRaw.callBackUUID];
+    let callObjs = this.callObjs[msgRaw.callBackUUID];
+
+    // let obj;
+    // eval("obj=new App" + msgRaw.type + "()");
+    // let joinGame: JoinGame = <JoinGame>obj;
+    //
+    // joinGame.decode();
+
     if (callback != undefined) {
       callback();
 
@@ -64,6 +73,8 @@ export class WebSocketService {
 
   sendCallback(message: Message, callback: () => any) {
     WebSocketService.callBacks[message.callbackUUID] = callback;
+    WebSocketService.callObjs[message.callbackUUID] = message;
+
     this.send(message);
   }
 

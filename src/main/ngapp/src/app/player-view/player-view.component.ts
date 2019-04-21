@@ -21,6 +21,7 @@ export class PlayerViewComponent implements OnInit {
     // let _this: PlayerViewComponent = this;
 
     this.webSocketService.sendCallback(joinGame, function () {
+      console.log("This call back was called? " + joinGame.type);
 
     });
   }

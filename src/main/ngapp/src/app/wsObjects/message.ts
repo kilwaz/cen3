@@ -8,6 +8,10 @@ export class Message {
     this._callbackUUID = Guid.create().toString();
   }
 
+  decodeResponse(msgRaw: any) {
+    console.log("Hello this was a thing");
+  }
+
   set type(value: string) {
     this._type = value;
   }

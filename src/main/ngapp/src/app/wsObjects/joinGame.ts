@@ -6,4 +6,8 @@ export class JoinGame extends Message {
     super();
     this.type = "JoinGame";
   }
+
+  decodeResponse(msgRaw: any) {
+    console.log("Hello this was a thing within the ");
+  }
 }
