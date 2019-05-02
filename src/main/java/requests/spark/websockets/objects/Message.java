@@ -6,12 +6,19 @@ import error.Error;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
+import requests.spark.websockets.WebSocketManager;
+import requests.spark.websockets.WebSocketSession;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public class Message {
     private static Logger log = Logger.getLogger(Message.class);
+
+    public static final int ALL_PLAYERS = 1;
+    public static final int ALL_ADMINS = 2;
+    public static final int ALL = 3;
 
     private String type;
     private String callBackUUID;
@@ -38,11 +45,16 @@ public class Message {
         return null;
     }
 
+    // Used to populate incoming data into the message object to be used
     public void populate(JSONObject jsonObject) {
 
     }
 
     public void process() {
+
+    }
+
+    public void prepareToSend() {
 
     }
 
@@ -54,7 +66,7 @@ public class Message {
         return callBackUUID;
     }
 
-    void setType(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -85,5 +97,42 @@ public class Message {
         } catch (IOException ex) {
             Error.WEBSOCKET_RESPONSE_EXCEPTION.record().create(ex);
         }
+    }
+
+    public void sendTo(int audience) {
+        try {
+            addResponseData("type", type);
+            prepareToSend();
+
+            if (audience == ALL_ADMINS) {
+                List<WebSocketSession> admins = WebSocketManager.getInstance().getAdmins();
+                JSONContainer jsonContainer = new JSONContainer(jsonResponse);
+
+                for (WebSocketSession admin : admins) {
+                    Session session = admin.getSession();
+                    if (session.isOpen()) {
+                        session.getRemote().sendString(jsonContainer.writeResponse());
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            Error.WEBSOCKET_RESPONSE_EXCEPTION.record().create(ex);
+        }
+    }
+
+    public static <MessageObject extends Message> MessageObject create(Class<MessageObject> clazz) {
+        if (clazz != null) {
+            MessageObject message = null;
+            try {
+                message = clazz.getConstructor().newInstance();
+                MessageType messageType = clazz.getAnnotation(MessageType.class);
+                message.setType(messageType.value());
+            } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
+                Error.GENERIC_WEBSOCKET_EXCEPTION.record().create(ex);
+            }
+
+            return message;
+        }
+        return null;
     }
 }

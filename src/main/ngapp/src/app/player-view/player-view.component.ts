@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../websocket.service";
 import {JoinGame} from "../wsObjects/joinGame";
+import {Answer} from "../wsObjects/answer";
 
 @Component({
   selector: 'app-player-view',
@@ -20,9 +21,21 @@ export class PlayerViewComponent implements OnInit {
     let joinGame: JoinGame = new JoinGame();
     // let _this: PlayerViewComponent = this;
 
-    this.webSocketService.sendCallback(joinGame, function () {
-      console.log("This call back was called? " + joinGame.type);
+    this.webSocketService.sendCallback(joinGame, function (responseMessage) {
+      let joinGame: JoinGame = <JoinGame>responseMessage;
+      console.log(joinGame.type);
+      console.log(joinGame.playerUUID);
+    });
+  }
 
+  playerButtonPressed(button): void {
+    console.log("Pressed a button woop " + button);
+
+    let answer: Answer = new Answer();
+    answer.answer = button;
+    this.webSocketService.sendCallback(answer, function (responseMessage) {
+      let answer: Answer = <Answer>responseMessage;
+      console.log("callback answer");
     });
   }
 }

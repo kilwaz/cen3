@@ -2,12 +2,18 @@ import {Message} from "./message";
 
 export class JoinGame extends Message {
 
+  private _playerUUID: string;
+
   constructor() {
     super();
     this.type = "JoinGame";
   }
 
   decodeResponse(msgRaw: any) {
-    console.log("Hello this was a thing within the ");
+    this._playerUUID = msgRaw.playerUUID;
+  }
+
+  get playerUUID(): string {
+    return this._playerUUID;
   }
 }

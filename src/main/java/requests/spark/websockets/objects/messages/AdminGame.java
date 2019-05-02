@@ -1,10 +1,12 @@
 package requests.spark.websockets.objects.messages;
 
-import game.actors.Admin;
 import game.Game;
 import game.GameManager;
+import game.actors.Admin;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import requests.spark.websockets.WebSocketManager;
+import requests.spark.websockets.WebSocketSession;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 
@@ -15,6 +17,11 @@ public class AdminGame extends Message {
     public void process() {
         Game currentGame = GameManager.getInstance().getCurrentGame();
         Admin newAdmin = currentGame.createAdmin();
+
+        WebSocketSession webSocketSession = new WebSocketSession()
+                .session(getSession())
+                .type(WebSocketSession.TYPE_ADMIN);
+        WebSocketManager.getInstance().addSession(webSocketSession);
 
         addResponseData("adminUUID", newAdmin.getUuid());
 

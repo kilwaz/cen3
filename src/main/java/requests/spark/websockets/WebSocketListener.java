@@ -10,27 +10,19 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import requests.annotations.RequestName;
 import requests.spark.websockets.objects.Message;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 @WebSocket
 @RequestName("ws")
 public class WebSocketListener {
     private static Logger log = Logger.getLogger(WebSocketListener.class);
 
-    // Store sessions if you want to, for example, broadcast a message to all users
-    private static final Queue<Session> sessions = new ConcurrentLinkedQueue<>();
-
     @OnWebSocketConnect
     public void connected(Session session) {
-        sessions.add(session);
-        log.info("Newly connected session - Total sessions " + sessions.size());
+
     }
 
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
-        sessions.remove(session);
-        log.info("Session closed - " + reason + " - Total sessions " + sessions.size());
+        WebSocketManager.getInstance().removeSession(session);
     }
 
     @OnWebSocketMessage

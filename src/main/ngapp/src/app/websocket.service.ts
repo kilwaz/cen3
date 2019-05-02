@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Message} from "./wsObjects/message";
 import {webSocket} from "rxjs/webSocket";
+import {NewPlayerJoined} from "./wsObjects/newPlayerJoined";
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,13 @@ import {webSocket} from "rxjs/webSocket";
 export class WebSocketService {
   public ws: any;
   public static connected: boolean = false;
-  private static callBacks: { [key: string]: () => any } = {};
+  private static callBacks: { [key: string]: (Message) => any } = {};
   private static callObjs: { [key: string]: Message } = {};
 
+  private static actionClasses = new Map();
+
   constructor() {
+    WebSocketService.actionClasses.set("NewPlayerJoined", NewPlayerJoined.constructor);
     this.buildSocket();
   }
 
@@ -27,24 +31,30 @@ export class WebSocketService {
   }
 
   private static received(msgRaw: any) {
-    console.log('message player uuid: ' + msgRaw.playerUUID);
-    console.log('message callback uuid: ' + msgRaw.callBackUUID);
-    console.log('message type: ' + msgRaw.type);
+    if (msgRaw.hasOwnProperty('callBackUUID')) { // Response from the server from generated client request
+      let callback = this.callBacks[msgRaw.callBackUUID];
+      let callObjs = this.callObjs[msgRaw.callBackUUID];
 
-    let callback = this.callBacks[msgRaw.callBackUUID];
-    let callObjs = this.callObjs[msgRaw.callBackUUID];
+      // Off load the response message into the client side message object
+      callObjs.decodeResponse(msgRaw);
 
-    // let obj;
-    // eval("obj=new App" + msgRaw.type + "()");
-    // let joinGame: JoinGame = <JoinGame>obj;
-    //
-    // joinGame.decode();
+      if (callback != undefined) {
+        // Call the correct callback with the updated message object which should now contain all expected response values
+        callback(callObjs);
 
-    if (callback != undefined) {
-      callback();
-
-      this.callBacks[msgRaw.callBackUUID] = undefined;
+        // Clean up the callbacks array once the callback has been completed
+        this.callBacks[msgRaw.callBackUUID] = undefined;
+      }
+    } else { // Push from the server
+      if (msgRaw.hasOwnProperty('type')) { // Handle a pushed action
+        if (msgRaw.type == "NewPlayerJoined") {
+          let actionMessage = new NewPlayerJoined();
+          actionMessage.decodeResponse(msgRaw);
+          NewPlayerJoined.informListeners(actionMessage);
+        }
+      }
     }
+    console.log(msgRaw);
   }
 
   private static error(err: any) {
@@ -71,7 +81,7 @@ export class WebSocketService {
     WebSocketService.complete();
   }
 
-  sendCallback(message: Message, callback: () => any) {
+  sendCallback(message: Message, callback: (Message) => any) {
     WebSocketService.callBacks[message.callbackUUID] = callback;
     WebSocketService.callObjs[message.callbackUUID] = message;
 

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../websocket.service";
 import {AdminGame} from "../wsObjects/adminGame";
+import {NewPlayerJoined} from "../wsObjects/newPlayerJoined";
+import {Message} from "../wsObjects/message";
 
 @Component({
   selector: 'app-game-view',
@@ -16,11 +18,15 @@ export class GameViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let adminGame: AdminGame = new AdminGame();
     // let _this: GameViewComponent = this;
+    this.webSocketService.sendCallback(new AdminGame(), function () {
 
-    this.webSocketService.sendCallback(adminGame, function () {
+    });
 
+    NewPlayerJoined.registerListener(function (message: Message) {
+      let newPlayerJoined: NewPlayerJoined = <NewPlayerJoined>message;
+
+      console.log("The fuck this was a new function TYPE = " + newPlayerJoined.type + " and " + newPlayerJoined.newPlayerUUID);
     });
   }
 }

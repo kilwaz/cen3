@@ -22,6 +22,10 @@ public class JoinGame extends Message {
 
         log.info("Created a new player for the game");
 
+        NewPlayerJoined newPlayerJoined = Message.create(NewPlayerJoined.class);
+        newPlayerJoined.newPlayer(newPlayer);
+        newPlayerJoined.sendTo(Message.ALL_ADMINS);
+
         // Send response
         handleResponse();
     }
