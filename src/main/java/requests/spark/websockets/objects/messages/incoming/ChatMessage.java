@@ -1,4 +1,4 @@
-package requests.spark.websockets.objects.messages;
+package requests.spark.websockets.objects.messages.incoming;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;

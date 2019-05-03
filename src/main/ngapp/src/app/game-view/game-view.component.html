@@ -1,13 +1,11 @@
 <div class="row">
-  <div class="col-4">
-    Your app is working!
+  <div *ngIf="game">
+    <app-player *ngFor="let player of game.players"
+                [player]="player">
+    </app-player>
   </div>
-  <div class="col-4">
-    Your app is working!
-  </div>
+</div>
 
-  <p>
-    {{webSocketServiceReference.connected}}
-  </p>
-
+<div>
+  {{webSocketServiceReference.connected}}
 </div>

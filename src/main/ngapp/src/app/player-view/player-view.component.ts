@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../websocket.service";
 import {JoinGame} from "../wsObjects/joinGame";
-import {Answer} from "../wsObjects/answer";
+import {AnswerResponse} from "../wsObjects/answerResponse";
+import {Player} from "../player";
 
 @Component({
   selector: 'app-player-view',
@@ -10,8 +11,9 @@ import {Answer} from "../wsObjects/answer";
 })
 export class PlayerViewComponent implements OnInit {
   webSocketService: WebSocketService;
-
   webSocketServiceReference = WebSocketService;
+
+  private player: Player;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -19,22 +21,20 @@ export class PlayerViewComponent implements OnInit {
 
   ngOnInit(): void {
     let joinGame: JoinGame = new JoinGame();
-    // let _this: PlayerViewComponent = this;
+    let _this: PlayerViewComponent = this;
 
     this.webSocketService.sendCallback(joinGame, function (responseMessage) {
       let joinGame: JoinGame = <JoinGame>responseMessage;
-      console.log(joinGame.type);
-      console.log(joinGame.playerUUID);
+      _this.player = new Player(joinGame.playerUUID);
     });
   }
 
   playerButtonPressed(button): void {
-    console.log("Pressed a button woop " + button);
-
-    let answer: Answer = new Answer();
-    answer.answer = button;
+    let answer: AnswerResponse = new AnswerResponse();
+    answer.answerValue = button;
+    answer.playerUUID = this.player.uuid;
     this.webSocketService.sendCallback(answer, function (responseMessage) {
-      let answer: Answer = <Answer>responseMessage;
+      let answerResponse: AnswerResponse = <AnswerResponse>responseMessage;
       console.log("callback answer");
     });
   }

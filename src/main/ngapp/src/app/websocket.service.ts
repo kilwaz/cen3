@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Message} from "./wsObjects/message";
 import {webSocket} from "rxjs/webSocket";
 import {NewPlayerJoined} from "./wsObjects/newPlayerJoined";
+import {AnswerUpdate} from "./wsObjects/answerUpdate";
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,11 @@ export class WebSocketService {
           let actionMessage = new NewPlayerJoined();
           actionMessage.decodeResponse(msgRaw);
           NewPlayerJoined.informListeners(actionMessage);
+        }
+        if (msgRaw.type == "AnswerUpdate") {
+          let actionMessage = new AnswerUpdate();
+          actionMessage.decodeResponse(msgRaw);
+          AnswerUpdate.informListeners(actionMessage);
         }
       }
     }

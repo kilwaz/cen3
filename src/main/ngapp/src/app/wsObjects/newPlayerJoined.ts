@@ -7,7 +7,6 @@ export class NewPlayerJoined extends Message {
   constructor() {
     super();
     this.type = "NewPlayerJoined";
-    console.log("New player joined action created...");
   }
 
   decodeResponse(msgRaw: any) {

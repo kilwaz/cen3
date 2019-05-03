@@ -1,4 +1,4 @@
-package requests.spark.websockets.objects.messages;
+package requests.spark.websockets.objects.messages.outgoing;
 
 import game.actors.Player;
 import org.apache.log4j.Logger;

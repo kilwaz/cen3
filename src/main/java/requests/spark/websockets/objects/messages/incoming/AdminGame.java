@@ -1,4 +1,4 @@
-package requests.spark.websockets.objects.messages;
+package requests.spark.websockets.objects.messages.incoming;
 
 import game.Game;
 import game.GameManager;

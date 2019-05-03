@@ -30,4 +30,8 @@ public class Game {
         admins.put(admin.getUuid(), admin);
         return admin;
     }
+
+    public Player findPlayer(String uuidStr) {
+        return players.get(UUID.fromString(uuidStr));
+    }
 }

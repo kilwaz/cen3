@@ -1,4 +1,4 @@
-package requests.spark.websockets.objects.messages;
+package requests.spark.websockets.objects.messages.outgoing;
 
 import game.Game;
 import game.GameManager;
@@ -7,11 +7,12 @@ import org.json.JSONObject;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 
-@MessageType("AdminGameUpdate")
-public class AdminGameUpdate extends Message {
-    private static Logger log = Logger.getLogger(AdminGameUpdate.class);
+@MessageType("AdminGameInfo")
+public class AdminGameInfo extends Message {
+    private static Logger log = Logger.getLogger(AdminGameInfo.class);
 
     public void process() {
+        Game currentGame = GameManager.getInstance().getCurrentGame();
 
         handleResponse();
     }

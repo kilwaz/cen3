@@ -4,7 +4,7 @@ export class Message {
   private _type: string;
   private readonly _callbackUUID: string;
 
-  private static listeners = new Array<(Message) => void>();
+  private static classListeners: Array<(Message) => void> = [];
 
   constructor() {
     this._callbackUUID = Guid.create().toString();
@@ -26,12 +26,19 @@ export class Message {
     return this._type;
   }
 
-  public static registerListener(func: (Message) => void) {
-    this.listeners.push(func);
+  public static registerListener(type: string, func: (Message) => void) {
+    let listeners = this.classListeners[type];
+    if (listeners == undefined) {
+      this.classListeners[type] = new Array<(Message) => void>();
+
+    }
+    this.classListeners[type].push(func);
   }
 
-  public static informListeners(message:Message ) {
-    for (let func of this.listeners) {
+  public static informListeners(message: Message) {
+    let listeners = this.classListeners[message.type];
+
+    for (let func of listeners) {
       func(message);
     }
   }
