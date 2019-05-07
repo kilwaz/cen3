@@ -13,24 +13,37 @@ import requests.spark.websockets.objects.messages.outgoing.NewPlayerJoined;
 public class JoinGame extends Message {
     private static Logger log = Logger.getLogger(JoinGame.class);
 
+    private String localStorageUUID = null;
+
     public void process() {
         // Perform required action
         Game currentGame = GameManager.getInstance().getCurrentGame();
-        Player newPlayer = currentGame.createPlayer();
+
+        Player player = null;
+        if (localStorageUUID != null) {
+            player = currentGame.findPlayer(localStorageUUID);
+        }
+
+        if (player == null) {
+            player = currentGame.createPlayer();
+
+            // Send off push request to listeners
+            NewPlayerJoined newPlayerJoined = Message.create(NewPlayerJoined.class);
+            newPlayerJoined.newPlayer(player);
+            newPlayerJoined.sendTo(Message.ALL_ADMINS);
+        }
 
         // Add response values to this response
-        addResponseData("playerUUID", newPlayer.getUuid());
-
-        // Send off push request to listeners
-        NewPlayerJoined newPlayerJoined = Message.create(NewPlayerJoined.class);
-        newPlayerJoined.newPlayer(newPlayer);
-        newPlayerJoined.sendTo(Message.ALL_ADMINS);
+        addResponseData("playerUUID", player.getUuid());
+        addResponseData("playerID", player.getId());
 
         // Send response
         handleResponse();
     }
 
     public void populate(JSONObject jsonObject) {
-
+        if (jsonObject.has("_localStorageUUID") && !jsonObject.isNull("_localStorageUUID")) {
+            localStorageUUID = jsonObject.getString("_localStorageUUID");
+        }
     }
 }

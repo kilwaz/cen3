@@ -25,14 +25,22 @@ export class GameViewComponent implements OnInit {
 
   ngOnInit(): void {
     let _this: GameViewComponent = this;
+
     let adminGame = new AdminGame();
+    adminGame.localStorageUUID = window.localStorage.getItem("adminUUID");
+
     this.webSocketService.sendCallback(adminGame, function () {
       _this.game = new Game(adminGame.adminUUID);
+      window.localStorage.setItem("adminUUID", adminGame.adminUUID);
+
+
+
     });
 
     NewPlayerJoined.registerListener("NewPlayerJoined", function (message: Message) {
       let newPlayerJoined: NewPlayerJoined = <NewPlayerJoined>message;
       let newPlayer: Player = new Player(newPlayerJoined.newPlayerUUID);
+      newPlayer.id = newPlayerJoined.newPlayerID;
       _this.game.addPlayer(newPlayer);
     });
 

@@ -21,11 +21,15 @@ export class PlayerViewComponent implements OnInit {
 
   ngOnInit(): void {
     let joinGame: JoinGame = new JoinGame();
+    joinGame.localStorageUUID = window.localStorage.getItem("playerUUID");
     let _this: PlayerViewComponent = this;
 
     this.webSocketService.sendCallback(joinGame, function (responseMessage) {
       let joinGame: JoinGame = <JoinGame>responseMessage;
-      _this.player = new Player(joinGame.playerUUID);
+      let player = new Player(joinGame.playerUUID);
+      player.id = joinGame.playerID;
+      window.localStorage.setItem("playerUUID", player.uuid);
+      _this.player = player;
     });
   }
 

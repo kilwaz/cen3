@@ -27,14 +27,18 @@ public class WebSocketListener {
 
     @OnWebSocketMessage
     public void message(Session session, String rawMessage) {
-        log.info("Incoming message " + rawMessage);
+        try {
+            log.info("Incoming message " + rawMessage);
 
-        JSONContainer messageContainer = new JSONContainer(rawMessage);
+            JSONContainer messageContainer = new JSONContainer(rawMessage);
 
-        Message message = Message.decode(messageContainer);
-        if (message != null) {
-            message.session(session);
-            message.process();
+            Message message = Message.decode(messageContainer);
+            if (message != null) {
+                message.session(session);
+                message.process();
+            }
+        } catch (Exception ex) {
+            error.Error.GENERIC_WEBSOCKET_EXCEPTION.record().create(ex);
         }
     }
 }

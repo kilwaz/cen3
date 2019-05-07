@@ -34,4 +34,8 @@ public class Game {
     public Player findPlayer(String uuidStr) {
         return players.get(UUID.fromString(uuidStr));
     }
+
+    public Admin findAdmin(String uuidStr) {
+        return admins.get(UUID.fromString(uuidStr));
+    }
 }

@@ -3,6 +3,7 @@ import {Message} from "./message";
 export class NewPlayerJoined extends Message {
 
   private _newPlayerUUID: string;
+  private _newPlayerID: number;
 
   constructor() {
     super();
@@ -11,9 +12,14 @@ export class NewPlayerJoined extends Message {
 
   decodeResponse(msgRaw: any) {
     this._newPlayerUUID = msgRaw.newPlayerUUID;
+    this._newPlayerID = msgRaw.newPlayerID;
   }
 
   get newPlayerUUID(): string {
     return this._newPlayerUUID;
+  }
+
+  get newPlayerID(): number {
+    return this._newPlayerID;
   }
 }

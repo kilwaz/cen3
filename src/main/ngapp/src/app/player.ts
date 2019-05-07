@@ -1,11 +1,12 @@
 import {Answer} from "./answer";
 
 export class Player {
-  uuid: string;
+  private _uuid: string;
   private _latestAnswer: Answer;
+  private _id: number;
 
   constructor(uuid: string) {
-    this.uuid = uuid;
+    this._uuid = uuid;
   }
 
   get latestAnswer(): Answer {
@@ -14,5 +15,21 @@ export class Player {
 
   set latestAnswer(value: Answer) {
     this._latestAnswer = value;
+  }
+
+  get uuid(): string {
+    return this._uuid;
+  }
+
+  set uuid(value: string) {
+    this._uuid = value;
+  }
+
+  get id(): number {
+    return this._id;
+  }
+
+  set id(value: number) {
+    this._id = value;
   }
 }

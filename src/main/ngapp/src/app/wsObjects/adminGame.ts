@@ -4,6 +4,8 @@ export class AdminGame extends Message {
 
   private _adminUUID: string;
 
+  private _localStorageUUID: string;
+
   constructor() {
     super();
     this.type = "AdminGame";
@@ -15,5 +17,13 @@ export class AdminGame extends Message {
 
   get adminUUID(): string {
     return this._adminUUID;
+  }
+
+  get localStorageUUID(): string {
+    return this._localStorageUUID;
+  }
+
+  set localStorageUUID(value: string) {
+    this._localStorageUUID = value;
   }
 }

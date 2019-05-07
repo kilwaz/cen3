@@ -18,5 +18,6 @@ public class NewPlayerJoined extends Message {
 
     public void prepareToSend() {
         addResponseData("newPlayerUUID", newPlayer.getUuid());
+        addResponseData("newPlayerID", newPlayer.getId());
     }
 }
