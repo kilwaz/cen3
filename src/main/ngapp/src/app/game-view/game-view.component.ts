@@ -7,6 +7,7 @@ import {Game} from "../game";
 import {Player} from "../player";
 import {AnswerUpdate} from "../wsObjects/answerUpdate";
 import {Answer} from "../answer";
+import {NewQuestion} from "../wsObjects/newQuestion";
 
 @Component({
   selector: 'app-game-view',
@@ -32,9 +33,6 @@ export class GameViewComponent implements OnInit {
     this.webSocketService.sendCallback(adminGame, function () {
       _this.game = new Game(adminGame.adminUUID);
       window.localStorage.setItem("adminUUID", adminGame.adminUUID);
-
-
-
     });
 
     NewPlayerJoined.registerListener("NewPlayerJoined", function (message: Message) {
@@ -50,6 +48,13 @@ export class GameViewComponent implements OnInit {
       let answer: Answer = new Answer(answerUpdate.answerUUID);
       answer.answerValue = answerUpdate.answerValue;
       player.latestAnswer = answer;
+    });
+  }
+
+  nextQuestion(): void {
+    let newQuestion: NewQuestion = new NewQuestion();
+    this.webSocketService.sendCallback(newQuestion, function (responseMessage) {
+      console.log("Got back from new question");
     });
   }
 }

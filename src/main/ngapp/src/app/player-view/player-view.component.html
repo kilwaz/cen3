@@ -1,7 +1,4 @@
 <p>
-  player-view works!
-</p>
-<p>
   {{webSocketServiceReference.connected}}
 </p>
 
@@ -12,6 +9,11 @@
 </div>
 
 <div>
-  <button type="button" (click)='playerButtonPressed("Yes")'>Yes</button>
-  <button type="button" (click)='playerButtonPressed("No")'>No</button>
+  Question to be asked should go here
+</div>
+
+<div *ngIf="currentQuestion">
+  <button *ngFor="let option of currentQuestion.questionOptions" (click)='playerButtonPressed(option.optionUUID)'>
+    {{option.optionAnswer}}
+  </button>
 </div>

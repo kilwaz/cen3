@@ -5,6 +5,8 @@ import game.GameManager;
 import game.actors.Player;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import requests.spark.websockets.WebSocketManager;
+import requests.spark.websockets.WebSocketSession;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.outgoing.NewPlayerJoined;
@@ -26,12 +28,18 @@ public class JoinGame extends Message {
 
         if (player == null) {
             player = currentGame.createPlayer();
-
-            // Send off push request to listeners
-            NewPlayerJoined newPlayerJoined = Message.create(NewPlayerJoined.class);
-            newPlayerJoined.newPlayer(player);
-            newPlayerJoined.sendTo(Message.ALL_ADMINS);
         }
+
+        // Send off push request to listeners
+        NewPlayerJoined newPlayerJoined = Message.create(NewPlayerJoined.class);
+        newPlayerJoined.newPlayer(player);
+        newPlayerJoined.sendTo(Message.ALL_ADMINS);
+
+        // Register the player session within the server
+        WebSocketSession webSocketSession = new WebSocketSession()
+                .session(getSession())
+                .type(WebSocketSession.TYPE_PLAYER);
+        WebSocketManager.getInstance().addSession(webSocketSession);
 
         // Add response values to this response
         addResponseData("playerUUID", player.getUuid());

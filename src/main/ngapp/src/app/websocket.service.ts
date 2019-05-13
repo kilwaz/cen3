@@ -3,6 +3,7 @@ import {Message} from "./wsObjects/message";
 import {webSocket} from "rxjs/webSocket";
 import {NewPlayerJoined} from "./wsObjects/newPlayerJoined";
 import {AnswerUpdate} from "./wsObjects/answerUpdate";
+import {NextQuestion} from "./wsObjects/nextQuestion";
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,11 @@ export class WebSocketService {
           let actionMessage = new AnswerUpdate();
           actionMessage.decodeResponse(msgRaw);
           AnswerUpdate.informListeners(actionMessage);
+        }
+        if (msgRaw.type == "NextQuestion") {
+          let actionMessage = new NextQuestion();
+          actionMessage.decodeResponse(msgRaw);
+          NextQuestion.informListeners(actionMessage);
         }
       }
     }

@@ -11,6 +11,7 @@ import requests.spark.websockets.WebSocketSession;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Message {
@@ -104,17 +105,22 @@ public class Message {
             addResponseData("type", type);
             prepareToSend();
 
-            if (audience == ALL_ADMINS) {
-                List<WebSocketSession> admins = WebSocketManager.getInstance().getAdmins();
-                JSONContainer jsonContainer = new JSONContainer(jsonResponse);
+            List<WebSocketSession> audienceList = new ArrayList<>();
 
-                for (WebSocketSession admin : admins) {
-                    Session session = admin.getSession();
-                    if (session.isOpen()) {
-                        session.getRemote().sendString(jsonContainer.writeResponse());
-                    }
+            if (audience == ALL_ADMINS) {
+                audienceList = WebSocketManager.getInstance().getAdmins();
+            } else if (audience == ALL_PLAYERS) {
+                audienceList = WebSocketManager.getInstance().getPlayers();
+            }
+
+            JSONContainer jsonContainer = new JSONContainer(jsonResponse);
+            for (WebSocketSession connection : audienceList) {
+                Session session = connection.getSession();
+                if (session.isOpen()) {
+                    session.getRemote().sendString(jsonContainer.writeResponse());
                 }
             }
+
         } catch (IOException ex) {
             Error.WEBSOCKET_RESPONSE_EXCEPTION.record().create(ex);
         }

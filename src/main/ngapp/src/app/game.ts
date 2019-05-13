@@ -15,8 +15,12 @@ export class Game {
   }
 
   addPlayer(player: Player) {
-    this._players[player.uuid] = player;
-    this._playersArray.push(player);
+    if (this._players[player.uuid] == undefined) {
+      this._players[player.uuid] = player;
+      this._playersArray.push(player);
+    } else {
+      console.log("Player already added");
+    }
   }
 
   removePlayer(player: Player) {
