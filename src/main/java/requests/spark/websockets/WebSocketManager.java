@@ -2,6 +2,14 @@ package requests.spark.websockets;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.TriggerBuilder;
+import requests.spark.websockets.objects.Message;
+import requests.spark.websockets.objects.messages.outgoing.HeartBeat;
+import utils.managers.JobManager;
+import utils.timers.WebSocketHeartbeatJob;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +26,19 @@ public class WebSocketManager {
 
     private WebSocketManager() {
         instance = this;
+
+        setupHeartbeatJob();
+    }
+
+    private void setupHeartbeatJob() {
+        JobDetail websocketHeartbeatJob = JobBuilder.newJob(WebSocketHeartbeatJob.class).build();
+
+        SimpleScheduleBuilder websocketHeartbeatSimpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
+        TriggerBuilder websocketHeartbeatTriggerBuilder = TriggerBuilder.newTrigger();
+        websocketHeartbeatSimpleScheduleBuilder.repeatForever().withIntervalInMilliseconds(5000);
+
+        JobManager.getInstance().scheduleJob(websocketHeartbeatJob, websocketHeartbeatTriggerBuilder.withSchedule(websocketHeartbeatSimpleScheduleBuilder).build());
+        websocketHeartbeatTriggerBuilder.startNow();
     }
 
     public static WebSocketManager getInstance() {
@@ -59,5 +80,10 @@ public class WebSocketManager {
 
     public List<WebSocketSession> getAllSessions() {
         return List.copyOf(allSessions);
+    }
+
+    public void sendHeartBeat() {
+        HeartBeat heartBeat = Message.create(HeartBeat.class);
+        heartBeat.sendTo(Message.ALL);
     }
 }

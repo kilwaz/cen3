@@ -111,6 +111,8 @@ public class Message {
                 audienceList = WebSocketManager.getInstance().getAdmins();
             } else if (audience == ALL_PLAYERS) {
                 audienceList = WebSocketManager.getInstance().getPlayers();
+            } else if (audience == ALL) {
+                audienceList = WebSocketManager.getInstance().getAllSessions();
             }
 
             JSONContainer jsonContainer = new JSONContainer(jsonResponse);
