@@ -18,6 +18,5 @@ export class ScoreboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    let _this: ScoreboardComponent = this;
   }
 }

@@ -7,6 +7,7 @@ import {Message} from "../wsObjects/message";
 import {NextQuestion} from "../wsObjects/nextQuestion";
 import {Question} from "../question";
 import {QuestionOption} from "../questionOption";
+import {PlayerNameChange} from "../wsObjects/playerNameChange";
 
 @Component({
   selector: 'app-player-view',
@@ -19,7 +20,9 @@ export class PlayerViewComponent implements OnInit {
 
   private player: Player;
   private currentQuestion: Question;
+
   private noQuestionsYet: boolean = true;
+  private changingName: boolean = true;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -34,6 +37,7 @@ export class PlayerViewComponent implements OnInit {
       let joinGame: JoinGame = <JoinGame>responseMessage;
       let player = new Player(joinGame.playerUUID);
       player.id = joinGame.playerID;
+      player.name = joinGame.playerName;
       window.localStorage.setItem("playerUUID", player.uuid);
       _this.player = player;
     });
@@ -59,8 +63,23 @@ export class PlayerViewComponent implements OnInit {
     answer.answerValue = button;
     answer.playerUUID = this.player.uuid;
     this.webSocketService.sendCallback(answer, function (responseMessage) {
-      let answerResponse: AnswerResponse = <AnswerResponse>responseMessage;
-      console.log("callback answer");
+      // let answerResponse: AnswerResponse = <AnswerResponse>responseMessage;
     });
+  }
+
+  playerNameChanged() {
+    this.changingName = false;
+
+    let playerNameChange: PlayerNameChange = new PlayerNameChange();
+    playerNameChange.playerUUID = this.player.uuid;
+    playerNameChange.playerName = this.player.name;
+    this.webSocketService.sendCallback(playerNameChange, function (responseMessage) {
+      //let playerNameChange1: PlayerNameChange = <PlayerNameChange>responseMessage;
+    });
+  }
+
+  updateName(event) {
+    console.log("Updating name " + event.target.value);
+    this.player.name = event.target.value;
   }
 }

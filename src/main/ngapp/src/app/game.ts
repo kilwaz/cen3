@@ -14,7 +14,7 @@ export class Game {
 
   private _players: HashMapPlayer = {};
   private _scores: HashMapScore = {};
-  private _playersArray = [];
+  private _playersArray: Player[] = [];
 
   constructor(uuid: string) {
     this.uuid = uuid;
@@ -28,10 +28,25 @@ export class Game {
     } else {
       console.log("Player already added");
     }
+
+    this.sortPlayersByScore();
+  }
+
+  private sortPlayersByScore() {
+    this._playersArray.sort((n2, n1) => {
+      if (n1.score > n2.score) {
+        return 1;
+      }
+      if (n1.score < n2.score) {
+        return -1;
+      }
+      return 0;
+    });
   }
 
   updateScore(playerUUID: string, score: number) {
     this._scores[playerUUID].score = score;
+    this.sortPlayersByScore();
   }
 
   removePlayer(player: Player) {
@@ -43,7 +58,7 @@ export class Game {
     return this._players[uuid];
   }
 
-  get players(): any[] {
+  get players(): Player[] {
     return this._playersArray;
   }
 

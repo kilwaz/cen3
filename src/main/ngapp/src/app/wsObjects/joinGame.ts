@@ -4,6 +4,7 @@ export class JoinGame extends Message {
 
   private _playerUUID: string;
   private _playerID: number;
+  private _playerName: string;
 
   private _localStorageUUID: string;
 
@@ -15,6 +16,7 @@ export class JoinGame extends Message {
   decodeResponse(msgRaw: any) {
     this._playerUUID = msgRaw.playerUUID;
     this._playerID = msgRaw.playerID;
+    this._playerName = msgRaw.playerName;
   }
 
   get playerUUID(): string {
@@ -31,5 +33,13 @@ export class JoinGame extends Message {
 
   set localStorageUUID(value: string) {
     this._localStorageUUID = value;
+  }
+
+  get playerName(): string {
+    return this._playerName;
+  }
+
+  set playerName(value: string) {
+    this._playerName = value;
   }
 }

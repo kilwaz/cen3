@@ -4,6 +4,8 @@ export class Player {
   private _uuid: string;
   private _latestAnswer: Answer;
   private _id: number;
+  private _score: number = 0;
+  private _name: string;
 
   constructor(uuid: string) {
     this._uuid = uuid;
@@ -31,5 +33,21 @@ export class Player {
 
   set id(value: number) {
     this._id = value;
+  }
+
+  get score(): number {
+    return this._score;
+  }
+
+  set score(value: number) {
+    this._score = value;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  set name(value: string) {
+    this._name = value;
   }
 }

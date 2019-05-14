@@ -44,6 +44,7 @@ public class JoinGame extends Message {
         // Add response values to this response
         addResponseData("playerUUID", player.getUuid());
         addResponseData("playerID", player.getId());
+        addResponseData("playerName", player.getName());
 
         // Send response
         handleResponse();

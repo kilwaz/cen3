@@ -5,6 +5,7 @@ import {NewPlayerJoined} from "./wsObjects/newPlayerJoined";
 import {AnswerUpdate} from "./wsObjects/answerUpdate";
 import {NextQuestion} from "./wsObjects/nextQuestion";
 import {UpdateScore} from "./wsObjects/updateScore";
+import {PlayerNameUpdate} from "./wsObjects/playerNameUpdate";
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,11 @@ export class WebSocketService {
           let actionMessage = new UpdateScore();
           actionMessage.decodeResponse(msgRaw);
           UpdateScore.informListeners(actionMessage);
+        }
+        if (msgRaw.type == "PlayerNameUpdate") {
+          let actionMessage = new PlayerNameUpdate();
+          actionMessage.decodeResponse(msgRaw);
+          PlayerNameUpdate.informListeners(actionMessage);
         }
       }
     }

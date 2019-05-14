@@ -2,23 +2,26 @@
   {{webSocketServiceReference.connected}}
 </p>
 
-<!--<div>-->
-<!--  <div *ngIf="player">-->
-<!--    Player UUID = {{player.uuid}} - {{player.id}}-->
-<!--  </div>-->
-<!--</div>-->
-
-<div *ngIf="noQuestionsYet" class="container w-100">
-  You're ready to go...just wait and it will start.
+<div *ngIf="changingName" class="container">
+  <mat-form-field style="width:100%">
+    <input matInput placeholder="What's your name?" value="" (keyup)="updateName($event)">
+  </mat-form-field>
+  <button mat-button (click)='playerNameChanged()'>Go!</button>
 </div>
 
-<div class="container w-100" *ngIf="currentQuestion">
-  <mat-button-toggle-group vertical name="fontStyle" aria-label="Font Style" class="w-100">
-    <mat-button-toggle *ngFor="let option of currentQuestion.questionOptions; let i = index"
-                       (click)='playerButtonPressed(option.optionUUID)'>
-      {{option.optionAnswer}} + {{i}}
-    </mat-button-toggle>
-  </mat-button-toggle-group>
+<div *ngIf="!changingName" >
+  <div *ngIf="noQuestionsYet" class="container w-100">
+    You're ready to go...just wait and it will start.
+  </div>
+
+  <div class="container w-100" *ngIf="currentQuestion">
+    <mat-button-toggle-group vertical name="fontStyle" aria-label="Font Style" class="w-100">
+      <mat-button-toggle *ngFor="let option of currentQuestion.questionOptions; let i = index"
+                         (click)='playerButtonPressed(option.optionUUID)'>
+        {{option.optionAnswer}} + {{i}}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 </div>
 
 

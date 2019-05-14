@@ -18,7 +18,7 @@ import {GameComponent} from './game/game.component';
 import {PlayerComponent} from './player/player.component';
 import {PlayerViewComponent} from './player-view/player-view.component';
 import {GameViewComponent} from './game-view/game-view.component';
-import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+import {ScoreboardComponent} from './scoreboard/scoreboard.component';
 
 @NgModule({
   declarations: [

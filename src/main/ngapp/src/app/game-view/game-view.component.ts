@@ -9,6 +9,7 @@ import {AnswerUpdate} from "../wsObjects/answerUpdate";
 import {Answer} from "../answer";
 import {NewQuestion} from "../wsObjects/newQuestion";
 import {UpdateScore} from "../wsObjects/updateScore";
+import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
 
 @Component({
   selector: 'app-game-view',
@@ -40,6 +41,7 @@ export class GameViewComponent implements OnInit {
       let newPlayerJoined: NewPlayerJoined = <NewPlayerJoined>message;
       let newPlayer: Player = new Player(newPlayerJoined.newPlayerUUID);
       newPlayer.id = newPlayerJoined.newPlayerID;
+      newPlayer.name = newPlayerJoined.newPlayerName;
       _this.game.addPlayer(newPlayer);
     });
 
@@ -54,6 +56,12 @@ export class GameViewComponent implements OnInit {
     UpdateScore.registerListener("UpdateScore", function (message: Message) {
       let updateScore: UpdateScore = <UpdateScore>message;
       _this.game.updateScore(updateScore.playerUUID, updateScore.score);
+      _this.game.findPlayer(updateScore.playerUUID).score = updateScore.score;
+    });
+
+    PlayerNameUpdate.registerListener("PlayerNameUpdate", function (message: Message) {
+      let playerNameUpdate: PlayerNameUpdate = <PlayerNameUpdate>message;
+      _this.game.findPlayer(playerNameUpdate.playerUUID).name = playerNameUpdate.newName;
     });
   }
 
