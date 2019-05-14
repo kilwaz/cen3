@@ -23,6 +23,7 @@ export class PlayerViewComponent implements OnInit {
 
   private noQuestionsYet: boolean = true;
   private changingName: boolean = true;
+  private newPlayerName: string = "";
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -70,6 +71,8 @@ export class PlayerViewComponent implements OnInit {
   playerNameChanged() {
     this.changingName = false;
 
+    this.player.name = this.newPlayerName;
+
     let playerNameChange: PlayerNameChange = new PlayerNameChange();
     playerNameChange.playerUUID = this.player.uuid;
     playerNameChange.playerName = this.player.name;
@@ -79,7 +82,6 @@ export class PlayerViewComponent implements OnInit {
   }
 
   updateName(event) {
-    console.log("Updating name " + event.target.value);
-    this.player.name = event.target.value;
+    this.newPlayerName = event.target.value;
   }
 }

@@ -97,9 +97,9 @@ public class Game {
 
             if (currentQuestion.getCorrectOption().getUuid().toString().equals(answer.getAnswerValue())) {
                 scores.get(player).givePoint();
-                log.info("Answer was CORRECT for " + player.getUuid());
+                log.info("Answer was CORRECT for " + player.getName() + " answered " + answer.getAnswerValue() + " correct was " + currentQuestion.getCorrectOption().getUuid());
             } else {
-                log.info("Answer was WRONG for " + player.getUuid());
+                log.info("Answer was WRONG for " + player.getName() + " answered " + answer.getAnswerValue() + " correct was " + currentQuestion.getCorrectOption().getUuid());
             }
         }
 

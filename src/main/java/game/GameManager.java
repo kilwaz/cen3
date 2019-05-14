@@ -49,6 +49,8 @@ public class GameManager {
                             QuestionOption answer3 = new QuestionOption().answerValue(splitLine[3]);
                             QuestionOption answer4 = new QuestionOption().answerValue(splitLine[4]);
 
+                            log.info("Question " + answer1.getUuid() + " " + answer1.getAnswerValue());
+
                             Question question = new Question()
                                     .questionText(splitLine[0])
                                     .correctOption(answer1)

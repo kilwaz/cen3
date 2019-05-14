@@ -19,12 +19,12 @@ public class NewQuestion extends Message {
 
         Game currentGame = GameManager.getInstance().getCurrentGame();
 
+        currentGame.markAnswers();
+
         // Send off push request to listeners
         NextQuestion nextQuestion = Message.create(NextQuestion.class);
         nextQuestion.nextQuestion(currentGame.getNextQuestion());
         nextQuestion.sendTo(Message.ALL_PLAYERS);
-
-        currentGame.markAnswers();
 
         for (Player player : currentGame.getPlayers()) {
             UpdateScore updateScore = Message.create(UpdateScore.class);

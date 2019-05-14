@@ -1,12 +1,12 @@
 <p>
-  {{webSocketServiceReference.connected}}
+  {{webSocketServiceReference.connected}} - {{player.name}}
 </p>
 
 <div *ngIf="changingName" class="container">
   <mat-form-field style="width:100%">
-    <input matInput placeholder="What's your name?" value="" (keyup)="updateName($event)">
+    <input matInput placeholder="What's your name?" value="" (change)="playerNameChanged()" (keyup)="updateName($event)">
   </mat-form-field>
-  <button mat-button (click)='playerNameChanged()'>Go!</button>
+  <button mat-button (click)="playerNameChanged()">Confirm</button>
 </div>
 
 <div *ngIf="!changingName" >

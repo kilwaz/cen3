@@ -67,6 +67,7 @@ export class GameViewComponent implements OnInit {
 
   nextQuestion(): void {
     let newQuestion: NewQuestion = new NewQuestion();
+    this.game.clearLatestAnswers();
     this.webSocketService.sendCallback(newQuestion, function (responseMessage) {
       console.log("Got back from new question");
     });

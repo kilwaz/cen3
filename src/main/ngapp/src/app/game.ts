@@ -65,4 +65,10 @@ export class Game {
   findScore(uuid: string) {
     return this._scores[uuid];
   }
+
+  clearLatestAnswers() {
+    for (let player of this._playersArray) {
+      player.latestAnswer = undefined;
+    }
+  }
 }
