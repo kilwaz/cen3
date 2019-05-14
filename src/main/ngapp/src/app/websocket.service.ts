@@ -4,6 +4,7 @@ import {webSocket} from "rxjs/webSocket";
 import {NewPlayerJoined} from "./wsObjects/newPlayerJoined";
 import {AnswerUpdate} from "./wsObjects/answerUpdate";
 import {NextQuestion} from "./wsObjects/nextQuestion";
+import {UpdateScore} from "./wsObjects/updateScore";
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,11 @@ export class WebSocketService {
           let actionMessage = new NextQuestion();
           actionMessage.decodeResponse(msgRaw);
           NextQuestion.informListeners(actionMessage);
+        }
+        if (msgRaw.type == "UpdateScore") {
+          let actionMessage = new UpdateScore();
+          actionMessage.decodeResponse(msgRaw);
+          UpdateScore.informListeners(actionMessage);
         }
       }
     }

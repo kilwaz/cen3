@@ -26,6 +26,8 @@ public class AnswerResponse extends Message {
                 .answerValue(answerStr)
                 .player(currentGame.findPlayer(playerUUID));
 
+        currentGame.updateAnswer(answer);
+
         AnswerUpdate answerUpdate = Message.create(AnswerUpdate.class);
         answerUpdate.answer(answer);
         answerUpdate.sendTo(Message.ALL_ADMINS);

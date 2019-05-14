@@ -19,6 +19,7 @@ export class PlayerViewComponent implements OnInit {
 
   private player: Player;
   private currentQuestion: Question;
+  private noQuestionsYet: boolean = true;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -40,6 +41,7 @@ export class PlayerViewComponent implements OnInit {
     NextQuestion.registerListener("NextQuestion", function (message: Message) {
       let nextQuestion: NextQuestion = <NextQuestion>message;
       let question: Question = new Question(nextQuestion.questionUUID);
+      _this.noQuestionsYet = false;
 
       for (let index in nextQuestion.questionOptions) {
         let option = nextQuestion.questionOptions[index];

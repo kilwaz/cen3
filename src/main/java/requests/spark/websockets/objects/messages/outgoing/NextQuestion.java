@@ -1,4 +1,4 @@
-package requests.spark.websockets.objects.messages.incoming;
+package requests.spark.websockets.objects.messages.outgoing;
 
 import game.actors.Question;
 import game.actors.QuestionOption;

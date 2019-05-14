@@ -8,6 +8,7 @@ import {Player} from "../player";
 import {AnswerUpdate} from "../wsObjects/answerUpdate";
 import {Answer} from "../answer";
 import {NewQuestion} from "../wsObjects/newQuestion";
+import {UpdateScore} from "../wsObjects/updateScore";
 
 @Component({
   selector: 'app-game-view',
@@ -48,6 +49,11 @@ export class GameViewComponent implements OnInit {
       let answer: Answer = new Answer(answerUpdate.answerUUID);
       answer.answerValue = answerUpdate.answerValue;
       player.latestAnswer = answer;
+    });
+
+    UpdateScore.registerListener("UpdateScore", function (message: Message) {
+      let updateScore: UpdateScore = <UpdateScore>message;
+      _this.game.updateScore(updateScore.playerUUID, updateScore.score);
     });
   }
 

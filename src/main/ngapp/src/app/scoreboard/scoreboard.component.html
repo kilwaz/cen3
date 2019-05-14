@@ -1,0 +1,5 @@
+<div *ngIf="game" class="container">
+  <div *ngFor="let player of game.players" class="row" >
+    {{player.uuid}} - {{game.findScore(player.uuid).score}}
+  </div>
+</div>

@@ -1,15 +1,19 @@
-<div class="row">
-  <div *ngIf="game">
+<div *ngIf="game" class="container">
+  <div class="row">
     <app-player *ngFor="let player of game.players"
                 [player]="player">
     </app-player>
   </div>
+
+  <div>
+    {{webSocketServiceReference.connected}}
+  </div>
+
+  <div>
+    <button type="button" (click)='nextQuestion()'>Next Question</button>
+  </div>
+
+  <app-scoreboard [game]="game"></app-scoreboard>
 </div>
 
-<div>
-  {{webSocketServiceReference.connected}}
-</div>
 
-<div>
-  <button type="button" (click)='nextQuestion()'>Next Question</button>
-</div>

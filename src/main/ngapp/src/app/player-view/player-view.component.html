@@ -2,14 +2,14 @@
   {{webSocketServiceReference.connected}}
 </p>
 
-<div>
-  <div *ngIf="player">
-    Player UUID = {{player.uuid}} - {{player.id}}
-  </div>
-</div>
+<!--<div>-->
+<!--  <div *ngIf="player">-->
+<!--    Player UUID = {{player.uuid}} - {{player.id}}-->
+<!--  </div>-->
+<!--</div>-->
 
-<div>
-  Question to be asked should go here
+<div *ngIf="noQuestionsYet" class="container w-100">
+  You're ready to go...just wait and it will start.
 </div>
 
 <div class="container w-100" *ngIf="currentQuestion">
