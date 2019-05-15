@@ -105,4 +105,15 @@ public class Game {
 
         currentAnswers.clear();
     }
+
+    public List<Score> getScores() {
+        return new ArrayList<>(scores.values());
+    }
+
+    public void resetGame() {
+        for (Score score : scores.values()) {
+            score.setScore(0);
+        }
+        questionCount = 0;
+    }
 }

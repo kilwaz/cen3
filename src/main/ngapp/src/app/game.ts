@@ -32,7 +32,7 @@ export class Game {
     this.sortPlayersByScore();
   }
 
-  private sortPlayersByScore() {
+  sortPlayersByScore() {
     this._playersArray.sort((n2, n1) => {
       if (n1.score > n2.score) {
         return 1;
@@ -42,11 +42,6 @@ export class Game {
       }
       return 0;
     });
-  }
-
-  updateScore(playerUUID: string, score: number) {
-    this._scores[playerUUID].score = score;
-    this.sortPlayersByScore();
   }
 
   removePlayer(player: Player) {

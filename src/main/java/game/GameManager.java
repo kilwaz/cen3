@@ -49,8 +49,6 @@ public class GameManager {
                             QuestionOption answer3 = new QuestionOption().answerValue(splitLine[3]);
                             QuestionOption answer4 = new QuestionOption().answerValue(splitLine[4]);
 
-                            log.info("Question " + answer1.getUuid() + " " + answer1.getAnswerValue());
-
                             Question question = new Question()
                                     .questionText(splitLine[0])
                                     .correctOption(answer1)
@@ -59,8 +57,6 @@ public class GameManager {
                                     .wrongOption(answer4);
 
                             game.addQuestion(question);
-
-                            log.info("Created question for " + question.getQuestionText());
                         }
                     }
                 }

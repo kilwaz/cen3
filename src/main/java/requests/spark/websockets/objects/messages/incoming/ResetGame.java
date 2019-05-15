@@ -5,29 +5,22 @@ import game.GameManager;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.messages.outgoing.NextQuestion;
 import requests.spark.websockets.objects.messages.outgoing.UpdateScore;
 
-// This is sent by the admin to trigger the next question
-@MessageType("NewQuestion")
-public class NewQuestion extends Message {
-    private static Logger log = Logger.getLogger(NewQuestion.class);
+@MessageType("ResetGame")
+public class ResetGame extends Message {
+    private static Logger log = Logger.getLogger(ResetGame.class);
 
     public void process() {
-        log.info("REQUEST TO SEND NEXT QUESTION!");
-
         Game currentGame = GameManager.getInstance().getCurrentGame();
 
-        currentGame.markAnswers();
-
-        // Send off push request to listeners
-        NextQuestion nextQuestion = Message.create(NextQuestion.class);
-        nextQuestion.nextQuestion(currentGame.getNextQuestion());
-        nextQuestion.sendTo(Message.ALL_PLAYERS);
+        currentGame.resetGame();
 
         UpdateScore updateScore = Message.create(UpdateScore.class);
         updateScore.scores(currentGame.getScores());
         updateScore.sendTo(Message.ALL_ADMINS);
+
+        log.info("Game has been reset");
 
         handleResponse();
     }

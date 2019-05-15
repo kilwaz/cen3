@@ -32,4 +32,8 @@ public class Score {
         log.info("Score is now " + score + " for " + player.getUuid());
         return this;
     }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 }

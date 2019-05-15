@@ -10,6 +10,7 @@ import {Answer} from "../answer";
 import {NewQuestion} from "../wsObjects/newQuestion";
 import {UpdateScore} from "../wsObjects/updateScore";
 import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
+import {ResetGame} from "../wsObjects/resetGame";
 
 @Component({
   selector: 'app-game-view',
@@ -32,7 +33,7 @@ export class GameViewComponent implements OnInit {
     let adminGame = new AdminGame();
     adminGame.localStorageUUID = window.localStorage.getItem("adminUUID");
 
-    this.webSocketService.sendCallback(adminGame, function () {
+    this.webSocketService.sendCallback(adminGame, function (responseMessage) {
       _this.game = new Game(adminGame.adminUUID);
       window.localStorage.setItem("adminUUID", adminGame.adminUUID);
     });
@@ -55,8 +56,12 @@ export class GameViewComponent implements OnInit {
 
     UpdateScore.registerListener("UpdateScore", function (message: Message) {
       let updateScore: UpdateScore = <UpdateScore>message;
-      _this.game.updateScore(updateScore.playerUUID, updateScore.score);
-      _this.game.findPlayer(updateScore.playerUUID).score = updateScore.score;
+
+      for (let index in updateScore.scores) {
+        let score = updateScore.scores[index];
+        _this.game.findPlayer(score.playerUUID).score = score.score;
+      }
+      _this.game.sortPlayersByScore();
     });
 
     PlayerNameUpdate.registerListener("PlayerNameUpdate", function (message: Message) {
@@ -70,6 +75,13 @@ export class GameViewComponent implements OnInit {
     this.game.clearLatestAnswers();
     this.webSocketService.sendCallback(newQuestion, function (responseMessage) {
       console.log("Got back from new question");
+    });
+  }
+
+  resetGame(){
+    let resetGame = new ResetGame();
+    this.webSocketService.sendCallback(resetGame, function (responseMessage) {
+
     });
   }
 }

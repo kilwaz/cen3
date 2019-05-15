@@ -1,8 +1,8 @@
 import {Message} from "./message";
+import {ScoreUpdate} from "../scoreUpdate";
 
 export class UpdateScore extends Message {
-  private _playerUUID: string;
-  private _score: number;
+  private _scores: Array<ScoreUpdate> = [];
 
   constructor() {
     super();
@@ -10,15 +10,10 @@ export class UpdateScore extends Message {
   }
 
   decodeResponse(msgRaw: any) {
-    this._playerUUID = msgRaw.playerUUID;
-    this._score = msgRaw.score;
+    this._scores = msgRaw.scores;
   }
 
-  get playerUUID(): string {
-    return this._playerUUID;
-  }
-
-  get score(): number {
-    return this._score;
+  get scores(): Array<ScoreUpdate> {
+    return this._scores;
   }
 }
