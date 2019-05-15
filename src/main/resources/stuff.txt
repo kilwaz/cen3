@@ -1,0 +1,22 @@
+Stuff to do:
+
+With the game:
+Write real questions
+Full details reload when the admin page refreshes
+Timer countdown for the end of a question
+Update player view to look nicer
+place the scoreboard over to the right of the screen
+Explore the possibility of making an admin screen separate from the game screen
+Remove players from the admin screen
+Rename players from the admin screen - Lock name change?
+
+QR codes
+Make it so the background is nicer
+Expand the buttons out a bit
+make it so player can rename themselves after doing it first
+if player is already named don't ask them again if the refresh
+
+Mili's Laptop
+Check it works with the projector
+Install and setup Apache
+Install Java
