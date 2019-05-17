@@ -1,27 +1,35 @@
-<p>
-  {{player.name}}
-</p>
-
-<div *ngIf="changingName" class="container">
-  <mat-form-field style="width:100%">
-    <input matInput placeholder="What's your name?" value="" (change)="playerNameChanged()" (keyup)="updateName($event)">
-  </mat-form-field>
-  <button mat-button (click)="playerNameChanged()">Confirm</button>
-</div>
-
-<div *ngIf="!changingName" >
-  <div *ngIf="noQuestionsYet" class="container w-100">
-    You're ready to go...just wait and it will start.
+<div *ngIf="player" class="auth-background background-image h-100">
+  <div class="mx-auto m-2 text-center"  (click)="enableChangeName()">
+    {{player.name}} - #{{player.id}}
   </div>
 
-  <div class="container w-100" *ngIf="currentQuestion">
-    <mat-button-toggle-group vertical name="fontStyle" aria-label="Font Style" class="w-100">
-      <mat-button-toggle *ngFor="let option of currentQuestion.questionOptions; let i = index"
-                         (click)='playerButtonPressed(option.optionUUID)'>
-        {{option.optionAnswer}} + {{i}}
-      </mat-button-toggle>
-    </mat-button-toggle-group>
+  <div *ngIf="changingName" class="container">
+    <mat-form-field style="width:100%">
+      <input matInput placeholder="Name yourself" value="{{player.name}}" (change)="playerNameChanged()" (keyup)="updateName($event)">
+    </mat-form-field>
+    <button mat-button (click)="playerNameChanged()">Confirm</button>
+    <button mat-button (click)="skipChangeName()">Skip</button>
+  </div>
+
+  <div *ngIf="!changingName" >
+    <div *ngIf="noQuestionsYet" class="container w-100 text-center">
+      You're ready to go...just waiting for the questions to begin.
+    </div>
+
+    <div class="container w-100" *ngIf="currentQuestion">
+      <mat-button-toggle-group vertical name="fontStyle" aria-label="Font Style" class="w-100">
+        <mat-button-toggle class="m2" *ngFor="let option of currentQuestion.questionOptions; let i = index"
+                           (click)='playerButtonPressed(option.optionUUID)'>
+          {{option.optionAnswer}} + {{i}}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+  <div *ngIf="countDownActive">
+    <h1>{{countDownRemaining}}</h1>
   </div>
 </div>
-
+<div *ngIf="!player">
+  Loading...
+</div>
 

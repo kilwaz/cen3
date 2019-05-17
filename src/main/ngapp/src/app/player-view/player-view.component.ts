@@ -8,6 +8,7 @@ import {NextQuestion} from "../wsObjects/nextQuestion";
 import {Question} from "../question";
 import {QuestionOption} from "../questionOption";
 import {PlayerNameChange} from "../wsObjects/playerNameChange";
+import {StartCountDown} from "../wsObjects/startCountDown";
 
 @Component({
   selector: 'app-player-view',
@@ -23,7 +24,12 @@ export class PlayerViewComponent implements OnInit {
 
   private noQuestionsYet: boolean = true;
   private changingName: boolean = true;
+
   private newPlayerName: string = "";
+
+  private countDownActive: boolean = false;
+  private countDownRemaining: number = 0;
+  private countDownTimer;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -57,6 +63,13 @@ export class PlayerViewComponent implements OnInit {
 
       _this.currentQuestion = question;
     });
+
+    StartCountDown.registerListener("StartCountDown", function (message: Message) {
+      let startCountDown: StartCountDown = <StartCountDown>message;
+      _this.countDownActive = true;
+      _this.countDownRemaining = startCountDown.countDownSeconds;
+      _this.countDownTimer = setInterval(_this.tickTimer, 1000, _this);
+    });
   }
 
   playerButtonPressed(button): void {
@@ -64,7 +77,6 @@ export class PlayerViewComponent implements OnInit {
     answer.answerValue = button;
     answer.playerUUID = this.player.uuid;
     this.webSocketService.sendCallback(answer, function (responseMessage) {
-      // let answerResponse: AnswerResponse = <AnswerResponse>responseMessage;
     });
   }
 
@@ -77,11 +89,27 @@ export class PlayerViewComponent implements OnInit {
     playerNameChange.playerUUID = this.player.uuid;
     playerNameChange.playerName = this.player.name;
     this.webSocketService.sendCallback(playerNameChange, function (responseMessage) {
-      //let playerNameChange1: PlayerNameChange = <PlayerNameChange>responseMessage;
     });
   }
 
   updateName(event) {
     this.newPlayerName = event.target.value;
+  }
+
+  enableChangeName() {
+    this.changingName = true;
+  }
+
+  skipChangeName() {
+    this.changingName = false;
+  }
+
+  tickTimer(_this: PlayerViewComponent) {
+    if (_this.countDownRemaining == 0) {
+      _this.countDownActive = false;
+      clearInterval(_this.countDownTimer);
+    } else {
+      _this.countDownRemaining = _this.countDownRemaining - 1;
+    }
   }
 }

@@ -11,6 +11,7 @@ import {NewQuestion} from "../wsObjects/newQuestion";
 import {UpdateScore} from "../wsObjects/updateScore";
 import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
 import {ResetGame} from "../wsObjects/resetGame";
+import {CountDownTrigger} from "../wsObjects/countDownTrigger";
 
 @Component({
   selector: 'app-game-view',
@@ -22,6 +23,8 @@ export class GameViewComponent implements OnInit {
   webSocketServiceReference = WebSocketService;
 
   private game: Game;
+
+  private questionText: string;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -71,16 +74,25 @@ export class GameViewComponent implements OnInit {
   }
 
   nextQuestion(): void {
+    let _this: GameViewComponent = this;
     let newQuestion: NewQuestion = new NewQuestion();
     this.game.clearLatestAnswers();
     this.webSocketService.sendCallback(newQuestion, function (responseMessage) {
-      console.log("Got back from new question");
+      let responseNewQuestion: NewQuestion = <NewQuestion>responseMessage;
+      _this.questionText = responseNewQuestion.questionText
     });
   }
 
-  resetGame(){
+  resetGame() {
     let resetGame = new ResetGame();
     this.webSocketService.sendCallback(resetGame, function (responseMessage) {
+
+    });
+  }
+
+  countDownTrigger() {
+    let countDownTrigger = new CountDownTrigger();
+    this.webSocketService.sendCallback(countDownTrigger, function (responseMessage) {
 
     });
   }

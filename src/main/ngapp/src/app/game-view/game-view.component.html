@@ -1,16 +1,28 @@
+<div>
+  <button type="button" (click)='nextQuestion()'>Next Question</button>
+  <button type="button" (click)='resetGame()'>Reset Game</button>
+  <button type="button" (click)='countDownTrigger()'>Count down</button>
+</div>
+
 <div *ngIf="game" class="container">
   <div class="row">
-    <app-player *ngFor="let player of game.players"
-                [player]="player">
-    </app-player>
-  </div>
+    <div class="col-8">
+      <div class="row">
+        <h1>{{questionText}}</h1>
+      </div>
+      <div class="row">
+        <div class="card-group">
+          <app-player *ngFor="let player of game.players"
+                      [player]="player">
+          </app-player>
+        </div>
+      </div>
+    </div>
 
-  <div>
-    <button type="button" (click)='nextQuestion()'>Next Question</button>
-    <button type="button" (click)='resetGame()'>Reset Game</button>
+    <div class="col-4">
+      <app-scoreboard [game]="game"></app-scoreboard>
+    </div>
   </div>
-
-  <app-scoreboard [game]="game"></app-scoreboard>
 </div>
 
 

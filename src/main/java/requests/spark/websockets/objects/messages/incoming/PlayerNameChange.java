@@ -42,11 +42,11 @@ public class PlayerNameChange extends Message {
     }
 
     public void populate(JSONObject jsonObject) {
-        if (jsonObject.has("playerName") && !jsonObject.isNull("playerName")) {
-            playerName = jsonObject.getString("playerName");
+        if (jsonObject.has("_playerName") && !jsonObject.isNull("_playerName")) {
+            playerName = jsonObject.getString("_playerName");
         }
-        if (jsonObject.has("playerUUID") && !jsonObject.isNull("playerUUID")) {
-            playerUUID = jsonObject.getString("playerUUID");
+        if (jsonObject.has("_playerUUID") && !jsonObject.isNull("_playerUUID")) {
+            playerUUID = jsonObject.getString("_playerUUID");
         }
     }
 }
