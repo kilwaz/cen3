@@ -1,27 +1,25 @@
 Stuff to do:
 
 With the game:
-Full details reload when the admin page refreshes
+
 Timer countdown for the end of a question
-
-
 
 
 Give the answers on the player view, showing the button highlighted
 Give amount other people answered on the screen as well
 
+
 Different rounds of questions to give different people a chance to win
+
 
 Write real questions
 Update player view to look nicer, some sort of background?
 
 Questions with pictures?
 
-Explore the possibility of making an admin screen separate from the game screen
+
 Remove players from the admin screen
 Rename players from the admin screen - Lock name change?
-
-
 
 
 QR codes
@@ -30,9 +28,8 @@ Spread the buttons out a bit
 make it so player can rename themselves after doing it first
 if player is already named don't ask them again if the refresh
 
-
-
-
+Alex's Laptop
+Install nginx
 
 Mili's Laptop
 Check it works with the projector

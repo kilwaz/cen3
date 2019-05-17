@@ -2,25 +2,25 @@ import {Message} from "./message";
 import {ScoreUpdate} from "../scoreUpdate";
 import {Player} from "../player";
 
-export class AdminGame extends Message {
+export class GameMasterJoin extends Message {
 
-  private _adminUUID: string;
+  private _gameMasterUUID: string;
   private _players: Array<Player> = [];
 
   private _localStorageUUID: string;
 
   constructor() {
     super();
-    this.type = "AdminGame";
+    this.type = "GameMasterJoin";
   }
 
   decodeResponse(msgRaw: any) {
-    this._adminUUID = msgRaw.adminUUID;
+    this._gameMasterUUID = msgRaw.gameMasterUUID;
     this._players = msgRaw.players;
   }
 
-  get adminUUID(): string {
-    return this._adminUUID;
+  get gameMasterUUID(): string {
+    return this._gameMasterUUID;
   }
 
   get localStorageUUID(): string {

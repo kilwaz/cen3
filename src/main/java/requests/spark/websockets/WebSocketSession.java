@@ -5,6 +5,7 @@ import org.eclipse.jetty.websocket.api.Session;
 public class WebSocketSession {
     public static final int TYPE_PLAYER = 1;
     public static final int TYPE_ADMIN = 2;
+    public static final int TYPE_GAME_MASTER = 3;
 
     private Session session;
     private int type;

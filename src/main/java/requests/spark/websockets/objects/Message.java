@@ -19,7 +19,8 @@ public class Message {
 
     public static final int ALL_PLAYERS = 1;
     public static final int ALL_ADMINS = 2;
-    public static final int ALL = 3;
+    public static final int ALL_GAME_MASTERS = 3;
+    public static final int ALL = 4;
 
     private String type;
     private String callBackUUID;
@@ -111,6 +112,8 @@ public class Message {
                 audienceList = WebSocketManager.getInstance().getAdmins();
             } else if (audience == ALL_PLAYERS) {
                 audienceList = WebSocketManager.getInstance().getPlayers();
+            } else if (audience == ALL_GAME_MASTERS) {
+                audienceList = WebSocketManager.getInstance().getGameMasters();
             } else if (audience == ALL) {
                 audienceList = WebSocketManager.getInstance().getAllSessions();
             }

@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.messages.outgoing.NewPlayerJoined;
 import requests.spark.websockets.objects.messages.outgoing.PlayerNameUpdate;
 
 // Triggered when a player changes there name
@@ -31,6 +30,10 @@ public class PlayerNameChange extends Message {
                 PlayerNameUpdate playerNameUpdate = Message.create(PlayerNameUpdate.class);
                 playerNameUpdate.player(player);
                 playerNameUpdate.sendTo(Message.ALL_ADMINS);
+
+                PlayerNameUpdate playerNameUpdateGameMaster = Message.create(PlayerNameUpdate.class);
+                playerNameUpdateGameMaster.player(player);
+                playerNameUpdateGameMaster.sendTo(Message.ALL_GAME_MASTERS);
             }
         }
 

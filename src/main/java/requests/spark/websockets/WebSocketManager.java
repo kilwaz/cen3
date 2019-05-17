@@ -21,6 +21,7 @@ public class WebSocketManager {
 
     private List<WebSocketSession> admins = new ArrayList<>();
     private List<WebSocketSession> players = new ArrayList<>();
+    private List<WebSocketSession> gameMasters = new ArrayList<>();
     private List<WebSocketSession> allSessions = new ArrayList<>();
     private HashMap<Session, WebSocketSession> sessionQuickReference = new HashMap<>();
 
@@ -56,6 +57,8 @@ public class WebSocketManager {
             admins.add(webSocketSession);
         } else if (webSocketSession.getType() == WebSocketSession.TYPE_PLAYER) {
             players.add(webSocketSession);
+        } else if (webSocketSession.getType() == WebSocketSession.TYPE_GAME_MASTER) {
+            gameMasters.add(webSocketSession);
         }
     }
 
@@ -72,6 +75,10 @@ public class WebSocketManager {
 
     public List<WebSocketSession> getAdmins() {
         return List.copyOf(admins);
+    }
+
+    public List<WebSocketSession> getGameMasters() {
+        return List.copyOf(gameMasters);
     }
 
     public List<WebSocketSession> getPlayers() {

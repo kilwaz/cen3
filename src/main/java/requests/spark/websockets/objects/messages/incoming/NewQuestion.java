@@ -9,7 +9,7 @@ import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.outgoing.NextQuestion;
 import requests.spark.websockets.objects.messages.outgoing.UpdateScore;
 
-// This is sent by the admin to trigger the next question
+// This is sent by the game master to trigger the next question
 @MessageType("NewQuestion")
 public class NewQuestion extends Message {
     private static Logger log = Logger.getLogger(NewQuestion.class);
@@ -24,6 +24,10 @@ public class NewQuestion extends Message {
         NextQuestion nextQuestion = Message.create(NextQuestion.class);
         nextQuestion.nextQuestion(question);
         nextQuestion.sendTo(Message.ALL_PLAYERS);
+
+        NextQuestion nextQuestionAdmin = Message.create(NextQuestion.class);
+        nextQuestionAdmin.nextQuestion(question);
+        nextQuestionAdmin.sendTo(Message.ALL_ADMINS);
 
         addResponseData("questionText", question.getQuestionText());
 

@@ -34,5 +34,6 @@ public class NextQuestion extends Message {
         }
 
         addResponseData("options", options);
+        addResponseData("questionText", nextQuestion.getQuestionText());
     }
 }

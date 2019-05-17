@@ -2,6 +2,7 @@ import {QuestionOption} from "./questionOption";
 
 export class Question {
   private _uuid: string;
+  private _questionText:string;
   private _questionOptions: Array<QuestionOption> = [];
 
   constructor(uuid: string) {

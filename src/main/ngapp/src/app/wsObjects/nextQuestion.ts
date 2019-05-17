@@ -4,6 +4,7 @@ import {QuestionOption} from "../questionOption";
 export class NextQuestion extends Message {
 
   private _questionUUID: string;
+  private _questionText: string;
   private _questionOptions: Array<QuestionOption> = [];
 
   constructor() {
@@ -14,6 +15,7 @@ export class NextQuestion extends Message {
   decodeResponse(msgRaw: any) {
     this._questionUUID = msgRaw.nextQuestionUUID;
     this._questionOptions = msgRaw.options;
+    this._questionText = msgRaw.questionText;
   }
 
   get questionUUID(): string {
@@ -22,5 +24,9 @@ export class NextQuestion extends Message {
 
   get questionOptions(): Array<QuestionOption> {
     return this._questionOptions;
+  }
+
+  get questionText(): string {
+    return this._questionText;
   }
 }

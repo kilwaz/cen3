@@ -5,6 +5,7 @@ import java.util.UUID;
 public class QuestionOption {
     private UUID uuid;
     private String answerValue;
+    private Integer countedAnswers = 0;
 
     public QuestionOption() {
         uuid = UUID.randomUUID();
@@ -21,5 +22,9 @@ public class QuestionOption {
 
     public String getAnswerValue() {
         return answerValue;
+    }
+
+    public Integer getCountedAnswers() {
+        return countedAnswers;
     }
 }

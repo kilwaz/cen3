@@ -14,6 +14,7 @@ public class Game {
     public UUID uuid;
     private HashMap<UUID, Player> players = new HashMap<>();
     private HashMap<UUID, Admin> admins = new HashMap<>();
+    private HashMap<UUID, GameMaster> gameMasters = new HashMap<>();
     private HashMap<UUID, Question> questions = new HashMap<>();
 
     private HashMap<Player, Score> scores = new HashMap<>();
@@ -46,6 +47,12 @@ public class Game {
         return admin;
     }
 
+    public GameMaster createGameMaster() {
+        GameMaster gameMaster = new GameMaster();
+        gameMasters.put(gameMaster.getUuid(), gameMaster);
+        return gameMaster;
+    }
+
     public void addQuestion(Question question) {
         questions.put(question.getUuid(), question);
         questionOrder.add(question);
@@ -75,8 +82,16 @@ public class Game {
         return admins.get(UUID.fromString(uuidStr));
     }
 
+    public GameMaster findGameMaster(String uuidStr) {
+        return gameMasters.get(UUID.fromString(uuidStr));
+    }
+
     public List<Player> getPlayers() {
         return new ArrayList(players.values());
+    }
+
+    public List<GameMaster> getGameMasters() {
+        return new ArrayList(gameMasters.values());
     }
 
     public Score getScore(Player player) {
