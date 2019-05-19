@@ -2,7 +2,21 @@
   <div class="row">
     <div class="col-8">
       <div class="row">
-        <h1>{{questionText}}</h1>
+        <div class="container w-100" *ngIf="currentQuestion">
+          <h1 *ngIf="currentQuestion">{{currentQuestion.questionText}}</h1>
+          <ul>
+            <li class="m2" style="list-style-type: square;"
+                *ngFor="let option of currentQuestion.questionOptions; let i = index">
+              <div>
+                {{option.optionAnswer}} <span
+                *ngIf="option.optionAnswerCount">- {{option.optionAnswerCount | number :'1.0-0'}}
+                /{{currentQuestion.totalAnswers | number :'1.0-0'}}
+                - {{option.optionPercentageOfTotalAnswers | number :'1.0-0'}}%</span>
+              </div>
+              <mat-progress-bar mode="determinate" value="{{option.optionPercentageOfTotalAnswers}}"></mat-progress-bar>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="row">
         <div class="card-group">

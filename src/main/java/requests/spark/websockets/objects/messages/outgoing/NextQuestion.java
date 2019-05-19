@@ -8,6 +8,10 @@ import org.json.JSONObject;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 // This is sent by the server to the players with details of the next question
 @MessageType("NextQuestion")
@@ -25,11 +29,19 @@ public class NextQuestion extends Message {
         addResponseData("nextQuestionUUID", nextQuestion.getUuid());
 
         JSONArray options = new JSONArray();
+        List<JSONObject> jsonObjectList = new ArrayList<>();
         for (QuestionOption questionOption : nextQuestion.getPossibleOptions()) {
             JSONObject option = new JSONObject();
 
             option.put("optionUUID", questionOption.getUuid());
             option.put("optionAnswer", questionOption.getAnswerValue());
+
+            jsonObjectList.add(option);
+        }
+
+        // Randomise answer order
+        Collections.shuffle(jsonObjectList);
+        for (JSONObject option : jsonObjectList) {
             options.put(option);
         }
 

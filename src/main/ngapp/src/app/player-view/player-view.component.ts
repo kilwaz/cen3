@@ -72,15 +72,7 @@ export class PlayerViewComponent implements OnInit {
       _this.countDownTimer = setInterval(_this.tickTimer, 1000, _this);
     });
 
-    QuestionResults.registerListener("QuestionResults", function (message: Message) {
-      let questionResults: QuestionResults = <QuestionResults>message;
 
-      for (let index in questionResults.questionOptions) {
-        let option = questionResults.questionOptions[index];
-
-        console.log(option.optionAnswer + " - " + option.optionAnswerCount);
-      }
-    });
   }
 
   playerButtonPressed(button): void {

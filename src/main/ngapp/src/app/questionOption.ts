@@ -2,6 +2,7 @@ export class QuestionOption {
   private _optionUUID: string;
   private _optionAnswer: string;
   private _optionAnswerCount: number;
+  private _optionPercentageOfTotalAnswers: number;
 
   constructor(uuid: string) {
     this._optionUUID = uuid;
@@ -29,5 +30,13 @@ export class QuestionOption {
 
   set optionAnswerCount(value: number) {
     this._optionAnswerCount = value;
+  }
+
+  get optionPercentageOfTotalAnswers(): number {
+    return this._optionPercentageOfTotalAnswers;
+  }
+
+  set optionPercentageOfTotalAnswers(value: number) {
+    this._optionPercentageOfTotalAnswers = value;
   }
 }

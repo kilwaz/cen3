@@ -26,7 +26,8 @@ export class WebSocketService {
   }
 
   private buildSocket() {
-    this.ws = webSocket("ws://192.168.1.101:4568/ws");
+    // this.ws = webSocket("ws://192.168.1.101:4568/ws");
+    this.ws = webSocket("ws://localhost:4568/ws");
     this.ws.subscribe(
       msg => WebSocketService.received(msg),
       err => WebSocketService.error(err),

@@ -12,7 +12,8 @@ import {
   MatCheckboxModule,
   MatInputModule,
   MatRadioModule,
-  MatTreeModule
+  MatTreeModule,
+  MatProgressBarModule
 } from '@angular/material';
 import {GameComponent} from './game/game.component';
 import {PlayerComponent} from './player/player.component';
@@ -43,6 +44,7 @@ import { GameMasterComponent } from './game-master/game-master.component';
     MatInputModule,
     MatTreeModule,
     MatButtonToggleModule,
+    MatProgressBarModule,
     ReactiveFormsModule
   ],
   providers: [],

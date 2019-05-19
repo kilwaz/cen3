@@ -6,6 +6,7 @@ export class Player {
   private _id: number;
   private _score: number = 0;
   private _name: string;
+  private _playerStatus: string = "alert-primary";
 
   constructor(uuid: string) {
     this._uuid = uuid;
@@ -49,5 +50,13 @@ export class Player {
 
   set name(value: string) {
     this._name = value;
+  }
+
+  get playerStatus(): string {
+    return this._playerStatus;
+  }
+
+  set playerStatus(value: string) {
+    this._playerStatus = value;
   }
 }

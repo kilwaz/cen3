@@ -10,6 +10,9 @@ import {Answer} from "../answer";
 import {UpdateScore} from "../wsObjects/updateScore";
 import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
 import {NextQuestion} from "../wsObjects/nextQuestion";
+import {Question} from "../question";
+import {QuestionOption} from "../questionOption";
+import {QuestionResults} from "../wsObjects/questionResults";
 
 @Component({
   selector: 'app-game-view',
@@ -22,7 +25,7 @@ export class GameViewComponent implements OnInit {
 
   private game: Game;
 
-  private questionText: string;
+  private currentQuestion: Question;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -61,6 +64,7 @@ export class GameViewComponent implements OnInit {
       let answer: Answer = new Answer(answerUpdate.answerUUID);
       answer.answerValue = answerUpdate.answerValue;
       player.latestAnswer = answer;
+      player.playerStatus = "alert-warning";
     });
 
     UpdateScore.registerListener("UpdateScore", function (message: Message) {
@@ -75,7 +79,55 @@ export class GameViewComponent implements OnInit {
 
     NextQuestion.registerListener("NextQuestion", function (message: Message) {
       let nextQuestion: NextQuestion = <NextQuestion>message;
-      _this.questionText = nextQuestion.questionText;
+      for (let index in _this.game.players) {
+        _this.game.players[index].latestAnswer = undefined;
+        _this.game.players[index].playerStatus = "alert-primary";
+      }
+
+      let question: Question = new Question(nextQuestion.questionUUID);
+      for (let index in nextQuestion.questionOptions) {
+        let option = nextQuestion.questionOptions[index];
+        let questionOption: QuestionOption = new QuestionOption(option.optionUUID);
+        questionOption.optionAnswer = option.optionAnswer;
+        question.addQuestionOption(questionOption);
+      }
+
+      question.questionText = nextQuestion.questionText;
+      _this.currentQuestion = question;
+    });
+
+    QuestionResults.registerListener("QuestionResults", function (message: Message) {
+      let questionResults: QuestionResults = <QuestionResults>message;
+      let totalAnswers: number = 0;
+
+      for (let index in questionResults.playerResults) {
+        debugger;
+        let playerResult = questionResults.playerResults[index];
+        let player: Player = _this.game.findPlayer(playerResult.playerUUID);
+        if (player) {
+          if (playerResult.isCorrectAnswer) {
+            player.playerStatus = "alert-success";
+          } else {
+            player.playerStatus = "alert-danger";
+          }
+        }
+      }
+
+      for (let index in questionResults.questionOptions) {
+        let option = questionResults.questionOptions[index];
+        totalAnswers = totalAnswers + option.optionAnswerCount;
+      }
+
+      for (let index in questionResults.questionOptions) {
+        let option = questionResults.questionOptions[index];
+        let foundOption = _this.currentQuestion.findQuestionOption(option.optionUUID);
+        if (foundOption) {
+          foundOption.optionAnswerCount = option.optionAnswerCount;
+          foundOption.optionPercentageOfTotalAnswers = (option.optionAnswerCount / totalAnswers) * 100;
+        }
+      }
+
+      _this.currentQuestion.totalAnswers = totalAnswers;
     });
 
     PlayerNameUpdate.registerListener("PlayerNameUpdate", function (message: Message) {

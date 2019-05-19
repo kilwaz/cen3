@@ -22,12 +22,15 @@ public class MarkAnswers extends Message {
         if (markedQuestion != null) {
             QuestionResults questionResults = Message.create(QuestionResults.class);
             questionResults.question(markedQuestion);
-            questionResults.sendTo(Message.ALL_PLAYERS);
+            questionResults.players(currentGame.getPlayers());
+            questionResults.sendTo(Message.ALL_ADMINS);
         }
 
         UpdateScore updateScore = Message.create(UpdateScore.class);
         updateScore.scores(currentGame.getScores());
         updateScore.sendTo(Message.ALL_ADMINS);
+
+        currentGame.clearAnswers();
 
         handleResponse();
     }

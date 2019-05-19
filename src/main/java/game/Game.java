@@ -127,13 +127,19 @@ public class Game {
             }
         }
 
-        currentAnswers.clear();
-
         if (currentQuestion != null) {
             for (QuestionOption questionOption : currentQuestion.getPossibleOptions()) {
                 log.info(questionOption.getAnswerValue() + " - " + questionOption.getCountedAnswers());
             }
         }
+    }
+
+    public Answer findAnswer(Player player) {
+        return currentAnswers.get(player);
+    }
+
+    public void clearAnswers() {
+        currentAnswers.clear();
     }
 
     public List<Score> getScores() {

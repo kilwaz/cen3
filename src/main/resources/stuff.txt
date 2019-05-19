@@ -2,36 +2,25 @@ Stuff to do:
 
 With the game:
 
-Timer countdown for the end of a question
 
 What happens if people come in mid question?
-Answers don't clear on the game screen
-
-Give the answers on the player view, showing the button highlighted
-Give amount other people answered on the screen as well
 if player is already named don't ask them again if the refresh
-put answer to questions onto the main screen
-
-
-Different rounds of questions to give different people a chance to win
-
-
-Write real questions
-Update player view to look nicer, some sort of background?
-
-Questions with pictures?
-
-
 Remove players from the admin screen
 Rename players from the admin screen - Lock name change?
 
 
+Different rounds of questions to give different people a chance to win
+
+Write real questions
+
+
+Questions with pictures?
+
+
+Update player view to look nicer, some sort of background?
+
+
 QR codes
+Add manual load page by typing in IP
 Make it so the background is nicer
 Spread the buttons out a bit
-
-Alex's Laptop
-Install nginx
-
-Mili's Laptop
-Check it works with the projector
