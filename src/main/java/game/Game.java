@@ -78,6 +78,10 @@ public class Game {
         return nextQuestion;
     }
 
+    public Question getCurrentQuestion() {
+        return currentQuestion;
+    }
+
     public Admin findAdmin(String uuidStr) {
         return admins.get(UUID.fromString(uuidStr));
     }
@@ -110,6 +114,11 @@ public class Game {
         for (Player player : currentAnswers.keySet()) {
             Answer answer = currentAnswers.get(player);
 
+            QuestionOption questionOption = currentQuestion.findQuestionOption(answer.getAnswerValue());
+            if (questionOption != null) {
+                questionOption.incrementAnswer();
+            }
+
             if (currentQuestion.getCorrectOption().getUuid().toString().equals(answer.getAnswerValue())) {
                 scores.get(player).givePoint();
                 log.info("Answer was CORRECT for " + player.getName() + " answered " + answer.getAnswerValue() + " correct was " + currentQuestion.getCorrectOption().getUuid());
@@ -119,6 +128,12 @@ public class Game {
         }
 
         currentAnswers.clear();
+
+        if (currentQuestion != null) {
+            for (QuestionOption questionOption : currentQuestion.getPossibleOptions()) {
+                log.info(questionOption.getAnswerValue() + " - " + questionOption.getCountedAnswers());
+            }
+        }
     }
 
     public List<Score> getScores() {

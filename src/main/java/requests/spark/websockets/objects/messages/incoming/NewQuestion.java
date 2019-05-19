@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.outgoing.NextQuestion;
-import requests.spark.websockets.objects.messages.outgoing.UpdateScore;
 
 // This is sent by the game master to trigger the next question
 @MessageType("NewQuestion")
@@ -16,8 +15,6 @@ public class NewQuestion extends Message {
 
     public void process() {
         Game currentGame = GameManager.getInstance().getCurrentGame();
-        currentGame.markAnswers();
-
         Question question = currentGame.getNextQuestion();
 
         // Send off push request to listeners
@@ -30,10 +27,6 @@ public class NewQuestion extends Message {
         nextQuestionAdmin.sendTo(Message.ALL_ADMINS);
 
         addResponseData("questionText", question.getQuestionText());
-
-        UpdateScore updateScore = Message.create(UpdateScore.class);
-        updateScore.scores(currentGame.getScores());
-        updateScore.sendTo(Message.ALL_ADMINS);
 
         handleResponse();
     }

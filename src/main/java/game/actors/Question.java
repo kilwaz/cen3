@@ -46,4 +46,13 @@ public class Question {
     public String getQuestionText() {
         return questionText;
     }
+
+    public QuestionOption findQuestionOption(String uuid) {
+        for (QuestionOption questionOption : possibleOptions) {
+            if (questionOption.getUuid().toString().equals(uuid)) {
+                return questionOption;
+            }
+        }
+        return null;
+    }
 }

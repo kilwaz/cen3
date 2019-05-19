@@ -8,6 +8,7 @@ import {Player} from "../player";
 import {GameMasterJoin} from "../wsObjects/gameMasterJoin";
 import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
 import {Message} from "../wsObjects/message";
+import {MarkAnswers} from "../wsObjects/markAnswers";
 
 @Component({
   selector: 'app-game-master',
@@ -19,6 +20,10 @@ export class GameMasterComponent implements OnInit {
   webSocketServiceReference = WebSocketService;
 
   private game: Game;
+
+  private countDownActive: boolean = false;
+  private countDownRemaining: number = 0;
+  private countDownTimer = 0;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -49,12 +54,8 @@ export class GameMasterComponent implements OnInit {
   }
 
   nextQuestion(): void {
-    let _this: GameMasterComponent = this;
     let newQuestion: NewQuestion = new NewQuestion();
-    // this.game.clearLatestAnswers();
     this.webSocketService.sendCallback(newQuestion, function (responseMessage) {
-      let responseNewQuestion: NewQuestion = <NewQuestion>responseMessage;
-      // _this.questionText = responseNewQuestion.questionText
     });
   }
 
@@ -62,14 +63,31 @@ export class GameMasterComponent implements OnInit {
     let resetGame = new ResetGame();
     let _this: GameMasterComponent = this;
     this.webSocketService.sendCallback(resetGame, function (responseMessage) {
-      // _this.questionText = undefined;
     });
   }
 
   countDownTrigger() {
+    let _this: GameMasterComponent = this;
     let countDownTrigger = new CountDownTrigger();
     this.webSocketService.sendCallback(countDownTrigger, function (responseMessage) {
-
+      _this.countDownRemaining = 5;
+      _this.countDownActive = true;
+      _this.countDownTimer = setInterval(_this.tickTimer, 1000, _this);
     });
+  }
+
+  markAnswers() {
+    let markAnswers = new MarkAnswers();
+    this.webSocketService.sendCallback(markAnswers, function (responseMessage) {
+    });
+  }
+
+  tickTimer(_this: GameMasterComponent) {
+    if (_this.countDownRemaining == 0) {
+      _this.countDownActive = false;
+      clearInterval(_this.countDownTimer);
+    } else {
+      _this.countDownRemaining = _this.countDownRemaining - 1;
+    }
   }
 }

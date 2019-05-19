@@ -9,6 +9,7 @@ import {Question} from "../question";
 import {QuestionOption} from "../questionOption";
 import {PlayerNameChange} from "../wsObjects/playerNameChange";
 import {StartCountDown} from "../wsObjects/startCountDown";
+import {QuestionResults} from "../wsObjects/questionResults";
 
 @Component({
   selector: 'app-player-view',
@@ -70,6 +71,16 @@ export class PlayerViewComponent implements OnInit {
       _this.countDownRemaining = startCountDown.countDownSeconds;
       _this.countDownTimer = setInterval(_this.tickTimer, 1000, _this);
     });
+
+    QuestionResults.registerListener("QuestionResults", function (message: Message) {
+      let questionResults: QuestionResults = <QuestionResults>message;
+
+      for (let index in questionResults.questionOptions) {
+        let option = questionResults.questionOptions[index];
+
+        console.log(option.optionAnswer + " - " + option.optionAnswerCount);
+      }
+    });
   }
 
   playerButtonPressed(button): void {
@@ -108,6 +119,8 @@ export class PlayerViewComponent implements OnInit {
     if (_this.countDownRemaining == 0) {
       _this.countDownActive = false;
       clearInterval(_this.countDownTimer);
+
+
     } else {
       _this.countDownRemaining = _this.countDownRemaining - 1;
     }

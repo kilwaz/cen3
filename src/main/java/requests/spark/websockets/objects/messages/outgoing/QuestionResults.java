@@ -1,8 +1,10 @@
 package requests.spark.websockets.objects.messages.outgoing;
 
-import game.actors.Player;
 import game.actors.Question;
+import game.actors.QuestionOption;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 
@@ -18,8 +20,18 @@ public class QuestionResults extends Message {
     }
 
     public void prepareToSend() {
-        addResponseData("newPlayerUUID", newPlayer.getUuid());
-        addResponseData("newPlayerID", newPlayer.getId());
-        addResponseData("newPlayerName", newPlayer.getName());
+        addResponseData("questionUUID", question.getUuid());
+
+        JSONArray options = new JSONArray();
+        for (QuestionOption questionOption : question.getPossibleOptions()) {
+            JSONObject option = new JSONObject();
+
+            option.put("optionUUID", questionOption.getUuid());
+            option.put("optionAnswerCount", questionOption.getCountedAnswers());
+            options.put(option);
+        }
+
+        addResponseData("options", options);
+        addResponseData("correctOptionUUID", question.getCorrectOption().getUuid());
     }
 }

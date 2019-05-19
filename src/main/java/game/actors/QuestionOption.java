@@ -27,4 +27,9 @@ public class QuestionOption {
     public Integer getCountedAnswers() {
         return countedAnswers;
     }
+
+    public QuestionOption incrementAnswer(){
+        countedAnswers++;
+        return this;
+    }
 }

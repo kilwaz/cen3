@@ -7,6 +7,7 @@ import {NextQuestion} from "./wsObjects/nextQuestion";
 import {UpdateScore} from "./wsObjects/updateScore";
 import {PlayerNameUpdate} from "./wsObjects/playerNameUpdate";
 import {StartCountDown} from "./wsObjects/startCountDown";
+import {QuestionResults} from "./wsObjects/questionResults";
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,11 @@ export class WebSocketService {
           let actionMessage = new StartCountDown();
           actionMessage.decodeResponse(msgRaw);
           StartCountDown.informListeners(actionMessage);
+        }
+        if (msgRaw.type == "QuestionResults") {
+          let actionMessage = new QuestionResults();
+          actionMessage.decodeResponse(msgRaw);
+          QuestionResults.informListeners(actionMessage);
         }
       }
     }

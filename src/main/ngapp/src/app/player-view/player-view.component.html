@@ -20,7 +20,7 @@
       <mat-button-toggle-group vertical name="fontStyle" aria-label="Font Style" class="w-100">
         <mat-button-toggle class="m2" *ngFor="let option of currentQuestion.questionOptions; let i = index"
                            (click)='playerButtonPressed(option.optionUUID)'>
-          {{option.optionAnswer}} + {{i}}
+          {{option.optionAnswer}}
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>

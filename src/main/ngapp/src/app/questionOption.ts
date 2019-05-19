@@ -1,6 +1,7 @@
 export class QuestionOption {
   private _optionUUID: string;
   private _optionAnswer: string;
+  private _optionAnswerCount: number;
 
   constructor(uuid: string) {
     this._optionUUID = uuid;
@@ -20,5 +21,13 @@ export class QuestionOption {
 
   set optionAnswer(value: string) {
     this._optionAnswer = value;
+  }
+
+  get optionAnswerCount(): number {
+    return this._optionAnswerCount;
+  }
+
+  set optionAnswerCount(value: number) {
+    this._optionAnswerCount = value;
   }
 }
