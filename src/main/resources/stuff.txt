@@ -4,9 +4,13 @@ With the game:
 
 Timer countdown for the end of a question
 
+What happens if people come in mid question?
+Answers don't clear on the game screen
 
 Give the answers on the player view, showing the button highlighted
 Give amount other people answered on the screen as well
+if player is already named don't ask them again if the refresh
+put answer to questions onto the main screen
 
 
 Different rounds of questions to give different people a chance to win
@@ -25,8 +29,6 @@ Rename players from the admin screen - Lock name change?
 QR codes
 Make it so the background is nicer
 Spread the buttons out a bit
-make it so player can rename themselves after doing it first
-if player is already named don't ask them again if the refresh
 
 Alex's Laptop
 Install nginx
