@@ -1,16 +1,18 @@
 <div>
-  <button type="button" (click)='nextQuestion()'>Next Question</button>
-  <button type="button" (click)='resetGame()'>Reset Game</button>
 <!--  <button type="button" (click)='countDownTrigger()'>Count down</button>-->
-  <button type="button" (click)='markAnswers()'>Mark Answers</button>
+  <button mat-button class="alert-primary m-2" (click)="nextQuestion()">Next Question</button>
+  <button mat-button class="alert-primary m-2" (click)="markAnswers()">Mark Answers</button>
+  <button mat-button class="alert-primary m-2" (click)="resetGame()">Reset Game</button>
 </div>
 
 <div *ngIf="countDownActive">
   <h1>{{countDownRemaining}}</h1>
 </div>
 
-<div *ngIf="game">
+<div class="p-2" *ngIf="game">
   <div *ngFor="let player of game.players">
     {{player.name}} - {{player.id}}
+    <button mat-button class="alert-primary m-2">Remove</button>
+    <button mat-button class="alert-primary m-2">Rename</button>
   </div>
 </div>

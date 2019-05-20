@@ -8,8 +8,6 @@ import {NextQuestion} from "../wsObjects/nextQuestion";
 import {Question} from "../question";
 import {QuestionOption} from "../questionOption";
 import {PlayerNameChange} from "../wsObjects/playerNameChange";
-import {StartCountDown} from "../wsObjects/startCountDown";
-import {QuestionResults} from "../wsObjects/questionResults";
 
 @Component({
   selector: 'app-player-view',
@@ -28,9 +26,9 @@ export class PlayerViewComponent implements OnInit {
 
   private newPlayerName: string = "";
 
-  private countDownActive: boolean = false;
-  private countDownRemaining: number = 0;
-  private countDownTimer;
+  // private countDownActive: boolean = false;
+  // private countDownRemaining: number = 0;
+  // private countDownTimer;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -46,6 +44,9 @@ export class PlayerViewComponent implements OnInit {
       let player = new Player(joinGame.playerUUID);
       player.id = joinGame.playerID;
       player.name = joinGame.playerName;
+      if (!player.name.startsWith("Player")) {
+        _this.changingName = false;
+      }
       window.localStorage.setItem("playerUUID", player.uuid);
       _this.player = player;
     });
@@ -65,14 +66,12 @@ export class PlayerViewComponent implements OnInit {
       _this.currentQuestion = question;
     });
 
-    StartCountDown.registerListener("StartCountDown", function (message: Message) {
-      let startCountDown: StartCountDown = <StartCountDown>message;
-      _this.countDownActive = true;
-      _this.countDownRemaining = startCountDown.countDownSeconds;
-      _this.countDownTimer = setInterval(_this.tickTimer, 1000, _this);
-    });
-
-
+    // StartCountDown.registerListener("StartCountDown", function (message: Message) {
+    //   let startCountDown: StartCountDown = <StartCountDown>message;
+    //   _this.countDownActive = true;
+    //   _this.countDownRemaining = startCountDown.countDownSeconds;
+    //   _this.countDownTimer = setInterval(_this.tickTimer, 1000, _this);
+    // });
   }
 
   playerButtonPressed(button): void {
@@ -107,14 +106,14 @@ export class PlayerViewComponent implements OnInit {
     this.changingName = false;
   }
 
-  tickTimer(_this: PlayerViewComponent) {
-    if (_this.countDownRemaining == 0) {
-      _this.countDownActive = false;
-      clearInterval(_this.countDownTimer);
-
-
-    } else {
-      _this.countDownRemaining = _this.countDownRemaining - 1;
-    }
-  }
+  // tickTimer(_this: PlayerViewComponent) {
+  //   if (_this.countDownRemaining == 0) {
+  //     _this.countDownActive = false;
+  //     clearInterval(_this.countDownTimer);
+  //
+  //
+  //   } else {
+  //     _this.countDownRemaining = _this.countDownRemaining - 1;
+  //   }
+  // }
 }

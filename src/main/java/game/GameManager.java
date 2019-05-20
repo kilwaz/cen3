@@ -42,7 +42,7 @@ public class GameManager {
                     String line;
                     while ((line = br.readLine()) != null) {
 
-                        String[] splitLine = line.split("\\|");
+                        String[] splitLine = line.split("\t");
                         if (splitLine.length == 5) {
                             QuestionOption answer1 = new QuestionOption().answerValue(splitLine[1]);
                             QuestionOption answer2 = new QuestionOption().answerValue(splitLine[2]);
@@ -65,7 +65,7 @@ public class GameManager {
             }
         }
 
-        log.info("Created new game, ready to play");
+        log.info("Created new game, ready to play - " + game.getQuestions().size() + " questions loaded");
 
         games.put(game.getUuid(), game);
         currentGame = game;

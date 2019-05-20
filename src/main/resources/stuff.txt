@@ -4,14 +4,16 @@ With the game:
 
 
 What happens if people come in mid question?
-if player is already named don't ask them again if the refresh
+
+
 Remove players from the admin screen
 Rename players from the admin screen - Lock name change?
 
 
-Different rounds of questions to give different people a chance to win
+Remove the debug messages sent to console
 
-Write real questions
+
+Different rounds of questions to give different people a chance to win
 
 
 Questions with pictures?
@@ -23,4 +25,4 @@ Update player view to look nicer, some sort of background?
 QR codes
 Add manual load page by typing in IP
 Make it so the background is nicer
-Spread the buttons out a bit
+Spread the buttons out a bit on the player view screen

@@ -1,6 +1,42 @@
-Question wording first q|First answer which is the correct one|Second answer|third answer|forth answer
-Question wording second q|2 QUESTION WOOP|Second answer|third answer|forth answer
-Question wording third q|3 QUESTION WOOP|Second answer|third answer|forth answer
-Question wording 4th q|4 QUESTION WOOP|Second answer|third answer|forth answer
-Question wording 5th q|5 QUESTION WOOP|Second answer|third answer|forth answer
-Question wording 6th q|6 QUESTION WOOP|Second answer|third answer|forth answer
+Mili:
+What type of dance class has Mili never been to?	Ballet	BBBB	CCCC	DDDD
+What profession did Mili want to be when she grew up?	Hairdresser	BBBB	CCCC	DDDD
+Which instrument did Mili play when she was younger?	Trombone	BBBB	CCCC	DDDD
+Which celebrity does Mili fancy the most?	Channing Tatum	BBBB	CCCC	DDDD
+What is Mili's favourite movie?	AAAA	BBBB	CCCC	DDDD
+What is Mili's favourite ice cream flavour?	AAAA	BBBB	CCCC	DDDD
+What is Mili's favourite water activity?	White Water Rafting	BBBB	CCCC	DDDD
+Which house chore does Mili hate the most?	Hanging Clothes Up To Dry	BBBB	CCCC	DDDD
+How many white hairs does Mili have?	AAAA	BBBB	CCCC	DDDD
+Where in Australia did Mili live for 6 months during university?	AAAA	BBBB	CCCC	DDDD
+In which of these places has Mili relieved herself (number 1)? 	AAAA	BBBB	CCCC	DDDD
+What bodily function of a baby grosses Mili out the most?	Dribble	BBBB	CCCC	DDDD
+"At school, what was Mili most voted to be?"	Smiley	BBBB	CCCC	DDDD
+"When Mili was younger, what is the one feature of a man she hated?"	Chest Hair	BBBB	CCCC	DDDD
+What items does Mili like to collect?	Stationery	BBBB	CCCC	DDDD
+Alex:
+What is Alex's favourite chocolate?	Wispa	BBBB	CCCC	DDDD
+Which celebrity does Alex fancy the most?	AAAA	BBBB	CCCC	DDDD
+What app does Alex use the most?	AAAA	BBBB	CCCC	DDDD
+What is Alex's idea of a perfect date?	AAAA	BBBB	CCCC	DDDD
+Which fruit did Alex once think was the same as a passionfruit?	Pomegranate	BBBB	CCCC	DDDD
+What is Alex's guilty pleasure?	Lemon cakes	BBBB	CCCC	DDDD
+Which of these countries has Alex not visited?	AAAA	BBBB	CCCC	DDDD
+What special talent does Alex have?	He can burp on demand	BBBB	CCCC	DDDD
+What did Alex want to be when he grew up?	Train driver	BBBB	CCCC	DDDD
+"When Alex was younger, how did he think wool was made? "	AAAA	BBBB	CCCC	DDDD
+"When Alex was little, what fear did his family use against him to keep him well behaved?"	Balloons	BBBB	CCCC	DDDD
+Which of the following scenarios has Alex caused to happen?	AAAA	BBBB	CCCC	DDDD
+About their relationship:
+Which mountain have they climbed together?	Snowdon	BBBB	CCCC	DDDD
+What is Alex's most annoying habit in the house?	Playing computer games	BBBB	CCCC	DDDD
+What is Alex's nickname for Mili?	Splodge	BBBB	CCCC	DDDD
+What would Mili say Alex's best feature is?	His behind	BBBB	CCCC	DDDD
+At which restaurant did Mili once stand Alex up on a date?	Giraffe	BBBB	CCCC	DDDD
+What is Alex's biggest pet peeve about Mili?	AAAA	BBBB	CCCC	DDDD
+What habit did Mili pick up from Alex?	Wrapping herself up in quilts	BBBB	CCCC	DDDD
+On which beach did Alex propose to Mili?	AAAA	BBBB	CCCC	DDDD
+What sport do they play together?	Badminton	BBBB	CCCC	DDDD
+Which reality TV show is their guilty pleasure to watch together?	Love Island	BBBB	CCCC	DDDD
+Which of the following home spa treatments does Alex allow to be done to him?	Facemask	BBBB	CCCC	DDDD
+Which special occasion did Alex not get a card for Mili because it had been her birthday 2 weeks prior to it?	AAAA	BBBB	CCCC	DDDD
