@@ -16,6 +16,7 @@ import {AgGridModule} from 'ag-grid-angular';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule, MatInputModule, MatRadioModule, MatTreeModule} from '@angular/material';
 import {ScheduleComponent} from './schedule/schedule.component';
+import { PhotolistComponent } from './photolist/photolist.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {ScheduleComponent} from './schedule/schedule.component';
     VenueComponent,
     AuthComponent,
     AccommodationComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    PhotolistComponent
   ],
   imports: [
     BrowserModule,

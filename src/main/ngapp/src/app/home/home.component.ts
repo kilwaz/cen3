@@ -18,13 +18,16 @@ export class HomeComponent implements OnInit {
   remainingHours: number;
   remainingDays: number;
 
+  areWeMarried: boolean = false;
+
   constructor() {
 
   }
 
   ngOnInit() {
     this.currentDate = new Date();
-    this.weddingDate = new Date("2019-05-26T13:00:00");
+    this.weddingDate = new Date("2019-05-26T12:45:00");
+    this.areWeMarried = this.currentDate.getTime() > this.weddingDate.getTime();
 
     this.setupTimer();
     this.calcTimeNumbers();

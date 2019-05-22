@@ -21,14 +21,20 @@ export class TopbarComponent implements OnInit {
   constructor(sessionService: SessionService) {
     this.validatedRSVP = sessionService.validatedRSVP;
 
-    this.links = [
-      new TopLink('Home', 'home', 'blue'),
-      new TopLink('Schedule', 'schedule', 'light-blue'),
-      this.validatedRSVP.rsvpType == this.RSVP_TYPE_ALL ? new TopLink('Venues', 'venue', 'yellow') : new TopLink('Venue', 'venue', 'yellow'),
-      new TopLink('Accommodation', 'accommodation', 'purple'),
-      new TopLink('RSVP', 'rsvp', 'green'),
-      new TopLink('FAQ', 'faq', 'red')
-    ];
+    this.links = [];
+    this.links.push(new TopLink('Home', 'home', 'blue'));
+    this.links.push(new TopLink('Schedule', 'schedule', 'light-blue'));
+    if (this.validatedRSVP.rsvpType == this.RSVP_TYPE_ALL) {
+      this.links.push(new TopLink('Venues', 'venue', 'yellow'));
+    } else {
+      this.links.push(new TopLink('Venue', 'venue', 'yellow'));
+    }
+    this.links.push(new TopLink('Accommodation', 'accommodation', 'purple'));
+    if (this.validatedRSVP.rsvpType == this.RSVP_TYPE_ALL || this.validatedRSVP.rsvpType == this.RSVP_TYPE_WEDDING_ONLY) {
+      this.links.push(new TopLink('Photo list', 'photolist', 'green'));
+    }
+    this.links.push(new TopLink('FAQ', 'faq', 'red'));
+    this.links.push()
   }
 
   ngOnInit() {

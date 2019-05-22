@@ -5,13 +5,17 @@
     </div>
   </div>
 
-  <div class="row">
+  <div *ngIf="!areWeMarried" class="row">
     <div class="col text-center">
       <h5>Countdown Timer</h5>
     </div>
   </div>
 
-  <div class="row">
+  <div *ngIf="areWeMarried" class="text-center">
+    <div class="count-down-number text-center display-1">We're Married!</div>
+  </div>
+
+  <div *ngIf="!areWeMarried" class="row">
     <div class="col">
       <div class="count-down-number text-center display-1">{{remainingDays}}</div>
       <h3>Days</h3>
@@ -29,7 +33,7 @@
       <h3>Seconds</h3>
     </div>
   </div>
-  <div class="row">
+  <div *ngIf="!areWeMarried" class="row">
     <div class="col text-center">
       <h5>Until {{weddingDate | date: "fullDate"}}</h5>
     </div>
