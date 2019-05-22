@@ -1,28 +1,31 @@
-<div *ngIf="game" class="container">
+<div *ngIf="game" class="pl-5 pr-5 pt-3 clouded-background h-100 w-100 auth-background">
   <div class="row">
     <div class="col-8">
       <div class="row">
         <div class="container w-100" *ngIf="currentQuestion">
-          <h1 *ngIf="currentQuestion">{{currentQuestion.questionText}}</h1>
+          <h1 class="text-center" *ngIf="currentQuestion">{{currentQuestion.questionText}}</h1>
           <ul>
-            <li class="m2" style="list-style-type: square;"
+            <li class="{{option.answerProgressClass}} mt-4" style="list-style-type: decimal;border: 1px solid"
                 *ngFor="let option of currentQuestion.questionOptions; let i = index">
-              <div>
-                {{option.optionAnswer}} <span
-                *ngIf="option.optionAnswerCount">- {{option.optionAnswerCount | number :'1.0-0'}}
-                /{{currentQuestion.totalAnswers | number :'1.0-0'}}
-                - {{option.optionPercentageOfTotalAnswers | number :'1.0-0'}}%</span>
+              <div class="m-3">
+                <h4 class="text-center">{{option.optionAnswer}}
+                <span *ngIf="option.optionAnswerCount">- {{option.optionAnswerCount | number :'1.0-0'}}/{{currentQuestion.totalAnswers | number :'1.0-0'}}
+                  - {{option.optionPercentageOfTotalAnswers | number :'1.0-0'}}%</span></h4>
               </div>
-              <mat-progress-bar mode="determinate" value="{{option.optionPercentageOfTotalAnswers}}"></mat-progress-bar>
+              <mat-progress-bar mode="determinate" style="height: 12px;"
+                                value="{{option.optionPercentageOfTotalAnswers}}"></mat-progress-bar>
             </li>
           </ul>
         </div>
       </div>
+      <h3>Players</h3>
       <div class="row">
         <div class="card-group">
-          <app-player *ngFor="let player of game.players"
-                      [player]="player">
-          </app-player>
+          <div *ngFor="let index of numbers">
+            <app-player *ngFor="let player of game.players"
+                        [player]="player">
+            </app-player>
+          </div>
         </div>
       </div>
     </div>
@@ -32,5 +35,3 @@
     </div>
   </div>
 </div>
-
-

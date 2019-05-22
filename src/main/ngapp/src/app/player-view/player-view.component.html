@@ -1,17 +1,17 @@
-<div *ngIf="player" class="auth-background background-image h-100">
-  <div class="mx-auto m-2 text-center"  (click)="enableChangeName()">
+<div *ngIf="player" class="auth-background h-100 ">
+  <div class="mx-auto m-2 text-center clouded-background"  (click)="enableChangeName()">
     {{player.name}} - #{{player.id}}
   </div>
 
-  <div *ngIf="changingName" class="container">
+  <div *ngIf="changingName" class="container clouded-background">
     <mat-form-field style="width:100%">
-      <input matInput placeholder="Name yourself" value="{{player.name}}" (change)="playerNameChanged()" (keyup)="updateName($event)">
+      <input matInput placeholder="Name yourself (15 letters max)" value="{{player.name}}" (change)="playerNameChanged()" (keyup)="updateName($event)" maxlength="15">
     </mat-form-field>
     <button mat-button class="alert-primary m-2" (click)="playerNameChanged()">Confirm</button>
     <button mat-button class="alert-primary m-2" (click)="skipChangeName()">Skip</button>
   </div>
 
-  <div *ngIf="!changingName" >
+  <div *ngIf="!changingName" class="clouded-background">
     <div *ngIf="noQuestionsYet" class="container w-100 text-center">
       You're ready to go...just waiting for the questions to begin.
     </div>
@@ -25,9 +25,6 @@
       </mat-button-toggle-group>
     </div>
   </div>
-<!--  <div *ngIf="countDownActive">-->
-<!--    <h1>{{countDownRemaining}}</h1>-->
-<!--  </div>-->
 </div>
 <div *ngIf="!player">
   Loading...

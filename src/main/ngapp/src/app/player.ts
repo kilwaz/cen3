@@ -6,7 +6,7 @@ export class Player {
   private _id: number;
   private _score: number = 0;
   private _name: string;
-  private _playerStatus: string = "alert-primary";
+  private _playerStatus: string = "alert-light";
 
   constructor(uuid: string) {
     this._uuid = uuid;

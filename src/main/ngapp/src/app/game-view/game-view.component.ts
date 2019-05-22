@@ -27,8 +27,11 @@ export class GameViewComponent implements OnInit {
 
   private currentQuestion: Question;
 
+  private numbers:Array<number> = new Array<number>();
+
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
+    this.numbers = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
   }
 
   ngOnInit(): void {
@@ -64,7 +67,7 @@ export class GameViewComponent implements OnInit {
       let answer: Answer = new Answer(answerUpdate.answerUUID);
       answer.answerValue = answerUpdate.answerValue;
       player.latestAnswer = answer;
-      player.playerStatus = "alert-warning";
+      player.playerStatus = "alert-primary";
     });
 
     UpdateScore.registerListener("UpdateScore", function (message: Message) {
@@ -81,13 +84,14 @@ export class GameViewComponent implements OnInit {
       let nextQuestion: NextQuestion = <NextQuestion>message;
       for (let index in _this.game.players) {
         _this.game.players[index].latestAnswer = undefined;
-        _this.game.players[index].playerStatus = "alert-primary";
+        _this.game.players[index].playerStatus = "alert-light";
       }
 
       let question: Question = new Question(nextQuestion.questionUUID);
       for (let index in nextQuestion.questionOptions) {
         let option = nextQuestion.questionOptions[index];
         let questionOption: QuestionOption = new QuestionOption(option.optionUUID);
+        questionOption.answerProgressClass = "alert-primary";
         questionOption.optionAnswer = option.optionAnswer;
         question.addQuestionOption(questionOption);
       }
@@ -101,7 +105,6 @@ export class GameViewComponent implements OnInit {
       let totalAnswers: number = 0;
 
       for (let index in questionResults.playerResults) {
-        debugger;
         let playerResult = questionResults.playerResults[index];
         let player: Player = _this.game.findPlayer(playerResult.playerUUID);
         if (player) {
@@ -122,6 +125,7 @@ export class GameViewComponent implements OnInit {
         let option = questionResults.questionOptions[index];
         let foundOption = _this.currentQuestion.findQuestionOption(option.optionUUID);
         if (foundOption) {
+          foundOption.answerProgressClass = (option.isCorrectAnswer ? "alert-success" : "alert-danger");
           foundOption.optionAnswerCount = option.optionAnswerCount;
           foundOption.optionPercentageOfTotalAnswers = (option.optionAnswerCount / totalAnswers) * 100;
         }

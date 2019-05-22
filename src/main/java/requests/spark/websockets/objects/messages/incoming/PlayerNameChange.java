@@ -47,6 +47,7 @@ public class PlayerNameChange extends Message {
     public void populate(JSONObject jsonObject) {
         if (jsonObject.has("_playerName") && !jsonObject.isNull("_playerName")) {
             playerName = jsonObject.getString("_playerName");
+            playerName = playerName.substring(0, Math.min(playerName.length(), 15));
         }
         if (jsonObject.has("_playerUUID") && !jsonObject.isNull("_playerUUID")) {
             playerUUID = jsonObject.getString("_playerUUID");

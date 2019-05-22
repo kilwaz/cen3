@@ -3,6 +3,8 @@ export class QuestionOption {
   private _optionAnswer: string;
   private _optionAnswerCount: number;
   private _optionPercentageOfTotalAnswers: number;
+  private _answerProgressClass: string;
+  private _isCorrectAnswer: boolean;
 
   constructor(uuid: string) {
     this._optionUUID = uuid;
@@ -38,5 +40,21 @@ export class QuestionOption {
 
   set optionPercentageOfTotalAnswers(value: number) {
     this._optionPercentageOfTotalAnswers = value;
+  }
+
+  get answerProgressClass(): string {
+    return this._answerProgressClass;
+  }
+
+  set answerProgressClass(value: string) {
+    this._answerProgressClass = value;
+  }
+
+  get isCorrectAnswer(): boolean {
+    return this._isCorrectAnswer;
+  }
+
+  set isCorrectAnswer(value: boolean) {
+    this._isCorrectAnswer = value;
   }
 }

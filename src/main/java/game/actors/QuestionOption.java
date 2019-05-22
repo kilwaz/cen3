@@ -32,4 +32,8 @@ public class QuestionOption {
         countedAnswers++;
         return this;
     }
+
+    public void setCountedAnswers(Integer countedAnswers) {
+        this.countedAnswers = countedAnswers;
+    }
 }

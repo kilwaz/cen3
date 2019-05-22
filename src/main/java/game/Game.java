@@ -151,5 +151,10 @@ public class Game {
             score.setScore(0);
         }
         questionCount = 0;
+        for (Question question : questions.values()) {
+            for (QuestionOption questionOption : question.getPossibleOptions()) {
+                questionOption.setCountedAnswers(0);
+            }
+        }
     }
 }
