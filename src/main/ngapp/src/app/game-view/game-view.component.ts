@@ -25,7 +25,7 @@ export class GameViewComponent implements OnInit {
   webSocketService: WebSocketService;
   webSocketServiceReference = WebSocketService;
 
-  private game: Game;
+  game: Game;
 
   private currentQuestion: Question;
 

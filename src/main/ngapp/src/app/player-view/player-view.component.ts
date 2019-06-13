@@ -18,7 +18,7 @@ export class PlayerViewComponent implements OnInit {
   webSocketService: WebSocketService;
   webSocketServiceReference = WebSocketService;
 
-  private player: Player;
+  player: Player;
   private currentQuestion: Question;
 
   private noQuestionsYet: boolean = true;

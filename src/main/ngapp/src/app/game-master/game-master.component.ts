@@ -23,9 +23,9 @@ export class GameMasterComponent implements OnInit {
   webSocketService: WebSocketService;
   webSocketServiceReference = WebSocketService;
 
-  private game: Game;
+  game: Game;
 
-  private countDownActive: boolean = false;
+  countDownActive: boolean = false;
   private countDownRemaining: number = 0;
   private countDownTimer: number = 0;
 
