@@ -1,8 +1,16 @@
 import core.builders.requests.RequestMapper;
 import core.builders.requests.WebSocketMessageMapping;
 import game.GameManager;
+import net.glxn.qrgen.core.image.ImageType;
+import net.glxn.qrgen.javase.QRCode;
 import org.apache.log4j.Logger;
 import utils.AppManager;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class ApplicationInitialiser {
     private static Logger log = Logger.getLogger(ApplicationInitialiser.class);
@@ -12,5 +20,25 @@ public class ApplicationInitialiser {
         RequestMapper.buildMappings();
         WebSocketMessageMapping.buildMappings();
         GameManager.getInstance().createNewGame();
+
+        // Get IP address of laptop
+        InetAddress inetAddress = null;
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        // Make a QR code
+        File qrCodeFile = new File("/Users/alexbrown/IdeaProjects/cen3/src/main/ngapp/src/assets/images/qrcode.jpg");
+        FileOutputStream fop = null;
+        try {
+            fop = new FileOutputStream(qrCodeFile);
+            QRCode.from("http://" + inetAddress.getHostAddress()).to(ImageType.JPG).writeTo(fop);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        log.info("QRCode has been generated and written " + inetAddress.getHostAddress());
     }
 }

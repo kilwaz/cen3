@@ -1,42 +1,38 @@
-Mili:
-What type of dance class has Mili never been to?	Ballet	BBBB	CCCC	DDDD
-What profession did Mili want to be when she grew up?	Hairdresser	BBBB	CCCC	DDDD
-Which instrument did Mili play when she was younger?	Trombone	BBBB	CCCC	DDDD
-Which celebrity does Mili fancy the most?	Channing Tatum	BBBB	CCCC	DDDD
-What is Mili's favourite movie?	AAAA	BBBB	CCCC	DDDD
-What is Mili's favourite ice cream flavour?	AAAA	BBBB	CCCC	DDDD
-What is Mili's favourite water activity?	White Water Rafting	BBBB	CCCC	DDDD
-Which house chore does Mili hate the most?	Hanging Clothes Up To Dry	BBBB	CCCC	DDDD
-How many white hairs does Mili have?	AAAA	BBBB	CCCC	DDDD
-Where in Australia did Mili live for 6 months during university?	AAAA	BBBB	CCCC	DDDD
-In which of these places has Mili relieved herself (number 1)?  AAAA	BBBB	CCCC	DDDD
-What bodily function of a baby grosses Mili out the most?	Dribble	BBBB	CCCC	DDDD
-At school, what was Mili most voted to be?	Smiley	BBBB	CCCC	DDDD
-When Mili was younger, what is the one feature of a man she hated?	Chest Hair	BBBB	CCCC	DDDD
-What items does Mili like to collect?	Stationery	BBBB	CCCC	DDDD
-Alex:
-What is Alex's favourite chocolate?	Wispa	BBBB	CCCC	DDDD
-Which celebrity does Alex fancy the most?	AAAA	BBBB	CCCC	DDDD
-What app does Alex use the most?	AAAA	BBBB	CCCC	DDDD
-What is Alex's idea of a perfect date?	AAAA	BBBB	CCCC	DDDD
-Which fruit did Alex once think was the same as a passionfruit?	Pomegranate	BBBB	CCCC	DDDD
-What is Alex's guilty pleasure?	Lemon cakes	BBBB	CCCC	DDDD
-Which of these countries has Alex not visited?	AAAA	BBBB	CCCC	DDDD
-What special talent does Alex have?	He can burp on demand	BBBB	CCCC	DDDD
-What did Alex want to be when he grew up?	Train driver	BBBB	CCCC	DDDD
-When Alex was younger, how did he think wool was made?	AAAA	BBBB	CCCC	DDDD
-When Alex was little, what fear did his family use against him to keep him well behaved?	Balloons	BBBB	CCCC	DDDD
-Which of the following scenarios has Alex caused to happen?	AAAA	BBBB	CCCC	DDDD
-About their relationship:
-Which mountain have they climbed together?	Snowdon	BBBB	CCCC	DDDD
-What is Alex's most annoying habit in the house?	Playing computer games	BBBB	CCCC	DDDD
-What is Alex's nickname for Mili?	Splodge	BBBB	CCCC	DDDD
-What would Mili say Alex's best feature is?	His behind	BBBB	CCCC	DDDD
-At which restaurant did Mili once stand Alex up on a date?	Giraffe	BBBB	CCCC	DDDD
-What is Alex's biggest pet peeve about Mili?	AAAA	BBBB	CCCC	DDDD
-What habit did Mili pick up from Alex?	Wrapping herself up in quilts	BBBB	CCCC	DDDD
-On which beach did Alex propose to Mili?	AAAA	BBBB	CCCC	DDDD
-What sport do they play together?	Badminton	BBBB	CCCC	DDDD
-Which reality TV show is their guilty pleasure to watch together?	Love Island	BBBB	CCCC	DDDD
-Which of the following home spa treatments does Alex allow to be done to him?	Facemask	BBBB	CCCC	DDDD
-Which special occasion did Alex not get a card for Mili because it had been her birthday 2 weeks prior to it?	AAAA	BBBB	CCCC	DDDD
+What type of dance class has Mili never been to?	Ballet	Salsa	Street Dancing	Belly dancing
+What profession did Mili want to be when she grew up?	Hairdresser	Musician	Actress	A cake shop owner
+Which instrument did Mili play when she was younger?	Trombone	French horn	Trumpet	Tuba
+Which celebrity does Mili fancy the most?	Channing Tatum	George Clooney	Chad Michael Murray	Jonathan Rhys Meyers
+What is Mili's favourite movie?	Bend it like Beckham	Home Alone	Wildchild	Mean Girls
+What is Mili's favourite water activity?	White Water Rafting	Kayaking	Surfing	Jet-sking
+Which house chore does Mili hate the most?	Hanging Clothes Up To Dry	Ironing	Washing up	Taking the bins out
+How many white hairs does Mili have?	1	0	2	3
+Where in Australia did Mili live for 6 months during university?	Sydney	Melbourne	Cairns	Perth
+In which of these places has Mili NOT relieved herself (number 1)? AAAA	In a rubbish bin	Next to an ATM	Next to a dual carriageway	In a plant pot
+What bodily function of a baby grosses Mili out the most?	Dribble	Wee	Poop	Vomit
+"At school, what was Mili most voted to be?"	Smiley	Annoying	Dead before 30	Have her own business
+"When Mili was younger, what is the one feature of a man she hated?"	Chest Hair	Big ears	Man boobs	Hair longer than hers
+What items does Mili like to collect?	Stationery	Coins	Fridge magnets	Postcards
+What is Alex's favourite chocolate?	Wispa	Aero	Galaxy	Twix
+What is Alex's favourite ice cream flavour?	Mint and Chocolate Chip	Pralines and Cream	Double chocolate chip	Raspberry Ripple
+What app does Alex use the most?	Reddit	Google Maps	Youtube	Facebook
+What is Alex's idea of a perfect date?	Dinner and comedy show	Picnic on the beach	5 mile hike	Night in on the sofa
+Which fruit did Alex once think was the same as a passionfruit?	Pomegranate	Papaya	Lychee	Grapefruit
+What is Alex's guilty pleasure?	Lemon cakes	Wrapped up in quilts	Having a nap	Having a 2am pizza
+Which of these places has Alex not visited?	Canada	California	Iceland	Venice
+What special talent does Alex have?	He can burp on demand	Lick his elbow	Do a back flip	Recite pi to 20 decimal places
+What did Alex want to be when he grew up?	Train driver	Pilot	Astronaut	Racing car driver
+"When Alex was younger, how did he think wool was made?"	"Eaten, turns into a ball and surgically removed"	Made out of old lady's hair knitted together	By collecting giant spider webs and rolling together	By putting a sheep into a washing machine
+"When Alex was little, what fear did his family use against him to keep him well behaved?"	Balloons	Clowns	Abandonment	Hair would fall out
+Which of the following scenarios has Alex caused to happen?	Repainting the entire stairs due to a vomiting incident	Replacing kitchen floor tiles after smashing it with a hammer	Caused an area of no grass in the garden due to weedkiller	Broke 2 sofas by jumping on them within 1 hour
+Which mountain have they climbed together?	Snowdon	Ben Nevis	Scarfell Pike	Mount Kilamanjaro
+What is Alex's most annoying habit in the house?	Playing computer games	Putting socks all over the floor	Leaving shoes in the middle of doorways	Leaving the toilet seat up
+What is Alex's nickname for Mili?	Splodge	Bumblebee	Milo	Blob
+What would Mili say Alex's best feature is?	His behind	His eyes	His arms	His freckles
+At which restaurant did Mili once stand Alex up on a date?	Giraffe	Wagamamas	Nandos	Frankie and Bennys
+What is Alex's biggest pet peeve about Mili?	Leaving dirty plates on the sofa	Complain all the time	Being late	Snoring
+What habit did Mili pick up from Alex?	Wrapping herself up in quilts	Wearing unmatched socks	Being on time	Playing computer games
+On which beach did Alex propose to Mili?	Hunstanton Beach	Brighton Beach	Blackpool	Eastbourne Beach
+What sport do they play together?	Badminton	Tennis	Squash	Table tennis
+Which reality TV show is their guilty pleasure to watch together?	Love Island	Made in Chelsea	Im a celebrity get me out of here	TOWIE
+Which of the following home spa treatments does Alex allow to be done to him?	Facemask	Painting fingernails	Footspa 	Chest hair waxing
+Which special occasion did Alex not get a card for Mili because it had been her birthday 2 weeks prior to it?	Valentines	Christmas	Engagement anniversary	First date anniversary

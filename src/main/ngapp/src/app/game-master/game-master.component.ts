@@ -9,6 +9,10 @@ import {GameMasterJoin} from "../wsObjects/gameMasterJoin";
 import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
 import {Message} from "../wsObjects/message";
 import {MarkAnswers} from "../wsObjects/markAnswers";
+import {TriggerRoundEnd} from "../wsObjects/triggerRoundEnd";
+import {ClearGameScreen} from "../wsObjects/clearGameScreen";
+import {ClearScreen} from "../wsObjects/clearScreen";
+import {DisplayMessage} from "../wsObjects/displayMessage";
 
 @Component({
   selector: 'app-game-master',
@@ -23,7 +27,9 @@ export class GameMasterComponent implements OnInit {
 
   private countDownActive: boolean = false;
   private countDownRemaining: number = 0;
-  private countDownTimer = 0;
+  private countDownTimer: number = 0;
+
+  private messageText:string = "";
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -80,6 +86,29 @@ export class GameMasterComponent implements OnInit {
     let markAnswers = new MarkAnswers();
     this.webSocketService.sendCallback(markAnswers, function (responseMessage) {
     });
+  }
+
+  endRound() {
+    let triggerRoundEnd = new TriggerRoundEnd();
+    this.webSocketService.sendCallback(triggerRoundEnd, function (responseMessage) {
+    });
+  }
+
+  clearScreen() {
+    let clearScreen = new ClearScreen();
+    this.webSocketService.sendCallback(clearScreen, function (responseMessage) {
+    });
+  }
+
+  displayMessage() {
+    let displayMessage = new DisplayMessage();
+    displayMessage.message = this.messageText;
+    this.webSocketService.sendCallback(displayMessage, function (responseMessage) {
+    });
+  }
+
+  updateDisplayMessage(event){
+    this.messageText = event.target.value;
   }
 
   tickTimer(_this: GameMasterComponent) {

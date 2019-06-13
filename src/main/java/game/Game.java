@@ -147,14 +147,18 @@ public class Game {
     }
 
     public void resetGame() {
-        for (Score score : scores.values()) {
-            score.setScore(0);
-        }
+        resetScores();
         questionCount = 0;
         for (Question question : questions.values()) {
             for (QuestionOption questionOption : question.getPossibleOptions()) {
                 questionOption.setCountedAnswers(0);
             }
+        }
+    }
+
+    public void resetScores(){
+        for (Score score : scores.values()) {
+            score.setScore(0);
         }
     }
 }

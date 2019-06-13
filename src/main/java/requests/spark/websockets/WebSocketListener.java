@@ -17,7 +17,7 @@ public class WebSocketListener {
 
     @OnWebSocketConnect
     public void connected(Session session) {
-
+        //log.info("New connected session " + session.getRemoteAddress());
     }
 
     @OnWebSocketClose

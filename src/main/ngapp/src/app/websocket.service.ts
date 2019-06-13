@@ -8,6 +8,8 @@ import {UpdateScore} from "./wsObjects/updateScore";
 import {PlayerNameUpdate} from "./wsObjects/playerNameUpdate";
 import {StartCountDown} from "./wsObjects/startCountDown";
 import {QuestionResults} from "./wsObjects/questionResults";
+import {ClearGameScreen} from "./wsObjects/clearGameScreen";
+import {DisplayGameMessage} from "./wsObjects/displayGameMessage";
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +28,8 @@ export class WebSocketService {
   }
 
   private buildSocket() {
-    // this.ws = webSocket("ws://192.168.1.101:4568/ws");
-    this.ws = webSocket("ws://localhost:4568/ws");
+     this.ws = webSocket("ws://192.168.0.5:4568/ws");
+    //this.ws = webSocket("ws://localhost:4568/ws");
     this.ws.subscribe(
       msg => WebSocketService.received(msg),
       err => WebSocketService.error(err),
@@ -89,6 +91,17 @@ export class WebSocketService {
           actionMessage.decodeResponse(msgRaw);
           QuestionResults.informListeners(actionMessage);
         }
+        if (msgRaw.type == "ClearGameScreen") {
+          let actionMessage = new ClearGameScreen();
+          actionMessage.decodeResponse(msgRaw);
+          ClearGameScreen.informListeners(actionMessage);
+        }
+        if (msgRaw.type == "DisplayGameMessage") {
+          let actionMessage = new DisplayGameMessage();
+          actionMessage.decodeResponse(msgRaw);
+          DisplayGameMessage.informListeners(actionMessage);
+        }
+
       }
     }
     console.log(msgRaw);

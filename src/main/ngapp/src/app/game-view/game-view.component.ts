@@ -13,6 +13,8 @@ import {NextQuestion} from "../wsObjects/nextQuestion";
 import {Question} from "../question";
 import {QuestionOption} from "../questionOption";
 import {QuestionResults} from "../wsObjects/questionResults";
+import {ClearGameScreen} from "../wsObjects/clearGameScreen";
+import {DisplayGameMessage} from "../wsObjects/displayGameMessage";
 
 @Component({
   selector: 'app-game-view',
@@ -27,11 +29,11 @@ export class GameViewComponent implements OnInit {
 
   private currentQuestion: Question;
 
-  private numbers:Array<number> = new Array<number>();
+  private clearedScreen:boolean = true;
+  private gameMessage:string = '';
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
-    this.numbers = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
   }
 
   ngOnInit(): void {
@@ -80,6 +82,18 @@ export class GameViewComponent implements OnInit {
       _this.game.sortPlayersByScore();
     });
 
+    ClearGameScreen.registerListener("ClearGameScreen", function (message: Message) {
+      let clearGameScreen: ClearGameScreen = <ClearGameScreen>message;
+      _this.gameMessage = "";
+      _this.clearedScreen = true;
+    });
+
+    DisplayGameMessage.registerListener("DisplayGameMessage", function (message: Message) {
+      let displayGameMessage: DisplayGameMessage = <DisplayGameMessage>message;
+      _this.gameMessage = displayGameMessage.message;
+      _this.clearedScreen = true;
+    });
+
     NextQuestion.registerListener("NextQuestion", function (message: Message) {
       let nextQuestion: NextQuestion = <NextQuestion>message;
       for (let index in _this.game.players) {
@@ -98,6 +112,7 @@ export class GameViewComponent implements OnInit {
 
       question.questionText = nextQuestion.questionText;
       _this.currentQuestion = question;
+      _this.clearedScreen = false;
     });
 
     QuestionResults.registerListener("QuestionResults", function (message: Message) {
