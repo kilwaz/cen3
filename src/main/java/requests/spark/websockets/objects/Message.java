@@ -146,4 +146,12 @@ public class Message {
         }
         return null;
     }
+
+    protected String extractJSONString(JSONObject jsonObject, String key) {
+        if (jsonObject.has(key) && !jsonObject.isNull(key)) {
+            return jsonObject.getString(key);
+        }
+
+        return null;
+    }
 }

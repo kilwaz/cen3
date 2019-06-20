@@ -30,15 +30,15 @@ public class ApplicationInitialiser {
         }
 
         // Make a QR code
-        File qrCodeFile = new File("/Users/alexbrown/IdeaProjects/cen3/src/main/ngapp/src/assets/images/qrcode.jpg");
-        FileOutputStream fop = null;
-        try {
-            fop = new FileOutputStream(qrCodeFile);
-            QRCode.from("http://" + inetAddress.getHostAddress()).to(ImageType.JPG).writeTo(fop);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        File qrCodeFile = new File("/Users/alexbrown/IdeaProjects/cen3/src/main/ngapp/src/assets/images/qrcode.jpg");
+//        FileOutputStream fop = null;
+//        try {
+//            fop = new FileOutputStream(qrCodeFile);
+//            QRCode.from("http://" + inetAddress.getHostAddress()).to(ImageType.JPG).writeTo(fop);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
-        log.info("QRCode has been generated and written " + inetAddress.getHostAddress());
+//        log.info("QRCode has been generated and written " + inetAddress.getHostAddress());
     }
 }

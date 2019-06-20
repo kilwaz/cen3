@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {WebSocketService} from "../websocket.service";
+import {WebSocketService} from "../services/websocket.service";
 import {Game} from "../game";
 import {FullScoreboard} from "../wsObjects/fullScoreboard";
 import {Player} from "../player";

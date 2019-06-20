@@ -1,5 +1,4 @@
 import {Message} from "./message";
-import {ScoreUpdate} from "../scoreUpdate";
 import {Player} from "../player";
 
 export class AdminGame extends Message {

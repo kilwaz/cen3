@@ -53,8 +53,6 @@ public class AdminGame extends Message {
     }
 
     public void populate(JSONObject jsonObject) {
-        if (jsonObject.has("_localStorageUUID") && !jsonObject.isNull("_localStorageUUID")) {
-            localStorageUUID = jsonObject.getString("_localStorageUUID");
-        }
+        localStorageUUID = extractJSONString(jsonObject, "_localStorageUUID");
     }
 }
