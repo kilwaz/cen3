@@ -40,5 +40,6 @@ public class ApplicationInitialiser {
 //        }
 
 //        log.info("QRCode has been generated and written " + inetAddress.getHostAddress());
+        log.info("Server running on " + inetAddress.getHostAddress());
     }
 }

@@ -10,6 +10,7 @@ import {StartCountDown} from "../wsObjects/startCountDown";
 import {QuestionResults} from "../wsObjects/questionResults";
 import {ClearGameScreen} from "../wsObjects/clearGameScreen";
 import {DisplayGameMessage} from "../wsObjects/displayGameMessage";
+import {ClassDictionary} from "../classDictionary";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class WebSocketService {
   }
 
   private buildSocket() {
-     this.ws = webSocket("ws://192.168.0.5:4568/ws");
+    this.ws = webSocket("ws://172.16.10.208:4568/ws");
     //this.ws = webSocket("ws://localhost:4568/ws");
     this.ws.subscribe(
       msg => WebSocketService.received(msg),
@@ -56,52 +57,16 @@ export class WebSocketService {
       }
     } else { // Push from the server
       if (msgRaw.hasOwnProperty('type')) { // Handle a pushed action
-        if (msgRaw.type == "NewPlayerJoined") {
-          let actionMessage = new NewPlayerJoined();
+        // Find action from dictionary
+        let actionClass: any = ClassDictionary.getClass(msgRaw.type);
+        if (actionClass != undefined) { // Check to see if action exists
+          // New action object
+          let actionMessage: Message = new actionClass();
+          // decode server response into object
           actionMessage.decodeResponse(msgRaw);
-          NewPlayerJoined.informListeners(actionMessage);
+          // Send object to any listeners that are listening
+          actionClass.informListeners(actionMessage);
         }
-        if (msgRaw.type == "AnswerUpdate") {
-          let actionMessage = new AnswerUpdate();
-          actionMessage.decodeResponse(msgRaw);
-          AnswerUpdate.informListeners(actionMessage);
-        }
-        if (msgRaw.type == "NextQuestion") {
-          let actionMessage = new NextQuestion();
-          actionMessage.decodeResponse(msgRaw);
-          NextQuestion.informListeners(actionMessage);
-        }
-        if (msgRaw.type == "UpdateScore") {
-          let actionMessage = new UpdateScore();
-          actionMessage.decodeResponse(msgRaw);
-          UpdateScore.informListeners(actionMessage);
-        }
-        if (msgRaw.type == "PlayerNameUpdate") {
-          let actionMessage = new PlayerNameUpdate();
-          actionMessage.decodeResponse(msgRaw);
-          PlayerNameUpdate.informListeners(actionMessage);
-        }
-        if (msgRaw.type == "StartCountDown") {
-          let actionMessage = new StartCountDown();
-          actionMessage.decodeResponse(msgRaw);
-          StartCountDown.informListeners(actionMessage);
-        }
-        if (msgRaw.type == "QuestionResults") {
-          let actionMessage = new QuestionResults();
-          actionMessage.decodeResponse(msgRaw);
-          QuestionResults.informListeners(actionMessage);
-        }
-        if (msgRaw.type == "ClearGameScreen") {
-          let actionMessage = new ClearGameScreen();
-          actionMessage.decodeResponse(msgRaw);
-          ClearGameScreen.informListeners(actionMessage);
-        }
-        if (msgRaw.type == "DisplayGameMessage") {
-          let actionMessage = new DisplayGameMessage();
-          actionMessage.decodeResponse(msgRaw);
-          DisplayGameMessage.informListeners(actionMessage);
-        }
-
       }
     }
     console.log(msgRaw);
