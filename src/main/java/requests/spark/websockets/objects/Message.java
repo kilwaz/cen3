@@ -39,6 +39,12 @@ public class Message {
                 message.setType(jsonObjectDecoded.getString("_type"));
                 message.setCallBackUUID(jsonObjectDecoded.getString("_callbackUUID"));
                 message.populate(jsonObjectDecoded);
+
+
+
+
+
+
                 return message;
             }
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
