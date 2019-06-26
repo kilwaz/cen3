@@ -1,5 +1,6 @@
 package game;
 
+import error.Error;
 import game.actors.Question;
 import game.actors.QuestionOption;
 import org.apache.log4j.Logger;
@@ -61,7 +62,7 @@ public class GameManager {
                     }
                 }
             } catch (IOException ex) {
-
+                Error.DATA_LOAD_EXCEPTION.record().create(ex);
             }
         }
 

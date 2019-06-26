@@ -10,7 +10,6 @@ import {DisplayGameMessage} from "./wsObjects/displayGameMessage";
 
 export abstract class ClassDictionary {
   public static getClass(className: string): Object {
-
     switch (className) {
       case "NewPlayerJoined":
         return NewPlayerJoined;
