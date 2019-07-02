@@ -3,11 +3,10 @@ package requests.spark.websockets.objects.messages.mapping;
 import error.Error;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class WebSocketAPI {
-    private List<DataItemModel> dataItemModels = new ArrayList<>();
+    private HashMap<String, DataItemModel> dataItemModels = new HashMap<>();
     private Class linkClass;
 
     WebSocketAPI() {
@@ -16,7 +15,7 @@ public class WebSocketAPI {
     }
 
     public void link(String variableName, Method objectSetMethod, Method objectGetMethod) {
-        dataItemModels.add(new DataItemModel(variableName, objectSetMethod, objectGetMethod));
+        dataItemModels.put(variableName, new DataItemModel(variableName, objectSetMethod, objectGetMethod));
     }
 
     public Method method(String methodName, Class<?>... parameterTypes) {
@@ -30,6 +29,14 @@ public class WebSocketAPI {
         }
 
         return null;
+    }
+
+    public DataItemModel getDataItemModel(String variableName) {
+        return dataItemModels.get(variableName);
+    }
+
+    public HashMap<String, DataItemModel> getDataItemModels() {
+        return dataItemModels;
     }
 
     private Class getLinkClass() {

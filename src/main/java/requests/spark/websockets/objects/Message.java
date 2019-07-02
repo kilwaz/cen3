@@ -8,6 +8,8 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import requests.spark.websockets.WebSocketManager;
 import requests.spark.websockets.WebSocketSession;
+import requests.spark.websockets.objects.messages.dataobjects.WebSocketData;
+import requests.spark.websockets.objects.messages.mapping.WebSocketAction;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -31,7 +33,11 @@ public class Message {
     public static Message decode(JSONContainer jsonContainerDecoder) {
         JSONObject jsonObjectDecoded = jsonContainerDecoder.toJSONObject();
 
+        WebSocketAction webSocketAction = new WebSocketAction();
+        webSocketAction.incoming(jsonContainerDecoder);
+
         Class mappingClass = WebSocketMessageMapping.mappingClass(jsonObjectDecoded.getString("_type"));
+        Class dataClass = WebSocketMessageMapping.dataClass(mappingClass);
 
         try {
             if (mappingClass != null) {
@@ -39,12 +45,6 @@ public class Message {
                 message.setType(jsonObjectDecoded.getString("_type"));
                 message.setCallBackUUID(jsonObjectDecoded.getString("_callbackUUID"));
                 message.populate(jsonObjectDecoded);
-
-
-
-
-
-
                 return message;
             }
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
