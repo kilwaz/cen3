@@ -1,28 +1,26 @@
-Stuff to do:
-
-With the game:
-
-
-What happens if people come in mid question?
-
-
-Remove players from the admin screen
-Rename players from the admin screen - Lock name change?
+1) Message recieved from listener
+2) JSON turned into data object (getter/setter only) which holds all expected data
+3) Message object is created to process the data object, returns same data object with updated values, may transmit new messages to other clients
+4) WebSocketAction converts data object back into JSON to prepare to send
+5) Response message is returned to client who sent the initial message
 
 
-Remove the debug messages sent to console
 
 
-Different rounds of questions to give different people a chance to win
+WebSocketData = hold only vairables with getters and setters, describes what is incoming and outgoing messages via annotations
+WebSocketAction = Deals with incoming and outgoing data objects, parses JSON into new data object, turns data object into new JSON, uses annotations on data object to know what to do
+WebSocketMessage = class to process the data object that is given to it, can create new messages to other clients
 
 
-Questions with pictures?
+
+extends JSONWeb - any object that can be sent over websocket
+
+JSONWebString
+JSONWebArray
 
 
-Update player view to look nicer, some sort of background?
+implementions JSONWebObject, knows how to turn itself into a json object
 
 
-QR codes
-Add manual load page by typing in IP
-Make it so the background is nicer
-Spread the buttons out a bit on the player view screen
+
+message recieved -> turned into data ob via action -> processed with message -> turned back into data object via action -> message transmitted

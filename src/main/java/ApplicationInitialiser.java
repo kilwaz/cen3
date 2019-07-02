@@ -1,14 +1,11 @@
 import core.builders.requests.RequestMapper;
 import core.builders.requests.WebSocketMessageMapping;
 import game.GameManager;
-import net.glxn.qrgen.core.image.ImageType;
-import net.glxn.qrgen.javase.QRCode;
+import game.actors.Player;
 import org.apache.log4j.Logger;
+import requests.spark.websockets.objects.messages.mapping.WSData;
 import utils.AppManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -28,6 +25,15 @@ public class ApplicationInitialiser {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+
+
+        Player player = GameManager.getInstance().getCurrentGame().createPlayer();
+        log.info(player.prepareForJSON());
+        log.info("Gap");
+        log.info(player.prepareForJSON(WSData.PLAYER_ID, WSData.PLAYER_UUID));
+        log.info("Gap");
+        log.info(player.prepareForJSON(WSData.PLAYER_UUID));
+
 
         // Make a QR code
 //        File qrCodeFile = new File("/Users/alexbrown/IdeaProjects/cen3/src/main/ngapp/src/assets/images/qrcode.jpg");
