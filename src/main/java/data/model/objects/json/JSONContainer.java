@@ -29,6 +29,14 @@ public class JSONContainer<DBO extends DatabaseObject> {
 
     }
 
+    public JSONContainer(String rawData) {
+        this.rawData = rawData;
+    }
+
+    public JSONContainer(JSONObject jsonObject) {
+        this.rawData = jsonObject.toString();
+    }
+
     public JSONContainer OK() {
         log.info("Doing an OK response");
         this.rawData = "{'response':'OK'}";
@@ -40,14 +48,6 @@ public class JSONContainer<DBO extends DatabaseObject> {
             filter = Arrays.asList(returnValuesStr.split("\\s*,\\s*"));
         }
         return this;
-    }
-
-    public JSONContainer(String rawData) {
-        this.rawData = rawData;
-    }
-
-    public JSONContainer(JSONObject jsonObject) {
-        this.rawData = jsonObject.toString();
     }
 
     public JSONContainer dbDataList(List<DBO> dataList) {

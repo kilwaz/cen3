@@ -12,11 +12,18 @@ import requests.spark.websockets.WebSocketSession;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 
+import java.util.UUID;
+
 @MessageType("AdminGame")
 public class AdminGame extends Message {
     private static Logger log = Logger.getLogger(AdminGame.class);
 
+    // Incoming
     private String localStorageUUID = null;
+
+    // Outgoing
+    private UUID adminUUID = null;
+    private JSONArray allPlayers = null;
 
     public void process() {
         Game currentGame = GameManager.getInstance().getCurrentGame();
@@ -34,10 +41,11 @@ public class AdminGame extends Message {
                 .type(WebSocketSession.TYPE_ADMIN);
         WebSocketManager.getInstance().addSession(webSocketSession);
 
+        adminUUID = admin.getUuid();
         addResponseData("adminUUID", admin.getUuid());
 
         // Send information including all the players that are part of the game
-        JSONArray allPlayers = new JSONArray();
+        allPlayers = new JSONArray();
         for (Player player : currentGame.getPlayers()) {
             JSONObject playerJSON = new JSONObject();
 

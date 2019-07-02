@@ -15,16 +15,19 @@ import requests.spark.websockets.objects.Message;
 public class WebSocketListener {
     private static Logger log = Logger.getLogger(WebSocketListener.class);
 
+    // New connections trigger here
     @OnWebSocketConnect
     public void connected(Session session) {
         //log.info("New connected session " + session.getRemoteAddress());
     }
 
+    // Closed connections trigger here
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
         WebSocketManager.getInstance().removeSession(session);
     }
 
+    // Incoming messages reach the server via this method
     @OnWebSocketMessage
     public void message(Session session, String rawMessage) {
         try {

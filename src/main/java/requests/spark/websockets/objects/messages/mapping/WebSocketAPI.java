@@ -6,7 +6,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class WebSocketAPI {
-    private HashMap<String, DataItemModel> dataItemModels = new HashMap<>();
+    private HashMap<String, DataItemModel> dataItemInModels = new HashMap<>();
+    private HashMap<String, DataItemModel> dataItemOutModels = new HashMap<>();
     private Class linkClass;
 
     WebSocketAPI() {
@@ -14,8 +15,12 @@ public class WebSocketAPI {
         this.linkClass = webSocketLinkClass.linkClass();
     }
 
-    public void link(String variableName, Method objectSetMethod, Method objectGetMethod) {
-        dataItemModels.put(variableName, new DataItemModel(variableName, objectSetMethod, objectGetMethod));
+    public void inLink(String variableName, Method objectSetMethod, Method objectGetMethod) {
+        dataItemInModels.put(variableName, new DataItemModel(variableName, objectSetMethod, objectGetMethod));
+    }
+
+    public void outLink(String variableName, Method objectSetMethod, Method objectGetMethod) {
+        dataItemOutModels.put(variableName, new DataItemModel(variableName, objectSetMethod, objectGetMethod));
     }
 
     public Method method(String methodName, Class<?>... parameterTypes) {
@@ -31,12 +36,20 @@ public class WebSocketAPI {
         return null;
     }
 
-    public DataItemModel getDataItemModel(String variableName) {
-        return dataItemModels.get(variableName);
+    public DataItemModel getDataItemInModel(String variableName) {
+        return dataItemInModels.get(variableName);
     }
 
-    public HashMap<String, DataItemModel> getDataItemModels() {
-        return dataItemModels;
+    public HashMap<String, DataItemModel> getDataItemInModels() {
+        return dataItemInModels;
+    }
+
+    public DataItemModel getDataItemOutModel(String variableName) {
+        return dataItemOutModels.get(variableName);
+    }
+
+    public HashMap<String, DataItemModel> getDataItemOutModels() {
+        return dataItemOutModels;
     }
 
     private Class getLinkClass() {
