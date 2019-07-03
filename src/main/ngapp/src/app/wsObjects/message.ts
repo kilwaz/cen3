@@ -2,12 +2,12 @@ import {Guid} from "guid-typescript";
 
 export class Message {
   private _type: string;
-  private readonly _callbackUUID: string;
+  private readonly _callBackUUID: string;
 
   private static classListeners: Array<(Message) => void> = [];
 
   constructor() {
-    this._callbackUUID = Guid.create().toString();
+    this._callBackUUID = Guid.create().toString();
   }
 
   decodeResponse(msgRaw: any) {
@@ -18,8 +18,8 @@ export class Message {
     this._type = value;
   }
 
-  get callbackUUID(): string {
-    return this._callbackUUID;
+  get callBackUUID(): string {
+    return this._callBackUUID;
   }
 
   get type(): string {

@@ -6,9 +6,6 @@ public enum WSData {
     PLAYER_ID(),
     PLAYER_NAME();
 
-    private String description;
-
     WSData() {
-        this.description = "Hey";
     }
 }

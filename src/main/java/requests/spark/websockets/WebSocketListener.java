@@ -9,6 +9,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import requests.annotations.RequestName;
 import requests.spark.websockets.objects.Message;
+import requests.spark.websockets.objects.WebSocketAction;
 
 @WebSocket
 @RequestName("ws")
@@ -35,10 +36,16 @@ public class WebSocketListener {
 
             JSONContainer messageContainer = new JSONContainer(rawMessage);
 
-            Message message = Message.decode(messageContainer);
+            WebSocketAction webSocketAction = new WebSocketAction();
+            Message message = webSocketAction.incoming(messageContainer);
+
             if (message != null) {
                 message.session(session);
                 message.process();
+                JSONContainer responseContainer = webSocketAction.outgoing(message);
+                if (session.isOpen()) {
+                    session.getRemote().sendString(responseContainer.writeResponse());
+                }
             }
         } catch (Exception ex) {
             error.Error.GENERIC_WEBSOCKET_EXCEPTION.record().create(ex);

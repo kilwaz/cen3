@@ -1,6 +1,6 @@
 package game.actors;
 
-import requests.spark.websockets.objects.messages.mapping.JSONWeb;
+import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 

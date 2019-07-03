@@ -1,9 +1,11 @@
-package requests.spark.websockets.objects.messages.mapping;
+package requests.spark.websockets.objects;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
+import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

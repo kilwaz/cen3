@@ -1,4 +1,4 @@
-package requests.spark.websockets.objects.messages.dataobjects;
+package requests.spark.websockets.objects.messages.mapping;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

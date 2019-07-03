@@ -3,7 +3,7 @@ package core.builders.requests;
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.messages.dataobjects.WebSocketDataClass;
+import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 import requests.spark.websockets.objects.messages.mapping.WebSocketLinkClass;
 
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class WebSocketMessageMapping {
         Set<Class<?>> mappingObjects = new Reflections("requests.spark.websockets.objects.messages.mapping").getTypesAnnotatedWith(WebSocketLinkClass.class);
         for (Class clazz : mappingObjects) {
             WebSocketLinkClass webSocketLinkClass = (WebSocketLinkClass) clazz.getAnnotation(WebSocketLinkClass.class);
-            DATA_OBJECT_MAPPING.put(webSocketLinkClass.linkClass(), clazz);
+            MAPPING.put(webSocketLinkClass.linkClass(), clazz);
             log.info("Mapped ws mapping object " + webSocketLinkClass.linkClass() + " to " + clazz);
         }
     }

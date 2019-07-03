@@ -1,15 +1,18 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
 import org.json.JSONArray;
-import requests.spark.websockets.objects.messages.incoming.AdminGame;
+import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
+import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
 import java.util.UUID;
 
-@WebSocketDataClass(AdminGame.class)
 public class AdminGameData extends WebSocketData {
+    @WSDataIncoming
     private String localStorageUUID = "";
 
+    @WSDataOutgoing
     private UUID adminUUID = null;
+    @WSDataOutgoing
     private JSONArray allPlayers = null;
 
     public String getLocalStorageUUID() {

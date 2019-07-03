@@ -97,8 +97,8 @@ export class WebSocketService {
   }
 
   sendCallback(message: Message, callback: (Message) => any) {
-    WebSocketService.callBacks[message.callbackUUID] = callback;
-    WebSocketService.callObjs[message.callbackUUID] = message;
+    WebSocketService.callBacks[message.callBackUUID] = callback;
+    WebSocketService.callObjs[message.callBackUUID] = message;
 
     this.send(message);
   }

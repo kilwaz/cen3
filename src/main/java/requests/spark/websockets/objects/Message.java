@@ -8,7 +8,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import requests.spark.websockets.WebSocketManager;
 import requests.spark.websockets.WebSocketSession;
-import requests.spark.websockets.objects.messages.mapping.WebSocketAction;
+import requests.spark.websockets.objects.messages.dataobjects.WebSocketData;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -28,10 +28,9 @@ public class Message {
     private Session session;
 
     private JSONObject jsonResponse = new JSONObject();
+    private WebSocketData webSocketData = null;
 
     public static Message decode(JSONContainer jsonContainerDecoder) {
-
-
         WebSocketAction webSocketAction = new WebSocketAction();
         webSocketAction.incoming(jsonContainerDecoder);
 
@@ -66,6 +65,15 @@ public class Message {
 
     public void prepareToSend() {
 
+    }
+
+    public Message webSocketData(WebSocketData webSocketData) {
+        this.webSocketData = webSocketData;
+        return this;
+    }
+
+    public WebSocketData getWebSocketData() {
+        return webSocketData;
     }
 
     public String getType() {
