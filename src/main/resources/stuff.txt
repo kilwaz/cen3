@@ -2,3 +2,7 @@ Move the session object out of the message and into the data object?
 figure out what to do with _ is part of variable from client, not from server to client
 
 Make the logger as something that can be implemented?
+Try out wss connections to see if they work
+Explore zipping the data of the websocket
+consider making the sending of push messages its own thread
+Make it so that multiple audiences can be set for push target

@@ -37,12 +37,12 @@ public class WebSocketListener {
             JSONContainer messageContainer = new JSONContainer(rawMessage);
 
             WebSocketAction webSocketAction = new WebSocketAction();
-            Message message = webSocketAction.incoming(messageContainer);
+            Message message = webSocketAction.request(messageContainer);
 
             if (message != null) {
-                message.session(session);
+                message.getWebSocketData().setSession(session);
                 message.process();
-                JSONContainer responseContainer = webSocketAction.outgoing(message);
+                JSONContainer responseContainer = webSocketAction.response(message);
                 if (session.isOpen()) {
                     session.getRemote().sendString(responseContainer.writeResponse());
                 }

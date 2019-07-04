@@ -1,10 +1,17 @@
 package game.actors;
 
+import requests.spark.websockets.objects.JSONWeb;
+import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataReference;
+
 import java.util.UUID;
 
-public class QuestionOption {
+public class QuestionOption extends JSONWeb {
+    @WSDataReference(WSData.QUESTION_OPTION_UUID)
     private UUID uuid;
+    @WSDataReference(WSData.QUESTION_OPTION_ANSWER_VALUE)
     private String answerValue;
+    @WSDataReference(WSData.QUESTION_OPTION_COUNTED_ANSWERS)
     private Integer countedAnswers = 0;
 
     public QuestionOption() {
@@ -28,7 +35,7 @@ public class QuestionOption {
         return countedAnswers;
     }
 
-    public QuestionOption incrementAnswer(){
+    public QuestionOption incrementAnswer() {
         countedAnswers++;
         return this;
     }

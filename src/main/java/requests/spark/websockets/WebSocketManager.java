@@ -7,7 +7,9 @@ import org.quartz.JobDetail;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.TriggerBuilder;
 import requests.spark.websockets.objects.Message;
-import requests.spark.websockets.objects.messages.outgoing.HeartBeat;
+import requests.spark.websockets.objects.WebSocketAction;
+import requests.spark.websockets.objects.messages.dataobjects.HeartBeatData;
+import requests.spark.websockets.objects.messages.push.HeartBeat;
 import utils.managers.JobManager;
 import utils.timers.WebSocketHeartbeatJob;
 
@@ -90,7 +92,6 @@ public class WebSocketManager {
     }
 
     public void sendHeartBeat() {
-        HeartBeat heartBeat = Message.create(HeartBeat.class);
-        heartBeat.sendTo(Message.ALL);
+        Message.push(HeartBeat.class, new HeartBeatData(), WebSocketAction.ALL);
     }
 }
