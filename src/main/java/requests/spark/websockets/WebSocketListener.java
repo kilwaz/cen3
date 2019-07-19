@@ -44,6 +44,7 @@ public class WebSocketListener {
                 message.process();
                 JSONContainer responseContainer = webSocketAction.response(message);
                 if (session.isOpen()) {
+                    log.info("Outgoing message " + responseContainer.writeResponse());
                     session.getRemote().sendString(responseContainer.writeResponse());
                 }
             }

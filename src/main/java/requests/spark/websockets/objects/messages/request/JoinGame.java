@@ -6,15 +6,10 @@ import game.actors.Player;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.WebSocketManager;
 import requests.spark.websockets.WebSocketSession;
-import requests.spark.websockets.objects.Message;
-import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.WebSocketAction;
-import requests.spark.websockets.objects.messages.dataobjects.AnswerUpdateData;
+import requests.spark.websockets.objects.*;
 import requests.spark.websockets.objects.messages.dataobjects.JoinGameData;
 import requests.spark.websockets.objects.messages.dataobjects.NewPlayerJoinedData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
-import requests.spark.websockets.objects.messages.push.AnswerUpdate;
-import requests.spark.websockets.objects.messages.push.NewPlayerJoined;
 
 @MessageType("JoinGame")
 @WebSocketDataClass(JoinGameData.class)
@@ -37,7 +32,10 @@ public class JoinGame extends Message {
         }
 
         // Send off push request to listeners
-        Message.push(NewPlayerJoined.class, new NewPlayerJoinedData(player), WebSocketAction.ALL_ADMINS);
+        Push.message(PushMessage.NEW_PLAYER_JOINED)
+                .data(new NewPlayerJoinedData(player))
+                .to(Audience.ALL_ADMINS)
+                .push();
 
         // Register the player session within the server
         WebSocketSession webSocketSession = new WebSocketSession()

@@ -4,13 +4,10 @@ import game.Game;
 import game.GameManager;
 import game.actors.Player;
 import org.apache.log4j.Logger;
-import requests.spark.websockets.objects.Message;
-import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.WebSocketAction;
+import requests.spark.websockets.objects.*;
 import requests.spark.websockets.objects.messages.dataobjects.PlayerNameChangeData;
 import requests.spark.websockets.objects.messages.dataobjects.PlayerNameUpdateData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
-import requests.spark.websockets.objects.messages.push.PlayerNameUpdate;
 
 // Triggered when a player changes there name
 @MessageType("PlayerNameChange")
@@ -29,8 +26,10 @@ public class PlayerNameChange extends Message {
                 player.setName(playerNameChangeData.getPlayerName());
 
                 // Send off push request to listeners
-                Message.push(PlayerNameUpdate.class, new PlayerNameUpdateData(player), WebSocketAction.ALL_ADMINS);
-                Message.push(PlayerNameUpdate.class, new PlayerNameUpdateData(player), WebSocketAction.ALL_GAME_MASTERS);
+                Push.message(PushMessage.PLAYER_NAME_UPDATE)
+                        .data(new PlayerNameUpdateData(player))
+                        .to(Audience.ALL_ADMINS, Audience.ALL_GAME_MASTERS)
+                        .push();
             }
         }
     }

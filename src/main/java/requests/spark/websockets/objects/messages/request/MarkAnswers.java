@@ -4,15 +4,11 @@ import game.Game;
 import game.GameManager;
 import game.actors.Question;
 import org.apache.log4j.Logger;
-import requests.spark.websockets.objects.Message;
-import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.WebSocketAction;
+import requests.spark.websockets.objects.*;
 import requests.spark.websockets.objects.messages.dataobjects.MarkAnswersData;
 import requests.spark.websockets.objects.messages.dataobjects.QuestionResultsData;
 import requests.spark.websockets.objects.messages.dataobjects.UpdateScoreData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
-import requests.spark.websockets.objects.messages.push.QuestionResults;
-import requests.spark.websockets.objects.messages.push.UpdateScore;
 
 @MessageType("MarkAnswers")
 @WebSocketDataClass(MarkAnswersData.class)
@@ -28,10 +24,16 @@ public class MarkAnswers extends Message {
         Question markedQuestion = currentGame.getCurrentQuestion();
 
         if (markedQuestion != null) {
-            Message.push(QuestionResults.class, new QuestionResultsData(markedQuestion, currentGame.getPlayers()), WebSocketAction.ALL_ADMINS);
+            Push.message(PushMessage.QUESTION_RESULTS)
+                    .data(new QuestionResultsData(markedQuestion, currentGame.getPlayers()))
+                    .to(Audience.ALL_ADMINS)
+                    .push();
         }
 
-        Message.push(UpdateScore.class, new UpdateScoreData(currentGame.getScores()), WebSocketAction.ALL_ADMINS);
+        Push.message(PushMessage.UPDATE_SCORE)
+                .data(new UpdateScoreData(currentGame.getScores()))
+                .to(Audience.ALL_ADMINS)
+                .push();
         currentGame.clearAnswers();
     }
 }

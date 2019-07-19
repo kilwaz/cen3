@@ -40,7 +40,8 @@ public enum Error {
     DATABASE_NOT_ENABLED_EXCEPTION(206, "Database action attempted with database set to disabled"),
     GENERIC_WEBSOCKET_EXCEPTION(207, "Exception within websocket"),
     WEBSOCKET_RESPONSE_EXCEPTION(208, "Error sending websocket response"),
-    DATA_LOAD_EXCEPTION(209, "Error loading initial data into the game");
+    DATA_LOAD_EXCEPTION(209, "Error loading initial data into the game"),
+    WEBSOCKET_PARSE_METHOD(210,"Method could not be found for data");
 
     private Integer code;
     private String description;

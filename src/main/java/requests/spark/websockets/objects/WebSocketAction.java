@@ -5,9 +5,6 @@ import data.model.objects.json.JSONContainer;
 import error.Error;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
-import org.reflections.Reflections;
-import org.reflections.scanners.FieldAnnotationsScanner;
-import requests.spark.websockets.WebSocketManager;
 import requests.spark.websockets.WebSocketSession;
 import requests.spark.websockets.objects.messages.dataobjects.WebSocketData;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
@@ -15,35 +12,17 @@ import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class WebSocketAction<WSMessage extends Message, WSData extends WebSocketData> {
-    public static final int ALL_PLAYERS = 1;
-    public static final int ALL_ADMINS = 2;
-    public static final int ALL_GAME_MASTERS = 3;
-    public static final int ALL = 4;
-
-    public void push(WSMessage wsMessage, int audience) {
+    public void push(Push push) {
         try {
-            List<WebSocketSession> audienceList = new ArrayList<>();
-
-            if (audience == ALL_ADMINS) {
-                audienceList = WebSocketManager.getInstance().getAdmins();
-            } else if (audience == ALL_PLAYERS) {
-                audienceList = WebSocketManager.getInstance().getPlayers();
-            } else if (audience == ALL_GAME_MASTERS) {
-                audienceList = WebSocketManager.getInstance().getGameMasters();
-            } else if (audience == ALL) {
-                audienceList = WebSocketManager.getInstance().getAllSessions();
-            }
-
-            JSONContainer jsonContainer = response(wsMessage);
-            for (WebSocketSession connection : audienceList) {
+            JSONContainer jsonContainer = response((WSMessage) push.getPushedMessage());
+            for (WebSocketSession connection : push.getAudience().audience()) {
                 Session session = connection.getSession();
                 if (session.isOpen()) {
                     session.getRemote().sendString(jsonContainer.writeResponse());
@@ -66,7 +45,29 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
             WSMessage wsMessage = (WSMessage) messageClass.getConstructor().newInstance();
             WSData wsData = (WSData) dataClass.getConstructor().newInstance();
 
-            Set<Field> incomingDataFields = new Reflections(dataClass, new FieldAnnotationsScanner()).getFieldsAnnotatedWith(WSDataIncoming.class);
+            ArrayList<Field> incomingDataFields = new ArrayList<>();
+            // Data class
+            Field[] fields = dataClass.getDeclaredFields();
+            for (Field field : fields) {
+                for (Annotation annotation : field.getDeclaredAnnotations()) {
+                    if (annotation instanceof WSDataIncoming) {
+                        incomingDataFields.add(field);
+                        break;
+                    }
+                }
+            }
+
+            // Super class
+            fields = dataClass.getSuperclass().getDeclaredFields();
+            for (Field field : fields) {
+                for (Annotation annotation : field.getDeclaredAnnotations()) {
+                    if (annotation instanceof WSDataIncoming) {
+                        incomingDataFields.add(field);
+                        break;
+                    }
+                }
+            }
+
             for (Field field : incomingDataFields) {
                 String fieldName = field.getName();
                 String capFieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
@@ -75,7 +76,7 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                     Method fieldMethod = dataClass.getMethod("set" + capFieldName, String.class);
                     fieldMethod.invoke(wsData, jsonObjectDecoded.getString("_" + fieldName));
                 } catch (NoSuchMethodException ex) {
-                    ex.printStackTrace();
+                    Error.WEBSOCKET_PARSE_METHOD.record().additionalInformation("Variable name is " + capFieldName).create(ex);
                 }
             }
 
@@ -91,11 +92,40 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
 
     public JSONContainer response(WSMessage wsMessage) {
         try {
-            WebSocketDataClass webSocketDataClass = wsMessage.getClass().getAnnotation(WebSocketDataClass.class);
-            Class dataClass = webSocketDataClass.value();
+            Class dataClass;
+            //TODO:Review this way of getting data classes?
+            if (wsMessage instanceof PushedMessage) { // Push messages already have their data classes assigned to them
+                dataClass = wsMessage.getWebSocketData().getClass();
+            } else { // Response messages need to have their data classes linked via annotations
+                WebSocketDataClass webSocketDataClass = wsMessage.getClass().getAnnotation(WebSocketDataClass.class);
+                dataClass = webSocketDataClass.value();
+            }
+
             WSData wsData = (WSData) wsMessage.getWebSocketData();
 
-            Set<Field> outgoingDataFields = new Reflections(dataClass, new FieldAnnotationsScanner()).getFieldsAnnotatedWith(WSDataOutgoing.class);
+            ArrayList<Field> outgoingDataFields = new ArrayList<>();
+            // Data class
+            Field[] fields = dataClass.getDeclaredFields();
+            for (Field field : fields) {
+                for (Annotation annotation : field.getDeclaredAnnotations()) {
+                    if (annotation instanceof WSDataOutgoing) {
+                        outgoingDataFields.add(field);
+                        break;
+                    }
+                }
+            }
+
+            // Super class
+            fields = dataClass.getSuperclass().getDeclaredFields();
+            for (Field field : fields) {
+                for (Annotation annotation : field.getDeclaredAnnotations()) {
+                    if (annotation instanceof WSDataOutgoing) {
+                        outgoingDataFields.add(field);
+                        break;
+                    }
+                }
+            }
+
             JSONObject jsonObject = new JSONObject();
             for (Field field : outgoingDataFields) {
                 String fieldName = field.getName();
@@ -105,7 +135,7 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                     Method fieldMethod = dataClass.getMethod("get" + capFieldName);
                     jsonObject.put("" + fieldName, fieldMethod.invoke(wsData));
                 } catch (NoSuchMethodException ex) {
-                    ex.printStackTrace();
+                    Error.WEBSOCKET_PARSE_METHOD.record().additionalInformation("Variable name is " + capFieldName).create(ex);
                 }
             }
 
