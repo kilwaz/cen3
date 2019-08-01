@@ -2,12 +2,13 @@ package data.model.objects;
 
 import data.model.DatabaseObject;
 import data.model.objects.json.JSONMappable;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 
 import java.util.UUID;
 
 public class QRCode extends DatabaseObject {
-    private static Logger log = Logger.getLogger(QRCode.class);
+    private static Logger log = AppLogger.logger();
 
     private String url = "";
 

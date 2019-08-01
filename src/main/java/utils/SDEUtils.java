@@ -1,5 +1,6 @@
 package utils;
 
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -10,7 +11,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class SDEUtils {
-    private static Logger log = Logger.getLogger(SDEUtils.class);
+    private static Logger log = AppLogger.logger();
 
     private static Set<String> getResources(String path) {
         return new Reflections(path, new ResourcesScanner()).getResources(Pattern.compile(".*"));

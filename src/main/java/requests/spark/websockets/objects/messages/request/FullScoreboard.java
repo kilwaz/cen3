@@ -3,6 +3,7 @@ package requests.spark.websockets.objects.messages.request;
 import game.Game;
 import game.GameManager;
 import game.actors.Score;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.Message;
@@ -14,7 +15,7 @@ import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 @MessageType("FullScoreboard")
 @WebSocketDataClass(FullScoreboardData.class)
 public class FullScoreboard extends Message {
-    private static Logger log = Logger.getLogger(FullScoreboard.class);
+    private static Logger log = AppLogger.logger();
 
     public void process() {
         FullScoreboardData fullScoreboardData = (FullScoreboardData) this.getWebSocketData();

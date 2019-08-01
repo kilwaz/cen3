@@ -1,6 +1,7 @@
 package requests.spark.websockets;
 
 import data.model.objects.json.JSONContainer;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -14,7 +15,7 @@ import requests.spark.websockets.objects.WebSocketAction;
 @WebSocket
 @RequestName("ws")
 public class WebSocketListener {
-    private static Logger log = Logger.getLogger(WebSocketListener.class);
+    private static Logger log = AppLogger.logger();
 
     // New connections trigger here
     @OnWebSocketConnect

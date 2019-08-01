@@ -3,6 +3,7 @@ package requests.spark.websockets.objects.messages.request;
 import game.Game;
 import game.GameManager;
 import game.actors.Player;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.*;
 import requests.spark.websockets.objects.messages.dataobjects.PlayerNameChangeData;
@@ -13,7 +14,7 @@ import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 @MessageType("PlayerNameChange")
 @WebSocketDataClass(PlayerNameChangeData.class)
 public class PlayerNameChange extends Message {
-    private static Logger log = Logger.getLogger(PlayerNameChange.class);
+    private static Logger log = AppLogger.logger();
 
     public void process() {
         PlayerNameChangeData playerNameChangeData = (PlayerNameChangeData) this.getWebSocketData();

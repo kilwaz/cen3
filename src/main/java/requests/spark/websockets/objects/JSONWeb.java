@@ -1,5 +1,6 @@
 package requests.spark.websockets.objects;
 
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.reflections.Reflections;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 public class JSONWeb {
-    private static Logger log = Logger.getLogger(JSONWeb.class);
+    private static Logger log = AppLogger.logger();
 
     public JSONWeb() {
 

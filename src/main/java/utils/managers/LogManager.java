@@ -1,6 +1,7 @@
 package utils.managers;
 
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -11,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class LogManager {
-    private static Logger log = Logger.getLogger(LogManager.class);
+    private static Logger log = AppLogger.logger();
     private static LogManager instance;
     private String logOutputFilePath = null;
 

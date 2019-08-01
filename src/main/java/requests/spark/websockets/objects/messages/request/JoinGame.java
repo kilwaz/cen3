@@ -3,6 +3,7 @@ package requests.spark.websockets.objects.messages.request;
 import game.Game;
 import game.GameManager;
 import game.actors.Player;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.WebSocketManager;
 import requests.spark.websockets.WebSocketSession;
@@ -14,7 +15,7 @@ import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 @MessageType("JoinGame")
 @WebSocketDataClass(JoinGameData.class)
 public class JoinGame extends Message {
-    private static Logger log = Logger.getLogger(JoinGame.class);
+    private static Logger log = AppLogger.logger();
 
     public void process() {
         JoinGameData joinGameData = (JoinGameData) this.getWebSocketData();

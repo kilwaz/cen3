@@ -3,6 +3,7 @@ package game;
 import error.Error;
 import game.actors.Question;
 import game.actors.QuestionOption;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 public class GameManager {
     private static GameManager instance;
-    private static Logger log = Logger.getLogger(GameManager.class);
+    private static Logger log = AppLogger.logger();
 
     private HashMap<UUID, Game> games = new HashMap<>();
     private Game currentGame = null;

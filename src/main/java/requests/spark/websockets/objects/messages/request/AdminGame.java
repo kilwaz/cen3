@@ -4,6 +4,7 @@ import game.Game;
 import game.GameManager;
 import game.actors.Admin;
 import game.actors.Player;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import requests.spark.websockets.WebSocketManager;
@@ -16,7 +17,7 @@ import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 @MessageType("AdminGame")
 @WebSocketDataClass(AdminGameData.class)
 public class AdminGame extends Message {
-    private static Logger log = Logger.getLogger(AdminGame.class);
+    private static Logger log = AppLogger.logger();
 
     public void process() {
         AdminGameData adminGameData = (AdminGameData) this.getWebSocketData();

@@ -1,5 +1,6 @@
 package requests.spark.websockets;
 
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.quartz.JobBuilder;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class WebSocketManager {
     private static WebSocketManager instance;
-    private static Logger log = Logger.getLogger(WebSocketManager.class);
+    private static Logger log = AppLogger.logger();
 
     private List<WebSocketSession> admins = new ArrayList<>();
     private List<WebSocketSession> players = new ArrayList<>();

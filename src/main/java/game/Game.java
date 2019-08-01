@@ -1,6 +1,7 @@
 package game;
 
 import game.actors.*;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Game {
-    private static Logger log = Logger.getLogger(Game.class);
+    private static Logger log = AppLogger.logger();
 
     public UUID uuid;
     private HashMap<UUID, Player> players = new HashMap<>();

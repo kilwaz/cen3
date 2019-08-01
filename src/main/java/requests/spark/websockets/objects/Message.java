@@ -1,10 +1,11 @@
 package requests.spark.websockets.objects;
 
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.messages.dataobjects.WebSocketData;
 
 public class Message {
-    private static Logger log = Logger.getLogger(Message.class);
+    private static Logger log = AppLogger.logger();
 
     private WebSocketData webSocketData = null;
 

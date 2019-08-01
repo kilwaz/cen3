@@ -2,6 +2,7 @@ package data.model.objects.json;
 
 import data.model.DatabaseObject;
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class JSONContainer<DBO extends DatabaseObject> {
-    private static Logger log = Logger.getLogger(JSONContainer.class);
+    private static Logger log = AppLogger.logger();
 
     private List<DBO> dataObjectList = new ArrayList<>();
     private DBO dataObject = null;

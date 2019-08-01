@@ -1,5 +1,6 @@
 package requests.spark.websockets.objects.messages.request;
 
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.*;
 import requests.spark.websockets.objects.messages.dataobjects.DisplayGameMessageData;
@@ -9,7 +10,7 @@ import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 @MessageType("DisplayMessage")
 @WebSocketDataClass(DisplayMessageData.class)
 public class DisplayMessage extends Message {
-    private static Logger log = Logger.getLogger(DisplayMessage.class);
+    private static Logger log = AppLogger.logger();
 
     public void process() {
         DisplayMessageData displayMessageData = (DisplayMessageData) this.getWebSocketData();

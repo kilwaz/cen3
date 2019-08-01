@@ -4,6 +4,7 @@ import game.Game;
 import game.GameManager;
 import game.actors.GameMaster;
 import game.actors.Player;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import requests.spark.websockets.WebSocketManager;
@@ -14,7 +15,7 @@ import requests.spark.websockets.objects.messages.dataobjects.GameMasterData;
 
 @MessageType("GameMasterJoin")
 public class GameMasterJoin extends Message {
-    private static Logger log = Logger.getLogger(GameMasterJoin.class);
+    private static Logger log = AppLogger.logger();
 
     public void process() {
         GameMasterData gameMasterData = (GameMasterData) this.getWebSocketData();

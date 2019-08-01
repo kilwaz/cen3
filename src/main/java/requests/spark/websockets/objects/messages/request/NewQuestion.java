@@ -3,6 +3,7 @@ package requests.spark.websockets.objects.messages.request;
 import game.Game;
 import game.GameManager;
 import game.actors.Question;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.*;
 import requests.spark.websockets.objects.messages.dataobjects.NewQuestionData;
@@ -13,7 +14,7 @@ import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 @MessageType("NewQuestion")
 @WebSocketDataClass(NewQuestionData.class)
 public class NewQuestion extends Message {
-    private static Logger log = Logger.getLogger(NewQuestion.class);
+    private static Logger log = AppLogger.logger();
 
     public void process() {
         NewQuestionData newQuestionData = (NewQuestionData) this.getWebSocketData();

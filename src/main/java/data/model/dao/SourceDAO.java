@@ -12,7 +12,7 @@
 //import java.util.List;
 //
 //public class SourceDAO {
-//    private static Logger log = Logger.getLogger(SourceDAO.class);
+//    private static Logger log = AppLogger.logger();
 //
 //    public SourceDAO() {
 //    }

@@ -2,6 +2,7 @@ package data;
 
 import core.builders.resources.ResourceFileMapper;
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
@@ -18,7 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static Logger log = Logger.getLogger(DBConnection.class);
+    private static Logger log = AppLogger.logger();
     private String username = "";
     private String password = "";
     private String connectionString = "";

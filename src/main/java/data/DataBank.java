@@ -1,6 +1,7 @@
 package data;
 
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class DataBank {
-    private static Logger log = Logger.getLogger(DataBank.class);
+    private static Logger log = AppLogger.logger();
 
     private static HashMap<String, HashMap<String, Object>> programVariables = new HashMap<>();
     private static HashMap<String, HashMap<String, Object>> programInstances = new HashMap<>();

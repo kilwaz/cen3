@@ -2,6 +2,7 @@ package data.model;
 
 import data.model.objects.json.JSONMappable;
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import utils.managers.DatabaseObjectManager;
 
@@ -9,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 public class DatabaseObject {
-    private static Logger log = Logger.getLogger(DatabaseObject.class);
+    private static Logger log = AppLogger.logger();
     private UUID uuid = UUID.randomUUID();
 
     public DatabaseObject() {

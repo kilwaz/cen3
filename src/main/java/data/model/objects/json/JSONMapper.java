@@ -1,6 +1,7 @@
 package data.model.objects.json;
 
 import data.model.DatabaseObject;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,7 +11,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class JSONMapper<DBO extends DatabaseObject> {
-    private static Logger log = Logger.getLogger(JSONMapper.class);
+    private static Logger log = AppLogger.logger();
 
     public JSONObject process(DBO databaseObject, List<String> filter) {
         JSONObject jsonObject = new JSONObject();

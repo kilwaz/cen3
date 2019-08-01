@@ -2,6 +2,7 @@ package core.builders.requests;
 
 import data.model.objects.json.JSONContainer;
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.reflections.Reflections;
@@ -16,7 +17,7 @@ import java.util.Set;
 import static spark.Spark.*;
 
 public class RequestMapper {
-    private static Logger log = Logger.getLogger(RequestMapper.class);
+    private static Logger log = AppLogger.logger();
 
     public static void buildMappings() {
         port(4568);
