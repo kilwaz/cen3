@@ -1,7 +1,9 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
+import game.actors.Player;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
 import java.util.UUID;
@@ -13,6 +15,7 @@ public class AdminGameData extends WebSocketData {
     @WSDataOutgoing
     private UUID adminUUID = null;
     @WSDataOutgoing
+    @WSDataJSONArrayClass(Player.class)
     private JSONArray allPlayers = null;
 
     public String getLocalStorageUUID() {

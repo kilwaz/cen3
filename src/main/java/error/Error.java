@@ -41,7 +41,8 @@ public enum Error {
     GENERIC_WEBSOCKET_EXCEPTION(207, "Exception within websocket"),
     WEBSOCKET_RESPONSE_EXCEPTION(208, "Error sending websocket response"),
     DATA_LOAD_EXCEPTION(209, "Error loading initial data into the game"),
-    WEBSOCKET_PARSE_METHOD(210,"Method could not be found for data");
+    WEBSOCKET_PARSE_METHOD(210,"Method could not be found for data"),
+    TYPE_SCRIPT_GENERATION(211,"Error generating TypeScript files from Data Files");
 
     private Integer code;
     private String description;

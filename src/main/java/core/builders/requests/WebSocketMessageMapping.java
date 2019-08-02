@@ -26,6 +26,7 @@ public class WebSocketMessageMapping {
             //log.info("Mapped ws message " + messageType.value() + " to " + clazz);
         }
 
+        //TODO: Code not used below?
         // Map websocket data objects to their respective logic classes
         Set<Class<?>> dataObjects = new Reflections("requests.spark.websockets.objects.messages.dataobjects").getTypesAnnotatedWith(WebSocketDataClass.class);
         for (Class clazz : dataObjects) {
@@ -34,6 +35,7 @@ public class WebSocketMessageMapping {
             log.info("Mapped ws data object " + webSocketDataClass.value() + " to " + clazz);
         }
 
+        //TODO: Code not used below?
         // Map websocket data objects to their respective logic classes
         Set<Class<?>> mappingObjects = new Reflections("requests.spark.websockets.objects.messages.mapping").getTypesAnnotatedWith(WebSocketLinkClass.class);
         for (Class clazz : mappingObjects) {
