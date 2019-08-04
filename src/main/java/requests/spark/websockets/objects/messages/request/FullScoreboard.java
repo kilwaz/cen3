@@ -26,6 +26,6 @@ public class FullScoreboard extends Message {
             allScores.put(score.prepareForJSON(WSData.SCORE_SCORE, WSData.SCORE_PLAYER));
         }
 
-        fullScoreboardData.setAllScores(allScores);
+        fullScoreboardData.setScores(allScores);
     }
 }

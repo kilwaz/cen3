@@ -1,4 +1,4 @@
-export class PlayerResult {
+export class PlayerResult  {
   private _playerUUID: string;
   private _isCorrectAnswer: string;
 

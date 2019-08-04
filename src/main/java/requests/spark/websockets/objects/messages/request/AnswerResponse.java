@@ -22,7 +22,7 @@ public class AnswerResponse extends Message {
 
         // Send off push request to listeners
         Answer answer = new Answer()
-                .answerValue(answerResponseData.getAnswerStr())
+                .answerValue(answerResponseData.getAnswerValue())
                 .player(currentGame.findPlayer(answerResponseData.getPlayerUUID()));
 
         currentGame.updateAnswer(answer);

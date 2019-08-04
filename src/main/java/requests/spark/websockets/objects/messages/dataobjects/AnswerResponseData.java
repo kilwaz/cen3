@@ -4,16 +4,16 @@ import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 
 public class AnswerResponseData extends WebSocketData {
     @WSDataIncoming
-    private String answerStr = "";
+    private String answerValue = "";
     @WSDataIncoming
     private String playerUUID = "";
 
-    public String getAnswerStr() {
-        return answerStr;
+    public String getAnswerValue() {
+        return answerValue;
     }
 
-    public void setAnswerStr(String answerStr) {
-        this.answerStr = answerStr;
+    public void setAnswerValue(String answerValue) {
+        this.answerValue = answerValue;
     }
 
     public String getPlayerUUID() {

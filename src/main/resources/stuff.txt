@@ -6,5 +6,4 @@ Explore zipping the data of the websocket
 consider making the sending of push messages its own thread
 Make it so that multiple audiences can be set for push target
 
-Generate client side message typescript files from java data source code (AdminGame, PlayerAnswer, etc)
 Generate client side data objects from java code (Player, Game, etc)

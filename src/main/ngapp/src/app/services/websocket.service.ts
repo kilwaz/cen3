@@ -2,14 +2,6 @@ import {Injectable} from '@angular/core';
 import {Message} from "../wsObjects/message";
 import {webSocket} from "rxjs/webSocket";
 import {NewPlayerJoined} from "../wsObjects/newPlayerJoined";
-import {AnswerUpdate} from "../wsObjects/answerUpdate";
-import {NextQuestion} from "../wsObjects/nextQuestion";
-import {UpdateScore} from "../wsObjects/updateScore";
-import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
-import {StartCountDown} from "../wsObjects/startCountDown";
-import {QuestionResults} from "../wsObjects/questionResults";
-import {ClearGameScreen} from "../wsObjects/clearGameScreen";
-import {DisplayGameMessage} from "../wsObjects/displayGameMessage";
 import {ClassDictionary} from "../classDictionary";
 
 @Injectable({

@@ -1,13 +1,13 @@
 import {Message} from "./message";
 
 export class ClearScreen extends Message {
+	
+	constructor() {
+		super();
+		this.type = "ClearScreen";
+	}
 
-  constructor() {
-    super();
-    this.type = "ClearScreen";
-  }
+	decodeResponse(msgRaw: any) {
+	}
 
-  decodeResponse(msgRaw: any) {
-
-  }
 }

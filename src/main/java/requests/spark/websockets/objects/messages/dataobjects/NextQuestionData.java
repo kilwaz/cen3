@@ -5,6 +5,7 @@ import game.actors.QuestionOption;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class NextQuestionData extends WebSocketData {
     @WSDataOutgoing
     private String questionText;
     @WSDataOutgoing
+    @WSDataJSONArrayClass(QuestionOption.class)
     private JSONArray options;
 
     public NextQuestionData(Question nextQuestion) {

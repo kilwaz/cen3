@@ -2,31 +2,43 @@ import {Message} from "./message";
 import {QuestionOption} from "../questionOption";
 
 export class NextQuestion extends Message {
+	private _nextQuestionUUID: string;
+	private _questionText: string;
+	private _options: Array<QuestionOption> = [];
+	
+	constructor() {
+		super();
+		this.type = "NextQuestion";
+	}
 
-  private _questionUUID: string;
-  private _questionText: string;
-  private _questionOptions: Array<QuestionOption> = [];
+	decodeResponse(msgRaw: any) {
+		this._nextQuestionUUID = msgRaw.nextQuestionUUID;
+		this._questionText = msgRaw.questionText;
+		this._options = msgRaw.options;
+	}
 
-  constructor() {
-    super();
-    this.type = "NextQuestion";
-  }
-
-  decodeResponse(msgRaw: any) {
-    this._questionUUID = msgRaw.nextQuestionUUID;
-    this._questionOptions = msgRaw.options;
-    this._questionText = msgRaw.questionText;
-  }
-
-  get questionUUID(): string {
-    return this._questionUUID;
-  }
-
-  get questionOptions(): Array<QuestionOption> {
-    return this._questionOptions;
-  }
-
-  get questionText(): string {
-    return this._questionText;
-  }
+	get nextQuestionUUID(): string {
+		return this._nextQuestionUUID;
+	}
+	
+	get questionText(): string {
+		return this._questionText;
+	}
+	
+	get options(): Array<QuestionOption> {
+		return this._options;
+	}
+	
+	set nextQuestionUUID(value: string) {
+		this._nextQuestionUUID = value;
+	}
+	
+	set questionText(value: string) {
+		this._questionText = value;
+	}
+	
+	set options(value: Array<QuestionOption>) {
+		this._options = value;
+	}
+	
 }

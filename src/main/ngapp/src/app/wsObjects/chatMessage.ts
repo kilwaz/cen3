@@ -1,15 +1,14 @@
 import {Message} from "./message";
 
-export class DisplayGameMessage extends Message {
+export class ChatMessage extends Message {
 	private _message: string;
 	
 	constructor() {
 		super();
-		this.type = "DisplayGameMessage";
+		this.type = "ChatMessage";
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._message = msgRaw.message;
 	}
 
 	get message(): string {

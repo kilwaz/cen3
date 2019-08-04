@@ -1,14 +1,17 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
 import game.actors.Score;
+import game.actors.ScoreUpdate;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
 import java.util.List;
 
 public class UpdateScoreData extends WebSocketData {
     @WSDataOutgoing
+    @WSDataJSONArrayClass(ScoreUpdate.class)
     private JSONArray scores;
 
     public UpdateScoreData(List<Score> scores) {

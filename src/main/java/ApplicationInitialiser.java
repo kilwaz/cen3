@@ -6,7 +6,9 @@ import log.AppLogger;
 import org.apache.log4j.Logger;
 import utils.AppManager;
 
+import java.io.File;
 import java.net.InetAddress;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
 public class ApplicationInitialiser {

@@ -11,30 +11,30 @@ import requests.spark.websockets.WebSocketManager;
 import requests.spark.websockets.WebSocketSession;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.messages.dataobjects.GameMasterData;
+import requests.spark.websockets.objects.messages.dataobjects.GameMasterJoinData;
 
 @MessageType("GameMasterJoin")
 public class GameMasterJoin extends Message {
     private static Logger log = AppLogger.logger();
 
     public void process() {
-        GameMasterData gameMasterData = (GameMasterData) this.getWebSocketData();
+        GameMasterJoinData gameMasterJoinData = (GameMasterJoinData) this.getWebSocketData();
         Game currentGame = GameManager.getInstance().getCurrentGame();
 
         GameMaster gameMaster = null;
-        if (gameMasterData.getLocalStorageUUID() != null) {
-            gameMaster = currentGame.findGameMaster(gameMasterData.getLocalStorageUUID());
+        if (gameMasterJoinData.getLocalStorageUUID() != null) {
+            gameMaster = currentGame.findGameMaster(gameMasterJoinData.getLocalStorageUUID());
         }
         if (gameMaster == null) {
             gameMaster = currentGame.createGameMaster();
         }
 
         WebSocketSession webSocketSession = new WebSocketSession()
-                .session(gameMasterData.getSession())
+                .session(gameMasterJoinData.getSession())
                 .type(WebSocketSession.TYPE_GAME_MASTER);
         WebSocketManager.getInstance().addSession(webSocketSession);
 
-        gameMasterData.setGameMasterUUID(gameMaster.getUuid());
+        gameMasterJoinData.setGameMasterUUID(gameMaster.getUuid());
 
         // Send information including all the players that are part of the game
         JSONArray allPlayers = new JSONArray();
@@ -42,6 +42,6 @@ public class GameMasterJoin extends Message {
             allPlayers.put(player.prepareForJSON());
         }
 
-        gameMasterData.setAllPlayers(allPlayers);
+        gameMasterJoinData.setPlayers(allPlayers);
     }
 }

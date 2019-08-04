@@ -2,26 +2,25 @@ package requests.spark.websockets.objects.messages.dataobjects;
 
 import game.Game;
 import game.GameManager;
-import game.actors.Answer;
-import game.actors.Player;
-import game.actors.Question;
-import game.actors.QuestionOption;
+import game.actors.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
 import java.util.List;
 import java.util.UUID;
 
 public class QuestionResultsData extends WebSocketData {
-
     @WSDataOutgoing
     private UUID questionUUID;
     @WSDataOutgoing
-    private JSONArray options;
+    @WSDataJSONArrayClass(QuestionOption.class)
+    private JSONArray questionOptions;
     @WSDataOutgoing
-    private JSONArray playerArray;
+    @WSDataJSONArrayClass(PlayerResult.class)
+    private JSONArray playerResults;
     @WSDataOutgoing
     private UUID correctOptionUUID;
 
@@ -29,14 +28,14 @@ public class QuestionResultsData extends WebSocketData {
         Game game = GameManager.getInstance().getCurrentGame();
         questionUUID = question.getUuid();
 
-        options = new JSONArray();
+        questionOptions = new JSONArray();
         for (QuestionOption questionOption : question.getPossibleOptions()) {
-            options.put(questionOption.prepareForJSON(WSData.QUESTION_OPTION_UUID, WSData.QUESTION_OPTION_ANSWER_VALUE, WSData.QUESTION_OPTION_COUNTED_ANSWERS));
+            questionOptions.put(questionOption.prepareForJSON(WSData.QUESTION_OPTION_UUID, WSData.QUESTION_OPTION_ANSWER_VALUE, WSData.QUESTION_OPTION_COUNTED_ANSWERS));
         }
 
         correctOptionUUID = question.getCorrectOption().getUuid();
 
-        playerArray = new JSONArray();
+        playerResults = new JSONArray();
         for (Player player : players) {
             JSONObject playerObject = new JSONObject();
 
@@ -46,7 +45,7 @@ public class QuestionResultsData extends WebSocketData {
                 playerObject.put("isCorrectAnswer", question.getCorrectOption().getUuid().toString().equals(answer.getAnswerValue()));
             }
 
-            playerArray.put(playerObject);
+            playerResults.put(playerObject);
         }
     }
 
@@ -58,20 +57,20 @@ public class QuestionResultsData extends WebSocketData {
         this.questionUUID = questionUUID;
     }
 
-    public JSONArray getOptions() {
-        return options;
+    public JSONArray getQuestionOptions() {
+        return questionOptions;
     }
 
-    public void setOptions(JSONArray options) {
-        this.options = options;
+    public void setQuestionOptions(JSONArray questionOptions) {
+        this.questionOptions = questionOptions;
     }
 
-    public JSONArray getPlayerArray() {
-        return playerArray;
+    public JSONArray getPlayerResults() {
+        return playerResults;
     }
 
-    public void setPlayerArray(JSONArray playerArray) {
-        this.playerArray = playerArray;
+    public void setPlayerResults(JSONArray playerResults) {
+        this.playerResults = playerResults;
     }
 
     public UUID getCorrectOptionUUID() {

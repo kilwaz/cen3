@@ -1,19 +1,22 @@
 import {Message} from "./message";
 
 export class DisplayMessage extends Message {
+	private _message: string;
+	
+	constructor() {
+		super();
+		this.type = "DisplayMessage";
+	}
 
-  private _message:string;
+	decodeResponse(msgRaw: any) {
+	}
 
-  constructor() {
-    super();
-    this.type = "DisplayMessage";
-  }
-
-  decodeResponse(msgRaw: any) {
-
-  }
-
-  set message(value: string) {
-    this._message = value;
-  }
+	get message(): string {
+		return this._message;
+	}
+	
+	set message(value: string) {
+		this._message = value;
+	}
+	
 }

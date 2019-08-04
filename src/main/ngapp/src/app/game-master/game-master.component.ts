@@ -10,7 +10,6 @@ import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
 import {Message} from "../wsObjects/message";
 import {MarkAnswers} from "../wsObjects/markAnswers";
 import {TriggerRoundEnd} from "../wsObjects/triggerRoundEnd";
-import {ClearGameScreen} from "../wsObjects/clearGameScreen";
 import {ClearScreen} from "../wsObjects/clearScreen";
 import {DisplayMessage} from "../wsObjects/displayMessage";
 
@@ -29,7 +28,7 @@ export class GameMasterComponent implements OnInit {
   private countDownRemaining: number = 0;
   private countDownTimer: number = 0;
 
-  private messageText:string = "";
+  private messageText: string = "";
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -107,7 +106,7 @@ export class GameMasterComponent implements OnInit {
     });
   }
 
-  updateDisplayMessage(event){
+  updateDisplayMessage(event) {
     this.messageText = event.target.value;
   }
 

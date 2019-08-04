@@ -1,19 +1,22 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
+import game.actors.Player;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
 import java.util.UUID;
 
-public class GameMasterData extends WebSocketData {
+public class GameMasterJoinData extends WebSocketData {
     @WSDataIncoming
     private String localStorageUUID = "";
 
     @WSDataOutgoing
     private UUID gameMasterUUID = null;
     @WSDataOutgoing
-    private JSONArray allPlayers = null;
+    @WSDataJSONArrayClass(Player.class)
+    private JSONArray players = null;
 
     public String getLocalStorageUUID() {
         return localStorageUUID;
@@ -31,11 +34,11 @@ public class GameMasterData extends WebSocketData {
         this.gameMasterUUID = gameMasterUUID;
     }
 
-    public JSONArray getAllPlayers() {
-        return allPlayers;
+    public JSONArray getPlayers() {
+        return players;
     }
 
-    public void setAllPlayers(JSONArray allPlayers) {
-        this.allPlayers = allPlayers;
+    public void setPlayers(JSONArray players) {
+        this.players = players;
     }
 }
