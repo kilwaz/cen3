@@ -1,12 +1,12 @@
-import {NewPlayerJoined} from "./wsObjects/newPlayerJoined";
-import {AnswerUpdate} from "./wsObjects/answerUpdate";
-import {NextQuestion} from "./wsObjects/nextQuestion";
-import {UpdateScore} from "./wsObjects/updateScore";
-import {PlayerNameUpdate} from "./wsObjects/playerNameUpdate";
-import {StartCountDown} from "./wsObjects/startCountDown";
-import {QuestionResults} from "./wsObjects/questionResults";
-import {ClearGameScreen} from "./wsObjects/clearGameScreen";
-import {DisplayGameMessage} from "./wsObjects/displayGameMessage";
+import {NewPlayerJoined} from "./wsActions/newPlayerJoined";
+import {AnswerUpdate} from "./wsActions/answerUpdate";
+import {NextQuestion} from "./wsActions/nextQuestion";
+import {UpdateScore} from "./wsActions/updateScore";
+import {PlayerNameUpdate} from "./wsActions/playerNameUpdate";
+import {StartCountDown} from "./wsActions/startCountDown";
+import {QuestionResults} from "./wsActions/questionResults";
+import {ClearGameScreen} from "./wsActions/clearGameScreen";
+import {DisplayGameMessage} from "./wsActions/displayGameMessage";
 
 export abstract class ClassDictionary {
   public static getClass(className: string): Object {

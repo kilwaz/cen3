@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../services/websocket.service";
-import {NewQuestion} from "../wsObjects/newQuestion";
-import {ResetGame} from "../wsObjects/resetGame";
-import {CountDownTrigger} from "../wsObjects/countDownTrigger";
-import {Game} from "../game";
-import {Player} from "../player";
-import {GameMasterJoin} from "../wsObjects/gameMasterJoin";
-import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
-import {Message} from "../wsObjects/message";
-import {MarkAnswers} from "../wsObjects/markAnswers";
-import {TriggerRoundEnd} from "../wsObjects/triggerRoundEnd";
-import {ClearScreen} from "../wsObjects/clearScreen";
-import {DisplayMessage} from "../wsObjects/displayMessage";
+import {NewQuestion} from "../wsActions/newQuestion";
+import {ResetGame} from "../wsActions/resetGame";
+import {CountDownTrigger} from "../wsActions/countDownTrigger";
+import {Game} from "../actors/game";
+import {Player} from "../wsObjects/player";
+import {GameMasterJoin} from "../wsActions/gameMasterJoin";
+import {PlayerNameUpdate} from "../wsActions/playerNameUpdate";
+import {Message} from "../wsActions/message";
+import {MarkAnswers} from "../wsActions/markAnswers";
+import {TriggerRoundEnd} from "../wsActions/triggerRoundEnd";
+import {ClearScreen} from "../wsActions/clearScreen";
+import {DisplayMessage} from "../wsActions/displayMessage";
 
 @Component({
   selector: 'app-game-master',

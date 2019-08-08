@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Message} from "../wsObjects/message";
+import {Message} from "../wsActions/message";
 import {webSocket} from "rxjs/webSocket";
-import {NewPlayerJoined} from "../wsObjects/newPlayerJoined";
+import {NewPlayerJoined} from "../wsActions/newPlayerJoined";
 import {ClassDictionary} from "../classDictionary";
 
 @Injectable({

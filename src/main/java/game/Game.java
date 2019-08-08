@@ -38,7 +38,7 @@ public class Game {
     public Player createPlayer() {
         Player player = new Player();
         players.put(player.getUuid(), player);
-        scores.put(player, new Score(this, player));
+        scores.put(player, new Score( player));
         return player;
     }
 

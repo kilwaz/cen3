@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {WebSocketService} from "../services/websocket.service";
-import {Game} from "../game";
-import {FullScoreboard} from "../wsObjects/fullScoreboard";
-import {Player} from "../player";
+import {Game} from "../actors/game";
+import {FullScoreboard} from "../wsActions/fullScoreboard";
+import {Player} from "../wsObjects/player";
 
 @Component({
   selector: 'app-scoreboard',

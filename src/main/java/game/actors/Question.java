@@ -1,15 +1,31 @@
 package game.actors;
 
+import requests.spark.websockets.objects.JSONWeb;
+import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataReference;
+import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Question {
-    public UUID uuid;
+public class Question extends JSONWeb {
+    @WSDataReference(WSData.QUESTION_UUID)
+    private UUID uuid;
 
+    @WSDataReference(WSData.QUESTION_POSSIBLE_OPTIONS)
+    @WSDataTypeScriptClass(QuestionOption.class)
     private List<QuestionOption> possibleOptions = new ArrayList<>();
+
+    @WSDataReference(WSData.QUESTION_CORRECT_OPTION)
+    @WSDataTypeScriptClass(QuestionOption.class)
     private QuestionOption correctOption;
+
+    @WSDataReference(WSData.QUESTION_QUESTION_TEXT)
     private String questionText = "";
+
+    @WSDataReference(WSData.QUESTION_TOTAL_ANSWERS)
+    private Integer totalAnswers = 0;
 
     public Question() {
         uuid = UUID.randomUUID();

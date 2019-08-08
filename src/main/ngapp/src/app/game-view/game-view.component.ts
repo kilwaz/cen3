@@ -1,20 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../services/websocket.service";
-import {AdminGame} from "../wsObjects/adminGame";
-import {NewPlayerJoined} from "../wsObjects/newPlayerJoined";
-import {Message} from "../wsObjects/message";
-import {Game} from "../game";
-import {Player} from "../player";
-import {AnswerUpdate} from "../wsObjects/answerUpdate";
-import {Answer} from "../answer";
-import {UpdateScore} from "../wsObjects/updateScore";
-import {PlayerNameUpdate} from "../wsObjects/playerNameUpdate";
-import {NextQuestion} from "../wsObjects/nextQuestion";
-import {Question} from "../question";
-import {QuestionOption} from "../questionOption";
-import {QuestionResults} from "../wsObjects/questionResults";
-import {ClearGameScreen} from "../wsObjects/clearGameScreen";
-import {DisplayGameMessage} from "../wsObjects/displayGameMessage";
+import {AdminGame} from "../wsActions/adminGame";
+import {NewPlayerJoined} from "../wsActions/newPlayerJoined";
+import {Message} from "../wsActions/message";
+import {Game} from "../actors/game";
+import {Player} from "../wsObjects/player";
+import {AnswerUpdate} from "../wsActions/answerUpdate";
+import {Answer} from "../wsObjects/answer";
+import {UpdateScore} from "../wsActions/updateScore";
+import {PlayerNameUpdate} from "../wsActions/playerNameUpdate";
+import {NextQuestion} from "../wsActions/nextQuestion";
+import {Question} from "../wsObjects/question";
+import {QuestionOption} from "../wsObjects/questionOption";
+import {QuestionResults} from "../wsActions/questionResults";
+import {ClearGameScreen} from "../wsActions/clearGameScreen";
+import {DisplayGameMessage} from "../wsActions/displayGameMessage";
 
 @Component({
   selector: 'app-game-view',
@@ -101,9 +101,9 @@ export class GameViewComponent implements OnInit {
         _this.game.players[index].playerStatus = "alert-light";
       }
 
-      let question: Question = new Question(nextQuestion.questionUUID);
-      for (let index in nextQuestion.questionOptions) {
-        let option = nextQuestion.questionOptions[index];
+      let question: Question = new Question(nextQuestion.nextQuestionUUID);
+      for (let index in nextQuestion.options) {
+        let option = nextQuestion.options[index];
         let questionOption: QuestionOption = new QuestionOption(option.optionUUID);
         questionOption.answerProgressClass = "alert-primary";
         questionOption.optionAnswer = option.optionAnswer;

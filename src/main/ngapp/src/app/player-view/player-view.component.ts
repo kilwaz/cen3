@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../services/websocket.service";
-import {JoinGame} from "../wsObjects/joinGame";
-import {AnswerResponse} from "../wsObjects/answerResponse";
-import {Player} from "../player";
-import {Message} from "../wsObjects/message";
-import {NextQuestion} from "../wsObjects/nextQuestion";
-import {Question} from "../question";
-import {QuestionOption} from "../questionOption";
-import {PlayerNameChange} from "../wsObjects/playerNameChange";
+import {JoinGame} from "../wsActions/joinGame";
+import {AnswerResponse} from "../wsActions/answerResponse";
+import {Player} from "../wsObjects/player";
+import {Message} from "../wsActions/message";
+import {NextQuestion} from "../wsActions/nextQuestion";
+import {Question} from "../wsObjects/question";
+import {QuestionOption} from "../wsObjects/questionOption";
+import {PlayerNameChange} from "../wsActions/playerNameChange";
 
 @Component({
   selector: 'app-player-view',
