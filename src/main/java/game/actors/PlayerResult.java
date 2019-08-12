@@ -9,21 +9,21 @@ import java.util.UUID;
 public class PlayerResult extends JSONWeb {
 
     @WSDataReference(WSData.PLAYER_RESULT_PLAYER_UUID)
-    private UUID playerUUId;
+    private UUID playerUUID;
     @WSDataReference(WSData.PLAYER_RESULT_IS_CORRECT_ANSWER)
     private Boolean isCorrectAnswer;
 
     public PlayerResult(UUID playerUUId, Boolean isCorrectAnswer) {
-        this.playerUUId = playerUUId;
+        this.playerUUID = playerUUId;
         this.isCorrectAnswer = isCorrectAnswer;
     }
 
-    public UUID getPlayerUUId() {
-        return playerUUId;
+    public UUID getPlayerUUID() {
+        return playerUUID;
     }
 
-    public void setPlayerUUId(UUID playerUUId) {
-        this.playerUUId = playerUUId;
+    public void setPlayerUUID(UUID playerUUID) {
+        this.playerUUID = playerUUID;
     }
 
     public Boolean getCorrectAnswer() {

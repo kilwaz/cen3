@@ -1,7 +1,7 @@
 //THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE
 import {Message} from "./message";
-import {QuestionOption} from "../questionOption";
-import {PlayerResult} from "../playerResult";
+import {QuestionOption} from "../wsObjects/questionOption";
+import {PlayerResult} from "../wsObjects/playerResult";
 
 export class QuestionResults extends Message {
 	private _questionUUID: string;

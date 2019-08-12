@@ -41,7 +41,8 @@ export class PlayerViewComponent implements OnInit {
 
     this.webSocketService.sendCallback(joinGame, function (responseMessage) {
       let joinGame: JoinGame = <JoinGame>responseMessage;
-      let player = new Player(joinGame.playerUUID);
+      let player = new Player();
+      player.uuid = joinGame.playerUUID;
       player.id = joinGame.playerID;
       player.name = joinGame.playerName;
       if (!player.name.startsWith("Player")) {
@@ -53,12 +54,14 @@ export class PlayerViewComponent implements OnInit {
 
     NextQuestion.registerListener("NextQuestion", function (message: Message) {
       let nextQuestion: NextQuestion = <NextQuestion>message;
-      let question: Question = new Question(nextQuestion.questionUUID);
+      let question: Question = new Question();
+      question.uuid = nextQuestion.nextQuestionUUID;
       _this.noQuestionsYet = false;
 
       for (let index in nextQuestion.questionOptions) {
         let option = nextQuestion.questionOptions[index];
-        let questionOption: QuestionOption = new QuestionOption(option.optionUUID);
+        let questionOption: QuestionOption = new QuestionOption();
+        questionOption.uuid = option.optionUUID;
         questionOption.optionAnswer = option.optionAnswer;
         question.addQuestionOption(questionOption);
       }

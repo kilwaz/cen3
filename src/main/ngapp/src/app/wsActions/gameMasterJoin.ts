@@ -1,6 +1,6 @@
 //THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE
 import {Message} from "./message";
-import {Player} from "../player";
+import {Player} from "../wsObjects/player";
 
 export class GameMasterJoin extends Message {
 	private _localStorageUUID: string;

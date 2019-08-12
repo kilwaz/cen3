@@ -1,22 +1,22 @@
 //THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE
 
 export class PlayerResult {
-	private _playerUUId: string;
+	private _playerUUID: string;
 	private _isCorrectAnswer: boolean;
 	
 	constructor() {
 	}
 
-	get playerUUId(): string {
-		return this._playerUUId;
+	get playerUUID(): string {
+		return this._playerUUID;
 	}
 	
 	get isCorrectAnswer(): boolean {
 		return this._isCorrectAnswer;
 	}
 	
-	set playerUUId(value: string) {
-		this._playerUUId = value;
+	set playerUUID(value: string) {
+		this._playerUUID = value;
 	}
 	
 	set isCorrectAnswer(value: boolean) {

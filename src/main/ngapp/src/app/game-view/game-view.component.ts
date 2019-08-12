@@ -48,7 +48,8 @@ export class GameViewComponent implements OnInit {
 
       for (let index in responseMessage.players) {
         let playerInfo = responseMessage.players[index];
-        let player: Player = new Player(playerInfo.playerUUID);
+        let player: Player = new Player();
+        player.uuid = playerInfo.playerUUID;
         player.id = playerInfo.playerID;
         player.name = playerInfo.playerName;
         _this.game.addPlayer(player);
@@ -57,7 +58,8 @@ export class GameViewComponent implements OnInit {
 
     NewPlayerJoined.registerListener("NewPlayerJoined", function (message: Message) {
       let newPlayerJoined: NewPlayerJoined = <NewPlayerJoined>message;
-      let newPlayer: Player = new Player(newPlayerJoined.newPlayerUUID);
+      let newPlayer: Player = new Player();
+      newPlayer.uuid = newPlayerJoined.newPlayerUUID;
       newPlayer.id = newPlayerJoined.newPlayerID;
       newPlayer.name = newPlayerJoined.newPlayerName;
       _this.game.addPlayer(newPlayer);
@@ -66,7 +68,8 @@ export class GameViewComponent implements OnInit {
     AnswerUpdate.registerListener("AnswerUpdate", function (message: Message) {
       let answerUpdate: AnswerUpdate = <AnswerUpdate>message;
       let player: Player = _this.game.findPlayer(answerUpdate.playerUUID);
-      let answer: Answer = new Answer(answerUpdate.answerUUID);
+      let answer: Answer = new Answer();
+      answer.uuid = answerUpdate.answerUUID;
       answer.answerValue = answerUpdate.answerValue;
       player.latestAnswer = answer;
       player.playerStatus = "alert-primary";
@@ -101,10 +104,12 @@ export class GameViewComponent implements OnInit {
         _this.game.players[index].playerStatus = "alert-light";
       }
 
-      let question: Question = new Question(nextQuestion.nextQuestionUUID);
+      let question: Question = new Question();
+      question.uuid = nextQuestion.nextQuestionUUID;
       for (let index in nextQuestion.options) {
         let option = nextQuestion.options[index];
-        let questionOption: QuestionOption = new QuestionOption(option.optionUUID);
+        let questionOption: QuestionOption = new QuestionOption();
+        questionOption.uuid = option.optionUUID;
         questionOption.answerProgressClass = "alert-primary";
         questionOption.optionAnswer = option.optionAnswer;
         question.addQuestionOption(questionOption);
@@ -139,6 +144,7 @@ export class GameViewComponent implements OnInit {
       for (let index in questionResults.questionOptions) {
         let option = questionResults.questionOptions[index];
         let foundOption = _this.currentQuestion.findQuestionOption(option.optionUUID);
+        foundOption.uuid = option.optionUUID;
         if (foundOption) {
           foundOption.answerProgressClass = (option.isCorrectAnswer ? "alert-success" : "alert-danger");
           foundOption.optionAnswerCount = option.optionAnswerCount;

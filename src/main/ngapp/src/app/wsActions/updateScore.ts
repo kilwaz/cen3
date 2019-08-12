@@ -1,6 +1,6 @@
 //THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE
 import {Message} from "./message";
-import {ScoreUpdate} from "../scoreUpdate";
+import {ScoreUpdate} from "../wsObjects/scoreUpdate";
 
 export class UpdateScore extends Message {
 	private _scores: Array<ScoreUpdate> = [];

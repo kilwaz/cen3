@@ -4,6 +4,5 @@ figure out what to do with _ is part of variable from client, not from server to
 Try out wss connections to see if they work
 Explore zipping the data of the websocket
 consider making the sending of push messages its own thread
-Make it so that multiple audiences can be set for push target
 
-Generate client side data objects from java code (Player, Game, etc)
+auto initialise objects in typescript that have arrived from web socket

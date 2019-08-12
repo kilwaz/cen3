@@ -1,6 +1,6 @@
 //THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE
 import {Message} from "./message";
-import {QuestionOption} from "../questionOption";
+import {QuestionOption} from "../wsObjects/questionOption";
 
 export class NextQuestion extends Message {
 	private _nextQuestionUUID: string;

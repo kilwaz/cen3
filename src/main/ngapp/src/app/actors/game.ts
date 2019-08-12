@@ -1,5 +1,5 @@
-import {Player} from "../player";
 import {Score} from "../wsObjects/score";
+import {Player} from "../wsObjects/player";
 
 interface HashMapPlayer {
   [key: string]: Player;
@@ -23,7 +23,9 @@ export class Game {
   addPlayer(player: Player) {
     if (this._players[player.uuid] == undefined) {
       this._players[player.uuid] = player;
-      this._scores[player.uuid] = new Score(player);
+      let score: Score = new Score();
+      score.player = player;
+      this._scores[player.uuid] = score;
       this._playersArray.push(player);
     } else {
       console.log("Player already added");

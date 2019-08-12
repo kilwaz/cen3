@@ -47,7 +47,7 @@ public class TypeScriptBuilder {
                     if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                         WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
                         if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}")) {
-                            tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"../")
+                            tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"../wsObjects/")
                                     .append(Character.toLowerCase(wsDataJSONArrayClass.value().getSimpleName().charAt(0)))
                                     .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
                                     .append("\";").append(nl);
