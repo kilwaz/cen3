@@ -6,16 +6,18 @@ import log.AppLogger;
 import org.apache.log4j.Logger;
 import utils.AppManager;
 
-import java.io.File;
 import java.net.InetAddress;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
 public class ApplicationInitialiser {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
-        TypeScriptBuilder.build();
+        boolean buildTypeScript = false;
+
+        if (buildTypeScript) {
+            TypeScriptBuilder.build();
+        }
 
         AppManager.init();
         RequestMapper.buildMappings();

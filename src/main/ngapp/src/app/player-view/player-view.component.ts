@@ -26,10 +26,6 @@ export class PlayerViewComponent implements OnInit {
 
   private newPlayerName: string = "";
 
-  // private countDownActive: boolean = false;
-  // private countDownRemaining: number = 0;
-  // private countDownTimer;
-
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
   }
@@ -58,23 +54,16 @@ export class PlayerViewComponent implements OnInit {
       question.uuid = nextQuestion.nextQuestionUUID;
       _this.noQuestionsYet = false;
 
-      for (let index in nextQuestion.questionOptions) {
-        let option = nextQuestion.questionOptions[index];
+      for (let index in nextQuestion.options) {
+        let option = nextQuestion.options[index];
         let questionOption: QuestionOption = new QuestionOption();
-        questionOption.uuid = option.optionUUID;
-        questionOption.optionAnswer = option.optionAnswer;
-        question.addQuestionOption(questionOption);
+        questionOption.uuid = option.uuid;
+        questionOption.answerValue = option.answerValue;
+        question.possibleOptions.push(questionOption)
       }
 
       _this.currentQuestion = question;
     });
-
-    // StartCountDown.registerListener("StartCountDown", function (message: Message) {
-    //   let startCountDown: StartCountDown = <StartCountDown>message;
-    //   _this.countDownActive = true;
-    //   _this.countDownRemaining = startCountDown.countDownSeconds;
-    //   _this.countDownTimer = setInterval(_this.tickTimer, 1000, _this);
-    // });
   }
 
   playerButtonPressed(button): void {
@@ -108,15 +97,4 @@ export class PlayerViewComponent implements OnInit {
   skipChangeName() {
     this.changingName = false;
   }
-
-  // tickTimer(_this: PlayerViewComponent) {
-  //   if (_this.countDownRemaining == 0) {
-  //     _this.countDownActive = false;
-  //     clearInterval(_this.countDownTimer);
-  //
-  //
-  //   } else {
-  //     _this.countDownRemaining = _this.countDownRemaining - 1;
-  //   }
-  // }
 }

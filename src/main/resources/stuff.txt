@@ -1,3 +1,5 @@
+Things to improve:
+
 Move the session object out of the message and into the data object?
 figure out what to do with _ is part of variable from client, not from server to client
 

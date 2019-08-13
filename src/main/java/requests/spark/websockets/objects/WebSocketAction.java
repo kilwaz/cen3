@@ -3,6 +3,8 @@ package requests.spark.websockets.objects;
 import core.builders.requests.WebSocketMessageMapping;
 import data.model.objects.json.JSONContainer;
 import error.Error;
+import log.AppLogger;
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import requests.spark.websockets.WebSocketSession;
@@ -19,6 +21,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class WebSocketAction<WSMessage extends Message, WSData extends WebSocketData> {
+    Logger log = AppLogger.logger();
+
     public void push(Push push) {
         try {
             JSONContainer jsonContainer = response((WSMessage) push.getPushedMessage());
@@ -77,6 +81,9 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                     fieldMethod.invoke(wsData, jsonObjectDecoded.getString("_" + fieldName));
                 } catch (NoSuchMethodException ex) {
                     Error.WEBSOCKET_PARSE_METHOD.record().additionalInformation("Variable name is " + capFieldName).create(ex);
+                } catch (org.json.JSONException ex) {
+                    log.info(ex.getMessage());
+                    log.info("But we don't really do anything with this");
                 }
             }
 

@@ -29,8 +29,8 @@ export class GameViewComponent implements OnInit {
 
   private currentQuestion: Question;
 
-  private clearedScreen:boolean = true;
-  private gameMessage:string = '';
+  private clearedScreen: boolean = true;
+  private gameMessage: string = '';
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -109,10 +109,10 @@ export class GameViewComponent implements OnInit {
       for (let index in nextQuestion.options) {
         let option = nextQuestion.options[index];
         let questionOption: QuestionOption = new QuestionOption();
-        questionOption.uuid = option.optionUUID;
-        questionOption.answerProgressClass = "alert-primary";
-        questionOption.optionAnswer = option.optionAnswer;
-        question.addQuestionOption(questionOption);
+        questionOption.uuid = option.uuid;
+        // questionOption.answerProgressClass = "alert-primary";
+        questionOption.answerValue = option.answerValue;
+        question.possibleOptions.push(questionOption);
       }
 
       question.questionText = nextQuestion.questionText;
@@ -138,17 +138,24 @@ export class GameViewComponent implements OnInit {
 
       for (let index in questionResults.questionOptions) {
         let option = questionResults.questionOptions[index];
-        totalAnswers = totalAnswers + option.optionAnswerCount;
+        totalAnswers = totalAnswers + option.countedAnswers;
       }
 
       for (let index in questionResults.questionOptions) {
         let option = questionResults.questionOptions[index];
-        let foundOption = _this.currentQuestion.findQuestionOption(option.optionUUID);
-        foundOption.uuid = option.optionUUID;
+        let possibleOptions = _this.currentQuestion.possibleOptions;
+        let foundOption = undefined;
+        for (let index in questionResults.questionOptions) {
+          if (possibleOptions[index].uuid == option.uuid) {
+            foundOption = questionResults.questionOptions[index];
+            break;
+          }
+        }
+        foundOption.uuid = option.uuid;
         if (foundOption) {
-          foundOption.answerProgressClass = (option.isCorrectAnswer ? "alert-success" : "alert-danger");
-          foundOption.optionAnswerCount = option.optionAnswerCount;
-          foundOption.optionPercentageOfTotalAnswers = (option.optionAnswerCount / totalAnswers) * 100;
+          // foundOption.answerProgressClass = (option.isCorrectAnswer ? "alert-success" : "alert-danger");
+          foundOption.optionAnswerCount = option.countedAnswers;
+          foundOption.optionPercentageOfTotalAnswers = (option.countedAnswers / totalAnswers) * 100;
         }
       }
 
