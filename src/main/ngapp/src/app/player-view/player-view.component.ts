@@ -37,10 +37,10 @@ export class PlayerViewComponent implements OnInit {
 
     this.webSocketService.sendCallback(joinGame, function (responseMessage) {
       let joinGame: JoinGame = <JoinGame>responseMessage;
-      let player = new Player();
-      player.uuid = joinGame.playerUUID;
-      player.id = joinGame.playerID;
-      player.name = joinGame.playerName;
+      let player = new Player(joinGame);
+      // player.uuid = joinGame.playerUUID;
+      // player.id = joinGame.playerID;
+      // player.name = joinGame.playerName;
       if (!player.name.startsWith("Player")) {
         _this.changingName = false;
       }

@@ -24,7 +24,7 @@ public class ApplicationInitialiser {
         WebSocketMessageMapping.buildMappings();
         GameManager.getInstance().createNewGame();
 
-        // Get IP address of laptop
+        // Get IP address of server machine
         InetAddress inetAddress = null;
         try {
             inetAddress = InetAddress.getLocalHost();

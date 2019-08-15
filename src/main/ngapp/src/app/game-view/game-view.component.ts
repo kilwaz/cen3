@@ -48,20 +48,20 @@ export class GameViewComponent implements OnInit {
 
       for (let index in responseMessage.players) {
         let playerInfo = responseMessage.players[index];
-        let player: Player = new Player();
-        player.uuid = playerInfo.playerUUID;
-        player.id = playerInfo.playerID;
-        player.name = playerInfo.playerName;
+        let player: Player = new Player(playerInfo);
+        // player.uuid = playerInfo.playerUUID;
+        // player.id = playerInfo.playerID;
+        // player.name = playerInfo.playerName;
         _this.game.addPlayer(player);
       }
     });
 
     NewPlayerJoined.registerListener("NewPlayerJoined", function (message: Message) {
       let newPlayerJoined: NewPlayerJoined = <NewPlayerJoined>message;
-      let newPlayer: Player = new Player();
-      newPlayer.uuid = newPlayerJoined.newPlayerUUID;
-      newPlayer.id = newPlayerJoined.newPlayerID;
-      newPlayer.name = newPlayerJoined.newPlayerName;
+      let newPlayer: Player = new Player(newPlayerJoined);
+      // newPlayer.uuid = newPlayerJoined.newPlayerUUID;
+      // newPlayer.id = newPlayerJoined.newPlayerID;
+      // newPlayer.name = newPlayerJoined.newPlayerName;
       _this.game.addPlayer(newPlayer);
     });
 
