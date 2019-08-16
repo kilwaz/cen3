@@ -6,6 +6,12 @@ export class PlayerResult {
 	
 	constructor() {
 	}
+	
+	wsFill(webSocketReference: any) : PlayerResult {
+		this._playerUUID = webSocketReference.playerUUID;
+		this._isCorrectAnswer = webSocketReference.isCorrectAnswer;
+		return this;
+	}
 
 	get playerUUID(): string {
 		return this._playerUUID;

@@ -8,6 +8,13 @@ export class Answer {
 	
 	constructor() {
 	}
+	
+	wsFill(webSocketReference: any) : Answer {
+		this._uuid = webSocketReference.uuid;
+		this._answerValue = webSocketReference.answerValue;
+		this._player = webSocketReference.player;
+		return this;
+	}
 
 	get uuid(): string {
 		return this._uuid;

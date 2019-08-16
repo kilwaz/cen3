@@ -48,29 +48,23 @@ export class GameViewComponent implements OnInit {
 
       for (let index in responseMessage.players) {
         let playerInfo = responseMessage.players[index];
-        let player: Player = new Player(playerInfo);
-        // player.uuid = playerInfo.playerUUID;
-        // player.id = playerInfo.playerID;
-        // player.name = playerInfo.playerName;
+        let player: Player = new Player().wsFill(playerInfo);
         _this.game.addPlayer(player);
       }
     });
 
     NewPlayerJoined.registerListener("NewPlayerJoined", function (message: Message) {
       let newPlayerJoined: NewPlayerJoined = <NewPlayerJoined>message;
-      let newPlayer: Player = new Player(newPlayerJoined);
-      // newPlayer.uuid = newPlayerJoined.newPlayerUUID;
-      // newPlayer.id = newPlayerJoined.newPlayerID;
-      // newPlayer.name = newPlayerJoined.newPlayerName;
+      let newPlayer: Player = new Player().wsFill(newPlayerJoined);
       _this.game.addPlayer(newPlayer);
     });
 
     AnswerUpdate.registerListener("AnswerUpdate", function (message: Message) {
       let answerUpdate: AnswerUpdate = <AnswerUpdate>message;
       let player: Player = _this.game.findPlayer(answerUpdate.playerUUID);
-      let answer: Answer = new Answer();
-      answer.uuid = answerUpdate.answerUUID;
-      answer.answerValue = answerUpdate.answerValue;
+      let answer: Answer = new Answer().wsFill(answerUpdate);
+      // answer.uuid = answerUpdate.answerUUID;
+      // answer.answerValue = answerUpdate.answerValue;
       player.latestAnswer = answer;
       player.playerStatus = "alert-primary";
     });
@@ -104,18 +98,18 @@ export class GameViewComponent implements OnInit {
         _this.game.players[index].playerStatus = "alert-light";
       }
 
-      let question: Question = new Question();
-      question.uuid = nextQuestion.nextQuestionUUID;
+      let question: Question = new Question().wsFill(nextQuestion);
+      // question.uuid = nextQuestion.nextQuestionUUID;
       for (let index in nextQuestion.options) {
         let option = nextQuestion.options[index];
-        let questionOption: QuestionOption = new QuestionOption();
-        questionOption.uuid = option.uuid;
+        let questionOption: QuestionOption = new QuestionOption().wsFill(option);
+        // questionOption.uuid = option.uuid;
         // questionOption.answerProgressClass = "alert-primary";
-        questionOption.answerValue = option.answerValue;
+        // questionOption.answerValue = option.answerValue;
         question.possibleOptions.push(questionOption);
       }
 
-      question.questionText = nextQuestion.questionText;
+      // question.questionText = nextQuestion.questionText;
       _this.currentQuestion = question;
       _this.clearedScreen = false;
     });

@@ -10,6 +10,15 @@ export class Question {
 	
 	constructor() {
 	}
+	
+	wsFill(webSocketReference: any) : Question {
+		this._uuid = webSocketReference.uuid;
+		this._possibleOptions = webSocketReference.possibleOptions;
+		this._correctOption = webSocketReference.correctOption;
+		this._questionText = webSocketReference.questionText;
+		this._totalAnswers = webSocketReference.totalAnswers;
+		return this;
+	}
 
 	get uuid(): string {
 		return this._uuid;

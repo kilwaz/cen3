@@ -45,8 +45,8 @@ public class JoinGame extends Message {
         WebSocketManager.getInstance().addSession(webSocketSession);
 
         // Add response values to this response
-        joinGameData.setPlayerID(player.getId());
-        joinGameData.setPlayerUUID(player.getUuid());
-        joinGameData.setPlayerName(player.getName());
+        joinGameData.setId(player.getId());
+        joinGameData.setUuid(player.getUuid());
+        joinGameData.setName(player.getName());
     }
 }

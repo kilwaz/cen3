@@ -29,6 +29,7 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
             for (WebSocketSession connection : push.getAudience().audience()) {
                 Session session = connection.getSession();
                 if (session.isOpen()) {
+                    log.info("<- Outgoing message " + jsonContainer.writeResponse());
                     session.getRemote().sendString(jsonContainer.writeResponse());
                 }
             }

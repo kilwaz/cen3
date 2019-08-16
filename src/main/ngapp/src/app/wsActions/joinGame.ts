@@ -3,9 +3,9 @@ import {Message} from "./message";
 
 export class JoinGame extends Message {
 	private _localStorageUUID: string;
-	private _playerUUID: string;
-	private _playerID: number;
-	private _playerName: string;
+	private _uuid: string;
+	private _id: number;
+	private _name: string;
 	
 	constructor() {
 		super();
@@ -13,41 +13,41 @@ export class JoinGame extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._playerUUID = msgRaw.playerUUID;
-		this._playerID = msgRaw.playerID;
-		this._playerName = msgRaw.playerName;
+		this._uuid = msgRaw.uuid;
+		this._id = msgRaw.id;
+		this._name = msgRaw.name;
 	}
 
 	get localStorageUUID(): string {
 		return this._localStorageUUID;
 	}
 	
-	get playerUUID(): string {
-		return this._playerUUID;
+	get uuid(): string {
+		return this._uuid;
 	}
 	
-	get playerID(): number {
-		return this._playerID;
+	get id(): number {
+		return this._id;
 	}
 	
-	get playerName(): string {
-		return this._playerName;
+	get name(): string {
+		return this._name;
 	}
 	
 	set localStorageUUID(value: string) {
 		this._localStorageUUID = value;
 	}
 	
-	set playerUUID(value: string) {
-		this._playerUUID = value;
+	set uuid(value: string) {
+		this._uuid = value;
 	}
 	
-	set playerID(value: number) {
-		this._playerID = value;
+	set id(value: number) {
+		this._id = value;
 	}
 	
-	set playerName(value: string) {
-		this._playerName = value;
+	set name(value: string) {
+		this._name = value;
 	}
 	
 }

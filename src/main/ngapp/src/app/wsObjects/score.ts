@@ -7,6 +7,12 @@ export class Score {
 	
 	constructor() {
 	}
+	
+	wsFill(webSocketReference: any) : Score {
+		this._score = webSocketReference.score;
+		this._player = webSocketReference.player;
+		return this;
+	}
 
 	get score(): number {
 		return this._score;

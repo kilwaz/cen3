@@ -48,7 +48,6 @@ export class Game {
 
   removePlayer(player: Player) {
     delete this._players[player.uuid];
-    // delete this._playersArray[player];
   }
 
   findPlayer(uuid: string) {

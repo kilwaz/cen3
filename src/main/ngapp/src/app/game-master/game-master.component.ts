@@ -45,10 +45,7 @@ export class GameMasterComponent implements OnInit {
 
       for (let index in responseMessage.players) {
         let playerInfo = responseMessage.players[index];
-        let player: Player = new Player(playerInfo);
-        // player.uuid = playerInfo.playerUUID;
-        // player.id = playerInfo.playerID;
-        // player.name = playerInfo.playerName;
+        let player: Player = new Player().wsFill(playerInfo);
         _this.game.addPlayer(player);
       }
     });

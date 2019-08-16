@@ -37,10 +37,7 @@ export class PlayerViewComponent implements OnInit {
 
     this.webSocketService.sendCallback(joinGame, function (responseMessage) {
       let joinGame: JoinGame = <JoinGame>responseMessage;
-      let player = new Player(joinGame);
-      // player.uuid = joinGame.playerUUID;
-      // player.id = joinGame.playerID;
-      // player.name = joinGame.playerName;
+      let player = new Player().wsFill(joinGame);
       if (!player.name.startsWith("Player")) {
         _this.changingName = false;
       }
@@ -50,15 +47,15 @@ export class PlayerViewComponent implements OnInit {
 
     NextQuestion.registerListener("NextQuestion", function (message: Message) {
       let nextQuestion: NextQuestion = <NextQuestion>message;
-      let question: Question = new Question();
-      question.uuid = nextQuestion.nextQuestionUUID;
+      let question: Question = new Question().wsFill(nextQuestion);
+      // question.uuid = nextQuestion.nextQuestionUUID;
       _this.noQuestionsYet = false;
 
       for (let index in nextQuestion.options) {
         let option = nextQuestion.options[index];
-        let questionOption: QuestionOption = new QuestionOption();
-        questionOption.uuid = option.uuid;
-        questionOption.answerValue = option.answerValue;
+        let questionOption: QuestionOption = new QuestionOption().wsFill(option);
+        // questionOption.uuid = option.uuid;
+        // questionOption.answerValue = option.answerValue;
         question.possibleOptions.push(questionOption)
       }
 

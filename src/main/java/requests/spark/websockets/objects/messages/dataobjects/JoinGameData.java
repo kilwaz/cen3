@@ -10,11 +10,11 @@ public class JoinGameData extends WebSocketData {
     private String localStorageUUID = null;
 
     @WSDataOutgoing
-    private UUID playerUUID = null;
+    private UUID uuid = null;
     @WSDataOutgoing
-    private Integer playerID = null;
+    private Integer id = null;
     @WSDataOutgoing
-    private String playerName = null;
+    private String name = null;
 
     public String getLocalStorageUUID() {
         return localStorageUUID;
@@ -24,27 +24,27 @@ public class JoinGameData extends WebSocketData {
         this.localStorageUUID = localStorageUUID;
     }
 
-    public UUID getPlayerUUID() {
-        return playerUUID;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setPlayerUUID(UUID playerUUID) {
-        this.playerUUID = playerUUID;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
-    public Integer getPlayerID() {
-        return playerID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setPlayerID(Integer playerID) {
-        this.playerID = playerID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getPlayerName() {
-        return playerName;
+    public String getName() {
+        return name;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

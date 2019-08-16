@@ -81,4 +81,8 @@ public class Player extends JSONWeb {
     public void setLatestAnswer(Answer latestAnswer) {
         this.latestAnswer = latestAnswer;
     }
+
+    public String toString() {
+        return uuid.toString();
+    }
 }
