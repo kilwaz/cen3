@@ -1,4 +1,3 @@
-import build.TypeScriptBuilder;
 import core.builders.requests.RequestMapper;
 import core.builders.requests.WebSocketMessageMapping;
 import game.GameManager;
@@ -13,12 +12,6 @@ public class ApplicationInitialiser {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
-        boolean buildTypeScript = false;
-
-        if (buildTypeScript) {
-            TypeScriptBuilder.build();
-        }
-
         AppManager.init();
         RequestMapper.buildMappings();
         WebSocketMessageMapping.buildMappings();

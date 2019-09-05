@@ -22,7 +22,6 @@ public class TypeScriptBuilder {
     private static Logger log = AppLogger.logger();
 
     private static String nl = System.lineSeparator();
-    private static String tab = "\t";
 
     public static void build() {
         // Generate Actions
@@ -30,6 +29,7 @@ public class TypeScriptBuilder {
         String autoGenerateMessage = "THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE";
 
         Set<Class<? extends WebSocketData>> wsActions = new Reflections("requests.spark.websockets.objects.messages.dataobjects").getSubTypesOf(WebSocketData.class);
+        String tab = "\t";
         for (Class clazz : wsActions) {
             try {
                 Field[] fields = clazz.getDeclaredFields();
@@ -117,7 +117,7 @@ public class TypeScriptBuilder {
                 Field[] fields = clazz.getDeclaredFields();
 
                 // Class name with 'Data' removed
-                String tsClassName = clazz.getSimpleName().substring(0, clazz.getSimpleName().length());
+                String tsClassName = clazz.getSimpleName();
                 // Class name with lower case first letter for file name to use
                 String tsFileName = Character.toLowerCase(tsClassName.charAt(0)) + tsClassName.substring(1);
 
