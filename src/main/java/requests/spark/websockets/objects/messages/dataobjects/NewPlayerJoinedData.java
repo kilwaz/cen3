@@ -7,39 +7,39 @@ import java.util.UUID;
 
 public class NewPlayerJoinedData extends WebSocketData {
     @WSDataOutgoing
-    private UUID newPlayerUUID;
+    private UUID uuid;
     @WSDataOutgoing
-    private Integer newPlayerID;
+    private Integer id;
     @WSDataOutgoing
-    private String newPlayerName;
+    private String name;
 
     public NewPlayerJoinedData(Player newPlayer) {
-        newPlayerUUID = newPlayer.getUuid();
-        newPlayerID = newPlayer.getId();
-        newPlayerName = newPlayer.getName();
+        uuid = newPlayer.getUuid();
+        id = newPlayer.getId();
+        name = newPlayer.getName();
     }
 
-    public UUID getNewPlayerUUID() {
-        return newPlayerUUID;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setNewPlayerUUID(UUID newPlayerUUID) {
-        this.newPlayerUUID = newPlayerUUID;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
-    public Integer getNewPlayerID() {
-        return newPlayerID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setNewPlayerID(Integer newPlayerID) {
-        this.newPlayerID = newPlayerID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getNewPlayerName() {
-        return newPlayerName;
+    public String getName() {
+        return name;
     }
 
-    public void setNewPlayerName(String newPlayerName) {
-        this.newPlayerName = newPlayerName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

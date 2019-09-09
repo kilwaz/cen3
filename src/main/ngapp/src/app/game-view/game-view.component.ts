@@ -56,6 +56,7 @@ export class GameViewComponent implements OnInit {
     NewPlayerJoined.registerListener("NewPlayerJoined", function (message: Message) {
       let newPlayerJoined: NewPlayerJoined = <NewPlayerJoined>message;
       let newPlayer: Player = new Player().wsFill(newPlayerJoined);
+      debugger;
       _this.game.addPlayer(newPlayer);
     });
 
