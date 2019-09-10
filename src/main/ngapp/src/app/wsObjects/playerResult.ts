@@ -8,8 +8,8 @@ export class PlayerResult {
 	}
 	
 	wsFill(webSocketReference: any) : PlayerResult {
-		this._playerUUID = webSocketReference.playerUUID;
-		this._isCorrectAnswer = webSocketReference.isCorrectAnswer;
+		this._playerUUID = webSocketReference.playerUUID != undefined ? webSocketReference.playerUUID : this._playerUUID;
+		this._isCorrectAnswer = webSocketReference.isCorrectAnswer != undefined ? webSocketReference.isCorrectAnswer : this._isCorrectAnswer;
 		return this;
 	}
 

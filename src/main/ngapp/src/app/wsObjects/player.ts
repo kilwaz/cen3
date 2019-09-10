@@ -13,12 +13,12 @@ export class Player {
 	}
 	
 	wsFill(webSocketReference: any) : Player {
-		this._uuid = webSocketReference.uuid;
-		this._id = webSocketReference.id;
-		this._name = webSocketReference.name;
-		this._score = webSocketReference.score;
-		this._playerStatus = webSocketReference.playerStatus;
-		this._latestAnswer = webSocketReference.latestAnswer;
+		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
+		this._id = webSocketReference.id != undefined ? webSocketReference.id : this._id;
+		this._name = webSocketReference.name != undefined ? webSocketReference.name : this._name;
+		this._score = webSocketReference.score != undefined ? webSocketReference.score : this._score;
+		this._playerStatus = webSocketReference.playerStatus != undefined ? webSocketReference.playerStatus : this._playerStatus;
+		this._latestAnswer = webSocketReference.latestAnswer != undefined ? webSocketReference.latestAnswer : this._latestAnswer;
 		return this;
 	}
 

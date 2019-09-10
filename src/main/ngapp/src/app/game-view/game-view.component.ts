@@ -46,8 +46,8 @@ export class GameViewComponent implements OnInit {
       _this.game = new Game(adminGame.adminUUID);
       window.localStorage.setItem("adminUUID", adminGame.adminUUID);
 
-      for (let index in responseMessage.players) {
-        let playerInfo = responseMessage.players[index];
+      for (let index in responseMessage.allPlayers) {
+        let playerInfo = responseMessage.allPlayers[index];
         let player: Player = new Player().wsFill(playerInfo);
         _this.game.addPlayer(player);
       }
@@ -56,7 +56,6 @@ export class GameViewComponent implements OnInit {
     NewPlayerJoined.registerListener("NewPlayerJoined", function (message: Message) {
       let newPlayerJoined: NewPlayerJoined = <NewPlayerJoined>message;
       let newPlayer: Player = new Player().wsFill(newPlayerJoined);
-      debugger;
       _this.game.addPlayer(newPlayer);
     });
 
@@ -113,6 +112,7 @@ export class GameViewComponent implements OnInit {
       // question.questionText = nextQuestion.questionText;
       _this.currentQuestion = question;
       _this.clearedScreen = false;
+      debugger;
     });
 
     QuestionResults.registerListener("QuestionResults", function (message: Message) {
@@ -159,7 +159,10 @@ export class GameViewComponent implements OnInit {
 
     PlayerNameUpdate.registerListener("PlayerNameUpdate", function (message: Message) {
       let playerNameUpdate: PlayerNameUpdate = <PlayerNameUpdate>message;
-      _this.game.findPlayer(playerNameUpdate.playerUUID).name = playerNameUpdate.newName;
+      let player = _this.game.findPlayer(playerNameUpdate.playerUUID);
+      if (player != undefined) {
+        player.name = playerNameUpdate.newName;
+      }
     });
   }
 }

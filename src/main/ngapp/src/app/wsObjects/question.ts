@@ -12,11 +12,11 @@ export class Question {
 	}
 	
 	wsFill(webSocketReference: any) : Question {
-		this._uuid = webSocketReference.uuid;
-		this._possibleOptions = webSocketReference.possibleOptions;
-		this._correctOption = webSocketReference.correctOption;
-		this._questionText = webSocketReference.questionText;
-		this._totalAnswers = webSocketReference.totalAnswers;
+		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
+		this._possibleOptions = webSocketReference.possibleOptions != undefined ? webSocketReference.possibleOptions : this._possibleOptions;
+		this._correctOption = webSocketReference.correctOption != undefined ? webSocketReference.correctOption : this._correctOption;
+		this._questionText = webSocketReference.questionText != undefined ? webSocketReference.questionText : this._questionText;
+		this._totalAnswers = webSocketReference.totalAnswers != undefined ? webSocketReference.totalAnswers : this._totalAnswers;
 		return this;
 	}
 

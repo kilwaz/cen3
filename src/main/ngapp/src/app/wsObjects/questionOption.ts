@@ -9,9 +9,9 @@ export class QuestionOption {
 	}
 	
 	wsFill(webSocketReference: any) : QuestionOption {
-		this._uuid = webSocketReference.uuid;
-		this._answerValue = webSocketReference.answerValue;
-		this._countedAnswers = webSocketReference.countedAnswers;
+		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
+		this._answerValue = webSocketReference.answerValue != undefined ? webSocketReference.answerValue : this._answerValue;
+		this._countedAnswers = webSocketReference.countedAnswers != undefined ? webSocketReference.countedAnswers : this._countedAnswers;
 		return this;
 	}
 

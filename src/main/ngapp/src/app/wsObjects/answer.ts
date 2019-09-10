@@ -10,9 +10,9 @@ export class Answer {
 	}
 	
 	wsFill(webSocketReference: any) : Answer {
-		this._uuid = webSocketReference.uuid;
-		this._answerValue = webSocketReference.answerValue;
-		this._player = webSocketReference.player;
+		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
+		this._answerValue = webSocketReference.answerValue != undefined ? webSocketReference.answerValue : this._answerValue;
+		this._player = webSocketReference.player != undefined ? webSocketReference.player : this._player;
 		return this;
 	}
 

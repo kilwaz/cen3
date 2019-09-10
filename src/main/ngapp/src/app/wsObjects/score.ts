@@ -9,8 +9,8 @@ export class Score {
 	}
 	
 	wsFill(webSocketReference: any) : Score {
-		this._score = webSocketReference.score;
-		this._player = webSocketReference.player;
+		this._score = webSocketReference.score != undefined ? webSocketReference.score : this._score;
+		this._player = webSocketReference.player != undefined ? webSocketReference.player : this._player;
 		return this;
 	}
 

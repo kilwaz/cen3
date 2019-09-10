@@ -153,7 +153,7 @@ public class TypeScriptBuilder {
 
                 tsClassBuilder.append(tab).append("wsFill(webSocketReference: any) : ").append(tsClassName).append(" {").append(nl);
                 for (Field field : fields) { // Append constructor initialisation variables from incoming websocket object
-                    tsClassBuilder.append(tab).append(tab).append("this._").append(field.getName()).append(" = webSocketReference.").append(field.getName()).append(";").append(nl);
+                    tsClassBuilder.append(tab).append(tab).append("this._").append(field.getName()).append(" = webSocketReference.").append(field.getName()).append(" != undefined ? webSocketReference.").append(field.getName()).append(" : this._").append(field.getName()).append(";").append(nl);
                 }
                 tsClassBuilder.append(tab).append(tab).append("return this;").append(nl);
                 tsClassBuilder.append(tab).append("}").append(nl);

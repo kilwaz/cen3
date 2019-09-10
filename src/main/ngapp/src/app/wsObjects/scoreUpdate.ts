@@ -8,8 +8,8 @@ export class ScoreUpdate {
 	}
 	
 	wsFill(webSocketReference: any) : ScoreUpdate {
-		this._score = webSocketReference.score;
-		this._playerUUID = webSocketReference.playerUUID;
+		this._score = webSocketReference.score != undefined ? webSocketReference.score : this._score;
+		this._playerUUID = webSocketReference.playerUUID != undefined ? webSocketReference.playerUUID : this._playerUUID;
 		return this;
 	}
 

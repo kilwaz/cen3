@@ -12,8 +12,10 @@ import requests.spark.websockets.WebSocketSession;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.dataobjects.GameMasterJoinData;
+import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
 @MessageType("GameMasterJoin")
+@WebSocketDataClass(GameMasterJoinData.class)
 public class GameMasterJoin extends Message {
     private static Logger log = AppLogger.logger();
 
@@ -22,7 +24,7 @@ public class GameMasterJoin extends Message {
         Game currentGame = GameManager.getInstance().getCurrentGame();
 
         GameMaster gameMaster = null;
-        if (gameMasterJoinData.getLocalStorageUUID() != null) {
+        if (gameMasterJoinData.getLocalStorageUUID() != null && !gameMasterJoinData.getLocalStorageUUID().isEmpty()) {
             gameMaster = currentGame.findGameMaster(gameMasterJoinData.getLocalStorageUUID());
         }
         if (gameMaster == null) {

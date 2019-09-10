@@ -33,6 +33,10 @@ export class WebSocketService {
   }
 
   private static received(msgRaw: any) {
+    if (msgRaw.type != "HeartBeat") {
+      console.log(msgRaw);
+    }
+
     if (msgRaw.hasOwnProperty('callBackUUID')) { // Response from the server from generated client request
       let callback = this.callBacks[msgRaw.callBackUUID];
       let callObjs = this.callObjs[msgRaw.callBackUUID];
@@ -61,7 +65,6 @@ export class WebSocketService {
         }
       }
     }
-    console.log(msgRaw);
   }
 
   private static error(err: any) {
