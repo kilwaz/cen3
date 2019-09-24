@@ -46,16 +46,14 @@ export class PlayerViewComponent implements OnInit {
     });
 
     NextQuestion.registerListener("NextQuestion", function (message: Message) {
+      debugger;
       let nextQuestion: NextQuestion = <NextQuestion>message;
       let question: Question = new Question().wsFill(nextQuestion);
-      // question.uuid = nextQuestion.nextQuestionUUID;
       _this.noQuestionsYet = false;
 
       for (let index in nextQuestion.options) {
         let option = nextQuestion.options[index];
         let questionOption: QuestionOption = new QuestionOption().wsFill(option);
-        // questionOption.uuid = option.uuid;
-        // questionOption.answerValue = option.answerValue;
         question.possibleOptions.push(questionOption)
       }
 

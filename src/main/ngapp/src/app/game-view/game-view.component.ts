@@ -63,8 +63,6 @@ export class GameViewComponent implements OnInit {
       let answerUpdate: AnswerUpdate = <AnswerUpdate>message;
       let player: Player = _this.game.findPlayer(answerUpdate.playerUUID);
       let answer: Answer = new Answer().wsFill(answerUpdate);
-      // answer.uuid = answerUpdate.answerUUID;
-      // answer.answerValue = answerUpdate.answerValue;
       player.latestAnswer = answer;
       player.playerStatus = "alert-primary";
     });
@@ -99,23 +97,18 @@ export class GameViewComponent implements OnInit {
       }
 
       let question: Question = new Question().wsFill(nextQuestion);
-      // question.uuid = nextQuestion.nextQuestionUUID;
       for (let index in nextQuestion.options) {
         let option = nextQuestion.options[index];
         let questionOption: QuestionOption = new QuestionOption().wsFill(option);
-        // questionOption.uuid = option.uuid;
-        // questionOption.answerProgressClass = "alert-primary";
-        // questionOption.answerValue = option.answerValue;
         question.possibleOptions.push(questionOption);
       }
 
-      // question.questionText = nextQuestion.questionText;
       _this.currentQuestion = question;
       _this.clearedScreen = false;
-      debugger;
     });
 
     QuestionResults.registerListener("QuestionResults", function (message: Message) {
+      debugger;
       let questionResults: QuestionResults = <QuestionResults>message;
       let totalAnswers: number = 0;
 

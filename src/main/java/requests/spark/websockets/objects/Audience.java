@@ -22,13 +22,16 @@ public class Audience {
     public List<WebSocketSession> audience() {
         List<WebSocketSession> audienceList = new ArrayList<>();
         if (audiences.contains(Audience.ALL_ADMINS)) {
-            audienceList = WebSocketManager.getInstance().getAdmins();
-        } else if (audiences.contains(ALL_PLAYERS)) {
-            audienceList = WebSocketManager.getInstance().getPlayers();
-        } else if (audiences.contains(ALL_GAME_MASTERS)) {
-            audienceList = WebSocketManager.getInstance().getGameMasters();
-        } else if (audiences.contains(ALL)) {
-            audienceList = WebSocketManager.getInstance().getAllSessions();
+            audienceList.addAll(WebSocketManager.getInstance().getAdmins());
+        }
+        if (audiences.contains(ALL_PLAYERS)) {
+            audienceList.addAll(WebSocketManager.getInstance().getPlayers());
+        }
+        if (audiences.contains(ALL_GAME_MASTERS)) {
+            audienceList.addAll(WebSocketManager.getInstance().getGameMasters());
+        }
+        if (audiences.contains(ALL)) {
+            audienceList.addAll(WebSocketManager.getInstance().getAllSessions());
         }
 
         return audienceList;

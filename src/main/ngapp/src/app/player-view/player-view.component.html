@@ -1,11 +1,12 @@
 <div *ngIf="player" class="auth-background h-100 ">
-  <div class="mx-auto m-2 text-center clouded-background"  (click)="enableChangeName()">
+  <div class="mx-auto m-2 text-center clouded-background" (click)="enableChangeName()">
     {{player.name}} - #{{player.id}}
   </div>
 
   <div *ngIf="changingName" class="container clouded-background">
     <mat-form-field style="width:100%">
-      <input matInput placeholder="Name yourself (15 letters max)" value="{{player.name}}" (change)="playerNameChanged()" (keyup)="updateName($event)" maxlength="15">
+      <input matInput placeholder="Name yourself (15 letters max)" value="{{player.name}}"
+             (change)="playerNameChanged()" (keyup)="updateName($event)" maxlength="15">
     </mat-form-field>
     <button mat-button class="alert-primary m-2" (click)="playerNameChanged()">Confirm</button>
     <button mat-button class="alert-primary m-2" (click)="skipChangeName()">Skip</button>
@@ -18,9 +19,9 @@
 
     <div class="container w-100" *ngIf="currentQuestion">
       <mat-button-toggle-group vertical name="fontStyle" aria-label="Font Style" class="w-100">
-        <mat-button-toggle class="m2" *ngFor="let option of currentQuestion.questionOptions; let i = index"
-                           (click)='playerButtonPressed(option.optionUUID)'>
-          {{option.optionAnswer}}
+        <mat-button-toggle class="m2" *ngFor="let option of currentQuestion.possibleOptions; let i = index"
+                           (click)='playerButtonPressed(option.uuid)'>
+          {{option.answerValue}}
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
