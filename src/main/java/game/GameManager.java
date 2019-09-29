@@ -51,6 +51,8 @@ public class GameManager {
                             QuestionOption answer3 = new QuestionOption().answerValue(splitLine[3]);
                             QuestionOption answer4 = new QuestionOption().answerValue(splitLine[4]);
 
+                            answer1.isCorrectAnswer(true);
+
                             Question question = new Question()
                                     .questionText(splitLine[0])
                                     .correctOption(answer1)

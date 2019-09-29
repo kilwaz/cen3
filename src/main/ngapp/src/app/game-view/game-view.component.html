@@ -10,11 +10,11 @@
             <h1 class="text-center" *ngIf="currentQuestion">{{currentQuestion.questionText}}</h1>
             <ul>
               <li class="{{option.answerProgressClass}} mt-4" style="list-style-type: decimal;border: 1px solid"
-                  *ngFor="let option of currentQuestion.questionOptions; let i = index">
+                  *ngFor="let option of currentQuestion.possibleOptions; let i = index">
                 <div class="m-3">
-                  <h4 class="text-center">{{option.optionAnswer}}
-                    <span *ngIf="option.optionAnswerCount">- {{option.optionAnswerCount | number :'1.0-0'}}
-                      /{{currentQuestion.totalAnswers | number :'1.0-0'}}
+                  <h4 class="text-center">{{option.answerValue}}
+                    <span *ngIf="option.countedAnswers != undefined">- {{option.countedAnswers | number :'1.0-0'}}
+                      / {{currentQuestion.totalAnswers | number :'1.0-0'}}
                       - {{option.optionPercentageOfTotalAnswers | number :'1.0-0'}}%</span></h4>
                 </div>
                 <mat-progress-bar mode="determinate" style="height: 12px;"
@@ -51,9 +51,6 @@
             <li>How to join:</li>
             <li>Wifi 'Alex Mili Wedding' password 'wedding1'.</li>
             <li>Type 192.168.0.5 or scan</li>
-<!--            <li>-->
-<!--              <img src="../../assets/images/qrcode.jpg"/>-->
-<!--            </li>-->
           </ul>
         </div>
       </div>

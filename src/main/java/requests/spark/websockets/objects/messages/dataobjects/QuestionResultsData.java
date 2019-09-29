@@ -5,7 +5,6 @@ import game.GameManager;
 import game.actors.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
@@ -30,7 +29,13 @@ public class QuestionResultsData extends WebSocketData {
 
         questionOptions = new JSONArray();
         for (QuestionOption questionOption : question.getPossibleOptions()) {
-            questionOptions.put(questionOption.prepareForJSON(WSData.QUESTION_OPTION_UUID, WSData.QUESTION_OPTION_ANSWER_VALUE, WSData.QUESTION_OPTION_COUNTED_ANSWERS));
+            if (questionOption.getIsCorrectAnswer()) {
+                questionOption.answerProgressClass("alert-success");
+            } else {
+                questionOption.answerProgressClass("alert-danger");
+            }
+
+            questionOptions.put(questionOption.prepareForJSON());
         }
 
         correctOptionUUID = question.getCorrectOption().getUuid();

@@ -16,7 +16,6 @@ import {PlayerNameChange} from "../wsActions/playerNameChange";
 })
 export class PlayerViewComponent implements OnInit {
   webSocketService: WebSocketService;
-  webSocketServiceReference = WebSocketService;
 
   player: Player;
   private currentQuestion: Question;
@@ -46,7 +45,6 @@ export class PlayerViewComponent implements OnInit {
     });
 
     NextQuestion.registerListener("NextQuestion", function (message: Message) {
-      debugger;
       let nextQuestion: NextQuestion = <NextQuestion>message;
       let question: Question = new Question().wsFill(nextQuestion);
       _this.noQuestionsYet = false;

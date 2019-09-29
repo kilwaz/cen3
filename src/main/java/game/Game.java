@@ -38,7 +38,7 @@ public class Game {
     public Player createPlayer() {
         Player player = new Player();
         players.put(player.getUuid(), player);
-        scores.put(player, new Score( player));
+        scores.put(player, new Score(player));
         return player;
     }
 
@@ -112,6 +112,7 @@ public class Game {
     }
 
     public void markAnswers() {
+        Integer totalAnswers = currentAnswers.size();
         for (Player player : currentAnswers.keySet()) {
             Answer answer = currentAnswers.get(player);
 
@@ -128,9 +129,13 @@ public class Game {
             }
         }
 
+        for (QuestionOption questionOption : currentQuestion.getPossibleOptions()) {
+            questionOption.optionPercentageOfTotalAnswers((questionOption.getCountedAnswers() / totalAnswers + 0d) * 100);
+        }
+
         if (currentQuestion != null) {
             for (QuestionOption questionOption : currentQuestion.getPossibleOptions()) {
-                log.info(questionOption.getAnswerValue() + " - " + questionOption.getCountedAnswers());
+                log.info(questionOption.getAnswerValue() + " - " + questionOption.getCountedAnswers() + " - " + questionOption.getOptionPercentageOfTotalAnswers());
             }
         }
     }
@@ -157,7 +162,7 @@ public class Game {
         }
     }
 
-    public void resetScores(){
+    public void resetScores() {
         for (Score score : scores.values()) {
             score.setScore(0);
         }

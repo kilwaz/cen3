@@ -205,6 +205,7 @@ public class TypeScriptBuilder {
             case "UUID":
                 return "string";
             case "Integer":
+            case "Double":
                 return "number";
             case "Boolean":
                 return "boolean";

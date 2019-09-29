@@ -108,7 +108,6 @@ export class GameViewComponent implements OnInit {
     });
 
     QuestionResults.registerListener("QuestionResults", function (message: Message) {
-      debugger;
       let questionResults: QuestionResults = <QuestionResults>message;
       let totalAnswers: number = 0;
 
@@ -116,6 +115,7 @@ export class GameViewComponent implements OnInit {
         let playerResult = questionResults.playerResults[index];
         let player: Player = _this.game.findPlayer(playerResult.playerUUID);
         if (player) {
+          totalAnswers = totalAnswers + 1;
           if (playerResult.isCorrectAnswer) {
             player.playerStatus = "alert-success";
           } else {
@@ -125,25 +125,26 @@ export class GameViewComponent implements OnInit {
       }
 
       for (let index in questionResults.questionOptions) {
-        let option = questionResults.questionOptions[index];
-        totalAnswers = totalAnswers + option.countedAnswers;
-      }
+        let resultOption = new QuestionOption();
+        resultOption.wsFill(questionResults.questionOptions[index]);
 
-      for (let index in questionResults.questionOptions) {
-        let option = questionResults.questionOptions[index];
         let possibleOptions = _this.currentQuestion.possibleOptions;
-        let foundOption = undefined;
+        let foundOption: QuestionOption = new QuestionOption();
+
         for (let index in questionResults.questionOptions) {
-          if (possibleOptions[index].uuid == option.uuid) {
-            foundOption = questionResults.questionOptions[index];
+          if (possibleOptions[index].uuid == resultOption.uuid) {
+            foundOption = possibleOptions[index];
             break;
           }
         }
-        foundOption.uuid = option.uuid;
+
+        foundOption.uuid = resultOption.uuid;
         if (foundOption) {
-          // foundOption.answerProgressClass = (option.isCorrectAnswer ? "alert-success" : "alert-danger");
-          foundOption.optionAnswerCount = option.countedAnswers;
-          foundOption.optionPercentageOfTotalAnswers = (option.countedAnswers / totalAnswers) * 100;
+          foundOption.answerProgressClass = resultOption.answerProgressClass;
+          foundOption.countedAnswers = resultOption.countedAnswers;
+          foundOption.optionPercentageOfTotalAnswers = resultOption.optionPercentageOfTotalAnswers;
+          foundOption.isCorrectAnswer = resultOption.isCorrectAnswer;
+          debugger;
         }
       }
 

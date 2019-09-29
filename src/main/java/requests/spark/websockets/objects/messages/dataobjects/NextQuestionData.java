@@ -28,7 +28,7 @@ public class NextQuestionData extends WebSocketData {
 
         List<JSONObject> questionOptionList = new ArrayList<>();
         for (QuestionOption questionOption : nextQuestion.getPossibleOptions()) {
-            questionOptionList.add(questionOption.prepareForJSON(WSData.QUESTION_OPTION_UUID, WSData.QUESTION_OPTION_ANSWER_VALUE));
+            questionOptionList.add(questionOption.prepareForJSON(WSData.QUESTION_OPTION_UUID, WSData.QUESTION_OPTION_ANSWER_VALUE,WSData.QUESTION_OPTION_ANSWER_PROGRESS_CLASS));
         }
 
         // Randomise answer order
