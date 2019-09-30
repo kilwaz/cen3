@@ -21,9 +21,9 @@ public class Player extends JSONWeb {
     @WSDataReference(WSData.PLAYER_PLAYER_STATUS)
     private String playerStatus;
 
-    @WSDataReference(WSData.PLAYER_LATEST_ANSWER)
-    @WSDataTypeScriptClass(Answer.class)
-    private Answer latestAnswer;
+//    @WSDataReference(WSData.PLAYER_LATEST_ANSWER)
+//    @WSDataTypeScriptClass(Answer.class)
+//    private Answer latestAnswer;
 
     public Player() {
         uuid = UUID.randomUUID();
@@ -31,7 +31,6 @@ public class Player extends JSONWeb {
         name = "Player " + id;
         score = 0;
         playerStatus = "alert-light";
-        latestAnswer = null;
     }
 
     public UUID getUuid() {
@@ -72,14 +71,6 @@ public class Player extends JSONWeb {
 
     public void setPlayerStatus(String playerStatus) {
         this.playerStatus = playerStatus;
-    }
-
-    public Answer getLatestAnswer() {
-        return latestAnswer;
-    }
-
-    public void setLatestAnswer(Answer latestAnswer) {
-        this.latestAnswer = latestAnswer;
     }
 
     public String toString() {
