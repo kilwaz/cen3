@@ -1,5 +1,6 @@
 package data.imports;
 
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class ExcelImporter {
-    private static Logger log = Logger.getLogger(ExcelImporter.class);
+    private static Logger log = AppLogger.logger();
 
     public ExcelImporter(File excelFile) {
         try {

@@ -5,6 +5,7 @@ import data.Query;
 import data.SelectQuery;
 import data.UpdateQuery;
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class DatabaseTransactionManager {
     private static DatabaseTransactionManager databaseTransactionManager;
-    private static Logger log = Logger.getLogger(DatabaseTransactionManager.class);
+    private static Logger log = AppLogger.logger();
     private List<Query> pendingQueryList = new ArrayList<>();
     private Boolean inTransaction = false;
     private Timer timeOfLastQuery = new Timer();

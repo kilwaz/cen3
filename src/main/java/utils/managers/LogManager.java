@@ -1,10 +1,7 @@
 package utils.managers;
 
 import error.Error;
-//import javafx.application.Platform;
-//import javafx.collections.FXCollections;
-//import javafx.collections.ObservableList;
-import log.LogMessage;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -15,12 +12,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class LogManager {
-    private static Logger log = Logger.getLogger(LogManager.class);
+    private static Logger log = AppLogger.logger();
     private static LogManager instance;
-//    private ObservableList<LogClass> logClasses = FXCollections.observableArrayList();
     private String logOutputFilePath = null;
 
-    public LogManager() {
+    private LogManager() {
         instance = this;
 
         File logDirectory = new File(getLogOutputDirectoryPath());
@@ -36,19 +32,8 @@ public class LogManager {
         return instance;
     }
 
-//    public ObservableList<LogClass> getLogClasses() {
-//        return logClasses;
-//    }
-
-    public String getLogOutputDirectoryPath() {
+    private String getLogOutputDirectoryPath() {
         if ("".equals(ApplicationParams.getLogDirectory())) {
-//            String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-//            try {
-//                path = URLDecoder.decode(path + "../../../logs/", "UTF-8");
-//            } catch (UnsupportedEncodingException ex) {
-//                Error.LOG_OUTPUT.record().create(ex);
-//            }
-
             String path = "/opt/wildfly/standalone/log/";
 
             return path;
@@ -75,7 +60,7 @@ public class LogManager {
         return "Unable to find log file path";
     }
 
-    public String getLogOutputFilePath() {
+    private String getLogOutputFilePath() {
         if (logOutputFilePath == null) {
             DateTime dt = new DateTime();
             DateTimeFormatter fmt = DateTimeFormat.forPattern("ddMMMyyyy HHmmss");
@@ -84,25 +69,5 @@ public class LogManager {
         }
 
         return logOutputFilePath;
-    }
-
-    public void addLogMessage(LogMessage logMessage) {
-        // Because we are changing the log classes object we need to make sure this is done in a safe thread
-//        Platform.runLater(() -> {
-//            Boolean found = false;
-//            // Find a more efficient way to do this?
-//            for (LogClass logClass : logClasses) {
-//                if (logClass.getClassName().equals(logMessage.getLoggerName())) {
-//                    logClass.addLogMessage(logMessage);
-//                    found = true;
-//                }
-//            }
-//
-//            if (!found) {
-//                LogClass newClass = new LogClass(logMessage.getLoggerName());
-//                newClass.addLogMessage(logMessage);
-//                logClasses.add(newClass);
-//            }
-//        });
     }
 }

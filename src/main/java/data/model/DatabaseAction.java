@@ -4,6 +4,7 @@ import data.*;
 import data.model.dao.DAO;
 import data.model.objects.json.JSONContainer;
 import error.Error;
+import log.AppLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -16,7 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends DatabaseLink> {
-    private static Logger log = Logger.getLogger(DatabaseAction.class);
+    private static Logger log = AppLogger.logger();
 
     private static ConcurrentHashMap<String, DelayedLoad> delayedLoadedObjects = new ConcurrentHashMap<>();
 

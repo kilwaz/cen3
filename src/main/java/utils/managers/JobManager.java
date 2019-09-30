@@ -2,6 +2,7 @@ package utils.managers;
 
 
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -10,7 +11,7 @@ public class JobManager {
     private static Scheduler scheduler;
     private static JobManager instance;
 
-    private static Logger log = Logger.getLogger(JobManager.class);
+    private static Logger log = AppLogger.logger();
 
     public JobManager() {
         try {

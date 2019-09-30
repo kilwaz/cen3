@@ -6,11 +6,31 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './/app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatInputModule, MatRadioModule, MatTreeModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCheckboxModule,
+  MatInputModule,
+  MatRadioModule,
+  MatTreeModule,
+  MatProgressBarModule
+} from '@angular/material';
+import {GameComponent} from './game/game.component';
+import {PlayerComponent} from './player/player.component';
+import {PlayerViewComponent} from './player-view/player-view.component';
+import {GameViewComponent} from './game-view/game-view.component';
+import {ScoreboardComponent} from './scoreboard/scoreboard.component';
+import { GameMasterComponent } from './game-master/game-master.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GameComponent,
+    PlayerComponent,
+    PlayerViewComponent,
+    GameViewComponent,
+    ScoreboardComponent,
+    GameMasterComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +43,8 @@ import {MatButtonModule, MatCheckboxModule, MatInputModule, MatRadioModule, MatT
     MatRadioModule,
     MatInputModule,
     MatTreeModule,
+    MatButtonToggleModule,
+    MatProgressBarModule,
     ReactiveFormsModule
   ],
   providers: [],

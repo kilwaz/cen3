@@ -3,13 +3,14 @@ package utils.managers;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import data.model.DatabaseObject;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 
 import java.util.UUID;
 
 public class DatabaseObjectManager {
     private static DatabaseObjectManager instance;
-    private static Logger log = Logger.getLogger(DatabaseObjectManager.class);
+    private static Logger log = AppLogger.logger();
     private Cache<String, DatabaseObject> databaseObjects;
 
     public DatabaseObjectManager() {

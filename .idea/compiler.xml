@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="cen3" />
         <module name="wedding" />
+        <module name="groupGames" />
+        <module name="cen3" />
       </profile>
     </annotationProcessing>
   </component>

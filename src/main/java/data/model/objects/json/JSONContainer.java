@@ -2,6 +2,7 @@ package data.model.objects.json;
 
 import data.model.DatabaseObject;
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class JSONContainer<DBO extends DatabaseObject> {
-    private static Logger log = Logger.getLogger(JSONContainer.class);
+    private static Logger log = AppLogger.logger();
 
     private List<DBO> dataObjectList = new ArrayList<>();
     private DBO dataObject = null;
@@ -27,6 +28,14 @@ public class JSONContainer<DBO extends DatabaseObject> {
 
     public JSONContainer() {
 
+    }
+
+    public JSONContainer(String rawData) {
+        this.rawData = rawData;
+    }
+
+    public JSONContainer(JSONObject jsonObject) {
+        this.rawData = jsonObject.toString();
     }
 
     public JSONContainer OK() {
@@ -40,14 +49,6 @@ public class JSONContainer<DBO extends DatabaseObject> {
             filter = Arrays.asList(returnValuesStr.split("\\s*,\\s*"));
         }
         return this;
-    }
-
-    public JSONContainer(String rawData) {
-        this.rawData = rawData;
-    }
-
-    public JSONContainer(JSONObject jsonObject) {
-        this.rawData = jsonObject.toString();
     }
 
     public JSONContainer dbDataList(List<DBO> dataList) {
@@ -141,6 +142,14 @@ public class JSONContainer<DBO extends DatabaseObject> {
 
     public JSONObject toJSONObject() {
         try {
+            rawData = rawData.replace("\\\"", "\""); // Remove any escaping, better way to do this?
+            if (rawData.startsWith("\"")) { // For some reason the message starts with a "
+                rawData = rawData.substring(1);
+            }
+            if (rawData.endsWith("\"")) { // For some reason the message ends with a "
+                rawData = rawData.substring(0, rawData.length() - 1);
+            }
+
             return new JSONObject(Objects.requireNonNullElse(rawData, ""));
         } catch (JSONException ex) {
             try {

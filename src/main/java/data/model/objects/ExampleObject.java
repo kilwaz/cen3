@@ -1,12 +1,13 @@
 package data.model.objects;
 
 import data.model.DatabaseObject;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 
 import java.util.UUID;
 
 public class ExampleObject extends DatabaseObject {
-    private static Logger log = Logger.getLogger(ExampleObject.class);
+    private static Logger log = AppLogger.logger();
 
     private String value = "";
 

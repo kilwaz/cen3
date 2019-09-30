@@ -3,6 +3,7 @@ package utils;
 import data.model.DatabaseObject;
 import data.model.objects.json.JSONContainer;
 import data.model.objects.json.JSONDataSource;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
@@ -10,7 +11,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class JSONData<JSONDataClass extends DatabaseObject> {
-    private static Logger log = Logger.getLogger(JSONData.class);
+    private static Logger log = AppLogger.logger();
 
     private String getJSONData(String classPath, String jsonDataSource) {
         try {

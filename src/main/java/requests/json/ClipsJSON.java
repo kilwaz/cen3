@@ -16,7 +16,7 @@
 //@RequestName("clipsJSON")
 //@JSON
 //public class ClipsJSON extends Request {
-//    private static Logger log = Logger.getLogger(ClipsJSON.class);
+//    private static Logger log = AppLogger.logger();
 //
 //    public void doPost(HttpServletRequest request, HttpServletResponse response) {
 //        super.doPost(request, response);

@@ -8,9 +8,5 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   constructor() {
-    let webSocket = new WebSocket("ws://localhost:4568/echo");
-    webSocket.onopen = function () {
-      webSocket.send("Hello we are connected");
-    };
   }
 }

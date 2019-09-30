@@ -1,5 +1,6 @@
 package core.builders.resources;
 
+import log.AppLogger;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import utils.SDEUtils;
@@ -7,7 +8,7 @@ import utils.SDEUtils;
 import java.io.*;
 
 public class ResourceFileMapper {
-    private static Logger log = Logger.getLogger(ResourceFileMapper.class);
+    private static Logger log = AppLogger.logger();
 
     private static final String RESOURCE_DIR = "/var/www/kilwaz/resources/";
     private static final String RESOURCE_DIR_JS = "/var/www/kilwaz/resources/js/";

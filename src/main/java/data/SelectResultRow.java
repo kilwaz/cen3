@@ -2,6 +2,7 @@ package data;
 
 
 import error.Error;
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 public class SelectResultRow {
-    private static Logger log = Logger.getLogger(SelectResultRow.class);
+    private static Logger log = AppLogger.logger();
     HashMap<String, Object> rowValues = new HashMap<>();
 
     public SelectResultRow() {

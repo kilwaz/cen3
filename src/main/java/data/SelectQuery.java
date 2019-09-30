@@ -1,5 +1,6 @@
 package data;
 
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import utils.managers.DatabaseTransactionManager;
 
@@ -10,7 +11,7 @@ public class SelectQuery implements Query {
     private String query;
     private List<Object> parameters = new ArrayList<>();
 
-    private static Logger log = Logger.getLogger(SelectQuery.class);
+    private static Logger log = AppLogger.logger();
 
     public SelectQuery(String query) {
         this.query = query;

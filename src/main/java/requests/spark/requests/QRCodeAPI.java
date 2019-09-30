@@ -1,6 +1,7 @@
 package requests.spark.requests;
 
 import data.model.objects.json.JSONContainer;
+import log.AppLogger;
 import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
 import org.apache.log4j.Logger;
@@ -14,7 +15,7 @@ import java.io.FileOutputStream;
 
 @RequestName("qrcode")
 public class QRCodeAPI extends SparkRequest {
-    private static Logger log = Logger.getLogger(QRCodeAPI.class);
+    private static Logger log = AppLogger.logger();
 
     public JSONContainer get(Request request) {
         String qrCodeText = request.queryParams("text");

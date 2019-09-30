@@ -1,5 +1,6 @@
 package data;
 
+import log.AppLogger;
 import org.apache.log4j.Logger;
 import utils.ApplicationParams;
 import utils.managers.DatabaseTransactionManager;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class DBConnectionManager {
     private static DBConnectionManager instance;
-    private static Logger log = Logger.getLogger(DBConnectionManager.class);
+    private static Logger log = AppLogger.logger();
     private List<DBConnection> DBConnectionList = new ArrayList<>();
     private DBConnection applicationConnection;
     private Boolean isConnected = false;
