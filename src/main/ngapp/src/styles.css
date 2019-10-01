@@ -1,28 +1,6 @@
-.auth-background::after {
-  background: url('assets/images/auth-background.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-
-  content: "";
-  opacity: 0.6;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
-}
-
 html, body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-}
-
-.clouded-background {
-  background-color: rgba(210, 255, 248, 0.6);
-  box-shadow: 0 0 0 5px rgba(210, 255, 248, 0.6);
 }

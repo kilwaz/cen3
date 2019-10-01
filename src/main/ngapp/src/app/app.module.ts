@@ -15,22 +15,10 @@ import {
   MatTreeModule,
   MatProgressBarModule
 } from '@angular/material';
-import {GameComponent} from './game/game.component';
-import {PlayerComponent} from './player/player.component';
-import {PlayerViewComponent} from './player-view/player-view.component';
-import {GameViewComponent} from './game-view/game-view.component';
-import {ScoreboardComponent} from './scoreboard/scoreboard.component';
-import { GameMasterComponent } from './game-master/game-master.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    GameComponent,
-    PlayerComponent,
-    PlayerViewComponent,
-    GameViewComponent,
-    ScoreboardComponent,
-    GameMasterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
