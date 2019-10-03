@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Message} from "../wsActions/message";
 import {webSocket} from "rxjs/webSocket";
-import {NewPlayerJoined} from "../wsActions/newPlayerJoined";
 import {ClassDictionary} from "../classDictionary";
 
 @Injectable({
@@ -16,7 +15,8 @@ export class WebSocketService {
   private static actionClasses = new Map();
 
   constructor() {
-    WebSocketService.actionClasses.set("NewPlayerJoined", NewPlayerJoined.constructor);
+    // Need to send some sort of initial message to the server here...
+    // WebSocketService.actionClasses.set("NewPlayerJoined", NewPlayerJoined.constructor);
     this.buildSocket();
   }
 
