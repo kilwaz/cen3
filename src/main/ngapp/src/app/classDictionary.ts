@@ -1,25 +1,14 @@
+import {EchoPush} from "./wsActions/echoPush";
+import {HeartBeat} from "./wsActions/heartBeat";
+
 export abstract class ClassDictionary {
   public static getClass(className: string): Object {
-    // switch (className) {
-    //   case "NewPlayerJoined":
-    //     return NewPlayerJoined;
-    //   case "AnswerUpdate":
-    //     return AnswerUpdate;
-    //   case "NextQuestion":
-    //     return NextQuestion;
-    //   case "UpdateScore":
-    //     return UpdateScore;
-    //   case "PlayerNameUpdate":
-    //     return PlayerNameUpdate;
-    //   case "StartCountDown":
-    //     return StartCountDown;
-    //   case "QuestionResults":
-    //     return QuestionResults;
-    //   case "ClearGameScreen":
-    //     return ClearGameScreen;
-    //   case "DisplayGameMessage":
-    //     return DisplayGameMessage;
-    // }
+    switch (className) {
+      case "EchoPush":
+        return EchoPush;
+      case "HeartBeat":
+        return HeartBeat;
+    }
     return "";
   }
 }

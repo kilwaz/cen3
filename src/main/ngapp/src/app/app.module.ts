@@ -15,10 +15,12 @@ import {
   MatTreeModule,
   MatProgressBarModule
 } from '@angular/material';
+import { EchoComponent } from './echo/echo.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EchoComponent
   ],
   imports: [
     BrowserModule,

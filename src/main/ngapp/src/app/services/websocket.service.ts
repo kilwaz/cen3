@@ -21,8 +21,8 @@ export class WebSocketService {
   }
 
   private buildSocket() {
-    this.ws = webSocket("ws://192.168.1.26:4568/ws");
-    //this.ws = webSocket("ws://localhost:4568/ws");
+    //this.ws = webSocket("ws://192.168.1.26:4568/ws"); // Home IP
+    this.ws = webSocket("ws://localhost:4568/ws"); // Local Dev IP
     this.ws.subscribe(
       msg => WebSocketService.received(msg),
       err => WebSocketService.error(err),
@@ -54,6 +54,7 @@ export class WebSocketService {
     } else { // Push from the server
       if (msgRaw.hasOwnProperty('type')) { // Handle a pushed action
         // Find action from dictionary
+        // debugger;
         let actionClass: any = ClassDictionary.getClass(msgRaw.type);
         if (actionClass != undefined) { // Check to see if action exists
           // New action object

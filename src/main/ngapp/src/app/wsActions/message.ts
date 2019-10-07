@@ -38,8 +38,10 @@ export class Message {
   public static informListeners(message: Message) {
     let listeners = this.classListeners[message.type];
 
-    for (let func of listeners) {
-      func(message);
+    if (listeners != undefined) {
+      for (let func of listeners) {
+        func(message);
+      }
     }
   }
 }
