@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="wedding" />
         <module name="groupGames" />
+        <module name="master" />
         <module name="cen3" />
       </profile>
     </annotationProcessing>
