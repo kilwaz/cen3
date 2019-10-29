@@ -16,11 +16,13 @@ import {
   MatProgressBarModule
 } from '@angular/material';
 import { EchoComponent } from './echo/echo.component';
+import { ClarityComponent } from './clarity/clarity.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EchoComponent
+    EchoComponent,
+    ClarityComponent
   ],
   imports: [
     BrowserModule,

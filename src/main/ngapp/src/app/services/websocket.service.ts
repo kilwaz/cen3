@@ -32,7 +32,7 @@ export class WebSocketService {
     );
     this.ws.subscribe();
     WebSocketService.connected = true;
-    this.send(new JoinGame());
+    //this.send(new JoinGame());
   }
 
   private static received(msgRaw: any) {

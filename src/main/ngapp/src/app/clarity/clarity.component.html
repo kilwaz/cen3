@@ -1,0 +1,5 @@
+<p>Clarity</p>
+<input #formulaInput [value]="formula" (keyup.enter)="onEnter(formulaInput.value)" type="text"/>
+<button mat-button (click)="pushed()">Calculate!</button>
+<div><span>Result {{answer}}</span></div>
+
