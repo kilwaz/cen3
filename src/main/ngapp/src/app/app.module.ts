@@ -17,12 +17,14 @@ import {
 } from '@angular/material';
 import { EchoComponent } from './echo/echo.component';
 import { ClarityComponent } from './clarity/clarity.component';
+import { DndDirective } from './dnd.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     EchoComponent,
-    ClarityComponent
+    ClarityComponent,
+    DndDirective
   ],
   imports: [
     BrowserModule,
