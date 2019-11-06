@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Message} from "../wsActions/message";
 import {webSocket} from "rxjs/webSocket";
 import {ClassDictionary} from "../classDictionary";
-import {JoinGame} from "../wsActions/joinGame";
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +56,6 @@ export class WebSocketService {
     } else { // Push from the server
       if (msgRaw.hasOwnProperty('type')) { // Handle a pushed action
         // Find action from dictionary
-        // debugger;
         let actionClass: any = ClassDictionary.getClass(msgRaw.type);
         if (actionClass != undefined) { // Check to see if action exists
           // New action object
@@ -95,6 +93,21 @@ export class WebSocketService {
     WebSocketService.complete();
   }
 
+  sendByteBuffer(arrayBuffer: ArrayBuffer) {
+    let fileWS: WebSocket = new WebSocket("ws://localhost:4568/ws");
+    fileWS.onopen = function () {
+      fileWS.send(arrayBuffer);
+    };
+
+    fileWS.onmessage = function (evt) {
+      let received_msg = evt.data;
+      // We will get back file from this
+    };
+    fileWS.onclose = function () {
+      // websocket is closed.
+    };
+  }
+
   sendCallback(message: Message, callback: (Message) => any) {
     WebSocketService.callBacks[message.callBackUUID] = callback;
     WebSocketService.callObjs[message.callBackUUID] = message;
@@ -104,7 +117,7 @@ export class WebSocketService {
 
   send(message: Message) {
     if (!WebSocketService.connected) {
-      console.log("The connection is closed...");
+      console.log("The connection is closed.");
       this.buildSocket();
     }
 

@@ -12,6 +12,8 @@ import requests.annotations.RequestName;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.WebSocketAction;
 
+import java.io.IOException;
+
 @WebSocket
 @RequestName("ws")
 public class WebSocketListener {
@@ -27,6 +29,12 @@ public class WebSocketListener {
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
         WebSocketManager.getInstance().removeSession(session);
+    }
+
+    // Incoming messages if it is a byte buffer
+    @OnWebSocketMessage
+    public void handleBinaryMessage(Session session, byte[] buffer, int offset, int length) throws IOException {
+        log.info("New Binary Message Received " + length);
     }
 
     // Incoming messages reach the server via this method
