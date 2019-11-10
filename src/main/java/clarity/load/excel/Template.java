@@ -1,5 +1,6 @@
 package clarity.load.excel;
 
+import clarity.Infer;
 import clarity.load.data.DoubleValue;
 import clarity.load.data.Record;
 import clarity.load.data.Value;
@@ -43,7 +44,7 @@ public class Template {
         List<StoredRecord> storedRecords = new ArrayList<>();
 
         for (Record record : recordList) {
-            StoredRecord storedRecord = dataDictionary.createStoredRecord();
+            StoredRecord storedRecord = dataDictionary.createStoredRecord(1);
 
             for (Value value : record.getValues()) {
                 StoredItem storedItem = null;
@@ -51,27 +52,27 @@ public class Template {
                     DoubleValue doubleValue = (DoubleValue) value;
 
                     if (doubleValue.getColumn() == 0) {
-                        storedItem = dataDictionary.createStoredItem(1);
+                        storedItem = storedRecord.getStoredItem(1);
                     } else if (doubleValue.getColumn() == 1) {
-                        storedItem = dataDictionary.createStoredItem(2);
+                        storedItem = storedRecord.getStoredItem(2);
                     }
 
                     if (storedItem != null) {
                         storedItem.value(doubleValue.getValue());
-                        storedRecord.addStoredItem(storedItem);
                     }
                 }
             }
 
-            storedRecord.addStoredItem(dataDictionary.createStoredItem(3));
             storedRecords.add(storedRecord);
         }
 
-        for (StoredRecord storedRecord : storedRecords) {
-            log.info("*** Record ***");
-            for (StoredItem storedItem : storedRecord.getStoredItems()) {
-                log.info(storedItem.getValue() + " Fresh=" + storedItem.isFresh());
-            }
-        }
+        Infer.infer();
+
+//        for (StoredRecord storedRecord : storedRecords) {
+//            log.info("*** Record ***");
+//            for (StoredItem storedItem : storedRecord.getStoredItems().values()) {
+//                log.info(storedItem.getValue() + " Fresh=" + storedItem.isFresh());
+//            }
+//        }
     }
 }

@@ -13,6 +13,15 @@ public class DataItem {
         this.type = type;
     }
 
+    public DataItem formula(String formula) {
+        this.formula = formula;
+        return this;
+    }
+
+    public String getFormula() {
+        return formula;
+    }
+
     public Integer getId() {
         return id;
     }

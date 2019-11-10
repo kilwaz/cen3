@@ -31,13 +31,17 @@ public class FileUploadListener {
     // Closed connections trigger here
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
-        File uploadedFile = new File(directory + fileName);
+        try {
+            File uploadedFile = new File(directory + fileName);
 
-        if (uploadedFile.exists() && uploadedFile.getName().endsWith(".xlsx")) {
-            Clarity.load()
-                    .excel()
-                    .file(uploadedFile)
-                    .process();
+            if (uploadedFile.exists() && uploadedFile.getName().endsWith(".xlsx")) {
+                Clarity.load()
+                        .excel()
+                        .file(uploadedFile)
+                        .process();
+            }
+        } catch (Exception ex) {
+            log.error(ex);
         }
     }
 

@@ -28,8 +28,9 @@ public class Excel implements Loader {
     @Override
     public void process() {
         if (excelFileToLoad != null && excelFileToLoad.exists()) {
+            Workbook workbook = null;
             try {
-                Workbook workbook = new XSSFWorkbook(excelFileToLoad);
+                workbook = new XSSFWorkbook(excelFileToLoad);
                 Sheet datatypeSheet = workbook.getSheetAt(0);
 
                 Template template = new Template();
@@ -55,8 +56,16 @@ public class Excel implements Loader {
                 template.integrate();
 
                 log.info("Done");
-            } catch (IOException | InvalidFormatException e) {
-                e.printStackTrace();
+            } catch (IOException | InvalidFormatException ex) {
+                log.error(ex);
+            } finally {
+                if (workbook != null) {
+                    try {
+                        workbook.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             log.info("We are processing a file");
