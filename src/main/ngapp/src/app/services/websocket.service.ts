@@ -93,21 +93,6 @@ export class WebSocketService {
     WebSocketService.complete();
   }
 
-  sendByteBuffer(arrayBuffer: ArrayBuffer) {
-    let fileWS: WebSocket = new WebSocket("ws://localhost:4568/ws");
-    fileWS.onopen = function () {
-      fileWS.send(arrayBuffer);
-    };
-
-    fileWS.onmessage = function (evt) {
-      let received_msg = evt.data;
-      // We will get back file from this
-    };
-    fileWS.onclose = function () {
-      // websocket is closed.
-    };
-  }
-
   sendCallback(message: Message, callback: (Message) => any) {
     WebSocketService.callBacks[message.callBackUUID] = callback;
     WebSocketService.callObjs[message.callBackUUID] = message;

@@ -1,4 +1,4 @@
-package requests.spark.websockets;
+package requests.spark.websockets.listeners;
 
 import data.model.objects.json.JSONContainer;
 import log.AppLogger;
@@ -9,6 +9,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import requests.annotations.RequestName;
+import requests.spark.websockets.WebSocketManager;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.WebSocketAction;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 
 @WebSocket
 @RequestName("ws")
-public class WebSocketListener {
+public class AppCoreListener {
     private static Logger log = AppLogger.logger();
 
     // New connections trigger here
@@ -34,7 +35,7 @@ public class WebSocketListener {
     // Incoming messages if it is a byte buffer
     @OnWebSocketMessage
     public void handleBinaryMessage(Session session, byte[] buffer, int offset, int length) throws IOException {
-        log.info("New Binary Message Received " + length);
+        log.info("New Binary Message Received " + length + " (Server did nothing with this message)");
     }
 
     // Incoming messages reach the server via this method

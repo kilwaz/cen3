@@ -35,13 +35,8 @@ export class DndDirective {
       this.background = "#eee";
 
       if (typeof Worker !== "undefined") {
-        // Create a new
+        // Create a new worker to deal with our task
         const worker = new Worker("./app.worker.ts", {type: "module"});
-
-        worker.onmessage = ({data}) => {
-          this.webSocketService.sendByteBuffer(data);
-        };
-
         worker.postMessage(files);
       } else {
         // Web Workers are not supported in this environment.
