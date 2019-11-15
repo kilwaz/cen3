@@ -1,8 +1,7 @@
 .dropzone {
-  min-height: 400px;
-  min-width: 400px;
+  min-height: 100px;
   display: table;
-  width: 100%;
+  width: 50%;
   background-color: #eee;
   border: dotted 1px #aaa;
 }

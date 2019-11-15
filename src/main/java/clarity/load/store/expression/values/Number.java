@@ -4,7 +4,7 @@ import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Value;
 
 public class Number extends Expression implements Value {
-    private double value;
+    private Double value;
 
     public Number() {
         super(1);
@@ -22,5 +22,9 @@ public class Number extends Expression implements Value {
 
     public Object getValue() {
         return value;
+    }
+
+    public String getStringRepresentation() {
+        return value.toString();
     }
 }

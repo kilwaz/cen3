@@ -10,4 +10,8 @@ public class Expression {
     public int getPrecedence() {
         return precedence;
     }
+
+    public String getStringRepresentation() {
+        return "";
+    }
 }

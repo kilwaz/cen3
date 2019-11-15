@@ -6,6 +6,9 @@ import clarity.load.store.expression.values.Number;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Formula {
     private static Logger log = AppLogger.logger();
     private Node root = null;
@@ -75,15 +78,20 @@ public class Formula {
         return current;
     }
 
-    public Expression solve() {
-        return root.solve();
+
+    public Object solve() {
+        return ((Number) root.solve()).getValue().toString();
     }
 
     public Node getRoot() {
         return root;
     }
 
-    public void print(){
-        
+    public void print() {
+        List<String> lines = new ArrayList<>();
+
+        log.info("    " + root.getExpression().getStringRepresentation());
+        log.info("  /   \\");
+        log.info(root.getLeft().getExpression().getStringRepresentation() + "   " + root.getRight().getExpression().getStringRepresentation());
     }
 }

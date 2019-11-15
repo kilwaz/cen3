@@ -127,7 +127,7 @@ public class TypeScriptBuilder {
                 for (Field field : fields) {
                     if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
                         WSDataTypeScriptClass wsDataTypeScriptClass = field.getAnnotation(WSDataTypeScriptClass.class);
-                        if (!tsClassBuilder.toString().contains("import {" + wsDataTypeScriptClass.value().getSimpleName() + "}")) {
+                        if (!tsClassBuilder.toString().contains("import {" + wsDataTypeScriptClass.value().getSimpleName() + "}") && !clazz.getSimpleName().equals(wsDataTypeScriptClass.value().getSimpleName())) {
                             tsClassBuilder.append("import {").append(wsDataTypeScriptClass.value().getSimpleName()).append("} from \"./")
                                     .append(Character.toLowerCase(wsDataTypeScriptClass.value().getSimpleName().charAt(0)))
                                     .append(wsDataTypeScriptClass.value().getSimpleName().substring(1))

@@ -13,4 +13,8 @@ public class Minus extends Expression implements Operator {
     public Expression calculate(Expression a, Expression b) {
         return new Number((Double) ((Number) a).getValue() - (Double) ((Number) b).getValue());
     }
+
+    public String getStringRepresentation() {
+        return "-";
+    }
 }

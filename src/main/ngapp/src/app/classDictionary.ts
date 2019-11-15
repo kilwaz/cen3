@@ -4,6 +4,7 @@ import {DefinitionUpdate} from "./wsActions/definitionUpdate";
 import {CalculateSum} from "./wsActions/calculateSum";
 
 export abstract class ClassDictionary {
+  // Surely this can be auto generated
   public static getClass(className: string): Object {
     switch (className) {
       case "EchoPush":

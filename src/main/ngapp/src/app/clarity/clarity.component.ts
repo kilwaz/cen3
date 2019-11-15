@@ -10,7 +10,7 @@ import {CalculateSum} from "../wsActions/calculateSum";
 export class ClarityComponent implements OnInit {
   webSocketService: WebSocketService;
   answer: number = 0;
-  formula: string = "1 + 2";
+  formula: string = "1+2";
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
