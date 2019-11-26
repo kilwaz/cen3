@@ -1,5 +1,6 @@
 //THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE
 import {Message} from "./message";
+import {Node} from "../wsObjects/node";
 
 export class CalculateSum extends Message {
 	private _formula: string;

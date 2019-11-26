@@ -52,6 +52,13 @@ public class TypeScriptBuilder {
                                     .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
                                     .append("\";").append(nl);
                         }
+                    } else if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
+                        WSDataTypeScriptClass wsDataTypeScriptClass = field.getAnnotation(WSDataTypeScriptClass.class);
+
+                        tsClassBuilder.append("import {").append(wsDataTypeScriptClass.value().getSimpleName()).append("} from \"../wsObjects/")
+                                .append(Character.toLowerCase(wsDataTypeScriptClass.value().getSimpleName().charAt(0)))
+                                .append(wsDataTypeScriptClass.value().getSimpleName().substring(1))
+                                .append("\";").append(nl);
                     }
                 }
 

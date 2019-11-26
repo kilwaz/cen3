@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../services/websocket.service";
 import {CalculateSum} from "../wsActions/calculateSum";
+import {Node} from "../wsObjects/node";
 
 @Component({
   selector: 'app-clarity',
@@ -11,6 +12,7 @@ export class ClarityComponent implements OnInit {
   webSocketService: WebSocketService;
   answer: number = 0;
   formula: string = "1+2";
+  rootNode: Node;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -32,6 +34,7 @@ export class ClarityComponent implements OnInit {
     this.webSocketService.sendCallback(calculateSum, function (responseMessage) {
       let calculateSumResponse: CalculateSum = <CalculateSum>responseMessage;
       _this.answer = calculateSumResponse.result;
+      _this.rootNode = calculateSumResponse.node;
     });
   }
 }

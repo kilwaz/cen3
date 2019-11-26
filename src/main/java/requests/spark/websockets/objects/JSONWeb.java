@@ -39,8 +39,6 @@ public class JSONWeb {
                         Object valueObject = fieldMethod.invoke(this);
 
                         if (valueObject instanceof JSONWeb) {
-                            log.info("This was a JSONWeb object " + valueObject.toString());
-
                             JSONWeb jsonWebObject = (JSONWeb) valueObject;
                             jsonObject.put(field.getName(), jsonWebObject.prepareForJSON());
                         } else {
