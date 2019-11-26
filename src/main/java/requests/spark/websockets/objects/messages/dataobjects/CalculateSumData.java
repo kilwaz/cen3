@@ -1,6 +1,7 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
 import game.actors.Node;
+import org.json.JSONObject;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
@@ -8,9 +9,9 @@ import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 public class CalculateSumData extends WebSocketData {
     @WSDataIncoming
     private String formula = null;
+
     @WSDataOutgoing
     private Double result = null;
-
     @WSDataOutgoing
     @WSDataTypeScriptClass(Node.class)
     private Node node = null;

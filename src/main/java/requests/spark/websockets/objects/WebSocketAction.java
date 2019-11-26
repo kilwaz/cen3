@@ -11,6 +11,7 @@ import requests.spark.websockets.WebSocketSession;
 import requests.spark.websockets.objects.messages.dataobjects.WebSocketData;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
+import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
 import java.io.IOException;
@@ -144,7 +145,17 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
 
                 try {
                     Method fieldMethod = dataClass.getMethod("get" + capFieldName);
-                    jsonObject.put("" + fieldName, fieldMethod.invoke(wsData));
+
+                    if(field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
+                        Object result = fieldMethod.invoke(wsData);
+                        if (result instanceof JSONWeb) {
+                            jsonObject.put("" + fieldName,((JSONWeb)result).prepareForJSON());
+                        } else {
+                            jsonObject.put("" + fieldName, fieldMethod.invoke(wsData));
+                        }
+                    } else {
+                        jsonObject.put("" + fieldName, fieldMethod.invoke(wsData));
+                    }
                 } catch (NoSuchMethodException ex) {
                     Error.WEBSOCKET_PARSE_METHOD.record().additionalInformation("Variable name is " + capFieldName).create(ex);
                 }
