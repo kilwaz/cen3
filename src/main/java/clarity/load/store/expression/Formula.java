@@ -1,7 +1,9 @@
 package clarity.load.store.expression;
 
 import clarity.load.store.expression.operators.Add;
+import clarity.load.store.expression.operators.Divide;
 import clarity.load.store.expression.operators.Minus;
+import clarity.load.store.expression.operators.Multiply;
 import clarity.load.store.expression.values.Number;
 import log.AppLogger;
 import org.apache.log4j.Logger;
@@ -33,6 +35,10 @@ public class Formula {
             expression1 = new Add();
         } else if ("-".equals(currentLetter)) {
             expression1 = new Minus();
+        } else if ("/".equals(currentLetter)) {
+            expression1 = new Divide();
+        } else if ("*".equals(currentLetter)) {
+            expression1 = new Multiply();
         }
 
         if (current == null) {
