@@ -18,13 +18,15 @@ import {
 import { EchoComponent } from './echo/echo.component';
 import { ClarityComponent } from './clarity/clarity.component';
 import { DndDirective } from './dnd.directive';
+import { ParseTreeNodeComponent } from './parse-tree-node/parse-tree-node.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EchoComponent,
     ClarityComponent,
-    DndDirective
+    DndDirective,
+    ParseTreeNodeComponent
   ],
   imports: [
     BrowserModule,

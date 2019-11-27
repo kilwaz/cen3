@@ -3,14 +3,14 @@
 <button mat-button (click)="pushed()">Calculate!</button>
 <div><span>Result {{answer}}</span></div>
 
-<div>
-
-</div>
-
-<input type="file" id="files" name="files[]" multiple />
+<input type="file" id="files" name="files[]" multiple/>
 
 <div class="dropzone" dnd>
   <div class="text-wrapper">
     <div class="centered">Drop your file here!</div>
   </div>
+</div>
+
+<div *ngIf="rootNode">
+  <app-parse-tree-node [node]="rootNode"></app-parse-tree-node>
 </div>
