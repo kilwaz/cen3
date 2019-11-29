@@ -7,16 +7,16 @@ public class Number extends Expression implements Value {
     private Double value;
 
     public Number() {
-        super(1);
+        super(Expression.PRECEDENCE_NUMBER);
     }
 
     public Number(Integer value) {
-        super(1);
+        super(Expression.PRECEDENCE_NUMBER);
         this.value = value.doubleValue();
     }
 
     public Number(double value) {
-        super(1);
+        super(Expression.PRECEDENCE_NUMBER);
         this.value = value;
     }
 

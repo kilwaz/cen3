@@ -4,6 +4,7 @@ export class Node {
 	private _value: string;
 	private _right: Node;
 	private _left: Node;
+	private _precedence: number;
 	
 	constructor() {
 	}
@@ -12,6 +13,7 @@ export class Node {
 		this._value = webSocketReference.value != undefined ? webSocketReference.value : this._value;
 		this._right = webSocketReference.right != undefined ? webSocketReference.right : this._right;
 		this._left = webSocketReference.left != undefined ? webSocketReference.left : this._left;
+		this._precedence = webSocketReference.precedence != undefined ? webSocketReference.precedence : this._precedence;
 		return this;
 	}
 
@@ -27,6 +29,10 @@ export class Node {
 		return this._left;
 	}
 	
+	get precedence(): number {
+		return this._precedence;
+	}
+	
 	set value(value: string) {
 		this._value = value;
 	}
@@ -37,6 +43,10 @@ export class Node {
 	
 	set left(value: Node) {
 		this._left = value;
+	}
+	
+	set precedence(value: number) {
+		this._precedence = value;
 	}
 	
 }

@@ -6,7 +6,7 @@ import clarity.load.store.expression.values.Number;
 
 public class Divide extends Expression implements Operator {
     public Divide() {
-        super(3);
+        super(Expression.PRECEDENCE_DIVIDE);
     }
 
     @Override

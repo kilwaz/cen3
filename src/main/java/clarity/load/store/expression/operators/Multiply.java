@@ -6,7 +6,7 @@ import clarity.load.store.expression.values.Number;
 
 public class Multiply extends Expression implements Operator {
     public Multiply() {
-        super(3);
+        super(Expression.PRECEDENCE_MULTIPLY);
     }
 
     @Override

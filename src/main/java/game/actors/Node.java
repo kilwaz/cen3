@@ -17,6 +17,9 @@ public class Node extends JSONWeb {
     @WSDataTypeScriptClass(Node.class)
     private Node left = null;
 
+    @WSDataReference(WSData.NODE_PRECEDENCE)
+    private Integer precedence = 0;
+
     public Node() {
 
     }
@@ -43,5 +46,13 @@ public class Node extends JSONWeb {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Integer getPrecedence() {
+        return precedence;
+    }
+
+    public void setPrecedence(Integer precedence) {
+        this.precedence = precedence;
     }
 }

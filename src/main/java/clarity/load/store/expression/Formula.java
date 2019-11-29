@@ -8,9 +8,6 @@ import clarity.load.store.expression.values.Number;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Formula {
     private static Logger log = AppLogger.logger();
     private Node root = null;
@@ -42,39 +39,36 @@ public class Formula {
         }
 
         if (current == null) {
-            // Creating the root node
+            // Creating the root node only once for the first item of the tree
             current = new Node(expression1);
         } else {
-            Integer newItemPrecedence = expression1.getPrecedence();
+            Integer newItemPrecedence = expression1.getPrecedence(); // Precedence of the new item to add
             Integer currentPrecedence = current.getExpression().getPrecedence();
 
-            Node nextCheck = current;
-            while (currentPrecedence <= newItemPrecedence) {
-                nextCheck = current.getParent();
+            Node newCurrent = current;
+            while (currentPrecedence >= newItemPrecedence) {
+                newCurrent = current.getParent();
 
-                if (nextCheck == null) { // Top of the tree has been reached
+                if (newCurrent == null) { // Top of the tree has been reached so just stop
                     break;
                 }
 
-                current = nextCheck;
+                current = newCurrent;
                 currentPrecedence = current.getExpression().getPrecedence();
             }
 
-            if (nextCheck == null) { // Top of the tree has been reached, create a new node here
-                nextCheck = new Node(expression1);
-                nextCheck.left(current);
-                current.parent(nextCheck);
-                current = nextCheck;
+            if (newCurrent == null) { // Top of the tree has been reached, create a new node here
+                newCurrent = new Node(expression1);
+                newCurrent.left(current);
             } else {
-                nextCheck = new Node(expression1);
-                nextCheck.parent(current);
-                current.right(nextCheck);
+                newCurrent = new Node(expression1);
 
-                current = nextCheck;
+                Node oldRight = current.getRight();
+                current.right(newCurrent);
+                newCurrent.left(oldRight);
             }
+            current = newCurrent;
         }
-
-        log.info(currentLetter);
 
         if (expression.length() > 1) {
             expression = expression.substring(1);
@@ -84,20 +78,11 @@ public class Formula {
         return current;
     }
 
-
     public Object solve() {
         return ((Number) root.solve()).getValue().toString();
     }
 
     public Node getRoot() {
         return root;
-    }
-
-    public void print() {
-        List<String> lines = new ArrayList<>();
-
-        log.info("    " + root.getExpression().getStringRepresentation());
-        log.info("  /   \\");
-        log.info(root.getLeft().getExpression().getStringRepresentation() + "   " + root.getRight().getExpression().getStringRepresentation());
     }
 }
