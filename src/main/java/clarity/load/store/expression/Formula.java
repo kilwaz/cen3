@@ -1,9 +1,6 @@
 package clarity.load.store.expression;
 
-import clarity.load.store.expression.operators.Add;
-import clarity.load.store.expression.operators.Divide;
-import clarity.load.store.expression.operators.Minus;
-import clarity.load.store.expression.operators.Multiply;
+import clarity.load.store.expression.operators.*;
 import clarity.load.store.expression.values.Number;
 import log.AppLogger;
 import org.apache.log4j.Logger;
@@ -17,7 +14,11 @@ public class Formula {
         while (node.getParent() != null) {
             node = node.getParent();
         }
-        root = node;
+        if (node.getExpression() instanceof OpenBracket) {
+            root = node.getRight();
+        } else {
+            root = node;
+        }
     }
 
     public Node build(Node current, String expressionStr) {
@@ -36,6 +37,12 @@ public class Formula {
             expression = new Divide();
         } else if ("*".equals(currentLetter)) {
             expression = new Multiply();
+        } else if ("^".equals(currentLetter)) {
+            expression = new Exponent();
+        } else if ("(".equals(currentLetter)) {
+            expression = new OpenBracket();
+        } else if (")".equals(currentLetter)) {
+            expression = new CloseBracket();
         }
 
         if (current == null) {
@@ -57,11 +64,21 @@ public class Formula {
                 newCurrent = new Node(expression);
                 newCurrent.left(current);
             } else {
-                newCurrent = new Node(expression);
+                if (expression instanceof CloseBracket) { // Brackets cancelling each other out
+                    if (current.getParent() == null) { // Open Bracket is at the top of the tree
+                        newCurrent = current.getRight();
+                        //newCurrent.parent(null);
+                    } else { // Remove brackets
+                        current.getParent().right(current.getRight());
+                        newCurrent = current.getParent();
+                    }
+                } else {
+                    newCurrent = new Node(expression);
 
-                Node oldRight = current.getRight();
-                current.right(newCurrent);
-                newCurrent.left(oldRight);
+                    Node oldRight = current.getRight();
+                    current.right(newCurrent);
+                    newCurrent.left(oldRight);
+                }
             }
             current = newCurrent;
         }
@@ -83,8 +100,12 @@ public class Formula {
     }
 
     private Boolean continueTreeClimb(Expression current, Expression newExpression) {
-        switch (newExpression.getPrecedence()) {
+        if (newExpression instanceof OpenBracket) {
+            return false;
+        }
+        switch (newExpression.getAssociative()) {
             case Expression.LEFT_ASSOCIATIVE:
+            case Expression.NON_ASSOCIATIVE:
                 return current.getPrecedence() >= newExpression.getPrecedence();
             case Expression.RIGHT_ASSOCIATIVE:
                 return current.getPrecedence() > newExpression.getPrecedence();

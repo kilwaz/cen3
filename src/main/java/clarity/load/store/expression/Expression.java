@@ -1,10 +1,13 @@
 package clarity.load.store.expression;
 
 public class Expression {
+    public static final int PRECEDENCE_OPEN_BRACKET = 1;
+    public static final int PRECEDENCE_CLOSE_BRACKET = 1;
     public static final int PRECEDENCE_MINUS = 2;
     public static final int PRECEDENCE_ADD = 2;
     public static final int PRECEDENCE_MULTIPLY = 4;
     public static final int PRECEDENCE_DIVIDE = 4;
+    public static final int PRECEDENCE_EXPONENT = 5;
     public static final int PRECEDENCE_NUMBER = 10;
 
     public static final int NON_ASSOCIATIVE = 1;

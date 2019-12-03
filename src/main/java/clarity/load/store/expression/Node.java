@@ -31,7 +31,7 @@ public class Node {
         return this;
     }
 
-    private Node parent(Node parent) {
+    public Node parent(Node parent) {
         this.parent = parent;
         return this;
     }
