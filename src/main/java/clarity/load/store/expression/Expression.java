@@ -5,17 +5,26 @@ public class Expression {
     public static final int PRECEDENCE_ADD = 2;
     public static final int PRECEDENCE_MULTIPLY = 4;
     public static final int PRECEDENCE_DIVIDE = 4;
-
     public static final int PRECEDENCE_NUMBER = 10;
 
-    private int precedence = 0;
+    public static final int NON_ASSOCIATIVE = 1;
+    public static final int LEFT_ASSOCIATIVE = 2;
+    public static final int RIGHT_ASSOCIATIVE = 3;
 
-    public Expression(int precedence) {
+    private int precedence = 0;
+    private int associative = 0;
+
+    public Expression(int precedence, int associative) {
         this.precedence = precedence;
+        this.associative = associative;
     }
 
     public int getPrecedence() {
         return precedence;
+    }
+
+    public int getAssociative() {
+        return associative;
     }
 
     public String getStringRepresentation() {

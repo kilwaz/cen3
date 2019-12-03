@@ -6,7 +6,7 @@ import clarity.load.store.expression.values.Number;
 
 public class Add extends Expression implements Operator {
     public Add() {
-        super(Expression.PRECEDENCE_ADD);
+        super(Expression.PRECEDENCE_ADD, Expression.LEFT_ASSOCIATIVE);
     }
 
     @Override

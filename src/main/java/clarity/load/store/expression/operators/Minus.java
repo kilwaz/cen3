@@ -3,11 +3,10 @@ package clarity.load.store.expression.operators;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.values.Number;
-import org.apache.commons.math3.analysis.function.Exp;
 
 public class Minus extends Expression implements Operator {
     public Minus() {
-        super(Expression.PRECEDENCE_MINUS);
+        super(Expression.PRECEDENCE_MINUS, Expression.LEFT_ASSOCIATIVE);
     }
 
     @Override

@@ -20,33 +20,30 @@ public class Formula {
         root = node;
     }
 
-    public Node build(Node current, String expression) {
-        String currentLetter = expression.substring(0, 1);
+    public Node build(Node current, String expressionStr) {
+        String currentLetter = expressionStr.substring(0, 1);
 
-        Expression expression1 = null;
+        Expression expression = null;
 
         if (currentLetter.matches("-?\\d+(\\.\\d+)?")) {
             Double currentNumber = Double.parseDouble(currentLetter);
-            expression1 = new Number(currentNumber);
+            expression = new Number(currentNumber);
         } else if ("+".equals(currentLetter)) {
-            expression1 = new Add();
+            expression = new Add();
         } else if ("-".equals(currentLetter)) {
-            expression1 = new Minus();
+            expression = new Minus();
         } else if ("/".equals(currentLetter)) {
-            expression1 = new Divide();
+            expression = new Divide();
         } else if ("*".equals(currentLetter)) {
-            expression1 = new Multiply();
+            expression = new Multiply();
         }
 
         if (current == null) {
             // Creating the root node only once for the first item of the tree
-            current = new Node(expression1);
+            current = new Node(expression);
         } else {
-            Integer newItemPrecedence = expression1.getPrecedence(); // Precedence of the new item to add
-            Integer currentPrecedence = current.getExpression().getPrecedence();
-
             Node newCurrent = current;
-            while (currentPrecedence >= newItemPrecedence) {
+            while (continueTreeClimb(current.getExpression(), expression)) {
                 newCurrent = current.getParent();
 
                 if (newCurrent == null) { // Top of the tree has been reached so just stop
@@ -54,14 +51,13 @@ public class Formula {
                 }
 
                 current = newCurrent;
-                currentPrecedence = current.getExpression().getPrecedence();
             }
 
             if (newCurrent == null) { // Top of the tree has been reached, create a new node here
-                newCurrent = new Node(expression1);
+                newCurrent = new Node(expression);
                 newCurrent.left(current);
             } else {
-                newCurrent = new Node(expression1);
+                newCurrent = new Node(expression);
 
                 Node oldRight = current.getRight();
                 current.right(newCurrent);
@@ -70,9 +66,9 @@ public class Formula {
             current = newCurrent;
         }
 
-        if (expression.length() > 1) {
-            expression = expression.substring(1);
-            build(current, expression);
+        if (expressionStr.length() > 1) {
+            expressionStr = expressionStr.substring(1);
+            build(current, expressionStr);
         }
 
         return current;
@@ -84,5 +80,16 @@ public class Formula {
 
     public Node getRoot() {
         return root;
+    }
+
+    private Boolean continueTreeClimb(Expression current, Expression newExpression) {
+        switch (newExpression.getPrecedence()) {
+            case Expression.LEFT_ASSOCIATIVE:
+                return current.getPrecedence() >= newExpression.getPrecedence();
+            case Expression.RIGHT_ASSOCIATIVE:
+                return current.getPrecedence() > newExpression.getPrecedence();
+            default:
+                return false;
+        }
     }
 }
