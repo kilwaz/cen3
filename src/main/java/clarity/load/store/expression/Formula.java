@@ -5,6 +5,9 @@ import clarity.load.store.expression.values.Number;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Formula {
     private static Logger log = AppLogger.logger();
     private Node root = null;
@@ -23,11 +26,15 @@ public class Formula {
 
     public Node build(Node current, String expressionStr) {
         String currentLetter = expressionStr.substring(0, 1);
-
         Expression expression = null;
 
         if (currentLetter.matches("-?\\d+(\\.\\d+)?")) {
-            Double currentNumber = Double.parseDouble(currentLetter);
+            Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+            Matcher matcher = pattern.matcher(expressionStr);
+            if (matcher.find()) {
+                currentLetter = matcher.group();
+            }
+            double currentNumber = Double.parseDouble(currentLetter);
             expression = new Number(currentNumber);
         } else if ("+".equals(currentLetter)) {
             expression = new Add();
@@ -83,8 +90,8 @@ public class Formula {
             current = newCurrent;
         }
 
-        if (expressionStr.length() > 1) {
-            expressionStr = expressionStr.substring(1);
+        if (expressionStr.length() > currentLetter.length()) {
+            expressionStr = expressionStr.substring(currentLetter.length());
             build(current, expressionStr);
         }
 
