@@ -28,14 +28,16 @@ public class Formula {
         String currentLetter = expressionStr.substring(0, 1);
         Expression expression = null;
 
-        if (currentLetter.matches("-?\\d+(\\.\\d+)?")) {
-            Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (currentLetter.matches("-?\\d+(\\.\\d+)?")) { // Checks to see if next character is the start of a number
+            Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?"); // Find the rest of the number
             Matcher matcher = pattern.matcher(expressionStr);
             if (matcher.find()) {
                 currentLetter = matcher.group();
             }
             double currentNumber = Double.parseDouble(currentLetter);
             expression = new Number(currentNumber);
+//        } else if(" ".equals(currentLetter)) {
+
         } else if ("+".equals(currentLetter)) {
             expression = new Add();
         } else if ("-".equals(currentLetter)) {

@@ -11,7 +11,8 @@ import {Node} from "../wsObjects/node";
 export class ClarityComponent implements OnInit {
   webSocketService: WebSocketService;
   answer: number = 0;
-  formula: string = "1+2";
+  formulaA: string = "1+2";
+  formulaB: string = "1+[A]";
   rootNode: Node;
 
   constructor(private webSocketServiceConst: WebSocketService) {
@@ -21,15 +22,20 @@ export class ClarityComponent implements OnInit {
   ngOnInit() {
   }
 
-  onEnter(formula: string) {
-    this.formula = formula;
+  onKeyUp(formula: string, name: string) {
+    console.log(formula + " - " + name);
+    if (name == 'A') {
+      this.formulaA = formula;
+    } else if (name == 'B') {
+      this.formulaB = formula;
+    }
   }
 
   pushed() {
     let calculateSum: CalculateSum = new CalculateSum();
     let _this: ClarityComponent = this;
 
-    calculateSum.formula = this.formula;
+    calculateSum.formula = this.formulaA;
 
     this.webSocketService.sendCallback(calculateSum, function (responseMessage) {
       let calculateSumResponse: CalculateSum = <CalculateSum>responseMessage;

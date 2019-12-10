@@ -1,5 +1,17 @@
 <p>Clarity</p>
-<input #formulaInput [value]="formula" (keyup.enter)="onEnter(formulaInput.value)" type="text"/>
+<div class="container">
+  <div class="row">
+    <label for="a">
+      A: <input id="a" #formulaInputA [value]="formulaA" (keyup)="onKeyUp(formulaInputA.value,'A')" type="text"/>
+    </label>
+  </div>
+  <div class="row">
+    <label for="b">
+      B: <input id="b" #formulaInputB [value]="formulaB" (keyup)="onKeyUp(formulaInputB.value,'B')" type="text"/>
+    </label>
+  </div>
+</div>
+
 <button mat-button (click)="pushed()">Calculate!</button>
 <div><span>Result {{answer}}</span></div>
 
