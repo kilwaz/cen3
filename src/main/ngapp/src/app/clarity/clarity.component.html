@@ -1,4 +1,4 @@
-<p>Clarity</p>
+<p>Clarity - Formula Tester</p>
 <div class="container">
   <div class="row">
     <label for="a">
@@ -23,6 +23,7 @@
   </div>
 </div>
 
-<div *ngIf="rootNode">
-  <app-parse-tree-node [node]="rootNode"></app-parse-tree-node>
+<div *ngIf="formula">
+  <span>{{formula.strExpression}}</span>
+  <app-parse-tree-node [node]="formula.rootNode"></app-parse-tree-node>
 </div>

@@ -10,12 +10,15 @@ public class Formula extends JSONWeb {
     @WSDataTypeScriptClass(Node.class)
     private Node rootNode = null;
 
-    public Formula() {
+    @WSDataReference(WSData.FORMULA_STR_EXPRESSION)
+    private String strExpression = "";
 
+    public Formula() {
     }
 
-    public void convertClarityNode(clarity.load.store.expression.Node node) {
-        rootNode = processClarityNode(node);
+    public void convertClarityNode(clarity.load.store.expression.Formula formula) {
+        strExpression = formula.getStrExpression();
+        rootNode = processClarityNode(formula.getRoot());
     }
 
     private Node processClarityNode(clarity.load.store.expression.Node node) {
@@ -38,5 +41,13 @@ public class Formula extends JSONWeb {
 
     public void setRootNode(Node rootNode) {
         this.rootNode = rootNode;
+    }
+
+    public String getStrExpression() {
+        return strExpression;
+    }
+
+    public void setStrExpression(String strExpression) {
+        this.strExpression = strExpression;
     }
 }

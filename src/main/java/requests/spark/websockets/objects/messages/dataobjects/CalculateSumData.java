@@ -1,27 +1,29 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
-import game.actors.Node;
-import org.json.JSONObject;
+import game.actors.Formula;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
 public class CalculateSumData extends WebSocketData {
+    // INCOMING
     @WSDataIncoming
-    private String formula = null;
+    private String formulaToProcess = null;
 
+    // OUTGOING
     @WSDataOutgoing
     private Double result = null;
-    @WSDataOutgoing
-    @WSDataTypeScriptClass(Node.class)
-    private Node node = null;
 
-    public String getFormula() {
-        return formula;
+    @WSDataOutgoing
+    @WSDataTypeScriptClass(Formula.class)
+    private Formula formula = null;
+
+    public String getFormulaToProcess() {
+        return formulaToProcess;
     }
 
-    public void setFormula(String formula) {
-        this.formula = formula;
+    public void setFormulaToProcess(String formulaToProcess) {
+        this.formulaToProcess = formulaToProcess;
     }
 
     public Double getResult() {
@@ -32,11 +34,11 @@ public class CalculateSumData extends WebSocketData {
         this.result = result;
     }
 
-    public Node getNode() {
-        return node;
+    public void setFormula(Formula formula) {
+        this.formula = formula;
     }
 
-    public void setNode(Node node) {
-        this.node = node;
+    public Formula getFormula() {
+        return formula;
     }
 }

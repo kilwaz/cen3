@@ -11,8 +11,10 @@ import java.util.regex.Pattern;
 public class Formula {
     private static Logger log = AppLogger.logger();
     private Node root = null;
+    private String strExpression = "";
 
     public Formula(String strExpression) {
+        this.strExpression = strExpression;
         Node node = build(null, strExpression);
         while (node.getParent() != null) {
             node = node.getParent();
@@ -52,6 +54,8 @@ public class Formula {
             expression = new OpenBracket();
         } else if (")".equals(currentLetter)) {
             expression = new CloseBracket();
+        } else if ("[".equals(currentLetter)) {
+
         }
 
         if (current == null) {
@@ -121,5 +125,9 @@ public class Formula {
             default:
                 return false;
         }
+    }
+
+    public String getStrExpression() {
+        return strExpression;
     }
 }

@@ -26,7 +26,8 @@ public class TypeScriptBuilder {
     public static void build() {
         // Generate Actions
         String pathToWsActions = generatePath("wsActions");
-        String autoGenerateMessage = "THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE";
+        String autoGenerateMessagePartOne = "THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:";
+        String autoGenerateMessagePartTwo = "DO NOT MANUALLY CHANGE THIS FILE";
 
         Set<Class<? extends WebSocketData>> wsActions = new Reflections("requests.spark.websockets.objects.messages.dataobjects").getSubTypesOf(WebSocketData.class);
         String tab = "\t";
@@ -40,7 +41,11 @@ public class TypeScriptBuilder {
                 String tsFileName = Character.toLowerCase(tsClassName.charAt(0)) + tsClassName.substring(1);
 
                 StringBuilder tsClassBuilder = new StringBuilder();
-                tsClassBuilder.append("//").append(autoGenerateMessage).append(nl);
+                tsClassBuilder.append("/* ").append(nl);
+                tsClassBuilder.append(autoGenerateMessagePartOne).append(nl);
+                tsClassBuilder.append(clazz.getName()).append(nl);
+                tsClassBuilder.append(autoGenerateMessagePartTwo).append(nl);
+                tsClassBuilder.append("*/").append(nl).append(nl);
                 tsClassBuilder.append("import {Message} from \"./message\";").append(nl);
 
                 for (Field field : fields) {
@@ -129,7 +134,11 @@ public class TypeScriptBuilder {
                 String tsFileName = Character.toLowerCase(tsClassName.charAt(0)) + tsClassName.substring(1);
 
                 StringBuilder tsClassBuilder = new StringBuilder();
-                tsClassBuilder.append("//").append(autoGenerateMessage).append(nl);
+                tsClassBuilder.append("/* ").append(nl);
+                tsClassBuilder.append(autoGenerateMessagePartOne).append(nl);
+                tsClassBuilder.append(clazz.getName()).append(nl);
+                tsClassBuilder.append(autoGenerateMessagePartTwo).append(nl);
+                tsClassBuilder.append("*/").append(nl).append(nl);
 
                 for (Field field : fields) {
                     if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {

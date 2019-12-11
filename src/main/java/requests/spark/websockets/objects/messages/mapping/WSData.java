@@ -15,7 +15,8 @@ public enum WSData {
     NODE_VALUE(),
     NODE_PRECEDENCE(),
 
-    FORMULA_NODE();
+    FORMULA_NODE(),
+    FORMULA_STR_EXPRESSION();
 
     WSData() {
     }

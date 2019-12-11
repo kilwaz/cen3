@@ -1,11 +1,16 @@
-//THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE
+/* 
+THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
+requests.spark.websockets.objects.messages.dataobjects.CalculateSumData
+DO NOT MANUALLY CHANGE THIS FILE
+*/
+
 import {Message} from "./message";
-import {Node} from "../wsObjects/node";
+import {Formula} from "../wsObjects/formula";
 
 export class CalculateSum extends Message {
-	private _formula: string;
+	private _formulaToProcess: string;
 	private _result: number;
-	private _node: Node;
+	private _formula: Formula;
 	
 	constructor() {
 		super();
@@ -14,31 +19,31 @@ export class CalculateSum extends Message {
 
 	decodeResponse(msgRaw: any) {
 		this._result = msgRaw.result;
-		this._node = msgRaw.node;
+		this._formula = msgRaw.formula;
 	}
 
-	get formula(): string {
-		return this._formula;
+	get formulaToProcess(): string {
+		return this._formulaToProcess;
 	}
 	
 	get result(): number {
 		return this._result;
 	}
 	
-	get node(): Node {
-		return this._node;
+	get formula(): Formula {
+		return this._formula;
 	}
 	
-	set formula(value: string) {
-		this._formula = value;
+	set formulaToProcess(value: string) {
+		this._formulaToProcess = value;
 	}
 	
 	set result(value: number) {
 		this._result = value;
 	}
 	
-	set node(value: Node) {
-		this._node = value;
+	set formula(value: Formula) {
+		this._formula = value;
 	}
 	
 }

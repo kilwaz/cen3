@@ -1,4 +1,9 @@
-//THIS FILE IS AUTO GENERATED - DO NOT MANUALLY CHANGE
+/* 
+THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
+game.actors.Node
+DO NOT MANUALLY CHANGE THIS FILE
+*/
+
 
 export class Node {
 	private _value: string;
