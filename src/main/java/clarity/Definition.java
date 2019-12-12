@@ -1,22 +1,26 @@
 package clarity;
 
+import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Formula;
 
 public class Definition {
-
     private String name = "";
     private Formula formula;
 
     public Definition() {
-
+        name = hashCode() + "";
     }
 
     public static Definition define() {
-        return new Definition();
+        Definition definition = new Definition();
+        Definitions.getInstance().recordDefinition(definition);
+        return definition;
     }
 
     public Definition name(String name) {
+        String oldName = this.name;
         this.name = name;
+        Definitions.getInstance().updateDefinitionName(this, oldName);
         return this;
     }
 
@@ -33,7 +37,7 @@ public class Definition {
         return this.name;
     }
 
-    public Object calculate() {
+    public Expression calculate() {
         formula.solve();
 
         return formula.getResult();

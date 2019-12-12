@@ -1,5 +1,7 @@
 package clarity.load.store.expression;
 
+import clarity.Definition;
+import clarity.Definitions;
 import clarity.load.store.expression.operators.*;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
@@ -13,7 +15,7 @@ public class Formula {
     private static Logger log = AppLogger.logger();
     private Node root = null;
     private String strExpression = "";
-    private Number result = null;
+    private Expression result = null;
 
     public Formula(String strExpression) {
         this.strExpression = strExpression;
@@ -64,7 +66,14 @@ public class Formula {
                 currentLetter = matcher.group();
 
                 String referenceName = currentLetter.substring(1, currentLetter.length() - 1);
-                expression = new Reference(new Formula("1+2"));
+                Definition referenceDefinition = Definitions.getInstance().findDefinition(referenceName);
+
+                if (referenceDefinition != null) {
+                    expression = new Reference(referenceDefinition.getFormula());
+                } else {
+                    log.info("Could not find formula reference " + referenceName);
+                    expression = new Reference(new Formula("0"));
+                }
             }
         }
 
@@ -114,8 +123,8 @@ public class Formula {
         return current;
     }
 
-    public Object solve() {
-        result = ((Number) root.solve()).getValue();
+    public Expression solve() {
+        result = root.solve();
         return result;
     }
 
@@ -142,7 +151,7 @@ public class Formula {
         return strExpression;
     }
 
-    public Object getResult() {
+    public Expression getResult() {
         return result;
     }
 }

@@ -57,7 +57,7 @@ public class Node {
         if (expression instanceof Number) {
             solved = true;
             return expression;
-        } else if(expression instanceof Reference) {
+        } else if (expression instanceof Reference) {
             solved = true;
             return ((Reference) expression).getValue();
         } else if (expression instanceof Operator) {

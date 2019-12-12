@@ -9,6 +9,7 @@ public class Expression {
     public static final int PRECEDENCE_DIVIDE = 4;
     public static final int PRECEDENCE_EXPONENT = 5;
     public static final int PRECEDENCE_NUMBER = 10;
+    public static final int PRECEDENCE_TEXT = 10;
     public static final int PRECEDENCE_REFERENCE = 10;
 
     public static final int NON_ASSOCIATIVE = 1;

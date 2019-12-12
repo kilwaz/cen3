@@ -16,7 +16,7 @@ public class Reference extends Expression implements Value {
         this.formula = formula;
     }
 
-    public Object getValue() {
+    public Expression getValue() {
         return formula.solve();
     }
 
