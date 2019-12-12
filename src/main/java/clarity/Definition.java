@@ -1,11 +1,11 @@
 package clarity;
 
-import org.mariuszgromada.math.mxparser.Expression;
+import clarity.load.store.expression.Formula;
 
 public class Definition {
 
     private String name = "";
-    private String expression = "";
+    private Formula formula;
 
     public Definition() {
 
@@ -20,22 +20,22 @@ public class Definition {
         return this;
     }
 
-    public Definition expression(String expression) {
-        this.expression = expression;
+    public Definition formula(String expression) {
+        this.formula = new Formula(expression);
         return this;
     }
 
-    public String getExpression() {
-        return this.expression;
+    public Formula getFormula() {
+        return formula;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public double calculate() {
-        Expression e = new Expression(expression);
+    public Object calculate() {
+        formula.solve();
 
-        return e.calculate();
+        return formula.getResult();
     }
 }

@@ -1,6 +1,7 @@
 package clarity.load.store.expression;
 
 import clarity.load.store.expression.values.Number;
+import clarity.load.store.expression.values.Reference;
 
 public class Node {
     private Node left = null;
@@ -56,6 +57,9 @@ public class Node {
         if (expression instanceof Number) {
             solved = true;
             return expression;
+        } else if(expression instanceof Reference) {
+            solved = true;
+            return ((Reference) expression).getValue();
         } else if (expression instanceof Operator) {
             Expression rightExpression = null;
             Expression leftExpression = null;

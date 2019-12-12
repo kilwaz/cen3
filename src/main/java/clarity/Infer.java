@@ -4,7 +4,6 @@ import clarity.load.store.StoredItem;
 import clarity.load.store.StoredRecord;
 import log.AppLogger;
 import org.apache.log4j.Logger;
-import org.mariuszgromada.math.mxparser.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +51,10 @@ public class Infer {
                 }
             }
 
-            Expression e = new Expression(finalFormula);
-            double result = e.calculate();
+//            Expression e = new Expression(finalFormula);
+//            double result = e.calculate();
 
-            storedItem.value(result);
+//            storedItem.value(result);
             storedItem.fresh(true);
             unCalculatedValues.remove(storedItem);
         }

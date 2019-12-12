@@ -2,6 +2,7 @@ package clarity.load.store.expression;
 
 import clarity.load.store.expression.operators.*;
 import clarity.load.store.expression.values.Number;
+import clarity.load.store.expression.values.Reference;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -12,6 +13,7 @@ public class Formula {
     private static Logger log = AppLogger.logger();
     private Node root = null;
     private String strExpression = "";
+    private Number result = null;
 
     public Formula(String strExpression) {
         this.strExpression = strExpression;
@@ -26,7 +28,7 @@ public class Formula {
         }
     }
 
-    public Node build(Node current, String expressionStr) {
+    private Node build(Node current, String expressionStr) {
         String currentLetter = expressionStr.substring(0, 1);
         Expression expression = null;
 
@@ -55,7 +57,15 @@ public class Formula {
         } else if (")".equals(currentLetter)) {
             expression = new CloseBracket();
         } else if ("[".equals(currentLetter)) {
+            Pattern pattern = Pattern.compile("\\[[^\\[]*\\]"); // Find the rest of the number
+            Matcher matcher = pattern.matcher(expressionStr);
 
+            if (matcher.find()) {
+                currentLetter = matcher.group();
+
+                String referenceName = currentLetter.substring(1, currentLetter.length() - 1);
+                expression = new Reference(new Formula("1+2"));
+            }
         }
 
         if (current == null) {
@@ -105,7 +115,8 @@ public class Formula {
     }
 
     public Object solve() {
-        return ((Number) root.solve()).getValue().toString();
+        result = ((Number) root.solve()).getValue();
+        return result;
     }
 
     public Node getRoot() {
@@ -129,5 +140,9 @@ public class Formula {
 
     public String getStrExpression() {
         return strExpression;
+    }
+
+    public Object getResult() {
+        return result;
     }
 }
