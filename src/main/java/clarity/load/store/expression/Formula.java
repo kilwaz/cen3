@@ -1,7 +1,7 @@
 package clarity.load.store.expression;
 
-import clarity.Definition;
-import clarity.Definitions;
+import clarity.definition.Definition;
+import clarity.definition.Definitions;
 import clarity.load.store.expression.operators.*;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;

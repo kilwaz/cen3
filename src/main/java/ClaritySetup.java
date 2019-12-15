@@ -1,4 +1,7 @@
-import clarity.Definition;
+import clarity.Record;
+import clarity.definition.Definition;
+import clarity.definition.Definitions;
+import clarity.definition.RecordDefinition;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -6,12 +9,18 @@ public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
-        Definition definition = Definition.define().name("A").formula("1+12");
-        Definition definition2 = Definition.define().name("B").formula("10+2");
-        Definition definition3 = Definition.define().name("C").formula("[B]*[A]");
+        Definition.define().name("A").formula("1+12");
+        Definition.define().name("C").formula("3+[D]");
+        Definition.define().name("D");
 
-        log.info(definition.getFormula().getStrExpression() + " = " + definition.calculate().getStringRepresentation());
-        log.info(definition2.getFormula().getStrExpression() + " = " + definition2.calculate().getStringRepresentation());
-        log.info(definition3.getFormula().getStrExpression() + " = " + definition3.calculate().getStringRepresentation());
+        Definitions definitions = Definitions.getInstance();
+        RecordDefinition.define().name("Emp")
+                .addDefinition(definitions.findDefinition("A"))
+                .addDefinition(definitions.findDefinition("C"))
+                .addDefinition(definitions.findDefinition("D"));
+
+        Record record = new Record(Definitions.getInstance().findRecordDefinition("Emp"));
+
+        record.set()
     }
 }

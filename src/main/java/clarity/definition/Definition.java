@@ -1,4 +1,4 @@
-package clarity;
+package clarity.definition;
 
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Formula;
@@ -6,6 +6,7 @@ import clarity.load.store.expression.Formula;
 public class Definition {
     private String name = "";
     private Formula formula;
+    private Boolean calculated = false;
 
     public Definition() {
         name = hashCode() + "";
@@ -13,7 +14,7 @@ public class Definition {
 
     public static Definition define() {
         Definition definition = new Definition();
-        Definitions.getInstance().recordDefinition(definition);
+        Definitions.getInstance().addDefinition(definition);
         return definition;
     }
 
@@ -26,6 +27,7 @@ public class Definition {
 
     public Definition formula(String expression) {
         this.formula = new Formula(expression);
+        calculated = true;
         return this;
     }
 
@@ -41,5 +43,9 @@ public class Definition {
         formula.solve();
 
         return formula.getResult();
+    }
+
+    public Boolean isCalculated() {
+        return calculated;
     }
 }
