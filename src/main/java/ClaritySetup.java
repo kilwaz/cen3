@@ -21,6 +21,11 @@ public class ClaritySetup {
 
         Record record = new Record(Definitions.getInstance().findRecordDefinition("Emp"));
 
-        record.set()
+
+
+        record.set(Definitions.getInstance().findRecordDefinition("D"), 1);
+
+
+
     }
 }
