@@ -1,26 +1,32 @@
 package clarity.load.store.expression.values;
 
+import clarity.definition.Definition;
 import clarity.load.store.expression.Expression;
-import clarity.load.store.expression.Formula;
 import clarity.load.store.expression.Value;
 
 public class Reference extends Expression implements Value {
-    private Formula formula;
+    private Definition definition;
 
     public Reference() {
         super(Expression.PRECEDENCE_REFERENCE, Expression.NON_ASSOCIATIVE);
     }
 
-    public Reference(Formula formula) {
+    public Reference(Definition definition) {
         super(Expression.PRECEDENCE_REFERENCE, Expression.NON_ASSOCIATIVE);
-        this.formula = formula;
+        this.definition = definition;
     }
 
     public Expression getValue() {
+        if (definition.isCalculated()) {
+
+        } else {
+
+        }
+
         return formula.solve();
     }
 
     public String getStringRepresentation() {
-        return formula.getStrExpression();
+        return definition.getFormula().getStrExpression();
     }
 }

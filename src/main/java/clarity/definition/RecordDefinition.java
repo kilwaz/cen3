@@ -3,7 +3,9 @@ package clarity.definition;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class RecordDefinition {
     private static Logger log = AppLogger.logger();
@@ -30,6 +32,14 @@ public class RecordDefinition {
         }
 
         return this;
+    }
+
+    public Definition getDefinition(String reference) {
+        return definitionHashMap.get(reference);
+    }
+
+    public List<Definition> getDefinitions() {
+        return new ArrayList<>(definitionHashMap.values());
     }
 
     public RecordDefinition name(String name) {

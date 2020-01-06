@@ -1,8 +1,11 @@
 package clarity;
 
+import clarity.definition.Definition;
+import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Record {
     private RecordDefinition recordDefinition;
@@ -12,11 +15,26 @@ public class Record {
         this.recordDefinition = recordDefinition;
     }
 
+    public Record(String reference) {
+        this.recordDefinition = Definitions.getInstance().findRecordDefinition(reference);
+
+        if (recordDefinition != null) {
+            List<Definition> definitions = recordDefinition.getDefinitions();
+
+            for (Definition definition : definitions) {
+                if (definition.isCalculated()) {
+                    set(new Entry(this, definition));
+                }
+            }
+        }
+    }
+
     public Record set(Entry entry) {
+        entryHashMap.put(entry.getReference(), entry);
         return this;
     }
 
-    public Object get() {
-        return "";
+    public Entry get(String reference) {
+        return entryHashMap.get(reference);
     }
 }

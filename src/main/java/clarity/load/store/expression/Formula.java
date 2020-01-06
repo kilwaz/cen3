@@ -1,5 +1,6 @@
 package clarity.load.store.expression;
 
+import clarity.Record;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.load.store.expression.operators.*;
@@ -28,6 +29,13 @@ public class Formula {
         } else {
             root = node;
         }
+    }
+
+    public InstancedFormula createInstance() {
+
+        // Create new instance here!
+
+        return new InstancedFormula(this);
     }
 
     private Node build(Node current, String expressionStr) {
@@ -69,10 +77,10 @@ public class Formula {
                 Definition referenceDefinition = Definitions.getInstance().findDefinition(referenceName);
 
                 if (referenceDefinition != null) {
-                    expression = new Reference(referenceDefinition.getFormula());
+                    expression = new Reference(referenceDefinition);
                 } else {
                     log.info("Could not find formula reference " + referenceName);
-                    expression = new Reference(new Formula("0"));
+                    //expression = new Reference(new Formula("0"));
                 }
             }
         }
@@ -123,8 +131,8 @@ public class Formula {
         return current;
     }
 
-    public Expression solve() {
-        result = root.solve();
+    public Expression solve(Record referenceRecord) {
+        result = root.solve(referenceRecord);
         return result;
     }
 

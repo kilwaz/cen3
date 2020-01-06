@@ -17,7 +17,7 @@ public class StoredItem {
         this.dataItem = dataItem;
         this.storedRecord = storedRecord;
         if (DataItem.TYPE_CALCULATED.equals(dataItem.getType())) {
-            Infer.me(this);
+//            Infer.me(this);
         }
     }
 
@@ -25,7 +25,7 @@ public class StoredItem {
         this.doubleValue = doubleValue;
         fresh = DataItem.TYPE_STATIC.equals(dataItem.getType());
         if (!fresh) {
-            Infer.me(this);
+//            Infer.me(this);
         }
         return this;
     }

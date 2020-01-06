@@ -21,7 +21,7 @@ public class CalculateSum extends Message {
         game.actors.Formula formula = new game.actors.Formula();
         formula.convertClarityNode(clarityFormula);
 
-        calculateSumData.setResult(Double.parseDouble(clarityFormula.solve().getStringRepresentation()));
-        calculateSumData.setFormula(formula);
+        //calculateSumData.setResult(Double.parseDouble(clarityFormula.solve().getStringRepresentation()));
+        //calculateSumData.setFormula(formula);
     }
 }

@@ -1,3 +1,5 @@
+import clarity.Entry;
+import clarity.Infer;
 import clarity.Record;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
@@ -19,13 +21,15 @@ public class ClaritySetup {
                 .addDefinition(definitions.findDefinition("C"))
                 .addDefinition(definitions.findDefinition("D"));
 
-        Record record = new Record(Definitions.getInstance().findRecordDefinition("Emp"));
+        Record record = new Record("Emp");
+        record.set(new Entry(record, "D", 1));
 
+        Entry entryD = record.get("D");
+        Entry entryC = record.get("C");
+        log.info("D = " + entryD.get().getValue());
 
+        Infer.infer();
 
-        record.set(Definitions.getInstance().findRecordDefinition("D"), 1);
-
-
-
+        log.info("C = " + entryC.get().getValue());
     }
 }

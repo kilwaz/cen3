@@ -1,5 +1,6 @@
 package clarity.load.store.expression;
 
+import clarity.Record;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 
@@ -53,7 +54,7 @@ public class Node {
         return expression;
     }
 
-    public Expression solve() {
+    public Expression solve(Record referenceRecord) {
         if (expression instanceof Number) {
             solved = true;
             return expression;
@@ -64,10 +65,10 @@ public class Node {
             Expression rightExpression = null;
             Expression leftExpression = null;
             if (left != null) {
-                leftExpression = left.solve();
+                leftExpression = left.solve(referenceRecord);
             }
             if (right != null) {
-                rightExpression = right.solve();
+                rightExpression = right.solve(referenceRecord);
             }
             solved = true;
             return ((Operator) expression).calculate(leftExpression, rightExpression);
