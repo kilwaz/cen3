@@ -32,9 +32,6 @@ public class Formula {
     }
 
     public InstancedFormula createInstance() {
-
-        // Create new instance here!
-
         return new InstancedFormula(this);
     }
 
@@ -131,8 +128,8 @@ public class Formula {
         return current;
     }
 
-    public Expression solve(Record referenceRecord) {
-        result = root.solve(referenceRecord);
+    public Expression solve() {
+        result = root.solve();
         return result;
     }
 

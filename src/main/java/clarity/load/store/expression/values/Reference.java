@@ -16,14 +16,8 @@ public class Reference extends Expression implements Value {
         this.definition = definition;
     }
 
-    public Expression getValue() {
-        if (definition.isCalculated()) {
-
-        } else {
-
-        }
-
-        return formula.solve();
+    public Definition getValue() {
+        return definition;
     }
 
     public String getStringRepresentation() {

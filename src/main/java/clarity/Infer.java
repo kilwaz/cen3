@@ -30,7 +30,6 @@ public class Infer {
                         .createInstance()
                         .record(entry.getRecord());
 
-
             } else { // Non calculated entries are always fresh
                 entry.setFresh();
             }

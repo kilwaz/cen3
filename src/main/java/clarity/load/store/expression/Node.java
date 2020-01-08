@@ -4,6 +4,9 @@ import clarity.Record;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public class Node {
     private Node left = null;
     private Node right = null;
@@ -54,7 +57,7 @@ public class Node {
         return expression;
     }
 
-    public Expression solve(Record referenceRecord) {
+    public Expression solve() {
         if (expression instanceof Number) {
             solved = true;
             return expression;
@@ -65,15 +68,48 @@ public class Node {
             Expression rightExpression = null;
             Expression leftExpression = null;
             if (left != null) {
-                leftExpression = left.solve(referenceRecord);
+                leftExpression = left.solve();
             }
             if (right != null) {
-                rightExpression = right.solve(referenceRecord);
+                rightExpression = right.solve();
             }
             solved = true;
             return ((Operator) expression).calculate(leftExpression, rightExpression);
         } else {
             return null;
         }
+    }
+
+    public Node duplicate() {
+        try {
+            Expression expression = this.getExpression();
+
+            Expression newExpression = null;
+
+            Class<?> expressionClass =  expression.getClass();
+            if(expressionClass.isAssignableFrom(Value.class)) {
+                Value expressionValue = (Value)expression;
+                Constructor<?> ctor = expression.getClass().getConstructor(expressionValue.getValue().getClass());
+                newExpression = (Expression) ctor.newInstance(expressionValue.getValue());
+            } else {
+                Constructor<?> ctor = expression.getClass().getConstructor();
+                newExpression = (Expression) ctor.newInstance();
+            }
+
+
+            Node duplicatedNode = new Node(newExpression);
+
+            if (right != null) {
+                duplicatedNode.right(right.duplicate());
+            }
+            if (left != null) {
+                duplicatedNode.left(left.duplicate());
+            }
+            return duplicatedNode;
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

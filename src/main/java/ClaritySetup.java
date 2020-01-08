@@ -11,9 +11,9 @@ public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
+        Definition.define().name("D");
         Definition.define().name("A").formula("1+12");
         Definition.define().name("C").formula("3+[D]");
-        Definition.define().name("D");
 
         Definitions definitions = Definitions.getInstance();
         RecordDefinition.define().name("Emp")
@@ -24,12 +24,15 @@ public class ClaritySetup {
         Record record = new Record("Emp");
         record.set(new Entry(record, "D", 1));
 
-        Entry entryD = record.get("D");
+        Entry entryA = record.get("A");
         Entry entryC = record.get("C");
+        Entry entryD = record.get("D");
+
         log.info("D = " + entryD.get().getValue());
 
         Infer.infer();
 
         log.info("C = " + entryC.get().getValue());
+        log.info("A = " + entryA.get().getValue());
     }
 }
