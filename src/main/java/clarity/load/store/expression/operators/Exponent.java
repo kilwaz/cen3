@@ -11,7 +11,7 @@ public class Exponent extends Expression implements Operator {
 
     @Override
     public Expression calculate(Expression a, Expression b) {
-        return new Number(Math.pow((Double) ((Number) a).getValue(), (Double) ((Number) b).getValue()));
+        return new Number(((Number) a).getValue().pow(((Number) b).getValue().intValue()));
     }
 
     public String getStringRepresentation() {

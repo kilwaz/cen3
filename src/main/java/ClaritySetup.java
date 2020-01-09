@@ -7,6 +7,8 @@ import clarity.definition.RecordDefinition;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
+
 public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
@@ -14,7 +16,7 @@ public class ClaritySetup {
         Definition.define().name("D");
         Definition.define().name("E");
         Definition.define().name("A").formula("1+12");
-        Definition.define().name("C").formula("[E]+[D]");
+        Definition.define().name("C").formula("[E]*[D]");
 
         Definitions definitions = Definitions.getInstance();
         RecordDefinition.define().name("Emp")
@@ -24,8 +26,8 @@ public class ClaritySetup {
                 .addDefinition(definitions.findDefinition("E"));
 
         Record record = new Record("Emp");
-        record.set(new Entry(record, "D", 300));
-        record.set(new Entry(record, "E", 4.2));
+        record.set(new Entry(record, "D", new BigDecimal("310.34")));
+        record.set(new Entry(record, "E", new BigDecimal("4.2")));
 
         Infer.infer();
 

@@ -11,7 +11,7 @@ public class Multiply extends Expression implements Operator {
 
     @Override
     public Expression calculate(Expression a, Expression b) {
-        return new Number((Double) ((Number) a).getValue() * (Double) ((Number) b).getValue());
+        return new Number(((Number) a).getValue().multiply(((Number) b).getValue()));
     }
 
     public String getStringRepresentation() {

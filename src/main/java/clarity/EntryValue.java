@@ -5,6 +5,8 @@ import clarity.load.store.expression.values.Number;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
+
 public class EntryValue {
     private static Logger log = AppLogger.logger();
 
@@ -35,6 +37,8 @@ public class EntryValue {
             return new Number((Double) value);
         } else if (value instanceof Integer) {
             return new Number((Integer) value);
+        } else if (value instanceof BigDecimal) {
+            return new Number((BigDecimal) value);
         }
         log.info("Unknown EntryValue type to resolve to expression");
         return null;
