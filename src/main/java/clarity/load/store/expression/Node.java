@@ -1,11 +1,12 @@
 package clarity.load.store.expression;
 
-import clarity.Record;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 
 public class Node {
     private Node left = null;
@@ -53,6 +54,11 @@ public class Node {
         return parent;
     }
 
+    public Node expression(Expression expression) {
+        this.expression = expression;
+        return this;
+    }
+
     public Expression getExpression() {
         return expression;
     }
@@ -62,8 +68,9 @@ public class Node {
             solved = true;
             return expression;
         } else if (expression instanceof Reference) {
-            solved = true;
-            return ((Reference) expression).getValue();
+            // References should be replaced with the actual formula, right?
+            //solved = true;
+            //return ((Reference) expression).getValue();
         } else if (expression instanceof Operator) {
             Expression rightExpression = null;
             Expression leftExpression = null;
@@ -75,9 +82,9 @@ public class Node {
             }
             solved = true;
             return ((Operator) expression).calculate(leftExpression, rightExpression);
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     public Node duplicate() {
@@ -86,9 +93,11 @@ public class Node {
 
             Expression newExpression = null;
 
-            Class<?> expressionClass =  expression.getClass();
-            if(expressionClass.isAssignableFrom(Value.class)) {
-                Value expressionValue = (Value)expression;
+            Class<?> expressionClass = expression.getClass();
+            Class<?>[] interfaces = expressionClass.getInterfaces();
+            List<Class<?>> list = Arrays.asList(interfaces);
+            if (list.contains(Value.class)) {
+                Value expressionValue = (Value) expression;
                 Constructor<?> ctor = expression.getClass().getConstructor(expressionValue.getValue().getClass());
                 newExpression = (Expression) ctor.newInstance(expressionValue.getValue());
             } else {

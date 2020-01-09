@@ -12,27 +12,31 @@ public class ClaritySetup {
 
     public static void main(String[] args) {
         Definition.define().name("D");
+        Definition.define().name("E");
         Definition.define().name("A").formula("1+12");
-        Definition.define().name("C").formula("3+[D]");
+        Definition.define().name("C").formula("[E]+[D]");
 
         Definitions definitions = Definitions.getInstance();
         RecordDefinition.define().name("Emp")
                 .addDefinition(definitions.findDefinition("A"))
                 .addDefinition(definitions.findDefinition("C"))
-                .addDefinition(definitions.findDefinition("D"));
+                .addDefinition(definitions.findDefinition("D"))
+                .addDefinition(definitions.findDefinition("E"));
 
         Record record = new Record("Emp");
         record.set(new Entry(record, "D", 1));
+        record.set(new Entry(record, "E", 4));
 
         Entry entryA = record.get("A");
         Entry entryC = record.get("C");
         Entry entryD = record.get("D");
+        Entry entryE = record.get("E");
 
         log.info("D = " + entryD.get().getValue());
+        log.info("E = " + entryE.get().getValue());
 
         Infer.infer();
 
-        log.info("C = " + entryC.get().getValue());
-        log.info("A = " + entryA.get().getValue());
+        log.info("E = " + entryE.get().getValue());
     }
 }

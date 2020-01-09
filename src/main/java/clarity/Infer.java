@@ -30,6 +30,8 @@ public class Infer {
                         .createInstance()
                         .record(entry.getRecord());
 
+                System.out.println("Solving " + definition.getFormula().getStrExpression());
+                System.out.println("Result of this is " + instancedFormula.solve().getStringRepresentation());
             } else { // Non calculated entries are always fresh
                 entry.setFresh();
             }

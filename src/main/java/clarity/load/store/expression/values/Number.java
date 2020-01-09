@@ -15,7 +15,7 @@ public class Number extends Expression implements Value {
         this.value = value.doubleValue();
     }
 
-    public Number(double value) {
+    public Number(Double value) {
         super(Expression.PRECEDENCE_NUMBER, Expression.NON_ASSOCIATIVE);
         this.value = value;
     }
