@@ -14,6 +14,10 @@ public class EntryValue {
 
     }
 
+    public EntryValue(Expression expression) {
+        this.value = expression.getStringRepresentation();
+    }
+
     public EntryValue(Object value) {
         this.value = value;
     }

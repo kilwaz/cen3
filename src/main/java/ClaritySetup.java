@@ -24,19 +24,11 @@ public class ClaritySetup {
                 .addDefinition(definitions.findDefinition("E"));
 
         Record record = new Record("Emp");
-        record.set(new Entry(record, "D", 1));
-        record.set(new Entry(record, "E", 4));
-
-        Entry entryA = record.get("A");
-        Entry entryC = record.get("C");
-        Entry entryD = record.get("D");
-        Entry entryE = record.get("E");
-
-        log.info("D = " + entryD.get().getValue());
-        log.info("E = " + entryE.get().getValue());
+        record.set(new Entry(record, "D", 300));
+        record.set(new Entry(record, "E", 4.2));
 
         Infer.infer();
 
-        log.info("E = " + entryE.get().getValue());
+        log.info("C = " + record.get("C").get().getValue());
     }
 }

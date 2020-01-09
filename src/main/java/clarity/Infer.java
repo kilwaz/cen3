@@ -1,6 +1,7 @@
 package clarity;
 
 import clarity.definition.Definition;
+import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.InstancedFormula;
 import log.AppLogger;
 import org.apache.log4j.Logger;
@@ -23,17 +24,23 @@ public class Infer {
 
     private void calculateValues() {
         log.info(unCalculatedEntries.size() + " entries to infer");
-        for (Entry entry : unCalculatedEntries) {
+
+        List<Entry> unCalculatedEntriesToProcess = new ArrayList<>(unCalculatedEntries);
+        for (Entry entry : unCalculatedEntriesToProcess) {
             Definition definition = entry.getDefinition();
             if (definition.isCalculated()) {
                 InstancedFormula instancedFormula = definition.getFormula()
                         .createInstance()
                         .record(entry.getRecord());
 
-                System.out.println("Solving " + definition.getFormula().getStrExpression());
-                System.out.println("Result of this is " + instancedFormula.solve().getStringRepresentation());
+                Expression solvedExpression = instancedFormula.solve();
+                entry.set(new EntryValue(solvedExpression));
+                entry.setFresh();
             } else { // Non calculated entries are always fresh
                 entry.setFresh();
+            }
+            if (entry.isFresh()) {
+                unCalculatedEntries.remove(entry);
             }
         }
     }
