@@ -17,20 +17,32 @@ public class ClaritySetup {
         Definition.define().name("E");
         Definition.define().name("A").formula("1+12");
         Definition.define().name("C").formula("[E]*[D]");
+        Definition.define().name("B").formula("[C]*[C]");
 
         Definitions definitions = Definitions.getInstance();
-        RecordDefinition.define().name("Emp")
+        RecordDefinition.define().name("Employee")
                 .addDefinition(definitions.findDefinition("A"))
                 .addDefinition(definitions.findDefinition("C"))
                 .addDefinition(definitions.findDefinition("D"))
+                .addDefinition(definitions.findDefinition("B"))
                 .addDefinition(definitions.findDefinition("E"));
 
-        Record record = new Record("Emp");
+        Record record = new Record("Employee");
         record.set(new Entry(record, "D", new BigDecimal("310.34")));
         record.set(new Entry(record, "E", new BigDecimal("4.2")));
 
+        Record record2 = new Record("Employee");
+        record2.set(new Entry(record2, "D", new BigDecimal("100.34")));
+        record2.set(new Entry(record2, "E", new BigDecimal("3")));
+
         Infer.infer();
 
+        log.info("Record 1");
         log.info("C = " + record.get("C").get().getValue());
+        log.info("B = " + record.get("B").get().getValue());
+
+        log.info("Record 2");
+        log.info("C = " + record2.get("C").get().getValue());
+        log.info("B = " + record2.get("B").get().getValue());
     }
 }

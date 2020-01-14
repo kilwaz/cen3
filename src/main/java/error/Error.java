@@ -41,10 +41,13 @@ public enum Error {
     GENERIC_WEBSOCKET_EXCEPTION(207, "Exception within websocket"),
     WEBSOCKET_RESPONSE_EXCEPTION(208, "Error sending websocket response"),
     DATA_LOAD_EXCEPTION(209, "Error loading initial data into the game"),
-    WEBSOCKET_PARSE_METHOD(210,"Method could not be found for data"),
-    TYPE_SCRIPT_GENERATION(211,"Error generating TypeScript files from Data Files"),
-    TYPE_SCRIPT_BUILD_FOLDER_URI(212,"Problem finding the typescript source code folder in the project to generate files to"),
-    WEBSOCKET_JSON_RESPONSE(213,"Unable to generate response json for websocket");
+    WEBSOCKET_PARSE_METHOD(210, "Method could not be found for data"),
+    TYPE_SCRIPT_GENERATION(211, "Error generating TypeScript files from Data Files"),
+    TYPE_SCRIPT_BUILD_FOLDER_URI(212, "Problem finding the typescript source code folder in the project to generate files to"),
+    WEBSOCKET_JSON_RESPONSE(213, "Unable to generate response json for websocket"),
+
+    // CLARITY
+    CLARITY_REFERENCE_NOT_FOUND(214, "Clarity - reference not found");
 
     private Integer code;
     private String description;

@@ -1,7 +1,8 @@
 package clarity.load.store.expression;
 
-import clarity.load.store.expression.values.Number;
-import clarity.load.store.expression.values.Reference;
+import clarity.load.store.expression.instance.InstancedNode;
+import log.AppLogger;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Node {
+    private static Logger log = AppLogger.logger();
+
     private Node left = null;
     private Node right = null;
     private Node parent = null;
@@ -63,31 +66,7 @@ public class Node {
         return expression;
     }
 
-    public Expression solve() {
-        if (expression instanceof Number) {
-            solved = true;
-            return expression;
-        } else if (expression instanceof Reference) {
-            // References should be replaced with the actual formula, right?
-            //solved = true;
-            //return ((Reference) expression).getValue();
-        } else if (expression instanceof Operator) {
-            Expression rightExpression = null;
-            Expression leftExpression = null;
-            if (left != null) {
-                leftExpression = left.solve();
-            }
-            if (right != null) {
-                rightExpression = right.solve();
-            }
-            solved = true;
-            return ((Operator) expression).calculate(leftExpression, rightExpression);
-        }
-
-        return null;
-    }
-
-    public Node duplicate() {
+    public InstancedNode duplicate() {
         try {
             Expression expression = this.getExpression();
 
@@ -106,7 +85,7 @@ public class Node {
             }
 
 
-            Node duplicatedNode = new Node(newExpression);
+            InstancedNode duplicatedNode = new InstancedNode(newExpression);
 
             if (right != null) {
                 duplicatedNode.right(right.duplicate());

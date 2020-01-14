@@ -3,6 +3,7 @@ package clarity;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
+import error.Error;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,10 @@ public class Record {
                     set(new Entry(this, definition));
                 }
             }
+        } else {
+            Error.CLARITY_REFERENCE_NOT_FOUND.record()
+                    .additionalInformation("Reference name = " + reference)
+                    .create();
         }
     }
 

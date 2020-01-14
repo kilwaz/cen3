@@ -2,7 +2,6 @@ package clarity.definition;
 
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Formula;
-import clarity.load.store.expression.InstancedFormula;
 
 public class Definition {
     private String name = "";

@@ -1,30 +1,39 @@
-package clarity.load.store.expression;
+package clarity.load.store.expression.instance;
 
 import clarity.Record;
 import clarity.definition.Definition;
+import clarity.load.store.expression.Expression;
+import clarity.load.store.expression.Formula;
 import clarity.load.store.expression.values.Reference;
+import log.AppLogger;
+import org.apache.log4j.Logger;
 
 public class InstancedFormula {
+    private static Logger log = AppLogger.logger();
+
     private Record record;
 
-    private Node instancedRoot = null;
+    private InstancedNode instancedRoot = null;
+    private String baseFormula;
 
     public InstancedFormula(Formula formula) {
-        this.instancedRoot = formula.getRoot().duplicate();
+        this.instancedRoot = formula.getRoot().duplicate().instancedFormula(this);
+        this.baseFormula = formula.getStrExpression();
     }
 
-    private void substituteRecordValues(Node node) {
+    public void substituteRecordValues(InstancedNode node) {
         Expression expression = node.getExpression();
         if (expression instanceof Reference) {
             Definition definition = ((Reference) expression).getValue();
             if (definition.isCalculated()) {
-                // This value is another calculated value, go figure that shit out...
-                // InstancedFormula instancedFormula = ((Reference) expression).getValue().getFormula()
-                //    .createInstance()
-                //    .record(record);
+                InstancedFormula instancedFormula = definition.getFormula()
+                        .createInstance()
+                        .record(this.record);
+
+                Expression solvedExpression = instancedFormula.solve();
+                node.expression(solvedExpression);
             } else {
                 node.expression(record.get(definition.getName()).get().toExpression());
-                // Search for this value in the record and sub it in
             }
         }
 
@@ -50,7 +59,11 @@ public class InstancedFormula {
         return this;
     }
 
-    public Node getInstancedRoot() {
+    public InstancedNode getInstancedRoot() {
         return instancedRoot;
+    }
+
+    public String getBaseFormula() {
+        return baseFormula;
     }
 }
