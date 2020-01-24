@@ -35,6 +35,7 @@ public class Record {
     }
 
     public Record set(Entry entry) {
+        entry.record(this);
         entryHashMap.put(entry.getReference(), entry);
         return this;
     }

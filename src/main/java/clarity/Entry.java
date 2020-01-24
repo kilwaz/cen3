@@ -3,11 +3,17 @@ package clarity;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
 
+import java.math.BigDecimal;
+
 public class Entry {
     private Definition definition;
     private EntryValue entryValue;
     private Boolean isFresh = false;
     private Record record;
+
+    public static Entry create(String reference, String value) {
+        return new Entry(null, reference, new BigDecimal(value));
+    }
 
     public Entry(Record record, String reference, Object value) {
         this.definition = Definitions.getInstance().findDefinition(reference);
@@ -37,6 +43,12 @@ public class Entry {
 
     public void setFresh() {
         isFresh = true;
+    }
+
+    public Entry record(Record record) {
+        this.record = record;
+        infer();
+        return this;
     }
 
     public Entry set(EntryValue entryValue) {

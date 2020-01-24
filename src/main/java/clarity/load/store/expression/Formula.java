@@ -3,7 +3,9 @@ package clarity.load.store.expression;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.load.store.expression.instance.InstancedFormula;
-import clarity.load.store.expression.operators.*;
+import clarity.load.store.expression.operators.grouping.CloseBracket;
+import clarity.load.store.expression.operators.grouping.OpenBracket;
+import clarity.load.store.expression.operators.numeric.*;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 import log.AppLogger;
@@ -47,8 +49,6 @@ public class Formula {
             }
             double currentNumber = Double.parseDouble(currentLetter);
             expression = new Number(currentNumber);
-//        } else if(" ".equals(currentLetter)) {
-
         } else if ("+".equals(currentLetter)) {
             expression = new Add();
         } else if ("-".equals(currentLetter)) {
@@ -64,7 +64,7 @@ public class Formula {
         } else if (")".equals(currentLetter)) {
             expression = new CloseBracket();
         } else if ("[".equals(currentLetter)) {
-            Pattern pattern = Pattern.compile("\\[[^\\[]*\\]"); // Find the rest of the number
+            Pattern pattern = Pattern.compile("\\[[^\\[]*\\]"); // Find the rest of the reference name
             Matcher matcher = pattern.matcher(expressionStr);
 
             if (matcher.find()) {

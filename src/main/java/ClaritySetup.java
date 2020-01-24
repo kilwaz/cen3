@@ -7,8 +7,6 @@ import clarity.definition.RecordDefinition;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
-import java.math.BigDecimal;
-
 public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
@@ -28,21 +26,23 @@ public class ClaritySetup {
                 .addDefinition(definitions.findDefinition("E"));
 
         Record record = new Record("Employee");
-        record.set(new Entry(record, "D", new BigDecimal("310.34")));
-        record.set(new Entry(record, "E", new BigDecimal("4.2")));
+        record.set(Entry.create("D", "310.34"));
+        record.set(Entry.create("E", "4.2"));
 
         Record record2 = new Record("Employee");
-        record2.set(new Entry(record2, "D", new BigDecimal("100.34")));
-        record2.set(new Entry(record2, "E", new BigDecimal("3")));
+        record2.set(Entry.create("D", "100.654"));
+        record2.set(Entry.create("E", "4"));
 
         Infer.infer();
 
         log.info("Record 1");
-        log.info("C = " + record.get("C").get().getValue());
+        log.info("A = " + record.get("A").get().getValue());
         log.info("B = " + record.get("B").get().getValue());
+        log.info("C = " + record.get("C").get().getValue());
 
         log.info("Record 2");
-        log.info("C = " + record2.get("C").get().getValue());
+        log.info("A = " + record2.get("A").get().getValue());
         log.info("B = " + record2.get("B").get().getValue());
+        log.info("C = " + record2.get("C").get().getValue());
     }
 }
