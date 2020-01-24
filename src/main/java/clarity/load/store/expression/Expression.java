@@ -23,6 +23,8 @@ public class Expression {
     private int precedence = 0;
     private int associative = 0;
 
+    private String stringRepresentation = null;
+
     public Expression(int precedence, int associative) {
         this.precedence = precedence;
         this.associative = associative;
@@ -37,11 +39,15 @@ public class Expression {
     }
 
     public String getStringRepresentation() {
-        OperatorRepresentation operatorRepresentation = this.getClass().getDeclaredAnnotation(OperatorRepresentation.class);
-        if (operatorRepresentation != null) {
-            return operatorRepresentation.stringRepresentation();
-        } else {
-            return "";
+        if (stringRepresentation == null) {
+            OperatorRepresentation operatorRepresentation = this.getClass().getDeclaredAnnotation(OperatorRepresentation.class);
+            if (operatorRepresentation != null) {
+                stringRepresentation = operatorRepresentation.stringRepresentation();
+            } else {
+                stringRepresentation = "";
+            }
         }
+
+        return stringRepresentation;
     }
 }

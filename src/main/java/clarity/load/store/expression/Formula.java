@@ -3,9 +3,9 @@ package clarity.load.store.expression;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.load.store.expression.instance.InstancedFormula;
+import clarity.load.store.expression.operators.OperatorDictionary;
 import clarity.load.store.expression.operators.grouping.CloseBracket;
 import clarity.load.store.expression.operators.grouping.OpenBracket;
-import clarity.load.store.expression.operators.numeric.*;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 import log.AppLogger;
@@ -49,20 +49,6 @@ public class Formula {
             }
             double currentNumber = Double.parseDouble(currentLetter);
             expression = new Number(currentNumber);
-        } else if ("+".equals(currentLetter)) {
-            expression = new Add();
-        } else if ("-".equals(currentLetter)) {
-            expression = new Minus();
-        } else if ("/".equals(currentLetter)) {
-            expression = new Divide();
-        } else if ("*".equals(currentLetter)) {
-            expression = new Multiply();
-        } else if ("^".equals(currentLetter)) {
-            expression = new Exponent();
-        } else if ("(".equals(currentLetter)) {
-            expression = new OpenBracket();
-        } else if (")".equals(currentLetter)) {
-            expression = new CloseBracket();
         } else if ("[".equals(currentLetter)) {
             Pattern pattern = Pattern.compile("\\[[^\\[]*\\]"); // Find the rest of the reference name
             Matcher matcher = pattern.matcher(expressionStr);
@@ -80,6 +66,8 @@ public class Formula {
                     //expression = new Reference(new Formula("0"));
                 }
             }
+        } else { // Find any other defined expressions
+            expression = OperatorDictionary.getInstance().createExpressionFromReference(currentLetter);
         }
 
         if (current == null) {

@@ -3,6 +3,7 @@ import clarity.Infer;
 import clarity.Record;
 import clarity.definition.Definition;
 import clarity.definition.RecordDefinition;
+import clarity.load.store.expression.operators.OperatorDictionary;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
