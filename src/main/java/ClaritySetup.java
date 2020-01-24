@@ -2,7 +2,6 @@ import clarity.Entry;
 import clarity.Infer;
 import clarity.Record;
 import clarity.definition.Definition;
-import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
 import log.AppLogger;
 import org.apache.log4j.Logger;
@@ -17,13 +16,7 @@ public class ClaritySetup {
         Definition.define().name("C").formula("[E]*[D]");
         Definition.define().name("B").formula("[C]*[C]");
 
-        Definitions definitions = Definitions.getInstance();
-        RecordDefinition.define().name("Employee")
-                .addDefinition(definitions.findDefinition("A"))
-                .addDefinition(definitions.findDefinition("C"))
-                .addDefinition(definitions.findDefinition("D"))
-                .addDefinition(definitions.findDefinition("B"))
-                .addDefinition(definitions.findDefinition("E"));
+        RecordDefinition.define().name("Employee").addDefinitions("A", "B", "C", "D", "E");
 
         Record record = new Record("Employee");
         record.set(Entry.create("D", "310.34"));

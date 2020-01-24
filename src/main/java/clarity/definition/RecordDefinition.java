@@ -1,5 +1,6 @@
 package clarity.definition;
 
+import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -23,12 +24,24 @@ public class RecordDefinition {
         return recordDefinition;
     }
 
+    public RecordDefinition addDefinitions(String... references) {
+        for (String reference : references) {
+            addDefinition(reference);
+        }
+
+        return this;
+    }
+
+    public RecordDefinition addDefinition(String reference) {
+        addDefinition(Definitions.getInstance().findDefinition(reference));
+        return this;
+    }
+
     public RecordDefinition addDefinition(Definition definition) {
         if (definition != null) {
             definitionHashMap.put(definition.getName(), definition);
         } else {
-            //TODO: Make this an actual error that can be thrown
-            log.info("Attempted to load null definition");
+            Error.CLARITY_NULL_DEFINITION.record().create();
         }
 
         return this;

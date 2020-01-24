@@ -47,7 +47,8 @@ public enum Error {
     WEBSOCKET_JSON_RESPONSE(213, "Unable to generate response json for websocket"),
 
     // CLARITY
-    CLARITY_REFERENCE_NOT_FOUND(214, "Clarity - reference not found");
+    CLARITY_REFERENCE_NOT_FOUND(214, "Clarity - reference not found"),
+    CLARITY_NULL_DEFINITION(215, "Attempted to load null definition");
 
     private Integer code;
     private String description;
