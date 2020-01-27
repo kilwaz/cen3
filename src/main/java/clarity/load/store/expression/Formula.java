@@ -8,6 +8,7 @@ import clarity.load.store.expression.operators.grouping.CloseBracket;
 import clarity.load.store.expression.operators.grouping.OpenBracket;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
+import clarity.load.store.expression.values.Textual;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -41,7 +42,16 @@ public class Formula {
         String currentLetter = expressionStr.substring(0, 1);
         Expression expression = null;
 
-        if (currentLetter.matches("-?\\d+(\\.\\d+)?")) { // Checks to see if next character is the start of a number
+        if ("'".equals(currentLetter)) { // Beginning of a string literal
+            Pattern pattern = Pattern.compile("'([^']*)'"); // Find the rest of the text (next single quote)
+            Matcher matcher = pattern.matcher(expressionStr);
+            String textual = "";
+            if (matcher.find()) {
+                currentLetter = matcher.group();
+                textual = currentLetter.substring(1, currentLetter.length() - 1);  // Trim off single quotes
+            }
+            expression = new Textual(textual);
+        } else if (currentLetter.matches("-?\\d+(\\.\\d+)?")) { // Beginning of a number
             Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?"); // Find the rest of the number
             Matcher matcher = pattern.matcher(expressionStr);
             if (matcher.find()) {
@@ -49,7 +59,7 @@ public class Formula {
             }
             double currentNumber = Double.parseDouble(currentLetter);
             expression = new Number(currentNumber);
-        } else if ("[".equals(currentLetter)) {
+        } else if ("[".equals(currentLetter)) { // Beginning of a reference
             Pattern pattern = Pattern.compile("\\[[^\\[]*\\]"); // Find the rest of the reference name
             Matcher matcher = pattern.matcher(expressionStr);
 
@@ -67,7 +77,20 @@ public class Formula {
                 }
             }
         } else { // Find any other defined expressions
-            expression = OperatorDictionary.getInstance().createExpressionFromReference(currentLetter);
+            String functionName = "";
+            if (currentLetter.matches("[a-zA-Z]")) { // If a function name
+                Pattern pattern = Pattern.compile("[a-zA-Z]+\\("); // Find the rest of the function name
+                Matcher matcher = pattern.matcher(expressionStr);
+
+                if (matcher.find()) {
+                    currentLetter = matcher.group();
+                    functionName = currentLetter.substring(0, currentLetter.length() - 1); // Removes additional opening bracket
+                }
+            } else { // Operators like + - / *
+                functionName = currentLetter;
+            }
+
+            expression = OperatorDictionary.getInstance().createExpressionFromReference(functionName);
         }
 
         if (current == null) {

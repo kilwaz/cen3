@@ -3,7 +3,6 @@ import clarity.Infer;
 import clarity.Record;
 import clarity.definition.Definition;
 import clarity.definition.RecordDefinition;
-import clarity.load.store.expression.operators.OperatorDictionary;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -13,11 +12,13 @@ public class ClaritySetup {
     public static void main(String[] args) {
         Definition.define().name("D");
         Definition.define().name("E");
-        Definition.define().name("A").formula("1+12");
+        Definition.define().name("A").formula("16+12");
         Definition.define().name("C").formula("[E]*[D]");
         Definition.define().name("B").formula("[C]*[C]");
+        Definition.define().name("Text").formula("lower('this is ALL LOWER case')");
+        Definition.define().name("Number").formula("4");
 
-        RecordDefinition.define().name("Employee").addDefinitions("A", "B", "C", "D", "E");
+        RecordDefinition.define().name("Employee").addDefinitions("A", "B", "C", "D", "E", "Text", "Number");
 
         Record record = new Record("Employee");
         record.set(Entry.create("D", "310.34"));
@@ -33,10 +34,14 @@ public class ClaritySetup {
         log.info("A = " + record.get("A").get().getValue());
         log.info("B = " + record.get("B").get().getValue());
         log.info("C = " + record.get("C").get().getValue());
+        log.info("Text = " + record.get("Text").get().getValue());
+        log.info("Number = " + record.get("Number").get().getValue());
 
         log.info("Record 2");
         log.info("A = " + record2.get("A").get().getValue());
         log.info("B = " + record2.get("B").get().getValue());
         log.info("C = " + record2.get("C").get().getValue());
+        log.info("Text = " + record2.get("Text").get().getValue());
+        log.info("Number = " + record2.get("Number").get().getValue());
     }
 }

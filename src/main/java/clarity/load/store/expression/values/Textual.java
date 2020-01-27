@@ -1,6 +1,5 @@
 package clarity.load.store.expression.values;
 
-import clarity.Record;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Value;
 

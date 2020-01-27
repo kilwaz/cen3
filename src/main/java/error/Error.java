@@ -48,7 +48,9 @@ public enum Error {
 
     // CLARITY
     CLARITY_REFERENCE_NOT_FOUND(214, "Clarity - reference not found"),
-    CLARITY_NULL_DEFINITION(215, "Attempted to load null definition");
+    CLARITY_NULL_DEFINITION(215, "Attempted to load null definition"),
+
+    CLARITY_INCORRECT_NUMBER_OF_PARAMETERS(216,"Incorrect number of parameters for function");
 
     private Integer code;
     private String description;

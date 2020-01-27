@@ -1,9 +1,11 @@
 package clarity.load.store.expression.instance;
 
 import clarity.load.store.expression.Expression;
+import clarity.load.store.expression.Function;
 import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
+import clarity.load.store.expression.values.Textual;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -79,12 +81,12 @@ public class InstancedNode {
 
     public Expression solve() {
         try {
-            if (expression instanceof Number) {
+            if (expression instanceof Number || expression instanceof Textual) {
                 solved = true;
                 return expression;
             } else if (expression instanceof Reference) {
                 instancedFormula.substituteRecordValues(this);
-            } else if (expression instanceof Operator) {
+            } else if (expression instanceof Operator || expression instanceof Function) {
                 Expression rightExpression = null;
                 Expression leftExpression = null;
                 if (left != null) {
@@ -94,7 +96,12 @@ public class InstancedNode {
                     rightExpression = right.solve();
                 }
                 solved = true;
-                return ((Operator) expression).calculate(leftExpression, rightExpression);
+
+                if (expression instanceof Operator) {
+                    return ((Operator) expression).calculate(leftExpression, rightExpression);
+                } else {
+                    return ((Function) expression).apply(rightExpression);
+                }
             }
         } catch (Exception ex) {
             log.info("Error message in solve..", ex);
