@@ -16,6 +16,7 @@ public class ClaritySetup {
         Definition.define().name("C").formula("[E]*[D]");
         Definition.define().name("B").formula("[C]*[C]");
         Definition.define().name("Text").formula("lower('this is ALL LOWER case')");
+        //Definition.define().name("Concat").formula("concat('Alex','Brown')");
         Definition.define().name("Number").formula("4");
 
         RecordDefinition.define().name("Employee").addDefinitions("A", "B", "C", "D", "E", "Text", "Number");

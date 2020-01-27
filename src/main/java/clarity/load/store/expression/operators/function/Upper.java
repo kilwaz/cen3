@@ -18,7 +18,7 @@ public class Upper extends Expression implements Function {
             return new Textual(parameters[0].getStringRepresentation().toUpperCase());
         } else {
             Error.CLARITY_INCORRECT_NUMBER_OF_PARAMETERS.record()
-                    .additionalInformation("Upper")
+                    .additionalInformation(this.getClass().getSimpleName())
                     .additionalInformation("Expects 1 parameter")
                     .additionalInformation("Given " + parameters.length + " parameters").create();
         }
