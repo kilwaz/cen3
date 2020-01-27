@@ -6,18 +6,23 @@ import org.apache.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Node {
     private static Logger log = AppLogger.logger();
 
+    public static final int NODE_CHILD_TYPE_BINARY = 1;
+    public static final int NODE_CHILD_TYPE_VARIABLE = 2;
+
     private Node left = null;
     private Node right = null;
     private Node parent = null;
 
-    private Boolean solved = false;
+    private int nodeType = 0;
 
+    private ArrayList<Node> nodeList = null;
     private Expression expression;
 
     public Node(Expression expression) {
@@ -42,6 +47,14 @@ public class Node {
 
     public Node parent(Node parent) {
         this.parent = parent;
+        return this;
+    }
+
+    public Node addToList(Node listNode) {
+        if (nodeList == null) {
+            nodeList = new ArrayList<>();
+        }
+        nodeList.add(listNode);
         return this;
     }
 
@@ -99,5 +112,18 @@ public class Node {
         }
 
         return null;
+    }
+
+    public ArrayList<Node> getNodeList() {
+        return nodeList;
+    }
+
+    public Node nodeType(int nodeType) {
+        this.nodeType = nodeType;
+        return this;
+    }
+
+    public int getNodeType() {
+        return nodeType;
     }
 }
