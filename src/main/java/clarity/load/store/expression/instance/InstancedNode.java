@@ -6,6 +6,7 @@ import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 import clarity.load.store.expression.values.Textual;
+import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -104,7 +105,9 @@ public class InstancedNode {
                 }
             }
         } catch (Exception ex) {
-            log.info("Error message in solve..", ex);
+            Error.CLARITY_SOLVE_EXPRESSION.record()
+                    .additionalInformation("Expression = " + expression.getStringRepresentation())
+                    .create(ex);
         }
 
         log.info("Returning null for a solve " + instancedFormula.getBaseFormula() + "  -  Specific expression " + expression.getStringRepresentation());
