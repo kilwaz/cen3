@@ -50,6 +50,7 @@ public enum Error {
     CLARITY_REFERENCE_NOT_FOUND(214, "Clarity - reference not found"),
     CLARITY_NULL_DEFINITION(215, "Attempted to load null definition"),
     CLARITY_SOLVE_EXPRESSION(217, "Unable to solve expression"),
+    CLARITY_DUPLICATE(218, "Error duplicating node to instanced node"),
 
     CLARITY_INCORRECT_NUMBER_OF_PARAMETERS(216,"Incorrect number of parameters for function");
 

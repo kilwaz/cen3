@@ -1,6 +1,7 @@
 package clarity.load.store.expression;
 
 import clarity.load.store.expression.instance.InstancedNode;
+import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -20,13 +21,14 @@ public class Node {
     private Node right = null;
     private Node parent = null;
 
-    private int nodeType = 0;
+    private final int nodeType;
 
     private ArrayList<Node> nodeList = null;
     private Expression expression;
 
-    public Node(Expression expression) {
+    public Node(Expression expression, int nodeType) {
         this.expression = expression;
+        this.nodeType = nodeType;
     }
 
     public Node left(Node left) {
@@ -97,18 +99,23 @@ public class Node {
                 newExpression = (Expression) ctor.newInstance();
             }
 
-
             InstancedNode duplicatedNode = new InstancedNode(newExpression);
+            if (nodeType == NODE_CHILD_TYPE_BINARY) {
+                if (right != null) {
+                    duplicatedNode.right(right.duplicate());
+                }
+                if (left != null) {
+                    duplicatedNode.left(left.duplicate());
+                }
+            } else if (nodeType == NODE_CHILD_TYPE_VARIABLE) {
+                for (Node nodeItem : nodeList) {
+                    duplicatedNode.addToList(nodeItem.duplicate());
+                }
+            }
 
-            if (right != null) {
-                duplicatedNode.right(right.duplicate());
-            }
-            if (left != null) {
-                duplicatedNode.left(left.duplicate());
-            }
             return duplicatedNode;
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
+            Error.CLARITY_DUPLICATE.record().create(ex);
         }
 
         return null;

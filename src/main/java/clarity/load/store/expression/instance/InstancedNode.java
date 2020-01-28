@@ -10,6 +10,8 @@ import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+
 public class InstancedNode {
     private static Logger log = AppLogger.logger();
 
@@ -17,14 +19,19 @@ public class InstancedNode {
     private InstancedNode right = null;
     private InstancedNode parent = null;
 
+    private final int nodeType;
+
+    private ArrayList<InstancedNode> nodeList = null;
+
     private Boolean solved = false;
 
     private InstancedFormula instancedFormula;
 
     private Expression expression;
 
-    public InstancedNode(Expression expression) {
+    public InstancedNode(Expression expression, int nodeType) {
         this.expression = expression;
+        this.nodeType = nodeType;
     }
 
     public InstancedNode instancedFormula(InstancedFormula instancedFormula) {
@@ -56,6 +63,14 @@ public class InstancedNode {
 
     public InstancedNode parent(InstancedNode parent) {
         this.parent = parent;
+        return this;
+    }
+
+    public InstancedNode addToList(InstancedNode listNode) {
+        if (nodeList == null) {
+            nodeList = new ArrayList<>();
+        }
+        nodeList.add(listNode);
         return this;
     }
 
