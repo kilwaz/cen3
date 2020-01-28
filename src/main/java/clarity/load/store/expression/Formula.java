@@ -42,6 +42,7 @@ public class Formula {
         String currentLetter = expressionStr.substring(0, 1);
         Expression expression = null;
 
+        // Expression Parsing
         if ("'".equals(currentLetter)) { // Beginning of a string literal
             Pattern pattern = Pattern.compile("'([^']*)'"); // Find the rest of the text (next single quote)
             Matcher matcher = pattern.matcher(expressionStr);
@@ -93,9 +94,14 @@ public class Formula {
             expression = OperatorDictionary.getInstance().createExpressionFromReference(functionName);
         }
 
+        // Tree positioning
         if (current == null) {
             // Creating the root node only once for the first item of the tree
-            current = new Node(expression);
+            if (expression instanceof Function) {
+                current = new Node(expression, Node.NODE_CHILD_TYPE_VARIABLE);
+            } else if (expression instanceof Operator || expression instanceof Value) {
+                current = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);
+            }
         } else {
             Node newCurrent = current;
             while (continueTreeClimb(current.getExpression(), expression)) {
@@ -109,23 +115,35 @@ public class Formula {
             }
 
             if (newCurrent == null) { // Top of the tree has been reached, create a new node here
-                newCurrent = new Node(expression);
-                newCurrent.left(current);
+                if (expression instanceof Function) {
+                    newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_VARIABLE);
+                    newCurrent.addToList(current);
+                } else if (expression instanceof Operator || expression instanceof Value) {
+                    newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);
+                    newCurrent.left(current);
+                }
             } else {
-                if (expression instanceof CloseBracket) { // Brackets cancelling each other out
-                    if (current.getParent() == null) { // Open Bracket is at the top of the tree
-                        newCurrent = current.getRight();
-                        //newCurrent.parent(null);
-                    } else { // Remove brackets
-                        current.getParent().right(current.getRight());
-                        newCurrent = current.getParent();
+                if (current.getExpression() instanceof Function) { // Children of functions are always treated separately and as a list
+                    if (expression instanceof Function) {
+                        newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_VARIABLE);
+                    } else if (expression instanceof Operator || expression instanceof Value) {
+                        newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);
                     }
+                    current.addToList(newCurrent);
                 } else {
-                    newCurrent = new Node(expression);
-
-                    Node oldRight = current.getRight();
-                    current.right(newCurrent);
-                    newCurrent.left(oldRight);
+                    if (expression instanceof CloseBracket) { // Brackets cancelling each other out
+                        if (current.getParent() == null) { // Open Bracket is at the top of the tree
+                            newCurrent = current.getRight();
+                        } else { // Remove brackets
+                            current.getParent().right(current.getRight());
+                            newCurrent = current.getParent();
+                        }
+                    } else {
+                        newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);
+                        Node oldRight = current.getRight();
+                        current.right(newCurrent);
+                        newCurrent.left(oldRight);
+                    }
                 }
             }
             current = newCurrent;
@@ -144,7 +162,7 @@ public class Formula {
     }
 
     private Boolean continueTreeClimb(Expression current, Expression newExpression) {
-        if (newExpression instanceof OpenBracket) {
+        if (newExpression instanceof OpenBracket || newExpression instanceof Function) {
             return false;
         }
         switch (newExpression.getAssociative()) {

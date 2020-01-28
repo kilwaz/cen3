@@ -21,7 +21,7 @@ public class Node {
     private Node right = null;
     private Node parent = null;
 
-    private final int nodeType;
+    private int nodeType;
 
     private ArrayList<Node> nodeList = null;
     private Expression expression;
@@ -32,6 +32,11 @@ public class Node {
     }
 
     public Node left(Node left) {
+        if (nodeType != NODE_CHILD_TYPE_BINARY) {
+            Error.CLARITY_INCORRECT_CHILD_ASSIGNMENT_TO_NODE_TYPE.record()
+                    .additionalInformation("Tried to assign left child to non binary node")
+                    .create();
+        }
         if (left != null) {
             left.parent(this);
         }
@@ -40,6 +45,11 @@ public class Node {
     }
 
     public Node right(Node right) {
+        if (nodeType != NODE_CHILD_TYPE_BINARY) {
+            Error.CLARITY_INCORRECT_CHILD_ASSIGNMENT_TO_NODE_TYPE.record()
+                    .additionalInformation("Tried to assign right child to non binary node")
+                    .create();
+        }
         if (right != null) {
             right.parent(this);
         }
@@ -53,6 +63,11 @@ public class Node {
     }
 
     public Node addToList(Node listNode) {
+        if (nodeType != NODE_CHILD_TYPE_VARIABLE) {
+            Error.CLARITY_INCORRECT_CHILD_ASSIGNMENT_TO_NODE_TYPE.record()
+                    .additionalInformation("Tried to assign list child to non variable node")
+                    .create();
+        }
         if (nodeList == null) {
             nodeList = new ArrayList<>();
         }
@@ -85,7 +100,7 @@ public class Node {
         try {
             Expression expression = this.getExpression();
 
-            Expression newExpression = null;
+            Expression newExpression;
 
             Class<?> expressionClass = expression.getClass();
             Class<?>[] interfaces = expressionClass.getInterfaces();
@@ -99,8 +114,9 @@ public class Node {
                 newExpression = (Expression) ctor.newInstance();
             }
 
-            InstancedNode duplicatedNode = new InstancedNode(newExpression);
+            InstancedNode duplicatedNode = null;
             if (nodeType == NODE_CHILD_TYPE_BINARY) {
+                duplicatedNode = new InstancedNode(newExpression, NODE_CHILD_TYPE_BINARY);
                 if (right != null) {
                     duplicatedNode.right(right.duplicate());
                 }
@@ -108,6 +124,7 @@ public class Node {
                     duplicatedNode.left(left.duplicate());
                 }
             } else if (nodeType == NODE_CHILD_TYPE_VARIABLE) {
+                duplicatedNode = new InstancedNode(newExpression, NODE_CHILD_TYPE_VARIABLE);
                 for (Node nodeItem : nodeList) {
                     duplicatedNode.addToList(nodeItem.duplicate());
                 }

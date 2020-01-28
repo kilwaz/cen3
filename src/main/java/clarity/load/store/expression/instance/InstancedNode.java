@@ -19,7 +19,7 @@ public class InstancedNode {
     private InstancedNode right = null;
     private InstancedNode parent = null;
 
-    private final int nodeType;
+    private int nodeType;
 
     private ArrayList<InstancedNode> nodeList = null;
 
@@ -66,6 +66,11 @@ public class InstancedNode {
         return this;
     }
 
+    public InstancedNode nodeType(int nodeType) {
+        this.nodeType = nodeType;
+        return this;
+    }
+
     public InstancedNode addToList(InstancedNode listNode) {
         if (nodeList == null) {
             nodeList = new ArrayList<>();
@@ -103,21 +108,22 @@ public class InstancedNode {
             } else if (expression instanceof Reference) {
                 instancedFormula.substituteRecordValues(this);
             } else if (expression instanceof Operator || expression instanceof Function) {
-                Expression rightExpression = null;
-                Expression leftExpression = null;
-                if (left != null) {
-                    leftExpression = left.solve();
-                }
-                if (right != null) {
-                    rightExpression = right.solve();
-                }
                 solved = true;
-
                 if (expression instanceof Operator) {
+                    Expression rightExpression = null;
+                    Expression leftExpression = null;
+                    if (left != null) {
+                        leftExpression = left.solve();
+                    }
+                    if (right != null) {
+                        rightExpression = right.solve();
+                    }
+
                     return ((Operator) expression).calculate(leftExpression, rightExpression);
                 } else {
-                    return ((Function) expression).apply(rightExpression);
+                    return ((Function) expression).apply((InstancedNode[]) nodeList.toArray());
                 }
+
             }
         } catch (Exception ex) {
             Error.CLARITY_SOLVE_EXPRESSION.record()

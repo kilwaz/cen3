@@ -51,8 +51,9 @@ public enum Error {
     CLARITY_NULL_DEFINITION(215, "Attempted to load null definition"),
     CLARITY_SOLVE_EXPRESSION(217, "Unable to solve expression"),
     CLARITY_DUPLICATE(218, "Error duplicating node to instanced node"),
+    CLARITY_INCORRECT_CHILD_ASSIGNMENT_TO_NODE_TYPE(219, "Attempted to assign a child to an incorrect node type"),
 
-    CLARITY_INCORRECT_NUMBER_OF_PARAMETERS(216,"Incorrect number of parameters for function");
+    CLARITY_INCORRECT_NUMBER_OF_PARAMETERS(216, "Incorrect number of parameters for function");
 
     private Integer code;
     private String description;
