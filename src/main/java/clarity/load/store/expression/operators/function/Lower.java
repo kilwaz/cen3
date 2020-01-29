@@ -6,6 +6,8 @@ import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Textual;
 import error.Error;
 
+import java.util.ArrayList;
+
 @OperatorRepresentation(stringRepresentation = "lower")
 public class Lower extends Expression implements Function {
     public Lower() {
@@ -13,14 +15,14 @@ public class Lower extends Expression implements Function {
     }
 
     @Override
-    public Expression apply(Expression... parameters) {
-        if (parameters.length == 1) {
-            return new Textual(parameters[0].getStringRepresentation().toLowerCase());
+    public Expression apply(ArrayList<Expression> parameters) {
+        if (parameters.size() == 1) {
+            return new Textual(parameters.get(0).getStringRepresentation().toLowerCase());
         } else {
             Error.CLARITY_INCORRECT_NUMBER_OF_PARAMETERS.record()
                     .additionalInformation(this.getClass().getSimpleName())
                     .additionalInformation("Expects 1 parameter")
-                    .additionalInformation("Given " + parameters.length + " parameters").create();
+                    .additionalInformation("Given " + parameters.size() + " parameters").create();
         }
 
         return null;

@@ -1,4 +1,3 @@
-import clarity.Entry;
 import clarity.Infer;
 import clarity.Record;
 import clarity.definition.Definition;
@@ -12,7 +11,10 @@ public class ClaritySetup {
     public static void main(String[] args) {
 //        Definition.define().name("D");
 //        Definition.define().name("E");
-        Definition.define().name("A").formula("lower('ALEX')");
+//        Definition.define().name("A").formula("lower('ALEX')");
+//        Definition.define().name("B").formula("upper('alex')");
+//        Definition.define().name("C").formula("concat([A],[B])");
+        Definition.define().name("C").formula("concat('A','B')");
 //        Definition.define().name("C").formula("[E]*[D]");
 //        Definition.define().name("B").formula("[C]*[C]");
 //        Definition.define().name("Text").formula("lower('this is ALL LOWER case')");
@@ -20,7 +22,8 @@ public class ClaritySetup {
 //        Definition.define().name("Number").formula("4");
 //
 //        RecordDefinition.define().name("Employee").addDefinitions("A", "B", "C", "D", "E", "Text", "Number");
-        RecordDefinition.define().name("Employee").addDefinitions("A");
+//        RecordDefinition.define().name("Employee").addDefinitions("A", "B", "C");
+        RecordDefinition.define().name("Employee").addDefinitions("C");
 //
         Record record = new Record("Employee");
 //        record.set(Entry.create("D", "310.34"));
@@ -33,7 +36,10 @@ public class ClaritySetup {
         Infer.infer();
 //
         log.info("Record 1");
-        log.info("A = " + record.get("A").get().getValue());
+//        log.info("A to lower = " + record.get("A").get().getValue());
+//        log.info("B to upper = " + record.get("B").get().getValue());
+        log.info("C to concat = " + record.get("C").get().getValue());
+
 //        log.info("B = " + record.get("B").get().getValue());
 //        log.info("C = " + record.get("C").get().getValue());
 //        log.info("Text = " + record.get("Text").get().getValue());

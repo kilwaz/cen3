@@ -72,6 +72,9 @@ public class Node {
             nodeList = new ArrayList<>();
         }
         nodeList.add(listNode);
+        if (listNode != null) {
+            listNode.parent(this);
+        }
         return this;
     }
 

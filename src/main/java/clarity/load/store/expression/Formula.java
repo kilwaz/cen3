@@ -5,6 +5,7 @@ import clarity.definition.Definitions;
 import clarity.load.store.expression.instance.InstancedFormula;
 import clarity.load.store.expression.operators.OperatorDictionary;
 import clarity.load.store.expression.operators.grouping.CloseBracket;
+import clarity.load.store.expression.operators.grouping.Comma;
 import clarity.load.store.expression.operators.grouping.OpenBracket;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
@@ -87,7 +88,7 @@ public class Formula {
                     currentLetter = matcher.group();
                     functionName = currentLetter.substring(0, currentLetter.length() - 1); // Removes additional opening bracket
                 }
-            } else { // Operators like + - / *
+            } else { // Single character operators like + - / *
                 functionName = currentLetter;
             }
 
@@ -138,6 +139,8 @@ public class Formula {
                             current.getParent().right(current.getRight());
                             newCurrent = current.getParent();
                         }
+                    } else if(expression instanceof Comma) {
+                        newCurrent = current.getParent();
                     } else {
                         newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);
                         Node oldRight = current.getRight();
@@ -162,7 +165,7 @@ public class Formula {
     }
 
     private Boolean continueTreeClimb(Expression current, Expression newExpression) {
-        if (newExpression instanceof OpenBracket || newExpression instanceof Function) {
+        if (newExpression instanceof OpenBracket || newExpression instanceof Comma || newExpression instanceof Function) {
             return false;
         }
         switch (newExpression.getAssociative()) {

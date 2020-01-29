@@ -5,6 +5,7 @@ import clarity.load.store.expression.operators.OperatorRepresentation;
 public class Expression {
     public static final int PRECEDENCE_OPEN_BRACKET = 1;
     public static final int PRECEDENCE_CLOSE_BRACKET = 1;
+    public static final int PRECEDENCE_COMMA = 1;
     public static final int PRECEDENCE_UPPER = 1;
     public static final int PRECEDENCE_LOWER = 1;
     public static final int PRECEDENCE_MINUS = 2;

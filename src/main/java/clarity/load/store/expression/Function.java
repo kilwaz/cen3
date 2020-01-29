@@ -1,5 +1,7 @@
 package clarity.load.store.expression;
 
+import java.util.ArrayList;
+
 public interface Function {
-    Expression apply(Expression... parameters);
+    Expression apply(ArrayList<Expression> parameters);
 }

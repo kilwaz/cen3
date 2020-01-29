@@ -4,6 +4,7 @@ import clarity.Record;
 import clarity.definition.Definition;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Formula;
+import clarity.load.store.expression.Node;
 import clarity.load.store.expression.values.Reference;
 import log.AppLogger;
 import org.apache.log4j.Logger;
@@ -37,11 +38,19 @@ public class InstancedFormula {
             }
         }
 
-        if (node.getRight() != null) {
-            substituteRecordValues(node.getRight());
-        }
-        if (node.getLeft() != null) {
-            substituteRecordValues(node.getLeft());
+        if(node.getNodeType() == Node.NODE_CHILD_TYPE_BINARY){
+            if (node.getRight() != null) {
+                substituteRecordValues(node.getRight());
+            }
+            if (node.getLeft() != null) {
+                substituteRecordValues(node.getLeft());
+            }
+        } else {
+            if (node.getNodeList() != null) {
+                for(InstancedNode instancedNode : node.getNodeList()){
+                    substituteRecordValues(instancedNode);
+                }
+            }
         }
     }
 

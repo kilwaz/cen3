@@ -121,7 +121,11 @@ public class InstancedNode {
 
                     return ((Operator) expression).calculate(leftExpression, rightExpression);
                 } else {
-                    return ((Function) expression).apply((InstancedNode[]) nodeList.toArray());
+                    ArrayList<Expression> expressions = new ArrayList<>();
+                    for (InstancedNode instancedNode : nodeList) { // Get just the expressions out of the instanced to pass on to the function
+                        expressions.add(instancedNode.getExpression());
+                    }
+                    return ((Function) expression).apply(expressions);
                 }
 
             }
@@ -134,5 +138,13 @@ public class InstancedNode {
         log.info("Returning null for a solve " + instancedFormula.getBaseFormula() + "  -  Specific expression " + expression.getStringRepresentation());
 
         return null;
+    }
+
+    public int getNodeType() {
+        return nodeType;
+    }
+
+    public ArrayList<InstancedNode> getNodeList() {
+        return nodeList;
     }
 }
