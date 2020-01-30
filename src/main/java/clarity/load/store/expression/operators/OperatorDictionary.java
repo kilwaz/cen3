@@ -1,12 +1,15 @@
 package clarity.load.store.expression.operators;
 
 import clarity.load.store.expression.Expression;
+import error.Error;
+import error.RecordedError;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -42,6 +45,32 @@ public class OperatorDictionary {
 
         //TODO: I feel this like is an error you can't recover from
         return null;
+    }
+
+    public static Boolean validateParameterCount(Expression expression, ArrayList<Expression> parameters) {
+        FunctionParameters functionParameters = expression.getClass().getDeclaredAnnotation(FunctionParameters.class);
+
+        if (functionParameters != null) {
+            int parameterCount = functionParameters.parameterCount();
+            if (parameterCount != parameters.size()) {
+                RecordedError recordedError = Error.CLARITY_INCORRECT_NUMBER_OF_PARAMETERS.record()
+                        .additionalInformation("Function " + expression.getStringRepresentation() + "\t\t(Class " + expression.getClass().getSimpleName() + ")")
+                        .additionalInformation("Expects " + parameterCount + " parameters")
+                        .additionalInformation("Given " + parameters.size() + " parameters");
+                for (Expression param : parameters) {
+                    recordedError.additionalInformation("\t" + param.getStringRepresentation() + "\t\t(Class " + param.getClass().getSimpleName() + ")");
+                }
+                recordedError.create();
+            } else {
+                return true;
+            }
+        } else {
+            Error.CLARITY_MISSING_FUNCTION_PARAMETER_NUMBER.record()
+                    .additionalInformation("Function " + expression.getStringRepresentation() + "\t\t(Class " + expression.getClass().getSimpleName() + ")")
+                    .create();
+        }
+
+        return false;
     }
 
     public static OperatorDictionary getInstance() {
