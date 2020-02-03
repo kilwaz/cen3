@@ -130,7 +130,9 @@ public class Formula {
                     } else if (expression instanceof Operator || expression instanceof Value) {
                         newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);
                     }
-                    current.addToList(newCurrent);
+                    if (!(expression instanceof CloseBracket)) { // This is the ending bracket of the function
+                        current.addToList(newCurrent);
+                    }
                 } else {
                     if (expression instanceof CloseBracket) { // Brackets cancelling each other out
                         if (current.getParent() == null) { // Open Bracket is at the top of the tree
@@ -139,7 +141,7 @@ public class Formula {
                             current.getParent().right(current.getRight());
                             newCurrent = current.getParent();
                         }
-                    } else if(expression instanceof Comma) {
+                    } else if (expression instanceof Comma) {
                         newCurrent = current.getParent();
                     } else {
                         newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);

@@ -8,9 +8,10 @@ import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Textual;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @OperatorRepresentation(stringRepresentation = "concat")
-@FunctionParameters(parameterCount = 2)
+@FunctionParameters(unlimitedParameters = true)
 public class Concatenate extends Expression implements Function {
     public Concatenate() {
         super(Expression.PRECEDENCE_LOWER, Expression.LEFT_ASSOCIATIVE);
@@ -19,7 +20,7 @@ public class Concatenate extends Expression implements Function {
     @Override
     public Expression apply(ArrayList<Expression> parameters) {
         if (OperatorDictionary.validateParameterCount(this, parameters)) {
-            return new Textual(parameters.get(0).getStringRepresentation() + parameters.get(1).getStringRepresentation());
+            return new Textual(parameters.stream().map(Expression::getStringRepresentation).collect(Collectors.joining()));
         }
 
         return null;

@@ -43,7 +43,7 @@ public class OperatorDictionary {
             }
         }
 
-        //TODO: I feel this like is an error you can't recover from
+        //TODO: I feel this like is an error you can't recover from, maybe this should be reported instead of just throwing null?
         return null;
     }
 
@@ -52,18 +52,21 @@ public class OperatorDictionary {
 
         if (functionParameters != null) {
             int parameterCount = functionParameters.parameterCount();
-            if (parameterCount != parameters.size()) {
-                RecordedError recordedError = Error.CLARITY_INCORRECT_NUMBER_OF_PARAMETERS.record()
-                        .additionalInformation("Function " + expression.getStringRepresentation() + "\t\t(Class " + expression.getClass().getSimpleName() + ")")
-                        .additionalInformation("Expects " + parameterCount + " parameters")
-                        .additionalInformation("Given " + parameters.size() + " parameters");
-                for (Expression param : parameters) {
-                    recordedError.additionalInformation("\t" + param.getStringRepresentation() + "\t\t(Class " + param.getClass().getSimpleName() + ")");
+            boolean unlimitedParameters = functionParameters.unlimitedParameters();
+            if (!unlimitedParameters) { // Unlimited parameters is returned as true
+                if (parameterCount != parameters.size()) { // If equals parameter size return true otherwise show error
+                    RecordedError recordedError = Error.CLARITY_INCORRECT_NUMBER_OF_PARAMETERS.record()
+                            .additionalInformation("Function " + expression.getStringRepresentation() + "\t\t(Class " + expression.getClass().getSimpleName() + ")")
+                            .additionalInformation("Expects " + parameterCount + " parameters")
+                            .additionalInformation("Given " + parameters.size() + " parameters");
+                    for (Expression param : parameters) {
+                        recordedError.additionalInformation("\t" + param.getStringRepresentation() + "\t\t(Class " + param.getClass().getSimpleName() + ")");
+                    }
+                    recordedError.create();
                 }
-                recordedError.create();
-            } else {
-                return true;
             }
+            
+            return true;
         } else {
             Error.CLARITY_MISSING_FUNCTION_PARAMETER_NUMBER.record()
                     .additionalInformation("Function " + expression.getStringRepresentation() + "\t\t(Class " + expression.getClass().getSimpleName() + ")")

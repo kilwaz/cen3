@@ -123,7 +123,11 @@ public class InstancedNode {
                 } else {
                     ArrayList<Expression> expressions = new ArrayList<>();
                     for (InstancedNode instancedNode : nodeList) { // Get just the expressions out of the instanced to pass on to the function
-                        expressions.add(instancedNode.getExpression());
+                        Expression expression = instancedNode.getExpression();
+                        if (!instancedNode.solved) { // Solve any function parameters fully before applying the function
+                            expression = instancedNode.solve();
+                        }
+                        expressions.add(expression);
                     }
                     return ((Function) expression).apply(expressions);
                 }
