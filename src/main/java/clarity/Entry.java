@@ -12,7 +12,11 @@ public class Entry {
     private Record record;
 
     public static Entry create(String reference, String value) {
-        return new Entry(null, reference, new BigDecimal(value));
+        if (value.matches("-?\\d+(\\.\\d+)?")) { // Beginning of a number
+            return new Entry(null, reference, new BigDecimal(value));
+        } else {
+            return new Entry(null, reference, value);
+        }
     }
 
     public Entry(Record record, String reference, Object value) {

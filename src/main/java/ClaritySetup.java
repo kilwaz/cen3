@@ -1,3 +1,4 @@
+import clarity.Entry;
 import clarity.Infer;
 import clarity.Record;
 import clarity.definition.Definition;
@@ -9,17 +10,19 @@ public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
-//        Definition.define().name("D");
-//        Definition.define().name("E");
-        Definition.define().name("C").formula("concat('A','b','C')");
+        Definition.define().name("A");
+        Definition.define().name("B");
+        Definition.define().name("C").formula("concat([A],' - ',[B])");
         Definition.define().name("U").formula("upper([C])");
         Definition.define().name("L").formula("lower([C]");
 //        Definition.define().name("Number").formula("4");
 //
 //        RecordDefinition.define().name("Employee").addDefinitions("A", "B", "C", "D", "E", "Text", "Number");
-        RecordDefinition.define().name("Employee").addDefinitions("C","U","L");
+        RecordDefinition.define().name("Employee").addDefinitions("C","U","L","A","B");
 //
         Record record = new Record("Employee");
+        record.set(Entry.create("A", "Alex"));
+        record.set(Entry.create("B", "Brown"));
 //        record.set(Entry.create("D", "310.34"));
 //        record.set(Entry.create("E", "4.2"));
 //
@@ -30,8 +33,8 @@ public class ClaritySetup {
         Infer.infer();
 //
         log.info("Record 1");
-//        log.info("A to lower = " + record.get("A").get().getValue());
-//        log.info("B to upper = " + record.get("B").get().getValue());
+        log.info("A = " + record.get("A").get().getValue());
+        log.info("B = " + record.get("B").get().getValue());
         log.info("C to concat = " + record.get("C").get().getValue());
         log.info("U to upper = " + record.get("U").get().getValue());
         log.info("L to lower = " + record.get("L").get().getValue());

@@ -2,6 +2,8 @@ package clarity;
 
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.values.Number;
+import clarity.load.store.expression.values.Textual;
+import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -39,8 +41,13 @@ public class EntryValue {
             return new Number((Integer) value);
         } else if (value instanceof BigDecimal) {
             return new Number((BigDecimal) value);
+        } else if (value instanceof String) {
+            return new Textual((String) value);
+        } else {
+            Error.CLARITY_TYPE_NOT_HANDLED.record()
+                    .additionalInformation("Not handled: " + value.getClass().getCanonicalName())
+                    .create();
         }
-        log.info("Unknown EntryValue type to resolve to expression");
         return null;
     }
 }
