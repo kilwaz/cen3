@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @FunctionParameters(parameterCount = 1)
 public class Lower extends Expression implements Function {
     public Lower() {
-        super(Expression.PRECEDENCE_LOWER, Expression.LEFT_ASSOCIATIVE);
+        super(Expression.PRECEDENCE_FUNCTION, Expression.LEFT_ASSOCIATIVE);
     }
 
     @Override

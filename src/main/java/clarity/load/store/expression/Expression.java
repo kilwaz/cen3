@@ -1,13 +1,15 @@
 package clarity.load.store.expression;
 
 import clarity.load.store.expression.operators.OperatorRepresentation;
+import clarity.load.store.expression.values.Number;
+
+import java.math.BigDecimal;
 
 public class Expression {
     public static final int PRECEDENCE_OPEN_BRACKET = 1;
     public static final int PRECEDENCE_CLOSE_BRACKET = 1;
     public static final int PRECEDENCE_COMMA = 1;
-    public static final int PRECEDENCE_UPPER = 1;
-    public static final int PRECEDENCE_LOWER = 1;
+    public static final int PRECEDENCE_FUNCTION = 1;
     public static final int PRECEDENCE_MINUS = 2;
     public static final int PRECEDENCE_ADD = 2;
     public static final int PRECEDENCE_MULTIPLY = 4;
@@ -37,6 +39,14 @@ public class Expression {
 
     public int getAssociative() {
         return associative;
+    }
+
+    public BigDecimal getNumericRepresentation() {
+        if (this instanceof Number) {
+            return ((Number) this).getValue();
+        } else {
+            return new BigDecimal(getStringRepresentation());
+        }
     }
 
     public String getStringRepresentation() {

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @FunctionParameters(unlimitedParameters = true)
 public class Concatenate extends Expression implements Function {
     public Concatenate() {
-        super(Expression.PRECEDENCE_LOWER, Expression.LEFT_ASSOCIATIVE);
+        super(Expression.PRECEDENCE_FUNCTION, Expression.LEFT_ASSOCIATIVE);
     }
 
     @Override

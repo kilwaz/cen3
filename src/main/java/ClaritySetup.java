@@ -15,29 +15,32 @@ public class ClaritySetup {
         Definition.define().name("C").formula("concat([A],' - ',[B])");
         Definition.define().name("U").formula("upper([C])");
         Definition.define().name("L").formula("lower([C]");
-//        Definition.define().name("Number").formula("4");
-//
-//        RecordDefinition.define().name("Employee").addDefinitions("A", "B", "C", "D", "E", "Text", "Number");
-        RecordDefinition.define().name("Employee").addDefinitions("C","U","L","A","B");
-//
+        Definition.define().name("Min").formula("min(1,2,3,4)");
+        Definition.define().name("Max").formula("max(1,2,3,4)");
+        Definition.define().name("Sum").formula("sum(1,2,3,4)");
+
+
+        RecordDefinition.define().name("Employee").addDefinitions("C","U","L","A","B","Min","Max","Sum");
+
         Record record = new Record("Employee");
         record.set(Entry.create("A", "Alex"));
         record.set(Entry.create("B", "Brown"));
-//        record.set(Entry.create("D", "310.34"));
-//        record.set(Entry.create("E", "4.2"));
 //
 //        Record record2 = new Record("Employee");
 //        record2.set(Entry.create("D", "100.654"));
 //        record2.set(Entry.create("E", "4"));
 //
         Infer.infer();
-//
+
         log.info("Record 1");
         log.info("A = " + record.get("A").get().getValue());
         log.info("B = " + record.get("B").get().getValue());
         log.info("C to concat = " + record.get("C").get().getValue());
         log.info("U to upper = " + record.get("U").get().getValue());
         log.info("L to lower = " + record.get("L").get().getValue());
+        log.info("Min = " + record.get("Min").get().getValue());
+        log.info("Max = " + record.get("Max").get().getValue());
+        log.info("Sum = " + record.get("Sum").get().getValue());
 
 //        log.info("B = " + record.get("B").get().getValue());
 //        log.info("C = " + record.get("C").get().getValue());
