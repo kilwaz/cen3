@@ -10,6 +10,8 @@ public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
+        Definition.define().name("Equals").formula("1+1=3-1");
+
         Definition.define().name("A");
         Definition.define().name("B");
         Definition.define().name("C").formula("concat([A],' - ',[B])");
@@ -22,7 +24,8 @@ public class ClaritySetup {
         Definition.define().name("Count").formula("count(1,2,3,4)");
         Definition.define().name("Proper").formula("proper([C])");
 
-        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper", "Count", "Average");
+
+        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper", "Count", "Average","Equals");
 
         Record record = new Record("Employee");
         record.set(Entry.create("A", "aLExAnder"));
@@ -42,6 +45,6 @@ public class ClaritySetup {
         log.info("Proper = " + record.get("Proper").get().getValue());
         log.info("Count = " + record.get("Count").get().getValue());
         log.info("Average = " + record.get("Average").get().getValue());
-
+        log.info("Equals = " + record.get("Equals").get().getValue());
     }
 }

@@ -7,6 +7,7 @@ import clarity.load.store.expression.operators.OperatorDictionary;
 import clarity.load.store.expression.operators.grouping.CloseBracket;
 import clarity.load.store.expression.operators.grouping.Comma;
 import clarity.load.store.expression.operators.grouping.OpenBracket;
+import clarity.load.store.expression.values.Evaluation;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 import clarity.load.store.expression.values.Textual;
