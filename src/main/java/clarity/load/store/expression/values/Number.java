@@ -4,6 +4,7 @@ import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Value;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Number extends Expression implements Value {
     private BigDecimal value;
@@ -15,16 +16,19 @@ public class Number extends Expression implements Value {
     public Number(BigDecimal value) {
         super(Expression.PRECEDENCE_NUMBER, Expression.NON_ASSOCIATIVE);
         this.value = value;
+        setScale();
     }
 
     public Number(Integer value) {
         super(Expression.PRECEDENCE_NUMBER, Expression.NON_ASSOCIATIVE);
         this.value = new BigDecimal(value);
+        setScale();
     }
 
     public Number(Double value) {
         super(Expression.PRECEDENCE_NUMBER, Expression.NON_ASSOCIATIVE);
         this.value = new BigDecimal(value);
+        setScale();
     }
 
     public BigDecimal getValue() {
@@ -32,6 +36,10 @@ public class Number extends Expression implements Value {
     }
 
     public String getStringRepresentation() {
-        return value.toString();
+        return value.stripTrailingZeros().toPlainString();
+    }
+
+    private void setScale() {
+        this.value = this.value.setScale(30, RoundingMode.HALF_UP);
     }
 }
