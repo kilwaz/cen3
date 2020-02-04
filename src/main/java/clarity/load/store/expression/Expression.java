@@ -4,6 +4,7 @@ import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Number;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Expression {
     public static final int PRECEDENCE_OPEN_BRACKET = 1;
@@ -17,6 +18,7 @@ public class Expression {
     public static final int PRECEDENCE_EXPONENT = 5;
     public static final int PRECEDENCE_NUMBER = 10;
     public static final int PRECEDENCE_TEXT = 10;
+    public static final int PRECEDENCE_EVALUATION = 10;
     public static final int PRECEDENCE_REFERENCE = 10;
 
     public static final int NON_ASSOCIATIVE = 1;
@@ -60,5 +62,20 @@ public class Expression {
         }
 
         return stringRepresentation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Expression that = (Expression) o;
+        return precedence == that.precedence &&
+                associative == that.associative &&
+                Objects.equals(stringRepresentation, that.stringRepresentation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(precedence, associative, stringRepresentation);
     }
 }
