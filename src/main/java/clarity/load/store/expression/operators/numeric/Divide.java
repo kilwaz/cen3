@@ -15,6 +15,6 @@ public class Divide extends Expression implements Operator {
 
     @Override
     public Expression calculate(Expression a, Expression b) {
-        return new Number(((Number) a).getValue().divide(((Number) b).getValue(), 30, RoundingMode.HALF_UP));
+        return new Number(((Number) a).getValue().divide(((Number) b).getValue(), 30, RoundingMode.HALF_EVEN));
     }
 }

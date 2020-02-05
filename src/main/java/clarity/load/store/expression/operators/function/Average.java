@@ -29,7 +29,7 @@ public class Average extends Expression implements Function {
             List<BigDecimal> bigDecimalList = parameters.stream().map(Expression::getNumericRepresentation).collect(Collectors.toList());
 
             BigDecimal total = bigDecimalList.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
-            BigDecimal mean = total.divide(new BigDecimal(parameters.size()), 30, RoundingMode.HALF_UP);
+            BigDecimal mean = total.divide(new BigDecimal(parameters.size()), 30, RoundingMode.HALF_EVEN);
 
             return new Number(mean);
         }

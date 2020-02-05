@@ -3,6 +3,7 @@ package clarity.load.store.expression.instance;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Function;
 import clarity.load.store.expression.Operator;
+import clarity.load.store.expression.values.Evaluation;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 import clarity.load.store.expression.values.Textual;
@@ -102,7 +103,7 @@ public class InstancedNode {
 
     public Expression solve() {
         try {
-            if (expression instanceof Number || expression instanceof Textual) {
+            if (expression instanceof Number || expression instanceof Textual || expression instanceof Evaluation) {
                 solved = true;
                 return expression;
             } else if (expression instanceof Reference) {

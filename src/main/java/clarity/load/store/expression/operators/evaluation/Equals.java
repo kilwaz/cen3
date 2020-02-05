@@ -5,8 +5,6 @@ import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Evaluation;
 
-import java.util.Objects;
-
 @OperatorRepresentation(stringRepresentation = "=")
 public class Equals extends Expression implements Operator {
     public Equals() {
@@ -15,6 +13,6 @@ public class Equals extends Expression implements Operator {
 
     @Override
     public Expression calculate(Expression a, Expression b) {
-        return new Evaluation(Objects.equals(a, b));
+        return new Evaluation(a.compareTo(b) == 0);
     }
 }
