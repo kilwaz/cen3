@@ -22,10 +22,12 @@ public class ClaritySetup {
         Definition.define().name("Count").formula("count(1,2,3,4)");
         Definition.define().name("Proper").formula("proper([C])");
         Definition.define().name("Equals").formula("1=1");
-        Definition.define().name("Length").formula("len('Quick brown fox jumps over the lazy dog7')");
-        Definition.define().name("Equals 2").formula("39=[Length]");
+        Definition.define().name("Length").formula("len([Sum])");
+        Definition.define().name("Equals 2").formula("2.00003=2.0000301");
+        Definition.define().name("Greater").formula("'B'>'A'");
+        Definition.define().name("Less").formula("2<1");
 
-        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper", "Count", "Average","Equals","Equals 2","Length");
+        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper", "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less");
 
         Record record = new Record("Employee");
         record.set(Entry.create("A", "aLExAnder"));
@@ -48,6 +50,8 @@ public class ClaritySetup {
         log.info("Equals = " + record.get("Equals").get().getValue());
         log.info("Length = " + record.get("Length").get().getValue());
         log.info("Equals 2 = " + record.get("Equals 2").get().getValue());
+        log.info("Greater = " + record.get("Greater").get().getValue());
+        log.info("Less = " + record.get("Less").get().getValue());
 
     }
 }

@@ -6,7 +6,7 @@ import clarity.load.store.expression.values.Number;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Expression {
+public class Expression implements Comparable<Expression> {
     public static final int PRECEDENCE_OPEN_BRACKET = 1;
     public static final int PRECEDENCE_CLOSE_BRACKET = 1;
     public static final int PRECEDENCE_COMMA = 1;
@@ -65,17 +65,11 @@ public class Expression {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Expression that = (Expression) o;
-        return getPrecedence() == that.getPrecedence() &&
-                getAssociative() == that.getAssociative() &&
-                Objects.equals(getStringRepresentation(), that.getStringRepresentation());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getPrecedence(), getAssociative(), getStringRepresentation());
+    public int compareTo(Expression expression) {
+        if (this instanceof Number && expression instanceof Number) {
+            return ((Number) this).getValue().compareTo(((Number) expression).getValue());
+        } else {
+            return this.getStringRepresentation().compareTo(expression.getStringRepresentation());
+        }
     }
 }
