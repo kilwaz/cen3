@@ -40,6 +40,6 @@ public class Number extends Expression implements Value {
     }
 
     private void setScale() {
-        this.value = this.value.setScale(30, RoundingMode.HALF_UP);
+        this.value = this.value.setScale(30, RoundingMode.HALF_EVEN);
     }
 }

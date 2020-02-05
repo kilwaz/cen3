@@ -1,10 +1,10 @@
 package clarity.load.store.expression;
 
 import clarity.load.store.expression.operators.OperatorRepresentation;
+import clarity.load.store.expression.values.Evaluation;
 import clarity.load.store.expression.values.Number;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 public class Expression implements Comparable<Expression> {
     public static final int PRECEDENCE_OPEN_BRACKET = 1;
@@ -12,6 +12,7 @@ public class Expression implements Comparable<Expression> {
     public static final int PRECEDENCE_COMMA = 1;
     public static final int PRECEDENCE_EVALUATION = 1;
     public static final int PRECEDENCE_FUNCTION = 1;
+    public static final int PRECEDENCE_LOGIC = 1;
     public static final int PRECEDENCE_MINUS = 2;
     public static final int PRECEDENCE_ADD = 2;
     public static final int PRECEDENCE_MULTIPLY = 4;
@@ -41,6 +42,15 @@ public class Expression implements Comparable<Expression> {
 
     public int getAssociative() {
         return associative;
+    }
+
+    public Boolean getEvaluationRepresentation() {
+        if (this instanceof Evaluation) {
+            return ((Evaluation) this).getValue();
+        }
+
+        //TODO: Is this an error?
+        return null;
     }
 
     public BigDecimal getNumericRepresentation() {

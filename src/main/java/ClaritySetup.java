@@ -25,9 +25,11 @@ public class ClaritySetup {
         Definition.define().name("Length").formula("len([Sum])");
         Definition.define().name("Equals 2").formula("2.00003=2.0000301");
         Definition.define().name("Greater").formula("'B'>'A'");
-        Definition.define().name("Less").formula("2<1");
+        Definition.define().name("Less").formula("1>2");
+        Definition.define().name("Round").formula("round(10.12545,4)");
+        Definition.define().name("If").formula("if([Less],[Average],[Sum])");
 
-        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper", "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less");
+        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper", "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If");
 
         Record record = new Record("Employee");
         record.set(Entry.create("A", "aLExAnder"));
@@ -52,6 +54,7 @@ public class ClaritySetup {
         log.info("Equals 2 = " + record.get("Equals 2").get().getValue());
         log.info("Greater = " + record.get("Greater").get().getValue());
         log.info("Less = " + record.get("Less").get().getValue());
-
+        log.info("Round = " + record.get("Round").get().getValue());
+        log.info("If = " + record.get("If").get().getValue());
     }
 }

@@ -15,7 +15,7 @@ public class Evaluation extends Expression implements Value {
         this.value = value;
     }
 
-    public Object getValue() {
+    public Boolean getValue() {
         return value;
     }
 
