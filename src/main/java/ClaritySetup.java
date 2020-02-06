@@ -3,6 +3,8 @@ import clarity.Infer;
 import clarity.Record;
 import clarity.definition.Definition;
 import clarity.definition.RecordDefinition;
+import clarity.load.store.DefinedMatrix;
+import clarity.load.store.MatrixEntry;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -10,6 +12,13 @@ public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
+
+        DefinedMatrix countryMatrix = DefinedMatrix.define().name("Country");
+        countryMatrix.addItem(new MatrixEntry("GBR", "United Kingdom"));
+        countryMatrix.addItem(new MatrixEntry("USA", "United States"));
+        countryMatrix.addItem(new MatrixEntry("ESP", "Spain"));
+
+
         Definition.define().name("A");
         Definition.define().name("B");
         Definition.define().name("C").formula("concat([A],' - ',[B])");
@@ -29,7 +38,10 @@ public class ClaritySetup {
         Definition.define().name("Round").formula("round(10.12545,4)");
         Definition.define().name("If").formula("if([Less],[Average],[Sum])");
 
-        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper", "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If");
+        Definition.define().name("Matrix").formula("matrix('Country','USA')");
+
+        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
+                "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If", "Matrix");
 
         Record record = new Record("Employee");
         record.set(Entry.create("A", "aLExAnder"));
@@ -56,5 +68,8 @@ public class ClaritySetup {
         log.info("Less = " + record.get("Less").get().getValue());
         log.info("Round = " + record.get("Round").get().getValue());
         log.info("If = " + record.get("If").get().getValue());
+        log.info("Matrix = " + record.get("Matrix").get().getValue());
+        
+        ApplicationInitialiser.init();
     }
 }

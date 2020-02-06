@@ -5,7 +5,7 @@ import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Number;
 
-@OperatorRepresentation(stringRepresentation = "(")
+@OperatorRepresentation(formulaRepresentation = "(")
 public class OpenBracket extends Expression implements Operator {
     public OpenBracket() {
         super(Expression.PRECEDENCE_OPEN_BRACKET, Expression.LEFT_ASSOCIATIVE);

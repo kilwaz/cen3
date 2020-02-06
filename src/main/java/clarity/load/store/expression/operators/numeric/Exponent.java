@@ -5,7 +5,7 @@ import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Number;
 
-@OperatorRepresentation(stringRepresentation = "^")
+@OperatorRepresentation(formulaRepresentation = "^")
 public class Exponent extends Expression implements Operator {
     public Exponent() {
         super(Expression.PRECEDENCE_EXPONENT, Expression.RIGHT_ASSOCIATIVE);

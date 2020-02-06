@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@OperatorRepresentation(stringRepresentation = "average")
+@OperatorRepresentation(formulaRepresentation = "average")
 @FunctionParameters(unlimitedParameters = true)
 public class Average extends Expression implements Function {
     public Average() {

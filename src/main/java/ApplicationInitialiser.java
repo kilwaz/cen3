@@ -11,6 +11,10 @@ public class ApplicationInitialiser {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
+        init();
+    }
+
+    public static void init() {
         AppManager.init();
         RequestMapper.buildMappings();
         WebSocketMessageMapping.buildMappings();

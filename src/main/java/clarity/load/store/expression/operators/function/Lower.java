@@ -9,7 +9,7 @@ import clarity.load.store.expression.values.Textual;
 
 import java.util.ArrayList;
 
-@OperatorRepresentation(stringRepresentation = "lower")
+@OperatorRepresentation(formulaRepresentation = "lower")
 @FunctionParameters(parameterCount = 1)
 public class Lower extends Expression implements Function {
     public Lower() {

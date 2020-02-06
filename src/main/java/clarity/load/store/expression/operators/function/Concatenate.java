@@ -10,7 +10,7 @@ import clarity.load.store.expression.values.Textual;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-@OperatorRepresentation(stringRepresentation = "concat")
+@OperatorRepresentation(formulaRepresentation = "concat")
 @FunctionParameters(unlimitedParameters = true)
 public class Concatenate extends Expression implements Function {
     public Concatenate() {

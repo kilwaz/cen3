@@ -1,6 +1,5 @@
 package clarity.definition;
 
-import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Formula;
 
 public class Definition {
@@ -37,12 +36,6 @@ public class Definition {
 
     public String getName() {
         return this.name;
-    }
-
-    public Expression calculate() {
-        //formula.solve();
-
-        return formula.getResult();
     }
 
     public Boolean isCalculated() {

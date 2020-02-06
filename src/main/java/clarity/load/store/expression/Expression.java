@@ -65,7 +65,7 @@ public class Expression implements Comparable<Expression> {
         if (stringRepresentation == null) {
             OperatorRepresentation operatorRepresentation = this.getClass().getDeclaredAnnotation(OperatorRepresentation.class);
             if (operatorRepresentation != null) {
-                stringRepresentation = operatorRepresentation.stringRepresentation();
+                stringRepresentation = operatorRepresentation.formulaRepresentation();
             } else {
                 stringRepresentation = "";
             }

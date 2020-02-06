@@ -9,7 +9,7 @@ import clarity.load.store.expression.values.Number;
 
 import java.util.ArrayList;
 
-@OperatorRepresentation(stringRepresentation = "count")
+@OperatorRepresentation(formulaRepresentation = "count")
 @FunctionParameters(unlimitedParameters = true)
 public class Count extends Expression implements Function {
     public Count() {
