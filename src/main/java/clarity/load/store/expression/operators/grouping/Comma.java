@@ -5,7 +5,7 @@ import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Number;
 
-@OperatorRepresentation(stringRepresentation = ",")
+@OperatorRepresentation(formulaRepresentation = ",")
 public class Comma extends Expression implements Operator {
     public Comma() {
         super(Expression.PRECEDENCE_COMMA, Expression.RIGHT_ASSOCIATIVE);

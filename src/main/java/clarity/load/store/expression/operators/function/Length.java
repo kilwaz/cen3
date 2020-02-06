@@ -9,7 +9,7 @@ import clarity.load.store.expression.values.Number;
 
 import java.util.ArrayList;
 
-@OperatorRepresentation(stringRepresentation = "len")
+@OperatorRepresentation(formulaRepresentation = "len")
 @FunctionParameters(parameterCount = 1)
 public class Length extends Expression implements Function {
     public Length() {

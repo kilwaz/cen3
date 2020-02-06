@@ -10,7 +10,7 @@ import clarity.load.store.expression.values.Number;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
-@OperatorRepresentation(stringRepresentation = "round")
+@OperatorRepresentation(formulaRepresentation = "round")
 @FunctionParameters(parameterCount = 2)
 public class Round extends Expression implements Function {
     public Round() {

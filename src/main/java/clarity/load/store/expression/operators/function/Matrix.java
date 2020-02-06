@@ -5,15 +5,15 @@ import clarity.load.store.DefinedMatrix;
 import clarity.load.store.MatrixEntry;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Function;
-import clarity.load.store.expression.operators.FunctionParameters;
-import clarity.load.store.expression.operators.OperatorDictionary;
-import clarity.load.store.expression.operators.OperatorRepresentation;
+import clarity.load.store.expression.operators.*;
 import clarity.load.store.expression.values.Textual;
 
 import java.util.ArrayList;
 
-@OperatorRepresentation(stringRepresentation = "matrix")
+@OperatorRepresentation(formulaRepresentation = "matrix")
 @FunctionParameters(parameterCount = 2)
+@ReturnType(returnType = Textual.class)
+@ParamType(paramTypes = {Textual.class, Textual.class})
 public class Matrix extends Expression implements Function {
     public Matrix() {
         super(Expression.PRECEDENCE_FUNCTION, Expression.LEFT_ASSOCIATIVE);

@@ -5,7 +5,7 @@ import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Number;
 
-@OperatorRepresentation(stringRepresentation = "+")
+@OperatorRepresentation(formulaRepresentation = "+")
 public class Add extends Expression implements Operator {
     public Add() {
         super(Expression.PRECEDENCE_ADD, Expression.LEFT_ASSOCIATIVE);

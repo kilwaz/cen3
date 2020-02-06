@@ -69,5 +69,7 @@ public class ClaritySetup {
         log.info("Round = " + record.get("Round").get().getValue());
         log.info("If = " + record.get("If").get().getValue());
         log.info("Matrix = " + record.get("Matrix").get().getValue());
+        
+        ApplicationInitialiser.init();
     }
 }

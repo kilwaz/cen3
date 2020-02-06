@@ -9,7 +9,7 @@ import clarity.load.store.expression.values.Textual;
 
 import java.util.ArrayList;
 
-@OperatorRepresentation(stringRepresentation = "upper")
+@OperatorRepresentation(formulaRepresentation = "upper")
 @FunctionParameters(parameterCount = 1)
 public class Upper extends Expression implements Function {
     public Upper() {

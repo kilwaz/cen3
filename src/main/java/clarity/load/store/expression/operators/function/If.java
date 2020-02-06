@@ -9,7 +9,7 @@ import clarity.load.store.expression.values.Evaluation;
 
 import java.util.ArrayList;
 
-@OperatorRepresentation(stringRepresentation = "if")
+@OperatorRepresentation(formulaRepresentation = "if")
 @FunctionParameters(parameterCount = 3)
 public class If extends Expression implements Function {
     public If() {

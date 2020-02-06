@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@OperatorRepresentation(stringRepresentation = "sum")
+@OperatorRepresentation(formulaRepresentation = "sum")
 @FunctionParameters(unlimitedParameters = true)
 public class Sum extends Expression implements Function {
     public Sum() {

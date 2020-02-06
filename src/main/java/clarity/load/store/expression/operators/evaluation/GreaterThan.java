@@ -5,7 +5,7 @@ import clarity.load.store.expression.Operator;
 import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Evaluation;
 
-@OperatorRepresentation(stringRepresentation = ">")
+@OperatorRepresentation(formulaRepresentation = ">")
 public class GreaterThan extends Expression implements Operator {
     public GreaterThan() {
         super(Expression.PRECEDENCE_EVALUATION, Expression.LEFT_ASSOCIATIVE);

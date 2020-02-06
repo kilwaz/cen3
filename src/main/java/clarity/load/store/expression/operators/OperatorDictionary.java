@@ -27,7 +27,7 @@ public class OperatorDictionary {
         for (Class<? extends Expression> clazz : operators) {
             OperatorRepresentation operatorRepresentation = (OperatorRepresentation) clazz.getDeclaredAnnotation(OperatorRepresentation.class);
             if (operatorRepresentation != null) {
-                operatorDictionary.put(operatorRepresentation.stringRepresentation(), clazz);
+                operatorDictionary.put(operatorRepresentation.formulaRepresentation(), clazz);
             }
         }
     }

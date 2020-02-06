@@ -10,7 +10,7 @@ import org.apache.commons.text.WordUtils;
 
 import java.util.ArrayList;
 
-@OperatorRepresentation(stringRepresentation = "proper")
+@OperatorRepresentation(formulaRepresentation = "proper")
 @FunctionParameters(parameterCount = 1)
 public class Proper extends Expression implements Function {
     public Proper() {

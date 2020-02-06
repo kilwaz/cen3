@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@OperatorRepresentation(stringRepresentation = "max")
+@OperatorRepresentation(formulaRepresentation = "max")
 @FunctionParameters(unlimitedParameters = true)
 public class Max extends Expression implements Function {
     public Max() {

@@ -7,7 +7,7 @@ import clarity.load.store.expression.values.Number;
 
 import java.math.RoundingMode;
 
-@OperatorRepresentation(stringRepresentation = "/")
+@OperatorRepresentation(formulaRepresentation = "/")
 public class Divide extends Expression implements Operator {
     public Divide() {
         super(Expression.PRECEDENCE_DIVIDE, Expression.LEFT_ASSOCIATIVE);
