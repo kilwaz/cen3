@@ -27,6 +27,7 @@ public class Infer {
         for (Entry entry : unCalculatedEntriesToProcess) {
             Definition definition = entry.getDefinition();
             if (definition.isCalculated()) {
+                // After using this instance formula it isn't saved or reused yet
                 InstancedFormula instancedFormula = definition.getFormula()
                         .createInstance()
                         .record(entry.getRecord());

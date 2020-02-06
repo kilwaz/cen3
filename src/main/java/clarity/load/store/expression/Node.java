@@ -62,7 +62,7 @@ public class Node {
         return this;
     }
 
-    public Node addToList(Node listNode) {
+    public Node addToList(Node nodeToAdd) {
         if (nodeType != NODE_CHILD_TYPE_VARIABLE) {
             Error.CLARITY_INCORRECT_CHILD_ASSIGNMENT_TO_NODE_TYPE.record()
                     .additionalInformation("Tried to assign list child to non variable node")
@@ -71,9 +71,9 @@ public class Node {
         if (nodeList == null) {
             nodeList = new ArrayList<>();
         }
-        nodeList.add(listNode);
-        if (listNode != null) {
-            listNode.parent(this);
+        nodeList.add(nodeToAdd);
+        if (nodeToAdd != null) {
+            nodeToAdd.parent(this);
         }
         return this;
     }

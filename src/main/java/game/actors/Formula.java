@@ -1,5 +1,6 @@
 package game.actors;
 
+import clarity.load.store.expression.values.Reference;
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
@@ -22,17 +23,31 @@ public class Formula extends JSONWeb {
     }
 
     private Node processClarityNode(clarity.load.store.expression.Node node) {
-        Node newNode = new Node();
-        newNode.setValue(node.getExpression().getStringRepresentation());
-        newNode.setPrecedence(node.getExpression().getPrecedence());
-        if (node.getLeft() != null) {
-            newNode.setLeft(processClarityNode(node.getLeft()));
-        }
-        if (node.getRight() != null) {
-            newNode.setRight(processClarityNode(node.getRight()));
-        }
+        if (node.getExpression() instanceof Reference) { // If node is a reference, skip straight to it
+            return processClarityNode(((Reference) node.getExpression()).getValue().getFormula().getRoot());
+        } else {
+            Node newNode = new Node();
+            newNode.setValue(node.getExpression().getStringRepresentation() + " " + node.getExpression());
+            newNode.setPrecedence(node.getExpression().getPrecedence());
+            newNode.setNodeType(node.getNodeType());
 
-        return newNode;
+            if (newNode.getNodeType() == clarity.load.store.expression.Node.NODE_CHILD_TYPE_BINARY) {
+                if (node.getLeft() != null) {
+                    newNode.setLeft(processClarityNode(node.getLeft()));
+                }
+                if (node.getRight() != null) {
+                    newNode.setRight(processClarityNode(node.getRight()));
+                }
+            } else {
+                if (node.getNodeList() != null) {
+                    for (clarity.load.store.expression.Node listNode : node.getNodeList()) {
+                        newNode.addToList(processClarityNode(listNode));
+                    }
+                }
+            }
+
+            return newNode;
+        }
     }
 
     public Node getRootNode() {

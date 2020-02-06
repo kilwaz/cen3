@@ -2,8 +2,12 @@ package game.actors;
 
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Node extends JSONWeb {
     @WSDataReference(WSData.NODE_VALUE)
@@ -20,8 +24,14 @@ public class Node extends JSONWeb {
     @WSDataReference(WSData.NODE_PRECEDENCE)
     private Integer precedence = 0;
 
-    public Node() {
+    @WSDataReference(WSData.NODE_LIST)
+    @WSDataTypeScriptClass(Node.class)
+    private List<Node> nodeList = null;
 
+    @WSDataReference(WSData.NODE_TYPE)
+    private Integer nodeType;
+
+    public Node() {
     }
 
     public Node getRight() {
@@ -54,5 +64,24 @@ public class Node extends JSONWeb {
 
     public void setPrecedence(Integer precedence) {
         this.precedence = precedence;
+    }
+
+    public List<Node> getNodeList() {
+        return nodeList;
+    }
+
+    public void addToList(Node nodeToAdd) {
+        if (nodeList == null) {
+            nodeList = new ArrayList<>();
+        }
+        nodeList.add(nodeToAdd);
+    }
+
+    public Integer getNodeType() {
+        return nodeType;
+    }
+
+    public void setNodeType(Integer nodeType) {
+        this.nodeType = nodeType;
     }
 }

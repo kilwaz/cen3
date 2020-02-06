@@ -12,7 +12,9 @@ public enum WSData {
 
     NODE_LEFT(),
     NODE_RIGHT(),
+    NODE_LIST(),
     NODE_VALUE(),
+    NODE_TYPE(),
     NODE_PRECEDENCE(),
 
     FORMULA_NODE(),

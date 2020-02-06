@@ -10,6 +10,8 @@ export class Node {
 	private _right: Node;
 	private _left: Node;
 	private _precedence: number;
+	private _nodeList: Array<Node> = [];
+	private _nodeType: number;
 	
 	constructor() {
 	}
@@ -19,6 +21,8 @@ export class Node {
 		this._right = webSocketReference.right != undefined ? webSocketReference.right : this._right;
 		this._left = webSocketReference.left != undefined ? webSocketReference.left : this._left;
 		this._precedence = webSocketReference.precedence != undefined ? webSocketReference.precedence : this._precedence;
+		this._nodeList = webSocketReference.nodeList != undefined ? webSocketReference.nodeList : this._nodeList;
+		this._nodeType = webSocketReference.nodeType != undefined ? webSocketReference.nodeType : this._nodeType;
 		return this;
 	}
 
@@ -38,6 +42,14 @@ export class Node {
 		return this._precedence;
 	}
 	
+	get nodeList(): Array<Node> {
+		return this._nodeList;
+	}
+	
+	get nodeType(): number {
+		return this._nodeType;
+	}
+	
 	set value(value: string) {
 		this._value = value;
 	}
@@ -52,6 +64,14 @@ export class Node {
 	
 	set precedence(value: number) {
 		this._precedence = value;
+	}
+	
+	set nodeList(value: Array<Node>) {
+		this._nodeList = value;
+	}
+	
+	set nodeType(value: number) {
+		this._nodeType = value;
 	}
 	
 }
