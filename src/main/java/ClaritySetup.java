@@ -21,7 +21,7 @@ public class ClaritySetup {
 
         Definition.define().name("A");
         Definition.define().name("B");
-        Definition.define().name("C").formula("concat([A],' - ',[B])");
+        Definition.define().name("C").formula("coNCat([A],' - ',[B])");
         Definition.define().name("U").formula("upper([C])");
         Definition.define().name("L").formula("lower([C]");
         Definition.define().name("Min").formula("min(1,2,3,4)");

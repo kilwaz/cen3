@@ -25,15 +25,15 @@ public class OperatorDictionary {
         Set<Class<? extends Expression>> operators = new Reflections("clarity.load.store.expression.operators").getSubTypesOf(Expression.class);
 
         for (Class<? extends Expression> clazz : operators) {
-            OperatorRepresentation operatorRepresentation = (OperatorRepresentation) clazz.getDeclaredAnnotation(OperatorRepresentation.class);
+            OperatorRepresentation operatorRepresentation = clazz.getDeclaredAnnotation(OperatorRepresentation.class);
             if (operatorRepresentation != null) {
-                operatorDictionary.put(operatorRepresentation.formulaRepresentation(), clazz);
+                operatorDictionary.put(operatorRepresentation.formulaRepresentation().toLowerCase(), clazz);
             }
         }
     }
 
     public Expression createExpressionFromReference(String reference) {
-        Class<? extends Expression> expressionClass = operatorDictionary.get(reference);
+        Class<? extends Expression> expressionClass = operatorDictionary.get(reference.toLowerCase());
         if (expressionClass != null) {
             try {
                 Constructor<?> ctor = expressionClass.getConstructor();
