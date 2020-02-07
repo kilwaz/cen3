@@ -29,6 +29,7 @@ public class InstancedNode {
     private InstancedFormula instancedFormula;
 
     private Expression expression;
+    private Expression solvedExpression;
 
     public InstancedNode(Expression expression, int nodeType) {
         this.expression = expression;
@@ -37,6 +38,8 @@ public class InstancedNode {
 
     public InstancedNode instancedFormula(InstancedFormula instancedFormula) {
         this.instancedFormula = instancedFormula;
+
+        //TODO: What is this bit doing?
         if (left != null) {
             left.instancedFormula(instancedFormula);
         }
@@ -92,6 +95,11 @@ public class InstancedNode {
         return parent;
     }
 
+    public InstancedNode solvedExpression(Expression solvedExpression) {
+        this.solvedExpression = solvedExpression;
+        return this;
+    }
+
     public InstancedNode expression(Expression expression) {
         this.expression = expression;
         return this;
@@ -105,7 +113,8 @@ public class InstancedNode {
         try {
             if (expression instanceof Number || expression instanceof Textual || expression instanceof Evaluation) {
                 solved = true;
-                return expression;
+                solvedExpression = expression;
+                return solvedExpression;
             } else if (expression instanceof Reference) {
                 instancedFormula.substituteRecordValues(this);
             } else if (expression instanceof Operator || expression instanceof Function) {
@@ -120,7 +129,7 @@ public class InstancedNode {
                         rightExpression = right.solve();
                     }
 
-                    return ((Operator) expression).calculate(leftExpression, rightExpression);
+                    solvedExpression = ((Operator) expression).calculate(leftExpression, rightExpression);
                 } else {
                     ArrayList<Expression> expressions = new ArrayList<>();
                     for (InstancedNode instancedNode : nodeList) { // Get just the expressions out of the instanced to pass on to the function
@@ -130,9 +139,9 @@ public class InstancedNode {
                         }
                         expressions.add(expression);
                     }
-                    return ((Function) expression).apply(expressions);
+                    solvedExpression = ((Function) expression).apply(expressions);
                 }
-
+                return solvedExpression;
             }
         } catch (Exception ex) {
             Error.CLARITY_SOLVE_EXPRESSION.record()
@@ -151,5 +160,13 @@ public class InstancedNode {
 
     public ArrayList<InstancedNode> getNodeList() {
         return nodeList;
+    }
+
+    public Expression getSolvedExpression() {
+        return solvedExpression;
+    }
+
+    public InstancedFormula getInstancedFormula() {
+        return instancedFormula;
     }
 }

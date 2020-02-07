@@ -13,7 +13,6 @@ public class InstancedFormula {
     private static Logger log = AppLogger.logger();
 
     private Record record;
-
     private InstancedNode instancedRoot = null;
     private String baseFormula;
 
@@ -32,13 +31,21 @@ public class InstancedFormula {
                         .record(this.record);
 
                 Expression solvedExpression = instancedFormula.solve();
+                node.instancedFormula(instancedFormula);
+
+//                if (node.getExpression() == null) {
+//                    node.expression(solvedExpression);
+//                }
+
                 node.expression(solvedExpression);
+
+                //node.solvedExpression(solvedExpression);
             } else {
                 node.expression(record.get(definition.getName()).get().toExpression());
             }
         }
 
-        if(node.getNodeType() == Node.NODE_CHILD_TYPE_BINARY){
+        if (node.getNodeType() == Node.NODE_CHILD_TYPE_BINARY) {
             if (node.getRight() != null) {
                 substituteRecordValues(node.getRight());
             }
@@ -47,7 +54,7 @@ public class InstancedFormula {
             }
         } else {
             if (node.getNodeList() != null) {
-                for(InstancedNode instancedNode : node.getNodeList()){
+                for (InstancedNode instancedNode : node.getNodeList()) {
                     substituteRecordValues(instancedNode);
                 }
             }

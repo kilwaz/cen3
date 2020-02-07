@@ -18,8 +18,8 @@ public class CalculateSum extends Message {
         CalculateSumData calculateSumData = (CalculateSumData) this.getWebSocketData();
         Formula clarityFormula = Clarity.formula(calculateSumData.getFormulaToProcess());
 
-        game.actors.Formula formula = new game.actors.Formula();
-        formula.convertClarityNode(clarityFormula);
+//        game.actors.Formula formula = new game.actors.Formula();
+//        formula.convertClarityNode(clarityFormula);
 
         //calculateSumData.setResult(Double.parseDouble(clarityFormula.solve().getStringRepresentation()));
         //calculateSumData.setFormula(formula);

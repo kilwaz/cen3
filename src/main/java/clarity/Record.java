@@ -36,11 +36,11 @@ public class Record {
 
     public Record set(Entry entry) {
         entry.record(this);
-        entryHashMap.put(entry.getReference(), entry);
+        entryHashMap.put(entry.getReference().toLowerCase(), entry);
         return this;
     }
 
     public Entry get(String reference) {
-        return entryHashMap.get(reference);
+        return entryHashMap.get(reference.toLowerCase());
     }
 }

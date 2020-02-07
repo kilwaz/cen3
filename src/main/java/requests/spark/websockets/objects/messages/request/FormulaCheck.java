@@ -4,6 +4,7 @@ import clarity.Entry;
 import clarity.Infer;
 import clarity.Record;
 import clarity.load.store.expression.Formula;
+import clarity.load.store.expression.instance.InstancedFormula;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.Message;
@@ -19,8 +20,6 @@ public class FormulaCheck extends Message {
     public void process() {
         FormulaCheckData formulaCheckData = (FormulaCheckData) this.getWebSocketData();
 
-        log.info("Got name " + formulaCheckData.getFormulaToCheck());
-
         Record record = new Record("Employee");
         record.set(Entry.create("A", "aLExAnder"));
         record.set(Entry.create("B", "bROwn"));
@@ -33,10 +32,14 @@ public class FormulaCheck extends Message {
             formulaCheckData.setResult(entry.get().getValue().toString());
 
             Formula clarityFormula = entry.getDefinition().getFormula();
+            InstancedFormula instancedFormula = clarityFormula
+                    .createInstance()
+                    .record(entry.getRecord());
+            instancedFormula.solve();
 
             // Convert to actor formula
             game.actors.Formula formula = new game.actors.Formula();
-            formula.convertClarityNode(clarityFormula);
+            formula.convertClarityNode(instancedFormula);
             formulaCheckData.setFormula(formula);
         }
     }
