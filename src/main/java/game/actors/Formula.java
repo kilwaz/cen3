@@ -1,7 +1,11 @@
 package game.actors;
 
+import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.instance.InstancedFormula;
 import clarity.load.store.expression.instance.InstancedNode;
+import clarity.load.store.expression.values.Evaluation;
+import clarity.load.store.expression.values.Number;
+import clarity.load.store.expression.values.Textual;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.JSONWeb;
@@ -28,12 +32,19 @@ public class Formula extends JSONWeb {
     }
 
     private game.actors.Node convertToClarityUINode(InstancedNode instancedNode) {
-        if (instancedNode.getInstancedFormula() != null) { // If node is a reference with instanced formula, skip straight to it
+        if (instancedNode.getReferenceNode()) { // If node is a reference with instanced formula, skip straight to it
             return convertToClarityUINode(instancedNode.getInstancedFormula().getInstancedRoot());
         } else {
             game.actors.Node newNode = new game.actors.Node();
-            newNode.setValue(instancedNode.getExpression().getStringRepresentation() + " " + instancedNode.getSolvedExpression().getStringRepresentation());
-            newNode.setPrecedence(instancedNode.getExpression().getPrecedence());
+
+            Expression expression = instancedNode.getExpression();
+            if (expression instanceof Number || expression instanceof Textual || expression instanceof Evaluation) {
+                newNode.setValue(expression.getStringRepresentation());
+            } else {
+                newNode.setValue(expression.getStringRepresentation() + " " + instancedNode.getSolvedExpression().getStringRepresentation());
+            }
+
+            newNode.setPrecedence(expression.getPrecedence());
             newNode.setNodeType(instancedNode.getNodeType());
 
             if (newNode.getNodeType() == clarity.load.store.expression.Node.NODE_CHILD_TYPE_BINARY) {

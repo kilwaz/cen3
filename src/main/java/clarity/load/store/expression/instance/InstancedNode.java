@@ -23,6 +23,7 @@ public class InstancedNode {
     private int nodeType;
 
     private ArrayList<InstancedNode> nodeList = null;
+    private Boolean referenceNode = false;
 
     private Boolean solved = false;
 
@@ -168,5 +169,14 @@ public class InstancedNode {
 
     public InstancedFormula getInstancedFormula() {
         return instancedFormula;
+    }
+
+    public InstancedNode referenceNode(Boolean referenceNode) {
+        this.referenceNode = referenceNode;
+        return this;
+    }
+
+    public Boolean getReferenceNode() {
+        return referenceNode;
     }
 }

@@ -25,6 +25,7 @@ public class InstancedFormula {
         Expression expression = node.getExpression();
         if (expression instanceof Reference) {
             Definition definition = ((Reference) expression).getValue();
+            node.referenceNode(true);
             if (definition.isCalculated()) {
                 InstancedFormula instancedFormula = definition.getFormula()
                         .createInstance()
@@ -32,14 +33,7 @@ public class InstancedFormula {
 
                 Expression solvedExpression = instancedFormula.solve();
                 node.instancedFormula(instancedFormula);
-
-//                if (node.getExpression() == null) {
-//                    node.expression(solvedExpression);
-//                }
-
                 node.expression(solvedExpression);
-
-                //node.solvedExpression(solvedExpression);
             } else {
                 node.expression(record.get(definition.getName()).get().toExpression());
             }
