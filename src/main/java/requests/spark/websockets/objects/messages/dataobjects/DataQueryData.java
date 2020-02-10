@@ -6,18 +6,29 @@ import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 public class DataQueryData extends WebSocketData {
     // INCOMING
     @WSDataIncoming
-    private String formulaToCheck = null;
+    private String recordToCheck = null;
+
+    @WSDataIncoming
+    private String value = null;
 
     // OUTGOING
     @WSDataOutgoing
     private String result = null;
 
-    public String getFormulaToCheck() {
-        return formulaToCheck;
+    public String getRecordToCheck() {
+        return recordToCheck;
     }
 
-    public void setFormulaToCheck(String formulaToCheck) {
-        this.formulaToCheck = formulaToCheck;
+    public void setRecordToCheck(String recordToCheck) {
+        this.recordToCheck = recordToCheck;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getResult() {
