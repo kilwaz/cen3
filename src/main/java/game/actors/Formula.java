@@ -10,10 +10,12 @@ import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataIgnore;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
 public class Formula extends JSONWeb {
+    @WSDataIgnore
     private static Logger log = AppLogger.logger();
 
     @WSDataReference(WSData.FORMULA_NODE)
@@ -32,7 +34,7 @@ public class Formula extends JSONWeb {
     }
 
     private game.actors.Node convertToClarityUINode(InstancedNode instancedNode) {
-        if (instancedNode.getReferenceNode()) { // If node is a reference with instanced formula, skip straight to it
+        if (instancedNode.getReferenceNode() && instancedNode.getInstancedFormula() != null) { // If node is a reference with instanced formula, skip straight to it
             return convertToClarityUINode(instancedNode.getInstancedFormula().getInstancedRoot());
         } else {
             game.actors.Node newNode = new game.actors.Node();
@@ -44,7 +46,6 @@ public class Formula extends JSONWeb {
                 newNode.setValue(expression.getStringRepresentation() + " " + instancedNode.getSolvedExpression().getStringRepresentation());
             }
 
-            newNode.setPrecedence(expression.getPrecedence());
             newNode.setNodeType(instancedNode.getNodeType());
 
             if (newNode.getNodeType() == clarity.load.store.expression.Node.NODE_CHILD_TYPE_BINARY) {

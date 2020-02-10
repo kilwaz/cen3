@@ -32,6 +32,11 @@ public class FormulaCheck extends Message {
             formulaCheckData.setResult(entry.get().getValue().toString());
 
             Formula clarityFormula = entry.getDefinition().getFormula();
+
+            if (clarityFormula == null) {
+                clarityFormula = new Formula(entry.get().getFormulaSafeValue());
+            }
+
             InstancedFormula instancedFormula = clarityFormula
                     .createInstance()
                     .record(entry.getRecord());

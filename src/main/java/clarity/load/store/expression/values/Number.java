@@ -13,6 +13,12 @@ public class Number extends Expression implements Value {
         super(Expression.PRECEDENCE_NUMBER, Expression.NON_ASSOCIATIVE);
     }
 
+    public Number(String value) {
+        super(Expression.PRECEDENCE_NUMBER, Expression.NON_ASSOCIATIVE);
+        this.value = new BigDecimal(value);
+        setScale();
+    }
+
     public Number(BigDecimal value) {
         super(Expression.PRECEDENCE_NUMBER, Expression.NON_ASSOCIATIVE);
         this.value = value;

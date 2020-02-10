@@ -19,7 +19,6 @@ import {
 import {EchoComponent} from './echo/echo.component';
 import {ClarityComponent} from './clarity/clarity.component';
 import {DndDirective} from './dnd.directive';
-import {ParseTreeNodeComponent} from './parse-tree-node/parse-tree-node.component';
 import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
@@ -27,8 +26,7 @@ import {MatIconModule} from "@angular/material/icon";
     AppComponent,
     EchoComponent,
     ClarityComponent,
-    DndDirective,
-    ParseTreeNodeComponent
+    DndDirective
   ],
   imports: [
     BrowserModule,

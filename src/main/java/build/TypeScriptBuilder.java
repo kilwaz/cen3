@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.dataobjects.WebSocketData;
+import requests.spark.websockets.objects.messages.mapping.WSDataIgnore;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
@@ -16,6 +17,9 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class TypeScriptBuilder {
@@ -49,21 +53,23 @@ public class TypeScriptBuilder {
                 tsClassBuilder.append("import {Message} from \"./message\";").append(nl);
 
                 for (Field field : fields) {
-                    if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
-                        WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
-                        if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}")) {
-                            tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"../wsObjects/")
-                                    .append(Character.toLowerCase(wsDataJSONArrayClass.value().getSimpleName().charAt(0)))
-                                    .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
+                    if (!field.isAnnotationPresent(WSDataIgnore.class)) {
+                        if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
+                            WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
+                            if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}")) {
+                                tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"../wsObjects/")
+                                        .append(Character.toLowerCase(wsDataJSONArrayClass.value().getSimpleName().charAt(0)))
+                                        .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
+                                        .append("\";").append(nl);
+                            }
+                        } else if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
+                            WSDataTypeScriptClass wsDataTypeScriptClass = field.getAnnotation(WSDataTypeScriptClass.class);
+
+                            tsClassBuilder.append("import {").append(wsDataTypeScriptClass.value().getSimpleName()).append("} from \"../wsObjects/")
+                                    .append(Character.toLowerCase(wsDataTypeScriptClass.value().getSimpleName().charAt(0)))
+                                    .append(wsDataTypeScriptClass.value().getSimpleName().substring(1))
                                     .append("\";").append(nl);
                         }
-                    } else if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
-                        WSDataTypeScriptClass wsDataTypeScriptClass = field.getAnnotation(WSDataTypeScriptClass.class);
-
-                        tsClassBuilder.append("import {").append(wsDataTypeScriptClass.value().getSimpleName()).append("} from \"../wsObjects/")
-                                .append(Character.toLowerCase(wsDataTypeScriptClass.value().getSimpleName().charAt(0)))
-                                .append(wsDataTypeScriptClass.value().getSimpleName().substring(1))
-                                .append("\";").append(nl);
                     }
                 }
 
@@ -124,9 +130,17 @@ public class TypeScriptBuilder {
         // Generate Actors
         String pathToWsObjects = generatePath("wsObjects");
         Set<Class<? extends JSONWeb>> actorClasses = new Reflections("game.actors").getSubTypesOf(JSONWeb.class);
-        for (Class clazz : actorClasses) {
+        for (Class<? extends JSONWeb> clazz : actorClasses) {
             try {
-                Field[] fields = clazz.getDeclaredFields();
+                Field[] declaredFields = clazz.getDeclaredFields();
+
+                List<Field> fields = new LinkedList<>(Arrays.asList(declaredFields));
+
+                for (Field field : declaredFields) {
+                    if (field.isAnnotationPresent(WSDataIgnore.class)) {
+                        fields.remove(field);
+                    }
+                }
 
                 // Class name with 'Data' removed
                 String tsClassName = clazz.getSimpleName();
@@ -155,7 +169,7 @@ public class TypeScriptBuilder {
                 tsClassBuilder.append(nl);
                 tsClassBuilder.append("export class ").append(tsClassName).append(" {").append(nl);
 
-                for (Field field : fields) { // Append variable definiations at the start of the class
+                for (Field field : fields) { // Append variable definitions at the start of the class
                     tsClassBuilder.append(tab).append("private _").append(field.getName()).append(":");
                     tsClassBuilder.append(" ").append(classResolve(field, true)).append(";");
                     tsClassBuilder.append(nl);

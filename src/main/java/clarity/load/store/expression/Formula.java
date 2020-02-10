@@ -7,7 +7,6 @@ import clarity.load.store.expression.operators.OperatorDictionary;
 import clarity.load.store.expression.operators.grouping.CloseBracket;
 import clarity.load.store.expression.operators.grouping.Comma;
 import clarity.load.store.expression.operators.grouping.OpenBracket;
-import clarity.load.store.expression.values.Evaluation;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 import clarity.load.store.expression.values.Textual;
@@ -60,8 +59,7 @@ public class Formula {
             if (matcher.find()) {
                 currentLetter = matcher.group();
             }
-            double currentNumber = Double.parseDouble(currentLetter);
-            expression = new Number(currentNumber);
+            expression = new Number(currentLetter);
         } else if ("[".equals(currentLetter)) { // Beginning of a reference
             Pattern pattern = Pattern.compile("\\[[^\\[]*\\]"); // Find the rest of the reference name
             Matcher matcher = pattern.matcher(expressionStr);

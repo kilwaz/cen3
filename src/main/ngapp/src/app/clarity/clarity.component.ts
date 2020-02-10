@@ -64,9 +64,6 @@ export class ClarityComponent implements OnInit {
       let formulaCheckResponse: FormulaCheck = <FormulaCheck>responseMessage;
       _this.answer = formulaCheckResponse.result;
       _this.formula = formulaCheckResponse.formula;
-
-      debugger;
-
       _this.dataSource.data = [_this.buildTree(_this.formula.rootNode)];
     });
   }

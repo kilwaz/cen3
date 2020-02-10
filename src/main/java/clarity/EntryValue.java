@@ -30,6 +30,14 @@ public class EntryValue {
         this.value = value;
     }
 
+    public String getFormulaSafeValue() {
+        if (value instanceof String) {
+            return "'" + value + "'";
+        } else {
+            return this.value.toString();
+        }
+    }
+
     public Object getValue() {
         return this.value;
     }
