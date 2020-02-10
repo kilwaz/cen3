@@ -4,8 +4,11 @@ import clarity.definition.Definition;
 import clarity.definition.Definitions;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class Entry {
+    private UUID uuid = UUID.randomUUID();
+
     private Definition definition;
     private EntryValue entryValue;
     private Boolean isFresh = false;
@@ -79,5 +82,9 @@ public class Entry {
 
     public Record getRecord() {
         return record;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 }

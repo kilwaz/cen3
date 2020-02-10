@@ -1,18 +1,4 @@
 <p>Clarity - Formula Tester</p>
-<!--<div class="container">-->
-<!--  <div class="row">-->
-<!--    <label for="a">-->
-<!--      A: <input id="a" #formulaInputA [value]="formulaA" (keyup)="onKeyUp(formulaInputA.value,'A')" type="text"/>-->
-<!--    </label>-->
-<!--  </div>-->
-<!--  <div class="row">-->
-<!--    <label for="b">-->
-<!--      B: <input id="b" #formulaInputB [value]="formulaB" (keyup)="onKeyUp(formulaInputB.value,'B')" type="text"/>-->
-<!--    </label>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--<button mat-button (click)="pushed()">Calculate!</button>-->
 
 <input type="file" id="files" name="files[]" multiple/>
 
@@ -27,7 +13,6 @@
   <input id="formula" #formulaInputName [value]="formulaName" (keyup)="onKeyUp(formulaInputName.value,'Name')"
          type="text"/>
 </label>
-
 
 <button mat-button class="btn" (click)="checkFormula()">Check Formula!</button>
 
@@ -51,11 +36,3 @@
     {{node.name}}
   </mat-tree-node>
 </mat-tree>
-
-
-
-
-<!--<div *ngIf="formula">-->
-<!--  <span>{{formula.strExpression}}</span>-->
-<!--  <app-parse-tree-node [node]="formula.rootNode"></app-parse-tree-node>-->
-<!--</div>-->

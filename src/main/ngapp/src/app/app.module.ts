@@ -20,13 +20,15 @@ import {EchoComponent} from './echo/echo.component';
 import {ClarityComponent} from './clarity/clarity.component';
 import {DndDirective} from './dnd.directive';
 import {MatIconModule} from "@angular/material/icon";
+import { RecordComponent } from './record/record.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EchoComponent,
     ClarityComponent,
-    DndDirective
+    DndDirective,
+    RecordComponent
   ],
   imports: [
     BrowserModule,

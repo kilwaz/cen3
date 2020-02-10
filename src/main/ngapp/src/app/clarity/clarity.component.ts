@@ -23,7 +23,7 @@ interface ExampleFlatNode {
 export class ClarityComponent implements OnInit {
   webSocketService: WebSocketService;
   answer: string = "-";
-  formulaName: string = "err hello?";
+  formulaName: string = "";
   rootNode: Node;
   formula: Formula;
 
