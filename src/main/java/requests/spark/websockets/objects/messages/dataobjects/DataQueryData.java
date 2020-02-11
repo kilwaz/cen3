@@ -1,19 +1,22 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
+import game.actors.Entry;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
+import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
 public class DataQueryData extends WebSocketData {
     // INCOMING
     @WSDataIncoming
-    private String recordToCheck = null;
+    private String valueToCheck = null;
 
     @WSDataIncoming
-    private String value = null;
+    private String recordToCheck = null;
 
     // OUTGOING
     @WSDataOutgoing
-    private String result = null;
+    @WSDataTypeScriptClass(Entry.class)
+    private Entry entry = null;
 
     public String getRecordToCheck() {
         return recordToCheck;
@@ -23,19 +26,11 @@ public class DataQueryData extends WebSocketData {
         this.recordToCheck = recordToCheck;
     }
 
-    public String getValue() {
-        return value;
+    public Entry getEntry() {
+        return entry;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
+    public void setEntry(Entry entry) {
+        this.entry = entry;
     }
 }

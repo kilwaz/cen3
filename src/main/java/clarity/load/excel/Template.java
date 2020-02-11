@@ -4,9 +4,9 @@ import clarity.Infer;
 import clarity.load.data.DoubleValue;
 import clarity.load.data.Record;
 import clarity.load.data.Value;
-import clarity.load.store.DataDictionary;
-import clarity.load.store.StoredItem;
-import clarity.load.store.StoredRecord;
+//import clarity.load.store.DataDictionary;
+//import clarity.load.store.StoredItem;
+//import clarity.load.store.StoredRecord;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -39,32 +39,32 @@ public class Template {
     }
 
     public void integrate() {
-        DataDictionary dataDictionary = DataDictionary.getInstance();
-
-        List<StoredRecord> storedRecords = new ArrayList<>();
-
-        for (Record record : recordList) {
-            StoredRecord storedRecord = dataDictionary.createStoredRecord(1);
-
-            for (Value value : record.getValues()) {
-                StoredItem storedItem = null;
-                if (value instanceof DoubleValue) {
-                    DoubleValue doubleValue = (DoubleValue) value;
-
-                    if (doubleValue.getColumn() == 0) {
-                        storedItem = storedRecord.getStoredItem(1);
-                    } else if (doubleValue.getColumn() == 1) {
-                        storedItem = storedRecord.getStoredItem(2);
-                    }
-
-                    if (storedItem != null) {
-                        storedItem.value(doubleValue.getValue());
-                    }
-                }
-            }
-
-            storedRecords.add(storedRecord);
-        }
+//        DataDictionary dataDictionary = DataDictionary.getInstance();
+//
+//        List<StoredRecord> storedRecords = new ArrayList<>();
+//
+//        for (Record record : recordList) {
+//            StoredRecord storedRecord = dataDictionary.createStoredRecord(1);
+//
+//            for (Value value : record.getValues()) {
+//                StoredItem storedItem = null;
+//                if (value instanceof DoubleValue) {
+//                    DoubleValue doubleValue = (DoubleValue) value;
+//
+//                    if (doubleValue.getColumn() == 0) {
+//                        storedItem = storedRecord.getStoredItem(1);
+//                    } else if (doubleValue.getColumn() == 1) {
+//                        storedItem = storedRecord.getStoredItem(2);
+//                    }
+//
+//                    if (storedItem != null) {
+//                        storedItem.value(doubleValue.getValue());
+//                    }
+//                }
+//            }
+//
+//            storedRecords.add(storedRecord);
+//        }
 
         Infer.infer();
 

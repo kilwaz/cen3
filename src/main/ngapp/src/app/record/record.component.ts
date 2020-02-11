@@ -10,7 +10,7 @@ import {DataQuery} from "../wsActions/dataQuery";
 export class RecordComponent implements OnInit {
   webSocketService: WebSocketService;
 
-
+  result: string;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -18,11 +18,12 @@ export class RecordComponent implements OnInit {
 
   ngOnInit(): void {
     let dataQuery: DataQuery = new DataQuery();
+    dataQuery.recordToCheck = "Num";
     let _this: RecordComponent = this;
 
     this.webSocketService.sendCallback(dataQuery, function (responseMessage) {
       let dataQueryResponse: DataQuery = <DataQuery>responseMessage;
-      console.log(dataQueryResponse.result);
+      _this.result = dataQueryResponse.entry.value;
     });
   }
 }

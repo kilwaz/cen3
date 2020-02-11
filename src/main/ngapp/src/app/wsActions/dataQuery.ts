@@ -5,10 +5,11 @@ DO NOT MANUALLY CHANGE THIS FILE
 */
 
 import {Message} from "./message";
+import {Entry} from "../wsObjects/entry";
 
 export class DataQuery extends Message {
-	private _formulaToCheck: string;
-	private _result: string;
+	private _recordToCheck: string;
+	private _entry: Entry;
 	
 	constructor() {
 		super();
@@ -16,23 +17,23 @@ export class DataQuery extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._result = msgRaw.result;
+		this._entry = msgRaw.entry;
 	}
 
-	get formulaToCheck(): string {
-		return this._formulaToCheck;
+	get recordToCheck(): string {
+		return this._recordToCheck;
 	}
 	
-	get result(): string {
-		return this._result;
+	get entry(): Entry {
+		return this._entry;
 	}
 	
-	set formulaToCheck(value: string) {
-		this._formulaToCheck = value;
+	set recordToCheck(value: string) {
+		this._recordToCheck = value;
 	}
 	
-	set result(value: string) {
-		this._result = value;
+	set entry(value: Entry) {
+		this._entry = value;
 	}
 	
 }

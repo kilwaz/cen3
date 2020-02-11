@@ -3,17 +3,22 @@ package clarity;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
+import clarity.load.store.Records;
 import error.Error;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Record {
+    private UUID uuid = UUID.randomUUID();
+
     private RecordDefinition recordDefinition;
     private HashMap<String, Entry> entryHashMap = new HashMap<>();
 
     public Record(RecordDefinition recordDefinition) {
         this.recordDefinition = recordDefinition;
+        Records.getInstance().addRecord(this);
     }
 
     public Record(String reference) {
@@ -32,6 +37,7 @@ public class Record {
                     .additionalInformation("Reference name = " + reference)
                     .create();
         }
+        Records.getInstance().addRecord(this);
     }
 
     public Record set(Entry entry) {
@@ -42,5 +48,9 @@ public class Record {
 
     public Entry get(String reference) {
         return entryHashMap.get(reference.toLowerCase());
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 }

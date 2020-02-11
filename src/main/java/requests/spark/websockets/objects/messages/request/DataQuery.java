@@ -1,5 +1,8 @@
 package requests.spark.websockets.objects.messages.request;
 
+import clarity.Record;
+import clarity.load.store.Records;
+import game.actors.Entry;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 import requests.spark.websockets.objects.Message;
@@ -15,6 +18,17 @@ public class DataQuery extends Message {
     public void process() {
         DataQueryData dataQueryData = (DataQueryData) this.getWebSocketData();
 
-        dataQueryData.setResult("This is the data coming from here");
+        Record record = Records.getInstance().findRecord();
+
+        String recordToCheck = dataQueryData.getRecordToCheck();
+        if (recordToCheck != null) {
+            clarity.Entry entryClarity = record.get(recordToCheck);
+
+            Entry entry = new Entry();
+            entry.setUuid(entryClarity.getUuid().toString());
+            entry.setValue(entryClarity.get().getValue().toString());
+
+            dataQueryData.setEntry(entry);
+        }
     }
 }
