@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../services/websocket.service";
-import {DataQuery} from "../wsActions/dataQuery";
+import {Search} from "../wsActions/search";
 
 @Component({
   selector: 'app-record',
@@ -11,19 +11,33 @@ export class RecordComponent implements OnInit {
   webSocketService: WebSocketService;
 
   result: string;
+  searchItem: string = "item";
+  searchValue: string = "value";
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
   }
 
   ngOnInit(): void {
-    let dataQuery: DataQuery = new DataQuery();
-    dataQuery.recordToCheck = "Num";
+  }
+
+  inputChanges(value: string, name: string): void {
+    if (name == 'searchItem') {
+      this.searchItem = value;
+    } else if (name == 'searchValue') {
+      this.searchValue = value;
+    }
+  }
+
+  search(): void {
+    let search: Search = new Search();
+    search.searchItem = this.searchItem;
+    search.searchValue = this.searchValue;
     let _this: RecordComponent = this;
 
-    this.webSocketService.sendCallback(dataQuery, function (responseMessage) {
-      let dataQueryResponse: DataQuery = <DataQuery>responseMessage;
-      _this.result = dataQueryResponse.entry.value;
+    this.webSocketService.sendCallback(search, function (responseMessage) {
+      let searchResponse: Search = <Search>responseMessage;
+
     });
   }
 }

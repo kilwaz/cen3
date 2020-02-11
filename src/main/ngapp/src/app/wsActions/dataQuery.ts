@@ -8,6 +8,7 @@ import {Message} from "./message";
 import {Entry} from "../wsObjects/entry";
 
 export class DataQuery extends Message {
+	private _valueToCheck: string;
 	private _recordToCheck: string;
 	private _entry: Entry;
 	
@@ -20,12 +21,20 @@ export class DataQuery extends Message {
 		this._entry = msgRaw.entry;
 	}
 
+	get valueToCheck(): string {
+		return this._valueToCheck;
+	}
+	
 	get recordToCheck(): string {
 		return this._recordToCheck;
 	}
 	
 	get entry(): Entry {
 		return this._entry;
+	}
+	
+	set valueToCheck(value: string) {
+		this._valueToCheck = value;
 	}
 	
 	set recordToCheck(value: string) {

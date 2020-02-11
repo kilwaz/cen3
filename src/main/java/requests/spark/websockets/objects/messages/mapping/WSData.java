@@ -20,6 +20,8 @@ public enum WSData {
     FORMULA_NODE(),
     FORMULA_STR_EXPRESSION(),
 
+    RECORD_UUID(),
+
     ENTRY_UUID(),
     ENTRY_VALUE();
 

@@ -1,10 +1,13 @@
 package clarity.load.store;
 
+import clarity.Entry;
 import clarity.Record;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class Records {
@@ -15,6 +18,20 @@ public class Records {
 
     public void addRecord(Record record) {
         recordHashMap.put(record.getUuid(), record);
+    }
+
+    public List<Record> findRecords(String reference, Object value) {
+        List<Record> records = new ArrayList<>();
+        for (Record record : recordHashMap.values()) {
+            Entry entry = record.get(reference);
+            if (entry != null) {
+                if (entry.get().getValue().toString().equals(value)) {
+                    records.add(record);
+                }
+            }
+        }
+
+        return records;
     }
 
     public Record findRecord() {

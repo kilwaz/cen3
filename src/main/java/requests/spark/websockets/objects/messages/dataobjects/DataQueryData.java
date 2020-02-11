@@ -33,4 +33,12 @@ public class DataQueryData extends WebSocketData {
     public void setEntry(Entry entry) {
         this.entry = entry;
     }
+
+    public String getValueToCheck() {
+        return valueToCheck;
+    }
+
+    public void setValueToCheck(String valueToCheck) {
+        this.valueToCheck = valueToCheck;
+    }
 }

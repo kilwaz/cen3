@@ -1,2 +1,16 @@
-<p>record works!</p>
-{{result}}
+<h3>Search for record:</h3>
+
+<label for="searchItem">
+  Item:
+  <input id="searchItem" #searchItemInput [value]="searchItem"
+         (keyup)="inputChanges(searchItemInput.value,'searchItem')"
+         type="text"/>
+</label>
+<label for="searchValue">
+  Value:
+  <input id="searchValue" #formulaInputName [value]="searchValue"
+         (keyup)="inputChanges(formulaInputName.value,'searchValue')"
+         type="text"/>
+</label>
+
+<button mat-button class="btn" (click)="search()">Search!</button>

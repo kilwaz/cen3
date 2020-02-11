@@ -18,6 +18,7 @@ public class ClaritySetup {
         countryMatrix.addItem(new MatrixEntry("USA", "United States"));
         countryMatrix.addItem(new MatrixEntry("ESP", "Spain"));
 
+        Definition.define().name("ID");
         Definition.define().name("A");
         Definition.define().name("B");
         Definition.define().name("C").formula("coNCat([A],' - ',[B])");
@@ -40,12 +41,13 @@ public class ClaritySetup {
 
         Definition.define().name("Matrix").formula("matrix('Country','USA')");
 
-        RecordDefinition.define().name("Employee").addDefinitions("C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
+        RecordDefinition.define().name("Employee").addDefinitions("ID", "C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
                 "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num");
 
         Record record = new Record("Employee");
         record.set(Entry.create("A", "aLExAnder"));
         record.set(Entry.create("B", "bROwn"));
+        record.set(Entry.create("ID", "1"));
 
         Infer.infer();
 
