@@ -34,8 +34,8 @@ public class Records {
         return records;
     }
 
-    public Record findRecord() {
-        return (Record) recordHashMap.values().toArray()[0];
+    public Record findRecord(String uuid) {
+        return recordHashMap.get(UUID.fromString(uuid));
     }
 
     public static Records getInstance() {

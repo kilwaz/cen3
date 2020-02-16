@@ -1,9 +1,10 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
 import game.actors.Record;
+import org.json.JSONArray;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
-import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
 public class SearchData extends WebSocketData {
     // INCOMING
@@ -15,15 +16,15 @@ public class SearchData extends WebSocketData {
 
     // OUTGOING
     @WSDataOutgoing
-    @WSDataTypeScriptClass(Record.class)
-    private Record record = null;
+    @WSDataJSONArrayClass(Record.class)
+    private JSONArray searchResults = null;
 
-    public Record getRecord() {
-        return record;
+    public JSONArray getSearchResults() {
+        return searchResults;
     }
 
-    public void setRecord(Record record) {
-        this.record = record;
+    public void setSearchResults(JSONArray searchResults) {
+        this.searchResults = searchResults;
     }
 
     public String getSearchItem() {

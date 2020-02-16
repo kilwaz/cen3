@@ -10,7 +10,7 @@ import {Record} from "../wsObjects/record";
 export class Search extends Message {
 	private _searchItem: string;
 	private _searchValue: string;
-	private _record: Record;
+	private _searchResults: Array<Record> = [];
 	
 	constructor() {
 		super();
@@ -18,7 +18,7 @@ export class Search extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._record = msgRaw.record;
+		this._searchResults = msgRaw.searchResults;
 	}
 
 	get searchItem(): string {
@@ -29,8 +29,8 @@ export class Search extends Message {
 		return this._searchValue;
 	}
 	
-	get record(): Record {
-		return this._record;
+	get searchResults(): Array<Record> {
+		return this._searchResults;
 	}
 	
 	set searchItem(value: string) {
@@ -41,8 +41,8 @@ export class Search extends Message {
 		this._searchValue = value;
 	}
 	
-	set record(value: Record) {
-		this._record = value;
+	set searchResults(value: Array<Record>) {
+		this._searchResults = value;
 	}
 	
 }

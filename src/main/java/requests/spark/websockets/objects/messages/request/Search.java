@@ -4,6 +4,7 @@ import clarity.Record;
 import clarity.load.store.Records;
 import log.AppLogger;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.dataobjects.SearchData;
@@ -20,11 +21,13 @@ public class Search extends Message {
         SearchData searchData = (SearchData) this.getWebSocketData();
         List<Record> searchResults = Records.getInstance().findRecords(searchData.getSearchItem(), searchData.getSearchValue());
 
-        if (searchResults.size() > 0) {
-            Record searchRecord = searchResults.get(0);
-            game.actors.Record record = new game.actors.Record();
-            record.setUuid(searchRecord.getUuid().toString());
-            searchData.setRecord(record);
+        JSONArray searchResultsJSON = new JSONArray();
+        for (Record record : searchResults) {
+            game.actors.Record recordActor = new game.actors.Record();
+            recordActor.setUuid(record.getUuid().toString());
+            searchResultsJSON.put(recordActor.prepareForJSON());
         }
+
+        searchData.setSearchResults(searchResultsJSON);
     }
 }

@@ -21,9 +21,12 @@ public enum WSData {
     FORMULA_STR_EXPRESSION(),
 
     RECORD_UUID(),
+    RECORD_ENTRIES(),
 
     ENTRY_UUID(),
-    ENTRY_VALUE();
+    ENTRY_NAME(),
+    ENTRY_VALUE(),
+    ENTRY_RECORD_UUID();
 
     WSData() {
     }

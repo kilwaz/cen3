@@ -6,6 +6,7 @@ import clarity.definition.RecordDefinition;
 import clarity.load.store.Records;
 import error.Error;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -44,6 +45,19 @@ public class Record {
         entry.record(this);
         entryHashMap.put(entry.getReference().toLowerCase(), entry);
         return this;
+    }
+
+    public List<Entry> get(List<String> references) {
+        List<Entry> entries = new ArrayList<>();
+
+        for (String reference : references) {
+            Entry entry = entryHashMap.get(reference.toLowerCase());
+            if (entry != null) {
+                entries.add(entry);
+            }
+        }
+
+        return entries;
     }
 
     public Entry get(String reference) {

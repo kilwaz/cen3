@@ -1,9 +1,10 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
 import game.actors.Entry;
+import org.json.JSONArray;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
-import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
 public class DataQueryData extends WebSocketData {
     // INCOMING
@@ -15,8 +16,8 @@ public class DataQueryData extends WebSocketData {
 
     // OUTGOING
     @WSDataOutgoing
-    @WSDataTypeScriptClass(Entry.class)
-    private Entry entry = null;
+    @WSDataJSONArrayClass(Entry.class)
+    private JSONArray entries = null;
 
     public String getRecordToCheck() {
         return recordToCheck;
@@ -26,12 +27,12 @@ public class DataQueryData extends WebSocketData {
         this.recordToCheck = recordToCheck;
     }
 
-    public Entry getEntry() {
-        return entry;
+    public JSONArray getEntries() {
+        return entries;
     }
 
-    public void setEntry(Entry entry) {
-        this.entry = entry;
+    public void setEntries(JSONArray entries) {
+        this.entries = entries;
     }
 
     public String getValueToCheck() {

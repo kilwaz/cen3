@@ -8,6 +8,8 @@ DO NOT MANUALLY CHANGE THIS FILE
 export class Entry {
 	private _uuid: string;
 	private _value: string;
+	private _recordUUID: string;
+	private _name: string;
 	
 	constructor() {
 	}
@@ -15,6 +17,8 @@ export class Entry {
 	wsFill(webSocketReference: any) : Entry {
 		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
 		this._value = webSocketReference.value != undefined ? webSocketReference.value : this._value;
+		this._recordUUID = webSocketReference.recordUUID != undefined ? webSocketReference.recordUUID : this._recordUUID;
+		this._name = webSocketReference.name != undefined ? webSocketReference.name : this._name;
 		return this;
 	}
 
@@ -26,12 +30,28 @@ export class Entry {
 		return this._value;
 	}
 	
+	get recordUUID(): string {
+		return this._recordUUID;
+	}
+	
+	get name(): string {
+		return this._name;
+	}
+	
 	set uuid(value: string) {
 		this._uuid = value;
 	}
 	
 	set value(value: string) {
 		this._value = value;
+	}
+	
+	set recordUUID(value: string) {
+		this._recordUUID = value;
+	}
+	
+	set name(value: string) {
+		this._name = value;
 	}
 	
 }

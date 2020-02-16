@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from "../services/websocket.service";
 import {Search} from "../wsActions/search";
+import {Record} from "../wsObjects/record";
+import {DataQuery} from "../wsActions/dataQuery";
 
 @Component({
   selector: 'app-record',
@@ -13,6 +15,8 @@ export class RecordComponent implements OnInit {
   result: string;
   searchItem: string = "item";
   searchValue: string = "value";
+
+  searchResults: Array<Record>;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
@@ -29,6 +33,31 @@ export class RecordComponent implements OnInit {
     }
   }
 
+  load(uuid: string): void {
+    let dataQuery: DataQuery = new DataQuery();
+    dataQuery.recordToCheck = uuid;
+
+    let _this: RecordComponent = this;
+
+    this.webSocketService.sendCallback(dataQuery, function (responseMessage) {
+      let dataQueryResponse: DataQuery = <DataQuery>responseMessage;
+
+      debugger;
+
+      dataQueryResponse.entries.forEach(function (entry) {
+        debugger;
+        _this.searchResults.forEach(function (record) {
+          if (record.uuid == entry.recordUUID) {
+            if (record.entries === undefined) {
+              record.entries = [];
+            }
+            record.entries.push(entry);
+          }
+        });
+      });
+    });
+  }
+
   search(): void {
     let search: Search = new Search();
     search.searchItem = this.searchItem;
@@ -38,6 +67,7 @@ export class RecordComponent implements OnInit {
     this.webSocketService.sendCallback(search, function (responseMessage) {
       let searchResponse: Search = <Search>responseMessage;
 
+      _this.searchResults = searchResponse.searchResults;
     });
   }
 }

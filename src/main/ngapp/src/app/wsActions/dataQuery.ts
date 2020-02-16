@@ -10,7 +10,7 @@ import {Entry} from "../wsObjects/entry";
 export class DataQuery extends Message {
 	private _valueToCheck: string;
 	private _recordToCheck: string;
-	private _entry: Entry;
+	private _entries: Array<Entry> = [];
 	
 	constructor() {
 		super();
@@ -18,7 +18,7 @@ export class DataQuery extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._entry = msgRaw.entry;
+		this._entries = msgRaw.entries;
 	}
 
 	get valueToCheck(): string {
@@ -29,8 +29,8 @@ export class DataQuery extends Message {
 		return this._recordToCheck;
 	}
 	
-	get entry(): Entry {
-		return this._entry;
+	get entries(): Array<Entry> {
+		return this._entries;
 	}
 	
 	set valueToCheck(value: string) {
@@ -41,8 +41,8 @@ export class DataQuery extends Message {
 		this._recordToCheck = value;
 	}
 	
-	set entry(value: Entry) {
-		this._entry = value;
+	set entries(value: Array<Entry>) {
+		this._entries = value;
 	}
 	
 }

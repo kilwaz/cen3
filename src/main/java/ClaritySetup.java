@@ -49,6 +49,11 @@ public class ClaritySetup {
         record.set(Entry.create("B", "bROwn"));
         record.set(Entry.create("ID", "1"));
 
+        Record record2 = new Record("Employee");
+        record2.set(Entry.create("A", "Sam"));
+        record2.set(Entry.create("B", "Dude"));
+        record2.set(Entry.create("ID", "2"));
+
         Infer.infer();
 
         ApplicationInitialiser.init();

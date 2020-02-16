@@ -9,7 +9,13 @@ public class Entry extends JSONWeb {
     private String uuid = null;
 
     @WSDataReference(WSData.ENTRY_VALUE)
-    private String value = "";
+    private String value = null;
+
+    @WSDataReference(WSData.ENTRY_RECORD_UUID)
+    private String recordUUID = null;
+
+    @WSDataReference(WSData.ENTRY_NAME)
+    private String name = null;
 
     public Entry() {
 
@@ -29,5 +35,21 @@ public class Entry extends JSONWeb {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getRecordUUID() {
+        return recordUUID;
+    }
+
+    public void setRecordUUID(String recordUUID) {
+        this.recordUUID = recordUUID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
