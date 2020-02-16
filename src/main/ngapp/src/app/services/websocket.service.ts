@@ -21,8 +21,7 @@ export class WebSocketService {
   }
 
   private buildSocket() {
-    //this.ws = webSocket("ws://192.168.1.26:4568/ws"); // Home IP
-    console.log("Building web socket");
+    //this.ws = webSocket("ws://192.168.1.26:4568/ws"); // If hosting on another machine this needs to be set correctly
     this.ws = webSocket("ws://localhost:4568/ws"); // Local Dev IP
     this.ws.subscribe(
       msg => WebSocketService.received(msg),
@@ -31,11 +30,10 @@ export class WebSocketService {
     );
     this.ws.subscribe();
     WebSocketService.connected = true;
-    //this.send(new JoinGame());
   }
 
   private static received(msgRaw: any) {
-    if (msgRaw.type != "HeartBeat") {
+    if (msgRaw.type != "HeartBeat") { // Don't report on HeartBeat messages
       console.log(msgRaw);
     }
 

@@ -34,15 +34,8 @@ public class DataQuery extends Message {
             }
 
             List<clarity.Entry> entries = record.get(references);
-
             for (clarity.Entry entry : entries) {
-                Entry entryActor = new Entry();
-                entryActor.setUuid(entry.getUuid().toString());
-                entryActor.setValue(entry.get().getValue().toString());
-                entryActor.setRecordUUID(record.getUuid().toString());
-                entryActor.setName(entry.getReference());
-
-                dataQueryJSON.put(entryActor.prepareForJSON());
+                dataQueryJSON.put(new Entry(entry).prepareForJSON());
             }
         }
 

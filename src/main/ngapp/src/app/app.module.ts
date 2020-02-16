@@ -21,6 +21,7 @@ import {ClarityComponent} from './clarity/clarity.component';
 import {DndDirective} from './dnd.directive';
 import {MatIconModule} from "@angular/material/icon";
 import { RecordComponent } from './record/record.component';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -30,22 +31,23 @@ import { RecordComponent } from './record/record.component';
     DndDirective,
     RecordComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatInputModule,
-    MatTreeModule,
-    MatButtonToggleModule,
-    MatProgressBarModule,
-    ReactiveFormsModule,
-    MatIconModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        MatInputModule,
+        MatTreeModule,
+        MatButtonToggleModule,
+        MatProgressBarModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatTableModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

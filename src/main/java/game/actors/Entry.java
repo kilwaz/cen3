@@ -17,8 +17,11 @@ public class Entry extends JSONWeb {
     @WSDataReference(WSData.ENTRY_NAME)
     private String name = null;
 
-    public Entry() {
-
+    public Entry(clarity.Entry entryClarity) {
+        this.uuid = entryClarity.getUuid().toString();
+        this.value = entryClarity.get().getValue().toString();
+        this.name = entryClarity.getReference();
+        this.recordUUID = entryClarity.getRecord().getUuid().toString();
     }
 
     public String getUuid() {

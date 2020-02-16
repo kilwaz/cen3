@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {WebSocketService} from "../services/websocket.service";
 import {Search} from "../wsActions/search";
-import {Record} from "../wsObjects/record";
 import {DataQuery} from "../wsActions/dataQuery";
 import {Entry} from "../wsObjects/entry";
+import {RecordContainer} from "../containers/recordContainer";
+import {MatTable} from "@angular/material/table";
 
 @Component({
   selector: 'app-record',
@@ -13,17 +14,22 @@ import {Entry} from "../wsObjects/entry";
 export class RecordComponent implements OnInit {
   webSocketService: WebSocketService;
 
+  displayedColumns: string[] = ['UUID','SUM'];
+
+  @ViewChild(MatTable) matTable: MatTable<any>;
+
   result: string;
   searchItem: string = "item";
   searchValue: string = "value";
 
-  searchResults: Array<Record>;
+  searchResults: Array<RecordContainer>;
 
   constructor(private webSocketServiceConst: WebSocketService) {
     this.webSocketService = webSocketServiceConst;
   }
 
   ngOnInit(): void {
+    this.searchResults = new Array<RecordContainer>();
   }
 
   inputChanges(value: string, name: string): void {
@@ -38,11 +44,9 @@ export class RecordComponent implements OnInit {
     let dataQuery: DataQuery = new DataQuery();
     let requestedEntries: Array<Entry> = new Array<Entry>();
 
-
     let entry: Entry = new Entry();
     entry.name = "Sum";
     requestedEntries.push(entry);
-
 
     dataQuery.requestedEntries = requestedEntries;
     dataQuery.recordToCheck = uuid;
@@ -53,14 +57,13 @@ export class RecordComponent implements OnInit {
       let dataQueryResponse: DataQuery = <DataQuery>responseMessage;
 
       dataQueryResponse.entries.forEach(function (entry) {
-        _this.searchResults.forEach(function (record) {
-          if (record.uuid == entry.recordUUID) {
-            if (record.entries === undefined) {
-              record.entries = [];
-            }
-            record.entries.push(entry);
+        _this.searchResults.forEach(function (recordContainer) {
+          if (recordContainer.record.uuid == entry.recordUUID) {
+            recordContainer.updateEntry(entry);
           }
         });
+        debugger;
+        _this.matTable.renderRows();
       });
     });
   }
@@ -74,7 +77,9 @@ export class RecordComponent implements OnInit {
     this.webSocketService.sendCallback(search, function (responseMessage) {
       let searchResponse: Search = <Search>responseMessage;
 
-      _this.searchResults = searchResponse.searchResults;
+      searchResponse.searchResults.forEach(function (record) {
+        _this.searchResults.push(new RecordContainer(record));
+      });
     });
   }
 }
