@@ -3,6 +3,7 @@ import {WebSocketService} from "../services/websocket.service";
 import {Search} from "../wsActions/search";
 import {Record} from "../wsObjects/record";
 import {DataQuery} from "../wsActions/dataQuery";
+import {Entry} from "../wsObjects/entry";
 
 @Component({
   selector: 'app-record',
@@ -35,6 +36,15 @@ export class RecordComponent implements OnInit {
 
   load(uuid: string): void {
     let dataQuery: DataQuery = new DataQuery();
+    let requestedEntries: Array<Entry> = new Array<Entry>();
+
+
+    let entry: Entry = new Entry();
+    entry.name = "Sum";
+    requestedEntries.push(entry);
+
+
+    dataQuery.requestedEntries = requestedEntries;
     dataQuery.recordToCheck = uuid;
 
     let _this: RecordComponent = this;
@@ -42,10 +52,7 @@ export class RecordComponent implements OnInit {
     this.webSocketService.sendCallback(dataQuery, function (responseMessage) {
       let dataQueryResponse: DataQuery = <DataQuery>responseMessage;
 
-      debugger;
-
       dataQueryResponse.entries.forEach(function (entry) {
-        debugger;
         _this.searchResults.forEach(function (record) {
           if (record.uuid == entry.recordUUID) {
             if (record.entries === undefined) {

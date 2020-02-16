@@ -6,13 +6,11 @@ import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import requests.spark.websockets.WebSocketSession;
 import requests.spark.websockets.objects.messages.dataobjects.WebSocketData;
-import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
-import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
-import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
-import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
+import requests.spark.websockets.objects.messages.mapping.*;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -82,8 +80,13 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                 String capFieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 
                 try {
-                    Method fieldMethod = dataClass.getMethod("set" + capFieldName, String.class);
-                    fieldMethod.invoke(wsData, jsonObjectDecoded.getString("_" + fieldName));
+                    if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
+                        Method fieldMethod = dataClass.getMethod("set" + capFieldName, JSONArray.class);
+                        fieldMethod.invoke(wsData, jsonObjectDecoded.getJSONArray("_" + fieldName));
+                    } else {
+                        Method fieldMethod = dataClass.getMethod("set" + capFieldName, String.class);
+                        fieldMethod.invoke(wsData, jsonObjectDecoded.getString("_" + fieldName));
+                    }
                 } catch (NoSuchMethodException ex) {
                     Error.WEBSOCKET_PARSE_METHOD.record().additionalInformation("Variable name is " + capFieldName).create(ex);
                 } catch (org.json.JSONException ex) {
@@ -146,10 +149,10 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                 try {
                     Method fieldMethod = dataClass.getMethod("get" + capFieldName);
 
-                    if(field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
+                    if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
                         Object result = fieldMethod.invoke(wsData);
                         if (result instanceof JSONWeb) {
-                            jsonObject.put("" + fieldName,((JSONWeb)result).prepareForJSON());
+                            jsonObject.put("" + fieldName, ((JSONWeb) result).prepareForJSON());
                         } else {
                             jsonObject.put("" + fieldName, fieldMethod.invoke(wsData));
                         }

@@ -9,7 +9,8 @@ import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 public class DataQueryData extends WebSocketData {
     // INCOMING
     @WSDataIncoming
-    private String valueToCheck = null;
+    @WSDataJSONArrayClass(Entry.class)
+    private JSONArray requestedEntries = null;
 
     @WSDataIncoming
     private String recordToCheck = null;
@@ -35,11 +36,11 @@ public class DataQueryData extends WebSocketData {
         this.entries = entries;
     }
 
-    public String getValueToCheck() {
-        return valueToCheck;
+    public JSONArray getRequestedEntries() {
+        return requestedEntries;
     }
 
-    public void setValueToCheck(String valueToCheck) {
-        this.valueToCheck = valueToCheck;
+    public void setRequestedEntries(JSONArray requestedEntries) {
+        this.requestedEntries = requestedEntries;
     }
 }

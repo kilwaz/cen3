@@ -6,6 +6,7 @@ import game.actors.Entry;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.dataobjects.DataQueryData;
@@ -23,12 +24,14 @@ public class DataQuery extends Message {
         DataQueryData dataQueryData = (DataQueryData) this.getWebSocketData();
         Record record = Records.getInstance().findRecord(dataQueryData.getRecordToCheck());
         JSONArray dataQueryJSON = new JSONArray();
-
         if (record != null) {
+            JSONArray requestedEntries = dataQueryData.getRequestedEntries();
+
             List<String> references = new ArrayList<>();
-            references.add("Sum");
-            references.add("Num");
-            references.add("ID");
+            for (int i = 0; i < requestedEntries.length(); i++) {
+                JSONObject jsonObject = requestedEntries.getJSONObject(i);
+                references.add(jsonObject.getString("_name"));
+            }
 
             List<clarity.Entry> entries = record.get(references);
 

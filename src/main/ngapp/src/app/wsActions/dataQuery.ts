@@ -8,7 +8,7 @@ import {Message} from "./message";
 import {Entry} from "../wsObjects/entry";
 
 export class DataQuery extends Message {
-	private _valueToCheck: string;
+	private _requestedEntries: Array<Entry> = [];
 	private _recordToCheck: string;
 	private _entries: Array<Entry> = [];
 	
@@ -21,8 +21,8 @@ export class DataQuery extends Message {
 		this._entries = msgRaw.entries;
 	}
 
-	get valueToCheck(): string {
-		return this._valueToCheck;
+	get requestedEntries(): Array<Entry> {
+		return this._requestedEntries;
 	}
 	
 	get recordToCheck(): string {
@@ -33,8 +33,8 @@ export class DataQuery extends Message {
 		return this._entries;
 	}
 	
-	set valueToCheck(value: string) {
-		this._valueToCheck = value;
+	set requestedEntries(value: Array<Entry>) {
+		this._requestedEntries = value;
 	}
 	
 	set recordToCheck(value: string) {
