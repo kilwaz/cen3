@@ -22,6 +22,7 @@ public class ClaritySetup {
         Definition.define().name("A");
         Definition.define().name("B");
         Definition.define().name("C").formula("coNCat([A],' - ',[B])");
+        Definition.define().name("SPL").formula("((25.0016/24.04)-1)*100");
         Definition.define().name("U").formula("upper([C])");
         Definition.define().name("L").formula("lower([C]");
         Definition.define().name("Min").formula("min(1,2,3,4)");
@@ -42,7 +43,7 @@ public class ClaritySetup {
         Definition.define().name("Matrix").formula("matrix('Country','USA')");
 
         RecordDefinition.define().name("Employee").addDefinitions("ID", "C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
-                "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num");
+                "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num","SPL");
 
         Record record = new Record("Employee");
         record.set(Entry.create("A", "aLExAnder"));

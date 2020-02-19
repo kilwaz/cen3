@@ -13,10 +13,10 @@ public class Expression implements Comparable<Expression> {
     public static final int PRECEDENCE_EVALUATION = 1;
     public static final int PRECEDENCE_FUNCTION = 1;
     public static final int PRECEDENCE_LOGIC = 1;
-    public static final int PRECEDENCE_MINUS = 2;
-    public static final int PRECEDENCE_ADD = 2;
-    public static final int PRECEDENCE_MULTIPLY = 4;
-    public static final int PRECEDENCE_DIVIDE = 4;
+    public static final int PRECEDENCE_MULTIPLY = 2;
+    public static final int PRECEDENCE_DIVIDE = 2;
+    public static final int PRECEDENCE_MINUS = 3;
+    public static final int PRECEDENCE_ADD = 3;
     public static final int PRECEDENCE_EXPONENT = 5;
     public static final int PRECEDENCE_NUMBER = 10;
     public static final int PRECEDENCE_TEXT = 10;

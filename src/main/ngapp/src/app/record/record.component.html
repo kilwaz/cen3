@@ -36,18 +36,11 @@
     </tr>
   </table>
 </div>
-
 <div>
-  <table [ngModel]="matTable" mat-table [dataSource]="searchResults" class="mat-elevation-z8" >
-    <!--- Note that these columns can be defined in any order. The actual rendered columns are set as a property on the row definition" -->
-    <ng-container matColumnDef="UUID">
-      <th mat-header-cell *matHeaderCellDef>UUID</th>
-      <td mat-cell *matCellDef="let element"> {{element.record.uuid}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="SUM">
-      <th mat-header-cell *matHeaderCellDef>Sum</th>
-      <td mat-cell *matCellDef="let element"> {{element.getEntry('sum').value}} </td>
+  <table [ngModel]="matTable" mat-table [dataSource]="searchResults" class="mat-elevation-z8">
+    <ng-container *ngFor="let column of displayedColumns" matColumnDef="{{column}}">
+      <th mat-header-cell *matHeaderCellDef class="p-1">{{column}}</th>
+      <td mat-cell *matCellDef="let element" class="p-1">{{element.getEntry(column).value}}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

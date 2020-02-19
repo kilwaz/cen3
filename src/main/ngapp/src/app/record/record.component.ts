@@ -14,7 +14,7 @@ import {MatTable} from "@angular/material/table";
 export class RecordComponent implements OnInit {
   webSocketService: WebSocketService;
 
-  displayedColumns: string[] = ['UUID','SUM'];
+  displayedColumns: string[] = [];
 
   @ViewChild(MatTable) matTable: MatTable<any>;
 
@@ -44,8 +44,26 @@ export class RecordComponent implements OnInit {
     let dataQuery: DataQuery = new DataQuery();
     let requestedEntries: Array<Entry> = new Array<Entry>();
 
+    this.displayedColumns = [];
+
     let entry: Entry = new Entry();
     entry.name = "Sum";
+    this.displayedColumns.push(entry.name);
+    requestedEntries.push(entry);
+
+    entry = new Entry();
+    entry.name = "A";
+    this.displayedColumns.push(entry.name);
+    requestedEntries.push(entry);
+
+    entry = new Entry();
+    entry.name = "B";
+    this.displayedColumns.push(entry.name);
+    requestedEntries.push(entry);
+
+    entry = new Entry();
+    entry.name = "SPL";
+    this.displayedColumns.push(entry.name);
     requestedEntries.push(entry);
 
     dataQuery.requestedEntries = requestedEntries;
@@ -62,7 +80,7 @@ export class RecordComponent implements OnInit {
             recordContainer.updateEntry(entry);
           }
         });
-        debugger;
+
         _this.matTable.renderRows();
       });
     });

@@ -22,8 +22,13 @@ export class RecordContainer {
     if (this._record.entries === undefined) {
       this._record.entries = [];
     }
-    this._record.entries.push(entry);
-    this.entryReferenceMap.set(entry.name.toLowerCase(), entry);
+    let currentEntry: Entry = this.entryReferenceMap.get(entry.name.toLowerCase());
+    if (currentEntry) {
+      currentEntry.value = entry.value;
+    } else {
+      this._record.entries.push(entry);
+      this.entryReferenceMap.set(entry.name.toLowerCase(), entry);
+    }
   }
 
   updateEntries(entries: Array<Entry>): void {
