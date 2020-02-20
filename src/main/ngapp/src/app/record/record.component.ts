@@ -95,6 +95,7 @@ export class RecordComponent implements OnInit {
     this.webSocketService.sendCallback(search, function (responseMessage) {
       let searchResponse: Search = <Search>responseMessage;
 
+      _this.searchResults = [];
       searchResponse.searchResults.forEach(function (record) {
         _this.searchResults.push(new RecordContainer(record));
       });
