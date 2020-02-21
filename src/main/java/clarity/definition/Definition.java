@@ -1,18 +1,28 @@
 package clarity.definition;
 
 import clarity.load.store.expression.Formula;
+import data.model.DatabaseObject;
 
-public class Definition {
+import java.util.UUID;
+
+public class Definition extends DatabaseObject {
     private String name = "";
     private Formula formula;
     private Boolean calculated = false;
 
     public Definition() {
+        super();
         name = hashCode() + "";
     }
 
+    public Definition(UUID uuid, String name, Boolean calculated) {
+        super(uuid);
+        this.name = name;
+        this.calculated = calculated;
+    }
+
     public static Definition define() {
-        Definition definition = new Definition();
+        Definition definition = Definition.create(Definition.class);
         Definitions.getInstance().addDefinition(definition);
         return definition;
     }
@@ -40,5 +50,13 @@ public class Definition {
 
     public Boolean isCalculated() {
         return calculated;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCalculated(Boolean calculated) {
+        this.calculated = calculated;
     }
 }

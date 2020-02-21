@@ -8,17 +8,14 @@ import java.net.UnknownHostException;
 
 public class ApplicationParams {
     // Application information
-    public final static String APP_TITLE = "Master";
+    public final static String APP_TITLE = "Clarity";
     public final static String APP_VERSION = "v0.3.0";
 
-    // Current user logged into the application
-    public static final String CURRENT_USER = "alex";
-
     // Database information - Defaults are displayed here and can be overridden by the SDE.xml file
-    private static Boolean DATABASE_ENABLED = false;
-    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://127.0.0.1:13306/date_test?autoReconnect=true&useSSL=false";
-    private static String REMOTE_DATABASE_USERNAME = "kilwaz";
-    private static String REMOTE_DATABASE_PASSWORD = "CenDatabase123";
+    private static Boolean DATABASE_ENABLED = true;
+    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://uk-mysql:3306/clarity?autoReconnect=true&useSSL=false";
+    private static String REMOTE_DATABASE_USERNAME = "clarity";
+    private static String REMOTE_DATABASE_PASSWORD = "ClarityDatabase123";
 
     // Uploaded files settings
     private static String UPLOAD_FILE_TMP_LOCATION = "/home/kilwaz/tmp/";
@@ -26,9 +23,6 @@ public class ApplicationParams {
     // Log settings
     private static Boolean IN_APP_LOG_VIEW = false;
     private static String LOG_DIRECTORY = "";
-
-    // Browser settings
-    private static Integer BROWSER_DEFAULT_RETRY_COUNT = 3;
 
     // Database
     private static Integer DATABASE_DELETE_LIMIT = 100;
@@ -86,14 +80,6 @@ public class ApplicationParams {
 
     public static void setLogDirectory(String logDirectory) {
         LOG_DIRECTORY = logDirectory;
-    }
-
-    public static void setBrowserDefaultRetryCount(Integer browserDefaultRetryCount) {
-        BROWSER_DEFAULT_RETRY_COUNT = browserDefaultRetryCount;
-    }
-
-    public static Integer getBrowserDefaultRetryCount() {
-        return BROWSER_DEFAULT_RETRY_COUNT;
     }
 
     public static String getMachineName() {
