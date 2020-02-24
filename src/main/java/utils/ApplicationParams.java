@@ -13,9 +13,12 @@ public class ApplicationParams {
 
     // Database information - Defaults are displayed here and can be overridden by the SDE.xml file
     private static Boolean DATABASE_ENABLED = true;
-    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://uk-mysql:3306/clarity?autoReconnect=true&useSSL=false";
+
     private static String REMOTE_DATABASE_USERNAME = "clarity";
-    private static String REMOTE_DATABASE_PASSWORD = "ClarityDatabase123";
+    //private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://uk-mysql:3306/clarity?autoReconnect=true&useSSL=false";
+    //private static String REMOTE_DATABASE_PASSWORD = "ClarityDatabase123";
+    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://localhost:4000/clarity?autoReconnect=true&useSSL=false";
+    private static String REMOTE_DATABASE_PASSWORD = "joshthe12";
 
     // Uploaded files settings
     private static String UPLOAD_FILE_TMP_LOCATION = "/home/kilwaz/tmp/";
