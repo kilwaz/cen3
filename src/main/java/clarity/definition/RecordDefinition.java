@@ -1,5 +1,6 @@
 package clarity.definition;
 
+import data.model.DatabaseObject;
 import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RecordDefinition {
+public class RecordDefinition extends DatabaseObject {
     private static Logger log = AppLogger.logger();
 
     private String name = "";
@@ -18,9 +19,17 @@ public class RecordDefinition {
         name = hashCode() + "";
     }
 
-    public static RecordDefinition define() {
-        RecordDefinition recordDefinition = new RecordDefinition();
-        Definitions.getInstance().addRecordDefinition(recordDefinition);
+    public static RecordDefinition define(String name) {
+        RecordDefinition recordDefinition;
+        Definitions definitions = Definitions.getInstance();
+        if (definitions.findRecordDefinition(name) == null) {
+            recordDefinition = RecordDefinition.create(RecordDefinition.class);
+            recordDefinition.name(name);
+            definitions.addRecordDefinition(recordDefinition);
+        } else { // If definition already exists, get the already defined version
+            recordDefinition = definitions.findRecordDefinition(name);
+        }
+
         return recordDefinition;
     }
 
@@ -59,6 +68,7 @@ public class RecordDefinition {
         String oldName = this.name;
         this.name = name;
         Definitions.getInstance().updateRecordDefinitionName(this, oldName);
+        this.save();
         return this;
     }
 

@@ -1,9 +1,12 @@
 package clarity.definition;
 
+import data.model.dao.DefinitionDAO;
+import data.model.dao.RecordDefinitionDAO;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Definitions {
     private static Logger log = AppLogger.logger();
@@ -11,6 +14,22 @@ public class Definitions {
 
     private HashMap<String, Definition> definitionHashMap = new HashMap<>();
     private HashMap<String, RecordDefinition> recordDefinitionHashMap = new HashMap<>();
+
+    public Definitions() {
+        DefinitionDAO definitionDAO = new DefinitionDAO();
+
+        List<Definition> definitions = definitionDAO.getAllDefinitions();
+        for (Definition definition : definitions) {
+            this.addDefinition(definition);
+        }
+
+        RecordDefinitionDAO recordDefinitionDAO = new RecordDefinitionDAO();
+
+        List<RecordDefinition> recordDefinitions = recordDefinitionDAO.getAllRecordDefinitions();
+        for (RecordDefinition recordDefinition : recordDefinitions) {
+            this.addRecordDefinition(recordDefinition);
+        }
+    }
 
     public Definition findDefinition(String reference) {
         return definitionHashMap.get(reference.toLowerCase());

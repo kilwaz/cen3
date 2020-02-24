@@ -18,7 +18,6 @@ public class ApplicationInitialiser {
         AppManager.init();
         RequestMapper.buildMappings();
         WebSocketMessageMapping.buildMappings();
-//        GameManager.getInstance().createNewGame();
 
         // Get IP address of server machine
         InetAddress inetAddress = null;

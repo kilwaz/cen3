@@ -21,9 +21,17 @@ public class Definition extends DatabaseObject {
         this.calculated = calculated;
     }
 
-    public static Definition define() {
-        Definition definition = Definition.create(Definition.class);
-        Definitions.getInstance().addDefinition(definition);
+    public static Definition define(String name) {
+        Definition definition;
+        Definitions definitions = Definitions.getInstance();
+        if (definitions.findDefinition(name) == null) {
+            definition = Definition.create(Definition.class);
+            definition.name(name);
+            definitions.addDefinition(definition);
+        } else { // If definition already exists, get the already defined version
+            definition = definitions.findDefinition(name);
+        }
+
         return definition;
     }
 
@@ -31,6 +39,7 @@ public class Definition extends DatabaseObject {
         String oldName = this.name;
         this.name = name;
         Definitions.getInstance().updateDefinitionName(this, oldName);
+        this.save();
         return this;
     }
 
@@ -50,10 +59,6 @@ public class Definition extends DatabaseObject {
 
     public Boolean isCalculated() {
         return calculated;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setCalculated(Boolean calculated) {

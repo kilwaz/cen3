@@ -10,6 +10,7 @@ import clarity.load.store.expression.operators.grouping.OpenBracket;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 import clarity.load.store.expression.values.Textual;
+import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -74,7 +75,6 @@ public class Formula {
                     expression = new Reference(referenceDefinition);
                 } else {
                     log.info("Could not find formula reference " + referenceName);
-                    //expression = new Reference(new Formula("0"));
                 }
             }
         } else { // Find any other defined expressions
@@ -92,6 +92,10 @@ public class Formula {
             }
 
             expression = OperatorDictionary.getInstance().createExpressionFromReference(functionName);
+        }
+
+        if (expression == null) {
+            Error.CLARITY_REFERENCE_NOT_FOUND.record().additionalInformation("Unable to find reference " + currentLetter + " for " + expressionStr).create();
         }
 
         // Tree positioning
