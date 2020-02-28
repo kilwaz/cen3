@@ -1,5 +1,7 @@
 package data.model;
 
+import clarity.definition.Definition;
+import clarity.definition.RecordDefinition;
 import data.*;
 import data.model.dao.DAO;
 import data.model.objects.json.JSONContainer;
@@ -189,6 +191,20 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                                 if (uuid != null && !uuid.isEmpty()) {
                                     modelColumn.getObjectLoadMethod().invoke(dbObject, DAO.UUIDFromString(uuid));
                                 }
+                                //TODO: FROM THESE ELSE IF STATEMENTS ON, THINK OF A GENERIC WAY TO HANDLE THESE SITUATIONS
+                            } else if (loadParameterClass.equals(Definition.class)) { // Definition
+                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
+                                if (uuidStr != null && !uuidStr.isEmpty()) {
+                                    Definition definition = loadCachedObject(uuidStr, Definition.class);
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, definition);
+                                }
+                            } else if (loadParameterClass.equals(RecordDefinition.class)) { // RecordDefinition
+                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
+                                if (uuidStr != null && !uuidStr.isEmpty()) {
+                                    RecordDefinition recordDefinition = loadCachedObject(uuidStr, RecordDefinition.class);
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, recordDefinition);
+                                }
+                                //TODO: ***********************************************************************************
                             } else if (loadParameterClass.equals(Object.class)) { // OBJECT
                                 modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getColumnObject(modelColumn.getColumnName()));
                             }

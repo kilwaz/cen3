@@ -1,6 +1,7 @@
 package clarity.definition;
 
 import data.model.DatabaseObject;
+import data.model.dao.DefinitionGroupDAO;
 import error.Error;
 import log.AppLogger;
 import org.apache.log4j.Logger;
@@ -13,7 +14,7 @@ public class RecordDefinition extends DatabaseObject {
     private static Logger log = AppLogger.logger();
 
     private String name = "";
-    private HashMap<String, Definition> definitionHashMap = new HashMap<>();
+    private HashMap<String, Definition> definitionHashMap = null;
 
     public RecordDefinition() {
         name = hashCode() + "";
@@ -42,13 +43,29 @@ public class RecordDefinition extends DatabaseObject {
     }
 
     public RecordDefinition addDefinition(String reference) {
-        addDefinition(Definitions.getInstance().findDefinition(reference));
+        Definition definition = Definitions.getInstance().findDefinition(reference);
+
+        if (definition != null) {
+            if (getDefinitionHashMap().get(reference) == null) { // Don't add a definition again if it is already there
+                DefinitionGroup definitionGroup = DefinitionGroup.create(DefinitionGroup.class);
+                definitionGroup.definition(definition);
+                definitionGroup.recordDefinition(this);
+                definitionGroup.save();
+
+                addDefinition(definition);
+            }
+        } else {
+            Error.CLARITY_REFERENCE_NOT_FOUND.record()
+                    .additionalInformation("Definition " + reference + " not found to add to record " + this.getName())
+                    .create();
+        }
+
         return this;
     }
 
     public RecordDefinition addDefinition(Definition definition) {
         if (definition != null) {
-            definitionHashMap.put(definition.getName(), definition);
+            getDefinitionHashMap().put(definition.getName(), definition);
         } else {
             Error.CLARITY_NULL_DEFINITION.record().create();
         }
@@ -57,11 +74,25 @@ public class RecordDefinition extends DatabaseObject {
     }
 
     public Definition getDefinition(String reference) {
-        return definitionHashMap.get(reference);
+        return getDefinitionHashMap().get(reference);
+    }
+
+    public HashMap<String, Definition> getDefinitionHashMap() {
+        if (this.definitionHashMap == null) {
+            this.definitionHashMap = new HashMap<>();
+            DefinitionGroupDAO definitionGroupDAO = new DefinitionGroupDAO();
+            List<DefinitionGroup> definitionGroups = definitionGroupDAO.getDefinitionGroupByRecordDefinition(this);
+
+            for (DefinitionGroup definitionGroup : definitionGroups) {
+                this.definitionHashMap.put(definitionGroup.getDefinition().getName(), definitionGroup.getDefinition());
+            }
+        }
+
+        return this.definitionHashMap;
     }
 
     public List<Definition> getDefinitions() {
-        return new ArrayList<>(definitionHashMap.values());
+        return new ArrayList<>(getDefinitionHashMap().values());
     }
 
     public RecordDefinition name(String name) {
