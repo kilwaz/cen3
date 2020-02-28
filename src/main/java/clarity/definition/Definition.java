@@ -43,10 +43,19 @@ public class Definition extends DatabaseObject {
         return this;
     }
 
-    public Definition formula(String expression) {
+    public Definition expression(String expression) {
         this.formula = new Formula(expression);
-        calculated = true;
+        calculated(true);
+        this.save();
         return this;
+    }
+
+    public String getExpression() {
+        if (formula != null) {
+            return formula.getStrExpression();
+        } else {
+            return "";
+        }
     }
 
     public Formula getFormula() {
@@ -61,7 +70,9 @@ public class Definition extends DatabaseObject {
         return calculated;
     }
 
-    public void setCalculated(Boolean calculated) {
+    public Definition calculated(Boolean calculated) {
         this.calculated = calculated;
+        this.save();
+        return this;
     }
 }

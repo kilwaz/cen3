@@ -9,6 +9,7 @@ drop table if exists flyway_schema_history;
 create table definition (
   uuid char(36) NOT NULL,
   name varchar(200),
+  expression varchar(1000),
   calculated bool,
   PRIMARY KEY (uuid));
 

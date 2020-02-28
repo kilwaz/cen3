@@ -16,6 +16,7 @@ public class DefinitionDatabaseLink extends DatabaseLink {
         // Make sure the order is the same as column order in database
         link("uuid", method("getUuidString"), method("setUuid", UUID.class)); // 1
         link("name", method("getName"), method("name", String.class)); // 2
-        link("calculated", method("isCalculated"), method("setCalculated", Boolean.class)); // 3
+        link("expression", method("getExpression"), method("expression", String.class)); // 3
+        link("calculated", method("isCalculated"), method("calculated", Boolean.class)); // 4
     }
 }

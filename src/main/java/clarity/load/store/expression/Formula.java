@@ -41,6 +41,10 @@ public class Formula {
     }
 
     private Node build(Node current, String expressionStr) {
+        if (expressionStr.length() == 0) { // If an empty string is passed in handle this by making a textual element with empty string
+            return new Node(new Textual(expressionStr), Node.NODE_CHILD_TYPE_BINARY);
+        }
+
         String currentLetter = expressionStr.substring(0, 1);
         Expression expression = null;
 
