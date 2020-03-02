@@ -15,9 +15,11 @@ public class RecordDefinition extends DatabaseObject {
 
     private String name = "";
     private HashMap<String, Definition> definitionHashMap = null;
+    private DefinitionTableModel definitionTableMode;
 
     public RecordDefinition() {
         name = hashCode() + "";
+        definitionTableMode = new DefinitionTableModel(this);
     }
 
     public static RecordDefinition define(String name) {
@@ -66,6 +68,7 @@ public class RecordDefinition extends DatabaseObject {
     public RecordDefinition addDefinition(Definition definition) {
         if (definition != null) {
             getDefinitionHashMap().put(definition.getName(), definition);
+            definitionTableMode.update();
         } else {
             Error.CLARITY_NULL_DEFINITION.record().create();
         }
@@ -100,10 +103,15 @@ public class RecordDefinition extends DatabaseObject {
         this.name = name;
         Definitions.getInstance().updateRecordDefinitionName(this, oldName);
         this.save();
+        definitionTableMode.update();
         return this;
     }
 
     public String getName() {
         return name;
+    }
+
+    public DefinitionTableModel getDefinitionTableMode() {
+        return definitionTableMode;
     }
 }

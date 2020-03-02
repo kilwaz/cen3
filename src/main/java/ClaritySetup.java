@@ -1,7 +1,9 @@
 import clarity.Entry;
 import clarity.Infer;
 import clarity.Record;
+import clarity.definition.DatabaseModelController;
 import clarity.definition.Definition;
+import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
 import clarity.load.store.DefinedMatrix;
 import clarity.load.store.MatrixEntry;
@@ -12,7 +14,10 @@ public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
     public static void main(String[] args) {
-        ApplicationInitialiser.init();
+        ApplicationInitialiser.init(); // Connects to the database/inits web sockets
+        Definitions.getInstance(); // Load in data from database
+
+
 
         DefinedMatrix countryMatrix = DefinedMatrix.define().name("Country");
         countryMatrix.addItem(new MatrixEntry("GBR", "United Kingdom"));
@@ -56,5 +61,7 @@ public class ClaritySetup {
         record2.set(Entry.create("ID", "2"));
 
         Infer.infer();
+
+        Definitions.getInstance().getRecordDefinitionHashMap();
     }
 }

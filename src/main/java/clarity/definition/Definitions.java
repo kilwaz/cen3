@@ -16,6 +16,10 @@ public class Definitions {
     private HashMap<String, RecordDefinition> recordDefinitionHashMap = new HashMap<>();
 
     public Definitions() {
+
+    }
+
+    private void init() {
         DefinitionDAO definitionDAO = new DefinitionDAO();
 
         List<Definition> definitions = definitionDAO.getAllDefinitions();
@@ -28,6 +32,7 @@ public class Definitions {
         List<RecordDefinition> recordDefinitions = recordDefinitionDAO.getAllRecordDefinitions();
         for (RecordDefinition recordDefinition : recordDefinitions) {
             this.addRecordDefinition(recordDefinition);
+            recordDefinition.getDefinitionTableMode().verifyTable();
         }
     }
 
@@ -60,7 +65,16 @@ public class Definitions {
     public static Definitions getInstance() {
         if (instance == null) {
             instance = new Definitions();
+            instance.init();
         }
         return instance;
+    }
+
+    public HashMap<String, Definition> getDefinitionHashMap() {
+        return definitionHashMap;
+    }
+
+    public HashMap<String, RecordDefinition> getRecordDefinitionHashMap() {
+        return recordDefinitionHashMap;
     }
 }

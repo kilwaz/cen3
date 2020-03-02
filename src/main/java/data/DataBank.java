@@ -97,6 +97,7 @@ public class DataBank {
             }
         } catch (SQLException ex) {
             Error.SELECT_QUERY.record().additionalInformation(selectQuery.getQuery()).create(ex);
+            selectResult.exception(ex);
             if (!dbConnection.isConnected() && dbConnection.isApplicationConnection()) { // If we are not connected anymore, report this to the user status bar
                 dbConnection.connect();
                 runSelectQuery(dbConnection, selectQuery);

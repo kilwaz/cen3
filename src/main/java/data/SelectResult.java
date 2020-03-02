@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectResult {
-    List<SelectResultRow> results = new ArrayList<>();
+    private List<SelectResultRow> results = new ArrayList<>();
+    private Exception exception;
 
     public SelectResult() {
     }
@@ -15,5 +16,18 @@ public class SelectResult {
 
     public List<SelectResultRow> getResults() {
         return results;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public SelectResult exception(Exception exception) {
+        this.exception = exception;
+        return this;
+    }
+
+    public Boolean hasException() {
+        return exception != null;
     }
 }
