@@ -50,6 +50,10 @@ public class Definition extends DatabaseObject {
         return this;
     }
 
+    public Boolean build() {
+        return formula.build();
+    }
+
     public String getExpression() {
         if (formula != null) {
             return formula.getStrExpression();

@@ -29,7 +29,9 @@ public class DefinitionTableModel {
         definedModelHashMap.clear();
 
         for (Definition definition : definitionHashMap.values()) {
-            definedModelHashMap.put(definition.getName(), new DatabaseColumnModel(definition.getName(), "varchar"));
+            if (!definition.isCalculated()) {
+                definedModelHashMap.put(definition.getName(), new DatabaseColumnModel(definition.getName(), "varchar(200)"));
+            }
         }
     }
 
@@ -37,14 +39,15 @@ public class DefinitionTableModel {
         if (recordDefinition != null) {
             var selectResult = (SelectResult) new SelectQuery("describe " + recordDefinition.getName().toLowerCase()).execute();
             if (selectResult.hasException()) { // Most likely the table doesn't exist
-                Exception sqlException = selectResult.getException();
-                log.info("There was an SQL exception with our query " + sqlException.getMessage());
+                databaseTableExists = false;
             } else {
                 databaseTableExists = true; // If no error then this is true
                 for (var resultRow : selectResult.getResults()) {
-                    String columnName = resultRow.getString("COLUMN_NAME");
-                    String columnType = resultRow.getString("COLUMN_TYPE");
+                    String columnName = resultRow.getString("Field");
+                    String columnType = resultRow.getString("Type");
                     log.info(columnName + " - " + columnType);
+
+                    databaseColumnModelHashMap.put(columnName, new DatabaseColumnModel(columnName, columnType));
                 }
             }
         }
@@ -60,6 +63,39 @@ public class DefinitionTableModel {
     }
 
     public String getDeltaQuery() {
+        if (recordDefinition != null) {
+            if (databaseTableExists) {
+                for (String definedModelKey : definedModelHashMap.keySet()) {
+                    DatabaseColumnModel databaseColumn = databaseColumnModelHashMap.get(definedModelKey);
+                    DatabaseColumnModel definedColumn = definedModelHashMap.get(definedModelKey);
+
+                    if (databaseColumn == null && definedColumn != null) {
+                        log.info("Column missing from the database " + definedModelKey);
+                        log.info("alter table " + recordDefinition.getName().toLowerCase() + " add " + definedModelKey + " " + definedColumn.getColumnType());
+                    } else if (databaseColumn != null && definedColumn == null) {
+                        log.info("Column to be removed from the database " + definedModelKey);
+                        log.info("alter table " + recordDefinition.getName().toLowerCase() + " drop " + definedModelKey);
+                    } else {
+                        log.info("Column " + definedModelKey + " defined matched");
+                    }
+                }
+            } else {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("create table ").append(recordDefinition.getName().toLowerCase()).append(" (\n")
+                        .append("uuid char(36) NOT NULL,\n");
+
+                for (Definition definition : recordDefinition.getDefinitions()) {
+                    if (!definition.isCalculated()) {
+                        stringBuilder.append(definition.getName()).append(" varchar(200),\n");
+                    }
+                }
+
+                stringBuilder.append("PRIMARY KEY (uuid))");
+
+                log.info(stringBuilder.toString());
+            }
+        }
+
         return "";
     }
 }

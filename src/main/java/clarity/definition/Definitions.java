@@ -24,6 +24,7 @@ public class Definitions {
 
         List<Definition> definitions = definitionDAO.getAllDefinitions();
         for (Definition definition : definitions) {
+            definition.build();
             this.addDefinition(definition);
         }
 
@@ -33,6 +34,7 @@ public class Definitions {
         for (RecordDefinition recordDefinition : recordDefinitions) {
             this.addRecordDefinition(recordDefinition);
             recordDefinition.getDefinitionTableMode().verifyTable();
+            recordDefinition.getDefinitionTableMode().getDeltaQuery();
         }
     }
 

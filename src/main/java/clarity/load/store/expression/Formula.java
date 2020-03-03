@@ -22,9 +22,13 @@ public class Formula {
     private Node root = null;
     private String strExpression = "";
     private Expression result = null;
+    private Boolean built = false;
 
     public Formula(String strExpression) {
         this.strExpression = strExpression;
+    }
+
+    public Boolean build() {
         Node node = build(null, strExpression);
         while (node.getParent() != null) {
             node = node.getParent();
@@ -34,6 +38,9 @@ public class Formula {
         } else {
             root = node;
         }
+
+        built = true;
+        return built;
     }
 
     public InstancedFormula createInstance() {
