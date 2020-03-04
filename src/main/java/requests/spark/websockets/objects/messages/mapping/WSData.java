@@ -26,7 +26,11 @@ public enum WSData {
     ENTRY_UUID(),
     ENTRY_NAME(),
     ENTRY_VALUE(),
-    ENTRY_RECORD_UUID();
+    ENTRY_RECORD_UUID(),
+
+    DEFINITION_UUID(),
+    DEFINITION_NAME(),
+    DEFINITION_EXPRESSION(),
 
     WSData() {
     }

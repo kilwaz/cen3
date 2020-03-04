@@ -70,7 +70,6 @@ export class RecordComponent implements OnInit {
     dataQuery.recordToCheck = uuid;
 
     let _this: RecordComponent = this;
-
     this.webSocketService.sendCallback(dataQuery, function (responseMessage) {
       let dataQueryResponse: DataQuery = <DataQuery>responseMessage;
 

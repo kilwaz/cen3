@@ -22,6 +22,12 @@ import {DndDirective} from './dnd.directive';
 import {MatIconModule} from "@angular/material/icon";
 import {RecordComponent} from './record/record.component';
 import {MatTableModule} from "@angular/material/table";
+import {DefinitionComponent} from './components/definition/definition.component';
+import {PropertiesComponent} from './components/properties/properties.component';
+import {PropertyComponent} from './components/property/property.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import { ListComponent } from './components/list/list.component';
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -29,7 +35,11 @@ import {MatTableModule} from "@angular/material/table";
     EchoComponent,
     ClarityComponent,
     DndDirective,
-    RecordComponent
+    RecordComponent,
+    DefinitionComponent,
+    PropertiesComponent,
+    PropertyComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +56,9 @@ import {MatTableModule} from "@angular/material/table";
     MatProgressBarModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatExpansionModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
