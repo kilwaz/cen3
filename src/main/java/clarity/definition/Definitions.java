@@ -1,5 +1,6 @@
 package clarity.definition;
 
+import data.SelectQuery;
 import data.model.dao.DefinitionDAO;
 import data.model.dao.RecordDefinitionDAO;
 import log.AppLogger;
@@ -34,7 +35,10 @@ public class Definitions {
         for (RecordDefinition recordDefinition : recordDefinitions) {
             this.addRecordDefinition(recordDefinition);
             recordDefinition.getDefinitionTableMode().verifyTable();
-            recordDefinition.getDefinitionTableMode().getDeltaQuery();
+            List<SelectQuery> selectQueries = recordDefinition.getDefinitionTableMode().getDeltaQueries();
+            for (SelectQuery selectQuery : selectQueries) {
+                selectQuery.execute();
+            }
         }
     }
 

@@ -21,7 +21,7 @@ public class ClaritySetup {
         countryMatrix.addItem(new MatrixEntry("USA", "United States"));
         countryMatrix.addItem(new MatrixEntry("ESP", "Spain"));
 
-        setupDB();
+        //setupDB();
 
         Record record = new Record("Employee");
         record.set(Entry.create("A", "aLExAnder"));

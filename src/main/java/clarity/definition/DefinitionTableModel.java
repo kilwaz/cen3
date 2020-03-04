@@ -5,7 +5,9 @@ import data.SelectResult;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DefinitionTableModel {
     private static Logger log = AppLogger.logger();
@@ -62,7 +64,8 @@ public class DefinitionTableModel {
         return this;
     }
 
-    public String getDeltaQuery() {
+    public List<SelectQuery> getDeltaQueries() {
+        List<SelectQuery> queries = new ArrayList<>();
         if (recordDefinition != null) {
             if (databaseTableExists) {
                 for (String definedModelKey : definedModelHashMap.keySet()) {
@@ -70,13 +73,9 @@ public class DefinitionTableModel {
                     DatabaseColumnModel definedColumn = definedModelHashMap.get(definedModelKey);
 
                     if (databaseColumn == null && definedColumn != null) {
-                        log.info("Column missing from the database " + definedModelKey);
-                        log.info("alter table " + recordDefinition.getName().toLowerCase() + " add " + definedModelKey + " " + definedColumn.getColumnType());
+                        queries.add(new SelectQuery("alter table " + recordDefinition.getName().toLowerCase() + " add " + definedModelKey + " " + definedColumn.getColumnType()));
                     } else if (databaseColumn != null && definedColumn == null) {
-                        log.info("Column to be removed from the database " + definedModelKey);
-                        log.info("alter table " + recordDefinition.getName().toLowerCase() + " drop " + definedModelKey);
-                    } else {
-                        log.info("Column " + definedModelKey + " defined matched");
+                        queries.add(new SelectQuery("alter table " + recordDefinition.getName().toLowerCase() + " drop " + definedModelKey));
                     }
                 }
             } else {
@@ -92,10 +91,10 @@ public class DefinitionTableModel {
 
                 stringBuilder.append("PRIMARY KEY (uuid))");
 
-                log.info(stringBuilder.toString());
+                queries.add(new SelectQuery(stringBuilder.toString()));
             }
         }
 
-        return "";
+        return queries;
     }
 }
