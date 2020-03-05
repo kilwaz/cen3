@@ -20,6 +20,10 @@ public class SelectResultRow {
     public SelectResultRow() {
     }
 
+    public Boolean hasColumn(String colName) {
+        return rowValues.get(colName) != null;
+    }
+    
     public void addColumn(String colName, Object colValue) {
         rowValues.put(colName, colValue);
     }

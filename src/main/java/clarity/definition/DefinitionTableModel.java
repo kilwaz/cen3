@@ -45,8 +45,22 @@ public class DefinitionTableModel {
             } else {
                 databaseTableExists = true; // If no error then this is true
                 for (var resultRow : selectResult.getResults()) {
-                    String columnName = resultRow.getString("Field");
-                    String columnType = resultRow.getString("Type");
+                    String columnName = "";
+                    String columnType = "";
+
+                    //TODO: Why is this different?  Different MySQL/MariaDB versions?
+                    if (resultRow.hasColumn("Field")) {
+                        columnName = resultRow.getString("Field");
+                    } else if (resultRow.hasColumn("COLUMN_NAME")) {
+                        columnName = resultRow.getString("COLUMN_NAME");
+                    }
+
+                    if (resultRow.hasColumn("Type")) {
+                        columnType = resultRow.getString("Type");
+                    } else if (resultRow.hasColumn("COLUMN_TYPE")) {
+                        columnType = resultRow.getString("COLUMN_TYPE");
+                    }
+
                     log.info(columnName + " - " + columnType);
 
                     databaseColumnModelHashMap.put(columnName, new DatabaseColumnModel(columnName, columnType));
