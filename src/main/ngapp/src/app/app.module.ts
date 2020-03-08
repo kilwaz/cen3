@@ -26,8 +26,13 @@ import {DefinitionComponent} from './components/definition/definition.component'
 import {PropertiesComponent} from './components/properties/properties.component';
 import {PropertyComponent} from './components/property/property.component';
 import {MatExpansionModule} from "@angular/material/expansion";
-import { ListComponent } from './components/list/list.component';
+import {ListComponent} from './components/list/list.component';
 import {MatListModule} from "@angular/material/list";
+import {NgrxtestComponent} from './ngrxtest/ngrxtest.component';
+import {StoreModule} from '@ngrx/store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+
+import * as fromTest from './reducer/ngrxtest.reducer';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,8 @@ import {MatListModule} from "@angular/material/list";
     DefinitionComponent,
     PropertiesComponent,
     PropertyComponent,
-    ListComponent
+    ListComponent,
+    NgrxtestComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +64,13 @@ import {MatListModule} from "@angular/material/list";
     MatIconModule,
     MatTableModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    // StoreModule.forRoot({test: fromTest.reducer}),
+    StoreModule.forFeature(fromTest.testFeatureKey, fromTest.reducer),
+
+    StoreDevtoolsModule.instrument({
+      maxAge: 10 // number of states to retain
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
