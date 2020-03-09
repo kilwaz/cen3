@@ -1,9 +1,6 @@
 import {Action, createFeatureSelector, createReducer, on} from '@ngrx/store';
 import * as TestActions from '../action/test.action';
 
-export const testFeatureKey = 'test';
-export const testState = createFeatureSelector(testFeatureKey);
-
 export interface TestState {
   testString: string;
 }

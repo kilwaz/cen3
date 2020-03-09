@@ -1,10 +1,5 @@
-<p>ngrxtest works with this and more!</p>
-
-{{test$}}
-
-<div *ngIf="test$ | async as t">
-  <p>{{t}}</p>
+<div>
+  {{test$ | async}}
 </div>
-
 <button (click)="clickMeh('STRING IT')">Hello</button>
 <input #inputElement type="text" (change)="clickMeh(inputElement.value)"/>

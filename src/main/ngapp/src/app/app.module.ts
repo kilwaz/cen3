@@ -65,8 +65,8 @@ import * as fromTest from './reducer/ngrxtest.reducer';
     MatTableModule,
     MatExpansionModule,
     MatListModule,
-    // StoreModule.forRoot({test: fromTest.reducer}),
-    StoreModule.forFeature(fromTest.testFeatureKey, fromTest.reducer),
+    StoreModule.forRoot({aReducer: fromTest.reducer}),
+    //StoreModule.forFeature(fromTest.testFeatureKey, fromTest.reducer),
 
     StoreDevtoolsModule.instrument({
       maxAge: 10 // number of states to retain
