@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {testAction} from "../action/test.action";
+import {loadRecordAction, ngrxtestAction} from "../action/ngrxtest.action";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
+import {Record} from "../wsObjects/record";
+import {WebSocketService} from "../services/websocket.service";
 
 @Component({
   selector: 'app-ngrxtest',
@@ -9,16 +11,19 @@ import {Observable} from "rxjs";
   styleUrls: ['./ngrxtest.component.css']
 })
 export class NgrxtestComponent implements OnInit {
-  test$: Observable<string>;
+  test$: Observable<string> = this.store.select('aReducer', 'testString');
+  //records$: Observable<Record[]> = this.store.select(state => {records: state.records});
+
+  private webSocketServiceConst: WebSocketService;
 
   constructor(private store: Store<any>) {
-    this.test$ = this.store.select('aReducer', 'testString');
   };
 
   ngOnInit(): void {
+    this.store.dispatch(loadRecordAction());
   }
 
   clickMeh(str: string): void {
-    this.store.dispatch(testAction({testString: str}));
+    this.store.dispatch(ngrxtestAction({testString: str}));
   }
 }

@@ -1,5 +1,5 @@
-import {Action, createFeatureSelector, createReducer, on} from '@ngrx/store';
-import * as TestActions from '../action/test.action';
+import {Action, createReducer, on} from '@ngrx/store';
+import * as TestActions from '../action/ngrxtest.action';
 
 export interface TestState {
   testString: string;
@@ -11,7 +11,7 @@ export const initialState: TestState = {
 
 const testReducer = createReducer(
   initialState,
-  on(TestActions.testAction, (state, {testString}) => ({testString: testString})),
+  on(TestActions.ngrxtestAction, (state, {testString}) => ({testString: testString})),
 );
 
 export function reducer(state: TestState | undefined, action: Action) {
