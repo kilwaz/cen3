@@ -33,6 +33,8 @@ import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 import * as fromTest from './reducer/ngrxtest.reducer';
+import {EffectsModule} from "@ngrx/effects";
+import {NgrxtestEffects} from './effects/ngrxtest.effects';
 
 @NgModule({
   declarations: [
@@ -65,8 +67,10 @@ import * as fromTest from './reducer/ngrxtest.reducer';
     MatTableModule,
     MatExpansionModule,
     MatListModule,
+
     StoreModule.forRoot({aReducer: fromTest.reducer}),
     //StoreModule.forFeature(fromTest.testFeatureKey, fromTest.reducer),
+    EffectsModule.forRoot([NgrxtestEffects]),
 
     StoreDevtoolsModule.instrument({
       maxAge: 10 // number of states to retain

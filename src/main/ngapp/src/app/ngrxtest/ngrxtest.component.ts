@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {loadRecordAction, ngrxtestAction} from "../action/ngrxtest.action";
 import {Store} from "@ngrx/store";
-import {Observable} from "rxjs";
-import {Record} from "../wsObjects/record";
-import {WebSocketService} from "../services/websocket.service";
+import {AsyncSubject, Observable, Subject} from "rxjs";
+import {RecordContainer} from "../containers/recordContainer";
 
 @Component({
   selector: 'app-ngrxtest',
@@ -12,9 +11,7 @@ import {WebSocketService} from "../services/websocket.service";
 })
 export class NgrxtestComponent implements OnInit {
   test$: Observable<string> = this.store.select('aReducer', 'testString');
-  //records$: Observable<Record[]> = this.store.select(state => {records: state.records});
-
-  private webSocketServiceConst: WebSocketService;
+  records$: Observable<RecordContainer[]> = this.store.select(state => state.records);
 
   constructor(private store: Store<any>) {
   };

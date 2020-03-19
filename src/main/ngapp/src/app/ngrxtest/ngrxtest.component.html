@@ -4,6 +4,6 @@
 <button (click)="clickMeh('STRING IT')">Hello</button>
 <input #inputElement type="text" (change)="clickMeh(inputElement.value)"/>
 
-<!--<div *ngFor="let record of records$ | async">-->
-<!--  Record UUID: {{record.uuid}}-->
-<!--</div>-->
+<div *ngFor="let record of records$ | async">
+  Record UUID: {{record}}
+</div>
