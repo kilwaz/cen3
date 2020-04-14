@@ -3,52 +3,62 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngapp": {
+    "metronic": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "app",
-      "schematics": {},
+      "prefix": "kt",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
-            "outputPath": "dist/ngapp",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css",
-              "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css",
-              "../../main/ngapp/node_modules/@fortawesome/fontawesome-free/css/fontawesome.css"
-            ],
-            "scripts": [
-              "../../main/ngapp/node_modules/jquery/dist/jquery.min.js",
-              "../../main/ngapp/node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/.htaccess"
             ],
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            "styles": [
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/socicon/css/socicon.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "src/assets/plugins/line-awesome/css/line-awesome.css",
+              "src/assets/plugins/flaticon/flaticon.css",
+              "src/assets/plugins/flaticon2/flaticon.css",
+              "src/assets/sass/style.angular.scss"
+            ],
+            "scripts": [
+              "node_modules/popper.js/dist/umd/popper.js",
+              "node_modules/tooltip.js/dist/umd/tooltip.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.js"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets"
+              ]
+            },
+            "es5BrowserSupport": true
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "scripts": [],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -57,26 +67,32 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngapp:build",
-            "proxyConfig": "proxy.conf.json"
+            "browserTarget": "metronic:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngapp:build:production"
+              "browserTarget": "metronic:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngapp:build"
+            "browserTarget": "metronic:build"
           }
         },
         "test": {
@@ -87,17 +103,10 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css",
-              "../../main/ngapp/node_modules/bootstrap/dist/css/bootstrap.css",
-              "../../main/ngapp/node_modules/@fortawesome/fontawesome-free/css/fontawesome.css"
+              "src/styles.scss"
             ],
-            "scripts": [
-              "../../main/ngapp/node_modules/jquery/dist/jquery.min.js",
-              "../../main/ngapp/node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ],
+            "scripts": [],
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ]
           }
@@ -107,8 +116,7 @@
           "options": {
             "tsConfig": [
               "src/tsconfig.app.json",
-              "src/tsconfig.spec.json",
-              "tsconfig.worker.json"
+              "src/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -117,19 +125,20 @@
         }
       }
     },
-    "ngapp-e2e": {
+    "metronic-e2e": {
       "root": "e2e/",
       "projectType": "application",
+      "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngapp:serve"
+            "devServerTarget": "metronic:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngapp:serve:production"
+              "devServerTarget": "metronic:serve:production"
             }
           }
         },
@@ -145,5 +154,5 @@
       }
     }
   },
-  "defaultProject": "ngapp"
+  "defaultProject": "metronic"
 }

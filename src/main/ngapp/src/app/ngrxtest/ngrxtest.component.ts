@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {loadRecordAction, ngrxtestAction} from "../action/ngrxtest.action";
-import {Store} from "@ngrx/store";
-import {AsyncSubject, Observable, Subject} from "rxjs";
+import {LoadRecordAction, NgrxtestAction} from "../action/ngrxtest.action";
+import {createSelector, select, Store} from "@ngrx/store";
+import {Observable} from "rxjs";
 import {RecordContainer} from "../containers/recordContainer";
 
 @Component({
@@ -9,18 +9,27 @@ import {RecordContainer} from "../containers/recordContainer";
   templateUrl: './ngrxtest.component.html',
   styleUrls: ['./ngrxtest.component.css']
 })
+
 export class NgrxtestComponent implements OnInit {
-  test$: Observable<string> = this.store.select('aReducer', 'testString');
-  records$: Observable<RecordContainer[]> = this.store.select(state => state.records);
+  test$: Observable<string> = this.store.select((state: any) => state.search.testString);
+  records$: Observable<RecordContainer[]> = this.store.select((state: any) => state.search.records);
+
+  selectTestString = createSelector(
+    (state: any) => state.search.testString,
+    testString => testString + " Added"
+  );
+
+  test2$: Observable<string> = this.store.pipe(select(this.selectTestString));
+  test3$: Observable<string> = this.store.select((state: any) => state.search.testString);
 
   constructor(private store: Store<any>) {
   };
 
   ngOnInit(): void {
-    this.store.dispatch(loadRecordAction());
+    this.store.dispatch(LoadRecordAction());
   }
 
   clickMeh(str: string): void {
-    this.store.dispatch(ngrxtestAction({testString: str}));
+    this.store.dispatch(NgrxtestAction({testString: str}));
   }
 }
