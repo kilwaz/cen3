@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -163,6 +164,8 @@ public class DataBank {
                     preparedStatement.setInt(valueCount, (Integer) value);
                 } else if (value instanceof String) {
                     preparedStatement.setString(valueCount, (String) value);
+                } else if (value instanceof BigDecimal) {
+                    preparedStatement.setBigDecimal(valueCount, (BigDecimal) value);
                 } else if (value instanceof UUID) {
                     preparedStatement.setString(valueCount, value.toString());
                 } else if (value instanceof DateTime) {

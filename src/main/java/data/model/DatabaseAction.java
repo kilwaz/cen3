@@ -1,6 +1,9 @@
 package data.model;
 
+import clarity.Record;
+import clarity.definition.DatabaseColumnModel;
 import clarity.definition.Definition;
+import clarity.definition.DefinitionTableModel;
 import clarity.definition.RecordDefinition;
 import data.*;
 import data.model.dao.DAO;
@@ -15,6 +18,9 @@ import utils.ApplicationParams;
 import utils.managers.DatabaseObjectManager;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,16 +39,39 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         updateQueryBuilder.append("update ")
                 .append(dbLink.getTableName());
         Boolean firstColumn = true;
-        for (ModelColumn modelColumn : dbLink.getModelColumns()) {
-            if (firstColumn) {
-                updateQueryBuilder.append(" set ")
-                        .append(modelColumn.getColumnName())
-                        .append(" = ?");
-                firstColumn = false;
-            } else {
-                updateQueryBuilder.append(", ")
-                        .append(modelColumn.getColumnName())
-                        .append(" = ?");
+
+        List<DatabaseColumnModel> databaseColumnModelList = new ArrayList<>();
+        if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
+            ConfigurableDatabaseLink configurableDbLink = (ConfigurableDatabaseLink) dbLink;
+            DefinitionTableModel definitionTableModel = configurableDbLink.getRecordDefinition().getDefinitionTableMode();
+
+            HashMap<String, DatabaseColumnModel> definedModel = definitionTableModel.getDefinedModelHashMap();
+            databaseColumnModelList = new ArrayList<>(definedModel.values());
+
+            for (DatabaseColumnModel databaseColumnModel : databaseColumnModelList) {
+                if (firstColumn) {
+                    updateQueryBuilder.append(" set ")
+                            .append(databaseColumnModel.getColumnName())
+                            .append(" = ?");
+                    firstColumn = false;
+                } else {
+                    updateQueryBuilder.append(", ")
+                            .append(databaseColumnModel.getColumnName())
+                            .append(" = ?");
+                }
+            }
+        } else { // Pre-defined Database Link
+            for (ModelColumn modelColumn : dbLink.getModelColumns()) {
+                if (firstColumn) {
+                    updateQueryBuilder.append(" set ")
+                            .append(modelColumn.getColumnName())
+                            .append(" = ?");
+                    firstColumn = false;
+                } else {
+                    updateQueryBuilder.append(", ")
+                            .append(modelColumn.getColumnName())
+                            .append(" = ?");
+                }
             }
         }
 
@@ -51,20 +80,30 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         // Building the update query object
         UpdateQuery updateQuery = new UpdateQuery(updateQueryBuilder.toString());
 
-        for (ModelColumn modelColumn : dbLink.getModelColumns()) {
-            try {
-                updateQuery.addParameter(modelColumn.getObjectSaveMethod().invoke(dbObject));
-            } catch (IllegalAccessException | InvocationTargetException ex) {
-                Error.DATABASE_OBJECT_METHOD_NOT_FOUND
-                        .record()
-                        .additionalInformation("Column: " + modelColumn.getColumnName())
-                        .additionalInformation("Method: " + modelColumn.getObjectSaveMethod().getName())
-                        .additionalInformation("Linked Class: " + dbLink.getLinkClass())
-                        .create(ex);
+        if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
+            if (dbObject instanceof Record) {
+                Record record = (Record) dbObject;
+
+                for (DatabaseColumnModel databaseColumnModel : databaseColumnModelList) {
+                    updateQuery.addParameter(record.get(databaseColumnModel.getColumnName()).get().getValue());
+                }
+            }
+        } else { // Pre-defined Database Link
+            for (ModelColumn modelColumn : dbLink.getModelColumns()) {
+                try {
+                    updateQuery.addParameter(modelColumn.getObjectSaveMethod().invoke(dbObject));
+                } catch (IllegalAccessException | InvocationTargetException ex) {
+                    Error.DATABASE_OBJECT_METHOD_NOT_FOUND
+                            .record()
+                            .additionalInformation("Column: " + modelColumn.getColumnName())
+                            .additionalInformation("Method: " + modelColumn.getObjectSaveMethod().getName())
+                            .additionalInformation("Linked Class: " + dbLink.getLinkClass())
+                            .create(ex);
+                }
             }
         }
 
-        // The id to update
+        // The uuid to update
         updateQuery.addParameter(dbObject.getUuidString());
 
         // Execute the update query
@@ -73,33 +112,66 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         // If record does not exist insert a new one..
         if (updateResult.getResultNumber() == 0) {
             // Build the insert statement
-            updateQueryBuilder = new StringBuilder();
-            updateQueryBuilder.append("insert into ")
+            StringBuilder insertQueryBuilder = new StringBuilder();
+            insertQueryBuilder.append("insert into ")
                     .append(dbLink.getTableName())
                     .append("(");
 
             firstColumn = true;
-            for (ModelColumn modelColumn : dbLink.getModelColumns()) {
-                if (firstColumn) {
-                    updateQueryBuilder.append(modelColumn.getColumnName());
-                    firstColumn = false;
-                } else {
-                    updateQueryBuilder.append(",").append(modelColumn.getColumnName());
+
+            if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
+                insertQueryBuilder.append("uuid,");
+
+                for (DatabaseColumnModel databaseColumnModel : databaseColumnModelList) {
+                    if (firstColumn) {
+                        insertQueryBuilder.append(databaseColumnModel.getColumnName());
+                        firstColumn = false;
+                    } else {
+                        insertQueryBuilder.append(",").append(databaseColumnModel.getColumnName());
+                    }
                 }
+
+                insertQueryBuilder.append(")")
+                        .append(" values (?, ?")  // First item here is uuid of newly inserted config db item
+                        .append(StringUtils.repeat(", ?", databaseColumnModelList.size() - 1))
+                        .append(")");
+            } else { // Pre-defined Database Link
+                for (ModelColumn modelColumn : dbLink.getModelColumns()) {
+                    if (firstColumn) {
+                        insertQueryBuilder.append(modelColumn.getColumnName());
+                        firstColumn = false;
+                    } else {
+                        insertQueryBuilder.append(",").append(modelColumn.getColumnName());
+                    }
+                }
+
+                insertQueryBuilder.append(")")
+                        .append(" values (?")
+                        .append(StringUtils.repeat(", ?", dbLink.getModelColumns().size() - 1))
+                        .append(")");
             }
 
-            updateQueryBuilder.append(")")
-                    .append(" values (?")
-                    .append(StringUtils.repeat(", ?", dbLink.getModelColumns().size() - 1))
-                    .append(")");
-
             // Create query object and fill in parameters
-            UpdateQuery insertQuery = new UpdateQuery(updateQueryBuilder.toString());
-            for (ModelColumn modelColumn : dbLink.getModelColumns()) {
-                try {
-                    insertQuery.addParameter(modelColumn.getObjectSaveMethod().invoke(dbObject));
-                } catch (IllegalAccessException | InvocationTargetException ex) {
-                    Error.DATABASE_OBJECT_METHOD_NOT_FOUND.record().create(ex);
+            UpdateQuery insertQuery = new UpdateQuery(insertQueryBuilder.toString());
+
+            if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
+                if (dbObject instanceof Record) {
+                    Record record = (Record) dbObject;
+
+                    // The uuid to update, always is the first param
+                    insertQuery.addParameter(dbObject.getUuidString());
+
+                    for (DatabaseColumnModel databaseColumnModel : databaseColumnModelList) {
+                        insertQuery.addParameter(record.get(databaseColumnModel.getColumnName()).get().getValue());
+                    }
+                }
+            } else { // Pre-defined Database Link
+                for (ModelColumn modelColumn : dbLink.getModelColumns()) {
+                    try {
+                        insertQuery.addParameter(modelColumn.getObjectSaveMethod().invoke(dbObject));
+                    } catch (IllegalAccessException | InvocationTargetException ex) {
+                        Error.DATABASE_OBJECT_METHOD_NOT_FOUND.record().create(ex);
+                    }
                 }
             }
 

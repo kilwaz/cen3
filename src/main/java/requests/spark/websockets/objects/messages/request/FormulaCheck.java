@@ -19,8 +19,8 @@ public class FormulaCheck extends Message {
 
     public void process() {
         FormulaCheckData formulaCheckData = (FormulaCheckData) this.getWebSocketData();
-
-        Record record = new Record("Employee");
+        
+        Record record = Record.create("Employee");
         record.set(Entry.create("A", "aLExAnder"));
         record.set(Entry.create("B", "bROwn"));
 

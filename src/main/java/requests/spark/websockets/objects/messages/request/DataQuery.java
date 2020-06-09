@@ -22,23 +22,25 @@ public class DataQuery extends Message {
 
     public void process() {
         DataQueryData dataQueryData = (DataQueryData) this.getWebSocketData();
-        Record record = Records.getInstance().findRecord(dataQueryData.getRecordToCheck());
-        JSONArray dataQueryJSON = new JSONArray();
-        if (record != null) {
-            JSONArray requestedEntries = dataQueryData.getRequestedEntries();
+        if(dataQueryData.getRecordToCheck() != null){
+            Record record = Records.getInstance().findRecord(dataQueryData.getRecordToCheck());
+            JSONArray dataQueryJSON = new JSONArray();
+            if (record != null) {
+                JSONArray requestedEntries = dataQueryData.getRequestedEntries();
 
-            List<String> references = new ArrayList<>();
-            for (int i = 0; i < requestedEntries.length(); i++) {
-                JSONObject jsonObject = requestedEntries.getJSONObject(i);
-                references.add(jsonObject.getString("_name"));
+                List<String> references = new ArrayList<>();
+                for (int i = 0; i < requestedEntries.length(); i++) {
+                    JSONObject jsonObject = requestedEntries.getJSONObject(i);
+                    references.add(jsonObject.getString("_name"));
+                }
+
+                List<clarity.Entry> entries = record.get(references);
+                for (clarity.Entry entry : entries) {
+                    dataQueryJSON.put(new Entry(entry).prepareForJSON());
+                }
             }
 
-            List<clarity.Entry> entries = record.get(references);
-            for (clarity.Entry entry : entries) {
-                dataQueryJSON.put(new Entry(entry).prepareForJSON());
-            }
+            dataQueryData.setEntries(dataQueryJSON);
         }
-
-        dataQueryData.setEntries(dataQueryJSON);
     }
 }

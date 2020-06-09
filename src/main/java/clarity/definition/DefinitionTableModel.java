@@ -18,6 +18,15 @@ public class DefinitionTableModel {
     private Boolean databaseTableExists;
     private Boolean definedTableExists;
 
+    private static HashMap<Integer, String> databaseTypeMappings = new HashMap<>();
+
+    static {
+        databaseTypeMappings.put(Definition.DEFINITION_TYPE_UNDEFINED, "varchar(200)");
+        databaseTypeMappings.put(Definition.DEFINITION_TYPE_NUMBER, "int");
+        databaseTypeMappings.put(Definition.DEFINITION_TYPE_STRING, "varchar(200)");
+        databaseTypeMappings.put(Definition.DEFINITION_TYPE_DURATION, "varchar(200)");
+    }
+
     private RecordDefinition recordDefinition;
 
     public DefinitionTableModel(RecordDefinition recordDefinition) {
@@ -32,7 +41,7 @@ public class DefinitionTableModel {
 
         for (Definition definition : definitionHashMap.values()) {
             if (!definition.isCalculated()) {
-                definedModelHashMap.put(definition.getName(), new DatabaseColumnModel(definition.getName(), "varchar(200)"));
+                definedModelHashMap.put(definition.getName(), new DatabaseColumnModel(definition.getName(), databaseTypeMappings.get(definition.getDefinitionType())));
             }
         }
     }
@@ -91,6 +100,10 @@ public class DefinitionTableModel {
                     } else if (databaseColumn != null && definedColumn == null) {
                         queries.add(new SelectQuery("alter table " + recordDefinition.getName().toLowerCase() + " drop " + definedModelKey));
                     }
+
+                    if (databaseColumn != null && definedColumn != null && !databaseColumn.getColumnType().equals(definedColumn.getColumnType())) {
+                        queries.add(new SelectQuery("alter table " + recordDefinition.getName().toLowerCase() + " modify column " + definedColumn.getColumnName() + " " + definedColumn.getColumnType()));
+                    }
                 }
             } else {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -99,7 +112,7 @@ public class DefinitionTableModel {
 
                 for (Definition definition : recordDefinition.getDefinitions()) {
                     if (!definition.isCalculated()) {
-                        stringBuilder.append(definition.getName()).append(" varchar(200),\n");
+                        stringBuilder.append(definition.getName()).append(" ").append(databaseTypeMappings.get(definition.getDefinitionType())).append(",\n");
                     }
                 }
 
@@ -110,5 +123,9 @@ public class DefinitionTableModel {
         }
 
         return queries;
+    }
+
+    public HashMap<String, DatabaseColumnModel> getDefinedModelHashMap() {
+        return definedModelHashMap;
     }
 }

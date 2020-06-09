@@ -35,7 +35,11 @@ public class Records {
     }
 
     public Record findRecord(String uuid) {
-        return recordHashMap.get(UUID.fromString(uuid));
+        try {
+            return recordHashMap.get(UUID.fromString(uuid));
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
     }
 
     public static Records getInstance() {

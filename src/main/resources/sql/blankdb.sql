@@ -12,6 +12,7 @@ create table definition (
   name varchar(200),
   expression varchar(1000),
   calculated bool,
+  definition_type int,
   PRIMARY KEY (uuid));
 
 create table record_definition (

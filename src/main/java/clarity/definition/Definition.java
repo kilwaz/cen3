@@ -6,19 +6,26 @@ import data.model.DatabaseObject;
 import java.util.UUID;
 
 public class Definition extends DatabaseObject {
+    public static final Integer DEFINITION_TYPE_UNDEFINED = 0;
+    public static final Integer DEFINITION_TYPE_NUMBER = 1;
+    public static final Integer DEFINITION_TYPE_STRING = 2;
+    public static final Integer DEFINITION_TYPE_DURATION = 3;
+
     private String name = "";
     private Formula formula;
     private Boolean calculated = false;
+    private Integer definitionType = DEFINITION_TYPE_UNDEFINED;
 
     public Definition() {
         super();
         name = hashCode() + "";
     }
 
-    public Definition(UUID uuid, String name, Boolean calculated) {
+    public Definition(UUID uuid, String name, Boolean calculated, Integer definitionType) {
         super(uuid);
         this.name = name;
         this.calculated = calculated;
+        this.definitionType = definitionType;
     }
 
     public static Definition define(String name) {
@@ -33,6 +40,24 @@ public class Definition extends DatabaseObject {
         }
 
         return definition;
+    }
+
+    public Definition asTypeString() {
+        definitionType = DEFINITION_TYPE_STRING;
+        this.save();
+        return this;
+    }
+
+    public Definition asTypeNumber() {
+        definitionType = DEFINITION_TYPE_NUMBER;
+        this.save();
+        return this;
+    }
+
+    public Definition asTypeDuration() {
+        definitionType = DEFINITION_TYPE_DURATION;
+        this.save();
+        return this;
     }
 
     public Definition name(String name) {
@@ -76,6 +101,16 @@ public class Definition extends DatabaseObject {
 
     public Definition calculated(Boolean calculated) {
         this.calculated = calculated;
+        this.save();
+        return this;
+    }
+
+    public int getDefinitionType() {
+        return definitionType;
+    }
+
+    public Definition definitionType(Integer definitionType) {
+        this.definitionType = definitionType;
         this.save();
         return this;
     }

@@ -4,6 +4,7 @@ import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
 import clarity.load.store.Records;
+import data.model.ConfigurableDatabaseObject;
 import error.Error;
 
 import java.util.ArrayList;
@@ -11,19 +12,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class Record {
+public class Record extends ConfigurableDatabaseObject {
     private UUID uuid = UUID.randomUUID();
 
     private RecordDefinition recordDefinition;
     private HashMap<String, Entry> entryHashMap = new HashMap<>();
 
     public Record(RecordDefinition recordDefinition) {
+        super(recordDefinition);
         this.recordDefinition = recordDefinition;
         Records.getInstance().addRecord(this);
     }
 
-    public Record(String reference) {
+    public static Record create(String reference){
+        return new Record(reference);
+    }
+
+    private Record(String reference) {
+        super();
         this.recordDefinition = Definitions.getInstance().findRecordDefinition(reference);
+        super.setRecordDefinition(this.recordDefinition);
 
         if (recordDefinition != null) {
             List<Definition> definitions = recordDefinition.getDefinitions();
@@ -39,6 +47,14 @@ public class Record {
                     .create();
         }
         Records.getInstance().addRecord(this);
+    }
+
+    public Record set(List<Entry> entries) {
+        for (Entry entry : entries) {
+            entry.record(this);
+            entryHashMap.put(entry.getReference().toLowerCase(), entry);
+        }
+        return this;
     }
 
     public Record set(Entry entry) {

@@ -18,5 +18,6 @@ public class DefinitionDatabaseLink extends DatabaseLink {
         link("name", method("getName"), method("name", String.class)); // 2
         link("expression", method("getExpression"), method("expression", String.class)); // 3
         link("calculated", method("isCalculated"), method("calculated", Boolean.class)); // 4
+        link("definition_type", method("getDefinitionType"), method("definitionType", Integer.class)); // 5
     }
 }

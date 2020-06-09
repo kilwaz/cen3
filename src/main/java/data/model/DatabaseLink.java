@@ -27,9 +27,11 @@ public class DatabaseLink {
     private Class linkClass;
 
     public DatabaseLink() {
-        DatabaseLinkClass databaseLinkAnnotation = getClass().getAnnotation(DatabaseLinkClass.class);
-        this.tableName = databaseLinkAnnotation.tableName();
-        this.linkClass = databaseLinkAnnotation.linkClass();
+        if (!(this instanceof ConfigurableDatabaseLink)) { // Configurable database links are configured from Definitions and handled by ConfigurableDatabaseLink constructor
+            DatabaseLinkClass databaseLinkAnnotation = getClass().getAnnotation(DatabaseLinkClass.class);
+            this.tableName = databaseLinkAnnotation.tableName();
+            this.linkClass = databaseLinkAnnotation.linkClass();
+        }
     }
 
     public static Class getLinkClass(Class clazz) {
@@ -85,5 +87,17 @@ public class DatabaseLink {
 
     public void onDelete(String columnName, Class clazz) {
         onDeleteColumns.add(new DeleteColumn(columnName, clazz));
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public void setLinkClass(Class linkClass) {
+        this.linkClass = linkClass;
+    }
+
+    public void setModelColumns(List<ModelColumn> modelColumns) {
+        this.modelColumns = modelColumns;
     }
 }
