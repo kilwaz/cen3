@@ -20,7 +20,17 @@ public class Definitions {
 
     }
 
-    private void init() {
+    private void clear() {
+        this.definitionHashMap = new HashMap<>();
+        this.recordDefinitionHashMap = new HashMap<>();
+    }
+
+    public void rebuild() {
+        clear();
+        build();
+    }
+
+    private void build() {
         DefinitionDAO definitionDAO = new DefinitionDAO();
 
         List<Definition> definitions = definitionDAO.getAllDefinitions();
@@ -71,7 +81,7 @@ public class Definitions {
     public static Definitions getInstance() {
         if (instance == null) {
             instance = new Definitions();
-            instance.init();
+            instance.build();
         }
         return instance;
     }

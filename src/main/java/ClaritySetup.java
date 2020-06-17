@@ -19,9 +19,13 @@ import java.util.List;
 public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
+    private static Boolean clearDownDatabase = false;
+
     public static void main(String[] args) {
         ApplicationInitialiser.init(); // Connects to the database/inits web sockets
-        //clearDatabase();
+        if (clearDownDatabase) {
+            clearDatabase();
+        }
         Definitions.getInstance(); // Load in data from database
 
         DefinedMatrix countryMatrix = DefinedMatrix.define().name("Country");
@@ -31,6 +35,12 @@ public class ClaritySetup {
 
         setupDBIceCream();
         setupDB();
+
+        if (clearDownDatabase) {
+            Definitions.getInstance().rebuild();
+        }
+
+        Infer.infer();
 
         Record record = Record.create("Employee");
 
@@ -60,8 +70,6 @@ public class ClaritySetup {
         Duration gap = Duration.ofSeconds(10).plus(Duration.ofMinutes(2));
 
         Infer.infer();
-
-        Definitions.getInstance().getRecordDefinitionHashMap();
     }
 
     private static void setupDB() {
@@ -138,7 +146,7 @@ public class ClaritySetup {
         for (SelectResultRow selectResultRow : result.getResults()) {
             String tableName = selectResultRow.getString("Tables_in_clarity");
             if (!"definition_group".equals(tableName) && !"record_definition".equals(tableName) && !"definition".equals(tableName)) {
-                log.info(tableName);
+                log.info("Deleting " + tableName);
                 new SelectQuery("truncate table " + tableName).execute();
                 new SelectQuery("drop table " + tableName).execute();
             }
