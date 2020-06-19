@@ -5,13 +5,13 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 // NgBootstrap
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 // Perfect Scrollbar
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // Partials
 import { PartialsModule } from '../../../partials/partials.module';
 // Highlight JS
-// import { HighlightModule } from 'ngx-highlightjs';
+import { HighlightModule } from 'ngx-highlightjs';
 // CoreModule
 import { CoreModule } from '../../../../core/core.module';
 // Builder component
@@ -25,7 +25,7 @@ import { BuilderComponent } from './builder.component';
 		MatTabsModule,
 		CoreModule,
 		PerfectScrollbarModule,
-		// HighlightModule,
+		HighlightModule,
 		RouterModule.forChild([
 			{
 				path: '',
@@ -35,6 +35,7 @@ import { BuilderComponent } from './builder.component';
 
 		// ng-bootstrap modules
 		NgbTabsetModule,
+		NgbTooltipModule
 	],
 	providers: [],
 	declarations: [BuilderComponent]

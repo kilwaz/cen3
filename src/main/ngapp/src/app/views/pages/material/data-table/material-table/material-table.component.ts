@@ -1,17 +1,15 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
-
-import {SelectionModel} from '@angular/cdk/collections';
-import {HttpClient} from '@angular/common/http';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
+import { HttpClient } from '@angular/common/http';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 
 const basic = {
-  beforeCodeTitle: 'Basic table',
-  htmlCode: `
+	beforeCodeTitle: 'Basic table',
+	htmlCode: `
 <div class="example-container mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource">
     <!--- Note that these columns can be defined in any order.
@@ -40,7 +38,7 @@ const basic = {
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 </div>`,
-  tsCode: `
+	tsCode: `
 import {Component} from '@angular/core';\n
 /**
 * @title Basic table
@@ -82,7 +80,7 @@ const ELEMENT_DATA: Element[] = [
   {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];`,
-  cssCode: `
+	cssCode: `
 .example-container {
   display: flex;
   flex-direction: column;
@@ -93,14 +91,14 @@ const ELEMENT_DATA: Element[] = [
   overflow: auto;
   max-height: 500px;
 }`,
-  viewCode: ``,
-  isCodeVisible: false,
-  isExampleExpanded: true
+	viewCode: ``,
+	isCodeVisible: false,
+	isExampleExpanded: true
 };
 
 const pagination = {
-  beforeCodeTitle: 'Table with pagination',
-  htmlCode: `
+	beforeCodeTitle: 'Table with pagination',
+	htmlCode: `
 <div class="example-container mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource">
     <!-- Position Column -->
@@ -133,7 +131,7 @@ const pagination = {
   </mat-paginator>
 </div>
 		`,
-  tsCode: `
+	tsCode: `
 import {Component, ViewChild} from '@angular/core';
 import {MatPaginator, MatTableDataSource} from '@angular/material';\n
 /**
@@ -184,7 +182,7 @@ const ELEMENT_DATA: Element[] = [
   {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];`,
-  cssCode: `
+	cssCode: `
 .example-container {
   display: flex;
   flex-direction: column;
@@ -194,14 +192,14 @@ const ELEMENT_DATA: Element[] = [
   overflow: auto;
   max-height: 500px;
 }`,
-  viewCode: ``,
-  isCodeVisible: false
+	viewCode: ``,
+	isCodeVisible: false
 };
 
 const sorting = {
-  beforeCodeTitle: 'Table with sorting',
-  beforeCodeDescription: ``,
-  htmlCode: `
+	beforeCodeTitle: 'Table with sorting',
+	beforeCodeDescription: ``,
+	htmlCode: `
 <div class="example-container mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource" matSort>
     <!-- Position Column -->
@@ -228,7 +226,7 @@ const sorting = {
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 </div>`,
-  tsCode: `
+	tsCode: `
 import {Component, ViewChild} from '@angular/core';
 import {MatTableDataSource, MatSort} from '@angular/material';\n
 /**
@@ -279,7 +277,7 @@ const ELEMENT_DATA: Element[] = [
   {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];`,
-  cssCode: `
+	cssCode: `
 .example-container {
   display: flex;
   flex-direction: column;
@@ -292,13 +290,13 @@ const ELEMENT_DATA: Element[] = [
 .mat-header-cell.mat-sort-header-sorted {
   color: black;
 }`,
-  viewCode: ``,
-  isCodeVisible: false
+	viewCode: ``,
+	isCodeVisible: false
 };
 
 const filtering = {
-  beforeCodeTitle: 'Table with filtering',
-  htmlCode: `
+	beforeCodeTitle: 'Table with filtering',
+	htmlCode: `
 <div class="example-container mat-elevation-z8">
   <div class="example-header">
     <mat-form-field>
@@ -330,7 +328,7 @@ const filtering = {
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 </div>`,
-  tsCode: `
+	tsCode: `
 import {Component} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';\n\n
 /**
@@ -378,7 +376,7 @@ const ELEMENT_DATA: Element[] = [
   {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];`,
-  cssCode: `
+	cssCode: `
 /* Structure */
 .example-container {
   display: flex;
@@ -397,13 +395,13 @@ const ELEMENT_DATA: Element[] = [
   overflow: auto;
   max-height: 500px;
 }`,
-  viewCode: ``,
-  isCodeVisible: false
+	viewCode: ``,
+	isCodeVisible: false
 };
 
 const selection = {
-  beforeCodeTitle: 'Table with selection',
-  htmlCode: `
+	beforeCodeTitle: 'Table with selection',
+	htmlCode: `
 <div class="example-container mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource">
     <!-- Checkbox Column -->
@@ -447,7 +445,7 @@ const selection = {
     </mat-row>
   </mat-table>
 </div>`,
-  tsCode: `
+	tsCode: `
 import {Component} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';\n
@@ -504,13 +502,13 @@ const ELEMENT_DATA: Element[] = [
   {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];`,
-  viewCode: ``,
-  isCodeVisible: false
+	viewCode: ``,
+	isCodeVisible: false
 };
 
 const main = {
-  beforeCodeTitle: 'Data table with sorting, pagination, and filtering.',
-  htmlCode: `
+	beforeCodeTitle: 'Data table with sorting, pagination, and filtering.',
+	htmlCode: `
 <div class="example-header">
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -544,7 +542,7 @@ const main = {
   </mat-table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>`,
-  tsCode: `
+	tsCode: `
 import {Component, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';\n
 /**
@@ -605,7 +603,7 @@ export interface UserData {
   progress: string;
   color: string;
 }`,
-  cssCode: `
+	cssCode: `
 .example-container {
   display: flex;
   flex-direction: column;
@@ -623,14 +621,14 @@ export interface UserData {
   overflow: auto;
   max-height: 500px;
 }`,
-  viewCode: ``,
-  isCodeVisible: false,
-  isExampleExpanded: true
+	viewCode: ``,
+	isCodeVisible: false,
+	isExampleExpanded: true
 };
 
 const hTTP = {
-  beforeCodeTitle: 'Table retrieving data through HTTP',
-  htmlCode: `
+	beforeCodeTitle: 'Table retrieving data through HTTP',
+	htmlCode: `
 <div class="example-container mat-elevation-z8">
   <div class="example-loading-shade"
     *ngIf="isLoadingResults || isRateLimitReached">
@@ -673,7 +671,7 @@ const hTTP = {
   <mat-paginator [length]="resultsLength" [pageSize]="30">
   </mat-paginator>
  </div>`,
-  tsCode: `
+	tsCode: `
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
@@ -751,7 +749,7 @@ export class ExampleHttpDao {
     return this.http.get<GithubApi>(requestUrl);
   }
 }`,
-  cssCode: `
+	cssCode: `
 .example-container {
   display: flex;
   flex-direction: column;
@@ -795,9 +793,9 @@ export class ExampleHttpDao {
 .mat-column-created {
   max-width: 124px;
 }`,
-  viewCode: ``,
-  isCodeVisible: false,
-  isExampleExpanded: true
+	viewCode: ``,
+	isCodeVisible: false,
+	isExampleExpanded: true
 };
 
 
@@ -858,13 +856,12 @@ export interface GithubIssue {
 
 /** An example database that the data source uses to retrieve data for the table. */
 export class ExampleHttpDao {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getRepoIssues(sort: string, order: string, page: number): Observable<GithubApi> {
     const href = 'https://api.github.com/search/issues';
     const requestUrl =
-      `${href}?q=repo:angular/material2&sort=${sort}&order=${order}&page=${page + 1}`;
+        `${href}?q=repo:angular/material2&sort=${sort}&order=${order}&page=${page + 1}`;
 
     return this.http.get<GithubApi>(requestUrl);
   }
@@ -884,11 +881,11 @@ const NAMES: string[] = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
   'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
   'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
 
-/** Builds and returns a new User. */
+  /** Builds and returns a new User. */
 function createNewUser(id: number): UserData {
   const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
+      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
 
   return {
     id: id.toString(),
@@ -899,98 +896,96 @@ function createNewUser(id: number): UserData {
 }
 
 @Component({
-  selector: 'kt-material-table',
-  templateUrl: './material-table.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
-  styles: [`
-    .example-container {
-      display: flex;
-      flex-direction: column;
-      max-height: 500px;
-      min-width: 300px;
-      position: relative;
-    }
+	selector: 'kt-material-table',
+	templateUrl: './material-table.component.html',
+	changeDetection: ChangeDetectionStrategy.Default,
+	styles: [`
+	.example-container {
+		display: flex;
+		flex-direction: column;
+		max-height: 500px;
+		min-width: 300px;
+		position: relative;
+	  }
 
-    .mat-table {
-      overflow: auto;
-      max-height: 500px;
-    }
+	  .mat-table {
+		overflow: auto;
+		max-height: 500px;
+	  }
 
-    .mat-header-cell.mat-sort-header-sorted {
-      color: black;
-    }
+	  .mat-header-cell.mat-sort-header-sorted {
+		color: black;
+	  }
 
-    .example-header {
-      min-height: 64px;
-      padding: 8px 24px 0;
-    }
+	  .example-header {
+		min-height: 64px;
+		padding: 8px 24px 0;
+	  }
 
-    .mat-form-field {
-      font-size: 14px;
-      width: 100%;
-    }
+	  .mat-form-field {
+		font-size: 14px;
+		width: 100%;
+	  }
 
-    .mat-table {
-      overflow: auto;
-      max-height: 500px;
-    }
+	  .mat-table {
+		overflow: auto;
+		max-height: 500px;
+	  }
+	  .mat-column-select {
+		overflow: initial;
+	  }
+	  .example-header {
+		min-height: 64px;
+		display: flex;
+		align-items: center;
+		padding-left: 24px;
+		font-size: 20px;
+	  }
 
-    .mat-column-select {
-      overflow: initial;
-    }
+	  .example-table {
+		overflow: auto;
+		min-height: 300px;
+	  }
 
-    .example-header {
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      padding-left: 24px;
-      font-size: 20px;
-    }
+.example-loading-shade {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 56px;
+	right: 0;
+	background: rgba(0, 0, 0, 0.15);
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  }
 
-    .example-table {
-      overflow: auto;
-      min-height: 300px;
-    }
+  .example-rate-limit-reached {
+	color: #980000;
+	max-width: 360px;
+	text-align: center;
+  }
 
-    .example-loading-shade {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 56px;
-      right: 0;
-      background: rgba(0, 0, 0, 0.15);
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  /* Column Widths */
+  .mat-column-number,
+  .mat-column-state {
+	max-width: 64px;
+  }
 
-    .example-rate-limit-reached {
-      color: #980000;
-      max-width: 360px;
-      text-align: center;
-    }
-
-    /* Column Widths */
-    .mat-column-number,
-    .mat-column-state {
-      max-width: 64px;
-    }
-
-    .mat-column-created {
-      max-width: 124px;
-    }
-  `]
+  .mat-column-created {
+	max-width: 124px;
+  }
+	`]
 })
 export class MaterialTableComponent implements OnInit, AfterViewInit {
 
-  exampleBasic;
-  examplePagination;
-  exampleSorting;
-  exampleFiltering;
-  exampleSelection;
-  exampleHTTP;
-  exampleMain;
+	exampleBasic;
+	examplePagination;
+	exampleSorting;
+	exampleFiltering;
+	exampleSelection;
+	exampleHTTP;
+	exampleMain;
 
   displayedColumns1 = ['position', 'name', 'weight', 'symbol'];
   displayedColumns2: string[] = ['position', 'name', 'weight', 'symbol'];
@@ -1000,7 +995,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit {
   displayedColumns6: string[] = ['created', 'state', 'number', 'title'];
   displayedColumns7: string[] = ['id', 'name', 'progress', 'color'];
 
-  dataSource1 = ELEMENT_DATA;
+	dataSource1 = ELEMENT_DATA;
   dataSource2 = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA2);
   dataSource3 = new MatTableDataSource(ELEMENT_DATA);
   dataSource4 = new MatTableDataSource(ELEMENT_DATA);
@@ -1034,53 +1029,53 @@ export class MaterialTableComponent implements OnInit, AfterViewInit {
     this.dataSource7 = new MatTableDataSource(users);
   }
 
-  ngOnInit() {
-    this.exampleBasic = basic;
-    this.examplePagination = pagination;
-    this.exampleSorting = sorting;
-    this.exampleFiltering = filtering;
-    this.exampleSelection = selection;
-    this.exampleHTTP = hTTP;
-    this.exampleMain = main;
+	ngOnInit() {
+		this.exampleBasic = basic;
+		this.examplePagination = pagination;
+		this.exampleSorting = sorting;
+		this.exampleFiltering = filtering;
+		this.exampleSelection = selection;
+		this.exampleHTTP = hTTP;
+  this.exampleMain = main;
 
-    this.dataSource2.paginator = this.paginator2;
+  this.dataSource2.paginator = this.paginator2;
 
-    this.dataSource3.sort = this.sort3;
+  this.dataSource3.sort = this.sort3;
 
     // Example 6
-    this.exampleDatabase = new ExampleHttpDao(this.http);
+  this.exampleDatabase = new ExampleHttpDao(this.http);
 
     // If the user changes the sort order, reset back to the first page.
-    this.sort6.sortChange.subscribe(() => this.paginator6.pageIndex = 0);
+  this.sort6.sortChange.subscribe(() => this.paginator6.pageIndex = 0);
 
-    merge(this.sort6.sortChange, this.paginator6.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          // tslint:disable-next-line:no-non-null-assertion
-          return this.exampleDatabase!.getRepoIssues(
-            this.sort6.active, this.sort6.direction, this.paginator6.pageIndex);
-        }),
-        map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = data.total_count;
+  merge(this.sort6.sortChange, this.paginator6.page)
+    .pipe(
+      startWith({}),
+      switchMap(() => {
+        this.isLoadingResults = true;
+        // tslint:disable-next-line:no-non-null-assertion
+        return this.exampleDatabase!.getRepoIssues(
+          this.sort6.active, this.sort6.direction, this.paginator6.pageIndex);
+      }),
+      map(data => {
+        // Flip flag to show that loading has finished.
+        this.isLoadingResults = false;
+        this.isRateLimitReached = false;
+        this.resultsLength = data.total_count;
 
-          return data.items;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          // Catch if the GitHub API has reached its rate limit. Return empty data.
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(data => this.dataSource6 = data);
+        return data.items;
+      }),
+      catchError(() => {
+        this.isLoadingResults = false;
+        // Catch if the GitHub API has reached its rate limit. Return empty data.
+        this.isRateLimitReached = true;
+        return observableOf([]);
+      })
+    ).subscribe(data => this.dataSource6 = data);
 
     // Example 7
-    this.dataSource7.paginator = this.paginator7;
-    this.dataSource7.sort = this.sort7;
+  this.dataSource7.paginator = this.paginator7;
+  this.dataSource7.sort = this.sort7;
   }
 
   applyFilter4(filterValue: string) {
@@ -1095,8 +1090,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected5() {
+   /** Whether the number of selected elements matches the total number of rows. */
+   isAllSelected5() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource5.data.length;
     return numSelected === numRows;
@@ -1105,8 +1100,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle5() {
     this.isAllSelected5() ?
-      this.selection.clear() :
-      this.dataSource5.data.forEach(row => this.selection.select(row));
+        this.selection.clear() :
+        this.dataSource5.data.forEach(row => this.selection.select(row));
   }
 
   /** Builds and returns a new User. */

@@ -4,10 +4,8 @@ import { Component, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, OnDe
 import { ActivatedRoute, Router } from '@angular/router';
 // Material
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator} from '@angular/material/paginator';
-import { MatSort} from '@angular/material/sort';
-import { MatSnackBar} from '@angular/material/snack-bar';
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 // RXJS
 import { debounceTime, distinctUntilChanged, tap, skip, take, delay } from 'rxjs/operators';
 import { fromEvent, merge, Observable, of, Subscription } from 'rxjs';
