@@ -10,6 +10,7 @@ export class Login extends Message {
 	private _username: string;
 	private _password: string;
 	private _acceptedAuth: boolean;
+	private _errorMessage: string;
 	
 	constructor() {
 		super();
@@ -18,6 +19,7 @@ export class Login extends Message {
 
 	decodeResponse(msgRaw: any) {
 		this._acceptedAuth = msgRaw.acceptedAuth;
+		this._errorMessage = msgRaw.errorMessage;
 	}
 
 	get username(): string {
@@ -32,6 +34,10 @@ export class Login extends Message {
 		return this._acceptedAuth;
 	}
 	
+	get errorMessage(): string {
+		return this._errorMessage;
+	}
+	
 	set username(value: string) {
 		this._username = value;
 	}
@@ -42,6 +48,10 @@ export class Login extends Message {
 	
 	set acceptedAuth(value: boolean) {
 		this._acceptedAuth = value;
+	}
+	
+	set errorMessage(value: string) {
+		this._errorMessage = value;
 	}
 	
 }

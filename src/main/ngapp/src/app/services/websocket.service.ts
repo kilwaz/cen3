@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Message} from '../wsActions/message';
 import {webSocket} from 'rxjs/webSocket';
 import {ClassDictionary} from '../classDictionary';
+import {Observable, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +96,16 @@ export class WebSocketService {
     WebSocketService.callObjs[message.callBackUUID] = message;
 
     this.send(message);
+  }
+
+  sendWithObservable(message: Message): Observable<Message> {
+    const sendSubject = new Subject<Message>();
+    this.sendCallback(message, responseMessage => {
+      sendSubject.next(responseMessage);
+      sendSubject.complete();
+    });
+
+    return sendSubject.asObservable();
   }
 
   send(message: Message) {

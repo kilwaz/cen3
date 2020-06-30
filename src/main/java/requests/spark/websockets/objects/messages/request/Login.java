@@ -19,14 +19,15 @@ public class Login extends Message {
     public void process() {
         LoginData loginData = (LoginData) this.getWebSocketData();
 
-        log.info("Data is " + loginData.getPassword() + " " + loginData.getUsername());
         List<Record> records = Records.getInstance().findRecords("USER_Username", loginData.getUsername());
+
+        loginData.setAcceptedAuth(false);
+        loginData.setErrorMessage("INVALID DETAILS");
 
         for (Record record : records) {
             if (loginData.getPassword() != null && loginData.getPassword().equals(record.get("USER_Password").get().getValue())) {
                 loginData.setAcceptedAuth(true);
-            } else {
-                loginData.setAcceptedAuth(false);
+                loginData.setErrorMessage(record.get("USER_Username").get().getValue().toString());
             }
         }
     }

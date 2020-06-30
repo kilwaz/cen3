@@ -20,13 +20,12 @@ export class AuthService {
   }
 
   // Authentication/Authorization
-  login(username: string, password: string): Observable<User> {
-    const login1: Login = new Login();
-    login1.username = username;
-    login1.password = password;
-    this.webSocketService.send(login1);
+  login(username: string, password: string): Observable<Login> {
+    const loginAction: Login = new Login();
+    loginAction.username = username;
+    loginAction.password = password;
 
-    return this.http.post<User>(API_USERS_URL, {username, password});
+    return this.webSocketService.sendWithObservable(loginAction) as Observable<Login>;
   }
 
   getUserByToken(): Observable<User> {

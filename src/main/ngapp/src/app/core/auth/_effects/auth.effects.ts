@@ -1,18 +1,27 @@
 // Angular
-import { Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
 // RxJS
-import { filter, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
-import { defer, Observable, of } from 'rxjs';
+import {filter, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
+import {defer, Observable, of} from 'rxjs';
 // NGRX
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Action, select, Store} from '@ngrx/store';
 // Auth actions
-import { AuthActionTypes, Login, Logout, Register, UserLoaded, UserRequested } from '../_actions/auth.actions';
-import { AuthService } from '../_services/index';
-import { AppState } from '../../reducers';
-import { environment } from '../../../../environments/environment';
-import { isUserLoaded } from '../_selectors/auth.selectors';
+import {
+  AuthActionTypes,
+  ClarityLoginFailed,
+  ClarityLoginSuccess,
+  Login,
+  Logout,
+  Register,
+  UserLoaded,
+  UserRequested
+} from '../_actions/auth.actions';
+import {AuthService} from '../_services/index';
+import {AppState} from '../../reducers';
+import {environment} from '../../../../environments/environment';
+import {isUserLoaded} from '../_selectors/auth.selectors';
 
 @Injectable()
 export class AuthEffects {
@@ -22,6 +31,23 @@ export class AuthEffects {
     tap(action => {
       localStorage.setItem(environment.authTokenKey, action.payload.authToken);
       this.store.dispatch(new UserRequested());
+    }),
+  );
+
+  @Effect({dispatch: false})
+  clarityLoginSuccess$ = this.actions$.pipe(
+    ofType<ClarityLoginSuccess>(AuthActionTypes.ClarityLoginSuccess),
+    tap(action => {
+      this.router.navigate(['/dashboard'], {queryParams: {returnUrl: this.returnUrl}});
+      // localStorage.setItem(environment.authTokenKey, action.payload.authToken);
+    }),
+  );
+
+  @Effect({dispatch: false})
+  clarityLoginFailed$ = this.actions$.pipe(
+    ofType<ClarityLoginFailed>(AuthActionTypes.ClarityLoginFailed),
+    tap(action => {
+      // action.payload.errorMessage
     }),
   );
 

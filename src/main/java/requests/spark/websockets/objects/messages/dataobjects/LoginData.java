@@ -15,6 +15,9 @@ public class LoginData extends WebSocketData {
     @WSDataOutgoing
     private Boolean acceptedAuth = null;
 
+    @WSDataOutgoing
+    private String errorMessage = null;
+
     public String getUsername() {
         return username;
     }
@@ -37,5 +40,13 @@ public class LoginData extends WebSocketData {
 
     public void setAcceptedAuth(Boolean acceptedAuth) {
         this.acceptedAuth = acceptedAuth;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

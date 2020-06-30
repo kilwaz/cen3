@@ -21,45 +21,47 @@ export const isUserLoaded = createSelector(selectAuthState, auth => auth.isUserL
 
 export const currentUser = createSelector(selectAuthState, auth => auth.user);
 
-export const currentUserRoleIds = createSelector(
-    currentUser,
-    user => {
-      if (!user) {
-        return [];
-      }
+export const errorMessage = createSelector(selectAuthState, auth => auth.errorMessage);
 
-      return user.roles;
+export const currentUserRoleIds = createSelector(
+  currentUser,
+  user => {
+    if (!user) {
+      return [];
     }
+
+    return user.roles;
+  }
 );
 
 export const currentUserPermissionsIds = createSelector(
-    currentUserRoleIds,
-    selectAllRoles,
-    (userRoleIds: number[], allRoles: Role[]) => {
-      return getPermissionsIdsFrom(userRoleIds, allRoles);
-    }
+  currentUserRoleIds,
+  selectAllRoles,
+  (userRoleIds: number[], allRoles: Role[]) => {
+    return getPermissionsIdsFrom(userRoleIds, allRoles);
+  }
 );
 
 export const checkHasUserPermission = (permissionId: number) => createSelector(
-    currentUserPermissionsIds,
-    (ids: number[]) => {
-      return ids.some(id => id === permissionId);
-    }
+  currentUserPermissionsIds,
+  (ids: number[]) => {
+    return ids.some(id => id === permissionId);
+  }
 );
 
 export const currentUserPermissions = createSelector(
-    currentUserPermissionsIds,
-    selectAllPermissions,
-    (permissionIds: number[], allPermissions: Permission[]) => {
-      const result: Permission[] = [];
-      each(permissionIds, id => {
-        const userPermission = find(allPermissions, elem => elem.id === id);
-        if (userPermission) {
-          result.push(userPermission);
-        }
-      });
-      return result;
-    }
+  currentUserPermissionsIds,
+  selectAllPermissions,
+  (permissionIds: number[], allPermissions: Permission[]) => {
+    const result: Permission[] = [];
+    each(permissionIds, id => {
+      const userPermission = find(allPermissions, elem => elem.id === id);
+      if (userPermission) {
+        result.push(userPermission);
+      }
+    });
+    return result;
+  }
 );
 
 function getPermissionsIdsFrom(userRolesIds: number[] = [], allRoles: Role[] = []): number[] {

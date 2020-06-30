@@ -1,11 +1,12 @@
 // Actions
-import { AuthActions, AuthActionTypes } from '../_actions/auth.actions';
+import {AuthActions, AuthActionTypes} from '../_actions/auth.actions';
 // Models
-import { User } from '../_models/user.model';
+import {User} from '../_models/user.model';
 
 export interface AuthState {
   loggedIn: boolean;
   authToken: string;
+  errorMessage: string;
   user: User;
   isUserLoaded: boolean;
 }
@@ -14,6 +15,7 @@ export const initialAuthState: AuthState = {
   loggedIn: false,
   authToken: undefined,
   user: undefined,
+  errorMessage: undefined,
   isUserLoaded: false
 };
 
@@ -22,6 +24,7 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
     case AuthActionTypes.Login: {
       const token: string = action.payload.authToken;
       return {
+        ...state,
         loggedIn: true,
         authToken: token,
         user: undefined,
@@ -32,10 +35,27 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
     case AuthActionTypes.Register: {
       const token: string = action.payload.authToken;
       return {
+        ...state,
         loggedIn: true,
         authToken: token,
         user: undefined,
         isUserLoaded: false
+      };
+    }
+
+    case AuthActionTypes.ClarityLoginSuccess: {
+      return {
+        ...state,
+        loggedIn: true
+      };
+    }
+
+    case AuthActionTypes.ClarityLoginFailed: {
+      const errorMessagePayload: string = action.payload.errorMessage;
+
+      return {
+        ...state,
+        errorMessage: errorMessagePayload
       };
     }
 
