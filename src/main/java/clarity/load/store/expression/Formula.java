@@ -22,7 +22,7 @@ public class Formula {
     private Node root = null;
     private String strExpression = "";
     private Expression result = null;
-    private Boolean built = false;
+    private Boolean isBuilt = false;
 
     public Formula(String strExpression) {
         this.strExpression = strExpression;
@@ -39,8 +39,8 @@ public class Formula {
             root = node;
         }
 
-        built = true;
-        return built;
+        isBuilt = true;
+        return true;
     }
 
     public InstancedFormula createInstance() {
@@ -83,6 +83,9 @@ public class Formula {
                 Definition referenceDefinition = Definitions.getInstance().findDefinition(referenceName);
 
                 if (referenceDefinition != null) {
+                    if (!referenceDefinition.getFormula().isBuilt()) {
+                        referenceDefinition.getFormula().build();
+                    }
                     expression = new Reference(referenceDefinition);
                 } else {
                     log.info("Could not find formula reference " + referenceName);
@@ -201,5 +204,9 @@ public class Formula {
 
     public Expression getResult() {
         return result;
+    }
+
+    public boolean isBuilt() {
+        return isBuilt;
     }
 }

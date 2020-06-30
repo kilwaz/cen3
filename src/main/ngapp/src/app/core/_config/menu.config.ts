@@ -384,6 +384,13 @@ export class MenuConfig {
           bullet: 'dot',
         },
         {
+          title: 'Import',
+          desc: 'Data imports',
+          root: true,
+          page: '/import',
+          icon: 'flaticon-line-graph' // <= Choose the icon class
+        },
+        {
           title: 'Layout Builder',
           root: true,
           icon: 'flaticon2-expand',

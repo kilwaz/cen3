@@ -34,9 +34,11 @@ public class Definitions {
         DefinitionDAO definitionDAO = new DefinitionDAO();
 
         List<Definition> definitions = definitionDAO.getAllDefinitions();
-        for (Definition definition : definitions) {
-            definition.build();
+        for (Definition definition : definitions) { // Add them all as referenceable first
             this.addDefinition(definition);
+        }
+        for (Definition definition : definitions) { // Build each one once all references are available
+            definition.build();
         }
 
         RecordDefinitionDAO recordDefinitionDAO = new RecordDefinitionDAO();

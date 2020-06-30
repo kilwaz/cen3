@@ -1,11 +1,12 @@
-import {Directive, HostBinding, HostListener} from "@angular/core";
-import {WebSocketService} from "./services/websocket.service";
+import {Directive, HostBinding, HostListener} from '@angular/core';
+import {WebSocketService} from './services/websocket.service';
 
 @Directive({
-  selector: "[dnd]"
+  // tslint:disable-next-line:directive-selector
+  selector: '[dnd]'
 })
 export class DndDirective {
-  @HostBinding("style.background") private background = "#eee";
+  @HostBinding('style.background') private background = '#eee';
 
   webSocketService: WebSocketService;
 
@@ -13,30 +14,30 @@ export class DndDirective {
     this.webSocketService = webSocketServiceConst;
   }
 
-  @HostListener("dragover", ["$event"]) onDragOver(evt) {
+  @HostListener('dragover', ['$event']) onDragOver(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = "#999";
+    this.background = '#999';
   }
 
-  @HostListener("dragleave", ["$event"])
+  @HostListener('dragleave', ['$event'])
   public onDragLeave(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = "#eee";
+    this.background = '#eee';
   }
 
-  @HostListener("drop", ["$event"])
+  @HostListener('drop', ['$event'])
   public onDrop(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    let files: FileList = evt.dataTransfer.files;
+    const files: FileList = evt.dataTransfer.files;
     if (files.length > 0) {
-      this.background = "#eee";
+      this.background = '#eee';
 
-      if (typeof Worker !== "undefined") {
+      if (typeof Worker !== 'undefined') {
         // Create a new worker to deal with our task
-        const worker = new Worker("./app.worker.ts", {type: "module"});
+        const worker = new Worker('./app.worker.ts', {type: 'module'});
         worker.postMessage(files);
       } else {
         // Web Workers are not supported in this environment.

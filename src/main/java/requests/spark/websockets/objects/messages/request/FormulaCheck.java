@@ -1,8 +1,8 @@
 package requests.spark.websockets.objects.messages.request;
 
 import clarity.Entry;
-import clarity.Infer;
 import clarity.Record;
+import clarity.load.store.Records;
 import clarity.load.store.expression.Formula;
 import clarity.load.store.expression.instance.InstancedFormula;
 import log.AppLogger;
@@ -12,6 +12,8 @@ import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.dataobjects.FormulaCheckData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
+import java.util.List;
+
 @MessageType("FormulaCheck")
 @WebSocketDataClass(FormulaCheckData.class)
 public class FormulaCheck extends Message {
@@ -19,33 +21,30 @@ public class FormulaCheck extends Message {
 
     public void process() {
         FormulaCheckData formulaCheckData = (FormulaCheckData) this.getWebSocketData();
-        
-        Record record = Record.create("Employee");
-        record.set(Entry.create("A", "aLExAnder"));
-        record.set(Entry.create("B", "bROwn"));
+        List<Record> records = Records.getInstance().findRecords("ID", "1");
 
-        Infer.infer();
+        if (records.size() > 0) {
+            Entry entry = records.get(0).get(formulaCheckData.getFormulaToCheck());
 
-        Entry entry = record.get(formulaCheckData.getFormulaToCheck());
+            if (entry != null) {
+                formulaCheckData.setResult(entry.get().getValue().toString());
 
-        if (entry != null) {
-            formulaCheckData.setResult(entry.get().getValue().toString());
+                Formula clarityFormula = entry.getDefinition().getFormula();
 
-            Formula clarityFormula = entry.getDefinition().getFormula();
+                if (clarityFormula == null) {
+                    clarityFormula = new Formula(entry.get().getFormulaSafeValue());
+                }
 
-            if (clarityFormula == null) {
-                clarityFormula = new Formula(entry.get().getFormulaSafeValue());
+                InstancedFormula instancedFormula = clarityFormula
+                        .createInstance()
+                        .record(entry.getRecord());
+                instancedFormula.solve();
+
+                // Convert to actor formula
+                game.actors.Formula formula = new game.actors.Formula();
+                formula.convertClarityNode(instancedFormula);
+                formulaCheckData.setFormula(formula);
             }
-
-            InstancedFormula instancedFormula = clarityFormula
-                    .createInstance()
-                    .record(entry.getRecord());
-            instancedFormula.solve();
-
-            // Convert to actor formula
-            game.actors.Formula formula = new game.actors.Formula();
-            formula.convertClarityNode(instancedFormula);
-            formulaCheckData.setFormula(formula);
         }
     }
 }

@@ -36,9 +36,7 @@ public class ClaritySetup {
         setupDBIceCream();
         setupDB();
 
-        if (clearDownDatabase) {
-            Definitions.getInstance().rebuild();
-        }
+        Definitions.getInstance().rebuild();
 
         Infer.infer();
 

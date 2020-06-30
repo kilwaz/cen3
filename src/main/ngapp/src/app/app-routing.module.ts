@@ -1,11 +1,12 @@
 // Angular
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule, Routes} from '@angular/router';
 // Components
-import { BaseComponent } from './views/theme/base/base.component';
+import {BaseComponent} from './views/theme/base/base.component';
 // Auth
-import { AuthGuard } from './core/auth';
+import {AuthGuard} from './core/auth';
+import {ImportComponent} from './views/pages/import/import.component';
 
 const routes: Routes = [
   {path: 'auth', loadChildren: () => import('./views/pages/auth/auth.module').then(m => m.AuthModule)},
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: 'builder',
         loadChildren: () => import('./views/theme/content/builder/builder.module').then(m => m.BuilderModule),
+      },
+      {
+        path: 'import',
+        component: ImportComponent,
       },
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: '**', redirectTo: 'dashboard', pathMatch: 'full'},

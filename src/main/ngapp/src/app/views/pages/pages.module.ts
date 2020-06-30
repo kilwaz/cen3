@@ -10,10 +10,14 @@ import { CoreModule } from '../../core/core.module';
 import { MailModule } from './apps/mail/mail.module';
 import { ECommerceModule } from './apps/e-commerce/e-commerce.module';
 import { UserManagementModule } from './user-management/user-management.module';
-import { MyPageComponent } from './my-page/my-page.component';
+import { ImportComponent } from './import/import.component';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatButtonModule} from '@angular/material/button';
+import {DndDirective} from '../../dnd.directive';
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
-  declarations: [MyPageComponent],
+  declarations: [ImportComponent, DndDirective],
   exports: [],
   imports: [
     CommonModule,
@@ -24,6 +28,9 @@ import { MyPageComponent } from './my-page/my-page.component';
     MailModule,
     ECommerceModule,
     UserManagementModule,
+    MatTreeModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: []
 })

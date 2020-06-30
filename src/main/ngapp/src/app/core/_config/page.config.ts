@@ -6,6 +6,9 @@ export class PageConfig {
         desc: 'Latest updates and statistic charts'
       },
     },
+    import: {
+      page: {title: 'Import', desc: 'Data Imports'}
+    },
     ngbootstrap: {
       accordion: {
         page: {title: 'Accordion', desc: ''}
