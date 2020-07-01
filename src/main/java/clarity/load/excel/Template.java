@@ -1,12 +1,9 @@
 package clarity.load.excel;
 
 import clarity.Infer;
-import clarity.load.data.DoubleValue;
 import clarity.load.data.Record;
+import clarity.load.data.StringValue;
 import clarity.load.data.Value;
-//import clarity.load.store.DataDictionary;
-//import clarity.load.store.StoredItem;
-//import clarity.load.store.StoredRecord;
 import log.AppLogger;
 import org.apache.log4j.Logger;
 
@@ -39,40 +36,12 @@ public class Template {
     }
 
     public void integrate() {
-//        DataDictionary dataDictionary = DataDictionary.getInstance();
-//
-//        List<StoredRecord> storedRecords = new ArrayList<>();
-//
-//        for (Record record : recordList) {
-//            StoredRecord storedRecord = dataDictionary.createStoredRecord(1);
-//
-//            for (Value value : record.getValues()) {
-//                StoredItem storedItem = null;
-//                if (value instanceof DoubleValue) {
-//                    DoubleValue doubleValue = (DoubleValue) value;
-//
-//                    if (doubleValue.getColumn() == 0) {
-//                        storedItem = storedRecord.getStoredItem(1);
-//                    } else if (doubleValue.getColumn() == 1) {
-//                        storedItem = storedRecord.getStoredItem(2);
-//                    }
-//
-//                    if (storedItem != null) {
-//                        storedItem.value(doubleValue.getValue());
-//                    }
-//                }
-//            }
-//
-//            storedRecords.add(storedRecord);
-//        }
+        for (Value headerValue : headerRecord.getValues()) {
+            if (headerValue instanceof StringValue) {
+                log.info(((StringValue) headerValue).getValue());
+            }
+        }
 
         Infer.infer();
-
-//        for (StoredRecord storedRecord : storedRecords) {
-//            log.info("*** Record ***");
-//            for (StoredItem storedItem : storedRecord.getStoredItems().values()) {
-//                log.info(storedItem.getValue() + " Fresh=" + storedItem.isFresh());
-//            }
-//        }
     }
 }

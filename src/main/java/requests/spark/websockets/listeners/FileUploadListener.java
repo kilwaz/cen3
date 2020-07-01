@@ -60,7 +60,6 @@ public class FileUploadListener {
     @OnWebSocketMessage
     public void message(Session session, String rawMessage) {
         fileName = rawMessage;
-        log.info("UPLOAD file name set as " + rawMessage);
         try {
             session.getRemote().sendString("Message back from server");
         } catch (IOException ex) {

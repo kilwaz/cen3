@@ -38,7 +38,6 @@ import { PartialsModule } from './views/partials/partials.module';
 // Layout Services
 import {
   DataTableService,
-  FakeApiService,
   KtDialogService,
   LayoutConfigService,
   LayoutRefService,
@@ -52,6 +51,7 @@ import {
 // Auth
 import { AuthModule } from './views/pages/auth/auth.module';
 import { AuthService } from './core/auth';
+import { WebSocketService } from './services/websocket.service';
 // CRUD
 import {
   HttpUtilsService,
@@ -135,6 +135,7 @@ export function getHighlightLanguages() {
     KtDialogService,
     DataTableService,
     SplashScreenService,
+    WebSocketService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

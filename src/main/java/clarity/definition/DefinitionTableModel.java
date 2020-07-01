@@ -70,7 +70,7 @@ public class DefinitionTableModel {
                         columnType = resultRow.getString("COLUMN_TYPE");
                     }
 
-                    log.info(columnName + " - " + columnType);
+                    //log.info(columnName + " - " + columnType);
 
                     databaseColumnModelHashMap.put(columnName, new DatabaseColumnModel(columnName, columnType));
                 }

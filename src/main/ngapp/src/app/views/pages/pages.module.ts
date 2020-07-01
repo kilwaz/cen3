@@ -14,7 +14,7 @@ import { ImportComponent } from './import/import.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatButtonModule} from '@angular/material/button';
 import {DndDirective} from '../../dnd.directive';
-import {MatIconModule} from "@angular/material/icon";
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [ImportComponent, DndDirective],

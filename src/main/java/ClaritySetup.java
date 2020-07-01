@@ -68,6 +68,8 @@ public class ClaritySetup {
         Duration gap = Duration.ofSeconds(10).plus(Duration.ofMinutes(2));
 
         Infer.infer();
+
+        log.info("Ready!");
     }
 
     private static void setupDB() {

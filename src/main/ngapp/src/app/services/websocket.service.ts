@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Message} from '../wsActions/message';
 import {webSocket} from 'rxjs/webSocket';
 import {ClassDictionary} from '../classDictionary';
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class WebSocketService {
   public static connected = false;
   private static callBacks: { [key: string]: (Message) => any } = {};
   private static callObjs: { [key: string]: Message } = {};
+  public static websocketAddress = 'ws://localhost:4568'; // If hosting on another machine this needs to be set correctly
 
   public ws: any;
 
@@ -80,8 +81,7 @@ export class WebSocketService {
   }
 
   private buildSocket() {
-    // this.ws = webSocket("ws://192.168.1.26:4568/ws"); // If hosting on another machine this needs to be set correctly
-    this.ws = webSocket('ws://localhost:4568/ws'); // Local Dev IP
+    this.ws = webSocket(WebSocketService.websocketAddress + '/ws'); // Local Dev IP
     this.ws.subscribe(
       msg => WebSocketService.received(msg),
       err => WebSocketService.error(err),

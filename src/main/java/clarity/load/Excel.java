@@ -38,10 +38,10 @@ public class Excel implements Loader {
                     Record record = new Record();
                     for (Cell currentCell : currentRow) {
                         if (currentCell.getCellType() == CellType.STRING) {
-                            //log.info("String " + currentCell.getStringCellValue());
+                            log.info("String " + currentCell.getStringCellValue());
                             record.addValue(currentCell.getStringCellValue(), currentCell.getColumnIndex(), currentCell.getRowIndex());
                         } else if (currentCell.getCellType() == CellType.NUMERIC) {
-                            //log.info("Number " + currentCell.getNumericCellValue());
+                            log.info("Number " + currentCell.getNumericCellValue());
                             record.addValue(currentCell.getNumericCellValue(), currentCell.getColumnIndex(), currentCell.getRowIndex());
                         }
                     }
