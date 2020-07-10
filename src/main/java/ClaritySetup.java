@@ -65,6 +65,14 @@ public class ClaritySetup {
         user1.set(entries);
         user1.save();
 
+        Record bonusRecord = Record.create("Bonus");
+        entries = new ArrayList<>();
+        entries.add(Entry.create("D", "1"));
+        entries.add(Entry.create("E", "GBP"));
+        entries.add(Entry.create("A", "GBP"));
+        bonusRecord.set(entries);
+        bonusRecord.save();
+
         Duration gap = Duration.ofSeconds(10).plus(Duration.ofMinutes(2));
 
         Infer.infer();
@@ -76,6 +84,8 @@ public class ClaritySetup {
         Definition.define("ID");
         Definition.define("A");
         Definition.define("B");
+        Definition.define("D");
+        Definition.define("E");
         Definition.define("C").expression("coNCat([A],' - ',[B])");
         Definition.define("SPL").expression("((25.0016/24.04)-1)*100");
         Definition.define("U").expression("upper([C])");
@@ -96,8 +106,11 @@ public class ClaritySetup {
         Definition.define("Num").expression("3.3");
         Definition.define("Matrix").expression("matrix('Country','USA')");
 
-        RecordDefinition.define("Employee").addDefinitions("ID", "C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
+        RecordDefinition employee = RecordDefinition.define("Employee").addDefinitions("ID", "C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
                 "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num", "SPL");
+
+        RecordDefinition bonus = RecordDefinition.define("Bonus").addDefinitions("D", "E");
+        employee.addChildRecordDefinition(bonus);
 
         Definition.define("USER_ID");
         Definition.define("USER_Username");
@@ -145,7 +158,7 @@ public class ClaritySetup {
         SelectResult result = (SelectResult) selectQuery.execute();
         for (SelectResultRow selectResultRow : result.getResults()) {
             String tableName = selectResultRow.getString("Tables_in_clarity");
-            if (!"definition_group".equals(tableName) && !"record_definition".equals(tableName) && !"definition".equals(tableName)) {
+            if (!"definition_group".equals(tableName) && !"record_definition".equals(tableName) && !"definition".equals(tableName) && !"record_definition_child".equals(tableName)) {
                 log.info("Deleting " + tableName);
                 new SelectQuery("truncate table " + tableName).execute();
                 new SelectQuery("drop table " + tableName).execute();
@@ -154,5 +167,6 @@ public class ClaritySetup {
         new SelectQuery("truncate table definition_group").execute();
         new SelectQuery("truncate table record_definition").execute();
         new SelectQuery("truncate table definition").execute();
+        new SelectQuery("truncate table record_definition_child").execute();
     }
 }

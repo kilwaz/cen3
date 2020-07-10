@@ -42,6 +42,11 @@ public class Template {
             }
         }
 
-        Infer.infer();
+        // Using the headers somehow match this import to an object..
+
+        // If an ID matches update the values
+        // If an ID is new then insert the values
+
+        //Infer.infer();
     }
 }

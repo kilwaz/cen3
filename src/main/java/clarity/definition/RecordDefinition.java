@@ -16,6 +16,8 @@ public class RecordDefinition extends DatabaseObject {
     private String name = "";
     private HashMap<String, Definition> definitionHashMap = null;
     private DefinitionTableModel definitionTableMode;
+    private HashMap<String, RecordDefinition> childRecordDefinitions = new HashMap<>();
+    private List<RecordDefinitionChild> childRecordDefinitionList = new ArrayList<>();
 
     public RecordDefinition() {
         name = hashCode() + "";
@@ -60,6 +62,17 @@ public class RecordDefinition extends DatabaseObject {
             Error.CLARITY_REFERENCE_NOT_FOUND.record()
                     .additionalInformation("Definition " + reference + " not found to add to record " + this.getName())
                     .create();
+        }
+
+        return this;
+    }
+
+    public RecordDefinition addChildRecordDefinition(RecordDefinition recordDefinition) {
+        if (recordDefinition != null) {
+            childRecordDefinitions.put(recordDefinition.getName(), recordDefinition);
+            definitionTableMode.update();
+        } else {
+            Error.CLARITY_NULL_DEFINITION.record().create();
         }
 
         return this;
@@ -111,7 +124,19 @@ public class RecordDefinition extends DatabaseObject {
         return name;
     }
 
+    public Boolean hasDefinition(Definition definition) {
+        return definitionHashMap.containsKey(definition.getName());
+    }
+
     public DefinitionTableModel getDefinitionTableMode() {
         return definitionTableMode;
+    }
+
+    public String getTableName() {
+        return "rec_def_" + getName().toLowerCase();
+    }
+
+    public HashMap<String, RecordDefinition> getChildRecordDefinitions() {
+        return childRecordDefinitions;
     }
 }

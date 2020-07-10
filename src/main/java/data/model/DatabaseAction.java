@@ -1,10 +1,7 @@
 package data.model;
 
 import clarity.Record;
-import clarity.definition.DatabaseColumnModel;
-import clarity.definition.Definition;
-import clarity.definition.DefinitionTableModel;
-import clarity.definition.RecordDefinition;
+import clarity.definition.*;
 import data.*;
 import data.model.dao.DAO;
 import data.model.objects.json.JSONContainer;
@@ -263,7 +260,7 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                                 if (uuid != null && !uuid.isEmpty()) {
                                     modelColumn.getObjectLoadMethod().invoke(dbObject, DAO.UUIDFromString(uuid));
                                 }
-                                //TODO: FROM THESE ELSE IF STATEMENTS ON, THINK OF A GENERIC WAY TO HANDLE THESE SITUATIONS
+                                // TODO: FROM THESE ELSE IF STATEMENTS ON, THINK OF A GENERIC WAY TO HANDLE THESE SITUATIONS
                             } else if (loadParameterClass.equals(Definition.class)) { // Definition
                                 String uuidStr = resultRow.getString(modelColumn.getColumnName());
                                 if (uuidStr != null && !uuidStr.isEmpty()) {
@@ -276,7 +273,13 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                                     RecordDefinition recordDefinition = loadCachedObject(uuidStr, RecordDefinition.class);
                                     modelColumn.getObjectLoadMethod().invoke(dbObject, recordDefinition);
                                 }
-                                //TODO: ***********************************************************************************
+                            } else if (loadParameterClass.equals(RecordDefinitionChild.class)) { // RecordDefinitionChild
+                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
+                                if (uuidStr != null && !uuidStr.isEmpty()) {
+                                    RecordDefinitionChild recordDefinitionChild = loadCachedObject(uuidStr, RecordDefinitionChild.class);
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, recordDefinitionChild);
+                                }
+                                // TODO: ***********************************************************************************
                             } else if (loadParameterClass.equals(Object.class)) { // OBJECT
                                 modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getColumnObject(modelColumn.getColumnName()));
                             }

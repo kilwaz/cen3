@@ -10,7 +10,7 @@ public class ConfigurableDatabaseLink extends DatabaseLink {
 
     public ConfigurableDatabaseLink(RecordDefinition recordDefinition) {
         this.recordDefinition = recordDefinition;
-        setTableName(recordDefinition.getName());
+        setTableName(recordDefinition.getTableName());
         setLinkClass(clarity.Record.class);
     }
 

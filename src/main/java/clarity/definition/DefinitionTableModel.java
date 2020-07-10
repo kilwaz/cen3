@@ -14,6 +14,7 @@ public class DefinitionTableModel {
 
     private HashMap<String, DatabaseColumnModel> databaseColumnModelHashMap = new HashMap<>();
     private HashMap<String, DatabaseColumnModel> definedModelHashMap = new HashMap<>();
+    private HashMap<String, DefinitionTableModel> childTableModel = new HashMap<>();
 
     private Boolean databaseTableExists;
     private Boolean definedTableExists;
@@ -33,22 +34,29 @@ public class DefinitionTableModel {
         this.recordDefinition = recordDefinition;
     }
 
+    // Updates definition map with any new definitions or if an existing definition is renamed
     public void update() {
         definedTableExists = recordDefinition == null;
         var definitionHashMap = recordDefinition.getDefinitionHashMap();
+        var childRecordDefinitionHashMap = recordDefinition.getChildRecordDefinitions();
 
         definedModelHashMap.clear();
+        childTableModel.clear();
 
         for (Definition definition : definitionHashMap.values()) {
             if (!definition.isCalculated()) {
                 definedModelHashMap.put(definition.getName(), new DatabaseColumnModel(definition.getName(), databaseTypeMappings.get(definition.getDefinitionType())));
             }
         }
+
+        for (RecordDefinition recordDefinition : childRecordDefinitionHashMap.values()) {
+            childTableModel.put(recordDefinition.getName(), recordDefinition.getDefinitionTableMode());
+        }
     }
 
     public void verifyTable() {
         if (recordDefinition != null) {
-            var selectResult = (SelectResult) new SelectQuery("describe " + recordDefinition.getName().toLowerCase()).execute();
+            var selectResult = (SelectResult) new SelectQuery("describe " + recordDefinition.getTableName()).execute();
             if (selectResult.hasException()) { // Most likely the table doesn't exist
                 databaseTableExists = false;
             } else {
@@ -69,8 +77,6 @@ public class DefinitionTableModel {
                     } else if (resultRow.hasColumn("COLUMN_TYPE")) {
                         columnType = resultRow.getString("COLUMN_TYPE");
                     }
-
-                    //log.info(columnName + " - " + columnType);
 
                     databaseColumnModelHashMap.put(columnName, new DatabaseColumnModel(columnName, columnType));
                 }
@@ -96,18 +102,18 @@ public class DefinitionTableModel {
                     DatabaseColumnModel definedColumn = definedModelHashMap.get(definedModelKey);
 
                     if (databaseColumn == null && definedColumn != null) {
-                        queries.add(new SelectQuery("alter table " + recordDefinition.getName().toLowerCase() + " add " + definedModelKey + " " + definedColumn.getColumnType()));
+                        queries.add(new SelectQuery("alter table " + recordDefinition.getTableName() + " add " + definedModelKey + " " + definedColumn.getColumnType()));
                     } else if (databaseColumn != null && definedColumn == null) {
-                        queries.add(new SelectQuery("alter table " + recordDefinition.getName().toLowerCase() + " drop " + definedModelKey));
+                        queries.add(new SelectQuery("alter table " + recordDefinition.getTableName() + " drop " + definedModelKey));
                     }
 
                     if (databaseColumn != null && definedColumn != null && !databaseColumn.getColumnType().equals(definedColumn.getColumnType())) {
-                        queries.add(new SelectQuery("alter table " + recordDefinition.getName().toLowerCase() + " modify column " + definedColumn.getColumnName() + " " + definedColumn.getColumnType()));
+                        queries.add(new SelectQuery("alter table " + recordDefinition.getTableName() + " modify column " + definedColumn.getColumnName() + " " + definedColumn.getColumnType()));
                     }
                 }
             } else {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("create table ").append(recordDefinition.getName().toLowerCase()).append(" (\n")
+                stringBuilder.append("create table ").append(recordDefinition.getTableName()).append(" (\n")
                         .append("uuid char(36) NOT NULL,\n");
 
                 for (Definition definition : recordDefinition.getDefinitions()) {
