@@ -1,0 +1,13 @@
+NOTES:
+
+
+
+
+
+
+
+
+ADD:
+Making a unique ID possible for a type of record to know if you're adding or updating an existing one.
+
+FIX:

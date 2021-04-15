@@ -144,7 +144,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 */
 	goBackWithId() {
 		const url = `/user-management/users`;
-		this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
+		this.router.navigateByUrl(url, /* Removed unsupported properties by Angular migration: relativeTo. */ {});
 	}
 
 	/**
@@ -161,7 +161,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		}
 
 		url = `/user-management/users/edit/${id}`;
-		this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
+		this.router.navigateByUrl(url, /* Removed unsupported properties by Angular migration: relativeTo. */ {});
 	}
 
 	/**

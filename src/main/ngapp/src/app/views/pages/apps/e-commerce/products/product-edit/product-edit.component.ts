@@ -236,11 +236,11 @@ export class ProductEditComponent implements OnInit, OnDestroy {
 	goBack(id) {
 		this.loadingSubject.next(false);
 		const url = `/ecommerce/products?id=${id}`;
-		this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
+		this.router.navigateByUrl(url, /* Removed unsupported properties by Angular migration: relativeTo. */ {});
 	}
 
 	goBackWithoutId() {
-		this.router.navigateByUrl('/ecommerce/products', { relativeTo: this.activatedRoute });
+		this.router.navigateByUrl('/ecommerce/products', /* Removed unsupported properties by Angular migration: relativeTo. */ {});
 	}
 
 	/**
@@ -258,7 +258,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
 		}
 
 		url = `/ecommerce/products/edit/${id}`;
-		this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
+		this.router.navigateByUrl(url, /* Removed unsupported properties by Angular migration: relativeTo. */ {});
 	}
 
 	/**

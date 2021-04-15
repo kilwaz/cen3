@@ -6,6 +6,7 @@ import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
 import clarity.load.store.DefinedMatrix;
 import clarity.load.store.MatrixEntry;
+import clarity.load.store.Records;
 import data.SelectQuery;
 import data.SelectResult;
 import data.SelectResultRow;
@@ -33,7 +34,6 @@ public class ClaritySetup {
         countryMatrix.addItem(new MatrixEntry("USA", "United States"));
         countryMatrix.addItem(new MatrixEntry("ESP", "Spain"));
 
-        setupDBIceCream();
         setupDB();
 
         Definitions.getInstance().rebuild();
@@ -69,13 +69,18 @@ public class ClaritySetup {
         entries = new ArrayList<>();
         entries.add(Entry.create("D", "1"));
         entries.add(Entry.create("E", "GBP"));
-        entries.add(Entry.create("A", "GBP"));
         bonusRecord.set(entries);
         bonusRecord.save();
+
+        record.addChild(bonusRecord);
+        user1.addChild(bonusRecord);
 
         Duration gap = Duration.ofSeconds(10).plus(Duration.ofMinutes(2));
 
         Infer.infer();
+
+        List<Record> records = Records.getInstance().findRecords("A", "aLExAnder");
+        Record bonusTest = records.get(0).getChildren(Definitions.getInstance().findRecordDefinition("Bonus")).get(0);
 
         log.info("Ready!");
     }
@@ -109,48 +114,14 @@ public class ClaritySetup {
         RecordDefinition employee = RecordDefinition.define("Employee").addDefinitions("ID", "C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
                 "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num", "SPL");
 
-        RecordDefinition bonus = RecordDefinition.define("Bonus").addDefinitions("D", "E");
-        employee.addChildRecordDefinition(bonus);
+        RecordDefinition bonus = RecordDefinition.define("Bonus").addDefinitions("D", "E", "Max");
+        employee.defineChildRecordDefinition(bonus);
 
         Definition.define("USER_ID");
         Definition.define("USER_Username");
         Definition.define("USER_Password");
 
         RecordDefinition.define("User").addDefinitions("USER_ID", "USER_Username", "USER_Password");
-    }
-
-    private static void setupDBIceCream() {
-        // Person
-        Definition.define("PERSON_ID").asTypeNumber();
-        Definition.define("PERSON_FIRST_NAME").asTypeString();
-        Definition.define("PERSON_LAST_NAME").asTypeString();
-        Definition.define("PERSON_GENDER").asTypeString();
-
-        // Video
-        Definition.define("VIDEO_ID");
-        Definition.define("VIDEO_NAME");
-        Definition.define("VIDEO_LENGTH");
-        Definition.define("VIDEO_DATE");
-
-        // Ice Cream
-        Definition.define("ICE_CREAM_ID");
-        Definition.define("ICE_CREAM_OPENED");
-        Definition.define("ICE_CREAM_DEAD");
-
-        // Session
-        Definition.define("SESSION_ID");
-        Definition.define("SESSION_ICE_CREAM_ID");
-        Definition.define("SESSION_PERSON_1");
-        Definition.define("SESSION_PERSON_2");
-        Definition.define("SESSION_THRUSTS");
-        Definition.define("SESSION_BRUTALITY_RATING");
-        Definition.define("SESSION_START");
-        Definition.define("SESSION_END");
-
-        RecordDefinition.define("IceCream").addDefinitions("ICE_CREAM_ID", "ICE_CREAM_OPENED", "ICE_CREAM_DEAD");
-        RecordDefinition.define("Person").addDefinitions("PERSON_ID", "PERSON_FIRST_NAME", "PERSON_LAST_NAME", "PERSON_GENDER");
-        RecordDefinition.define("Video").addDefinitions("VIDEO_ID", "VIDEO_NAME", "VIDEO_LENGTH", "VIDEO_DATE");
-        RecordDefinition.define("Session").addDefinitions("SESSION_ID", "SESSION_ICE_CREAM_ID", "SESSION_PERSON_1", "SESSION_PERSON_2", "SESSION_THRUSTS", "SESSION_BRUTALITY_RATING", "SESSION_START", "SESSION_END");
     }
 
     public static void clearDatabase() {

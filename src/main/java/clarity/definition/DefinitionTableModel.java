@@ -49,8 +49,8 @@ public class DefinitionTableModel {
             }
         }
 
-        for (RecordDefinition recordDefinition : childRecordDefinitionHashMap.values()) {
-            childTableModel.put(recordDefinition.getName(), recordDefinition.getDefinitionTableMode());
+        for (RecordDefinitionChild recordDefinitionChild : childRecordDefinitionHashMap.values()) {
+            childTableModel.put(recordDefinitionChild.getRecordDefinitionChild().getName(), recordDefinitionChild.getRecordDefinitionChild().getDefinitionTableMode());
         }
     }
 

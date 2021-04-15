@@ -64,6 +64,13 @@ public class Definitions {
 
         for (RecordDefinitionChild recordDefinitionChild : recordDefinitionChildren) {
             this.addRecordDefinitionChild(recordDefinitionChild);
+            RecordDefinition recordDefinition = findRecordDefinition(recordDefinitionChild.getRecordDefinitionParent().getName());
+
+            if (recordDefinition != null) {
+                recordDefinition.addChildRecordDefinition(recordDefinitionChild);
+            } else {
+                log.info("Searching for record '" + recordDefinitionChild.getRecordDefinitionParent().getName() + "' but could not be found");
+            }
         }
     }
 

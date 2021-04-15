@@ -16,8 +16,7 @@ public class RecordDefinition extends DatabaseObject {
     private String name = "";
     private HashMap<String, Definition> definitionHashMap = null;
     private DefinitionTableModel definitionTableMode;
-    private HashMap<String, RecordDefinition> childRecordDefinitions = new HashMap<>();
-    private List<RecordDefinitionChild> childRecordDefinitionList = new ArrayList<>();
+    private HashMap<String, RecordDefinitionChild> childRecordDefinitions = new HashMap<>();
 
     public RecordDefinition() {
         name = hashCode() + "";
@@ -67,9 +66,16 @@ public class RecordDefinition extends DatabaseObject {
         return this;
     }
 
-    public RecordDefinition addChildRecordDefinition(RecordDefinition recordDefinition) {
+    public RecordDefinition addChildRecordDefinition(RecordDefinitionChild recordDefinitionChild) {
+        childRecordDefinitions.put(recordDefinitionChild.getRecordDefinitionChild().getName(), recordDefinitionChild);
+
+        return this;
+    }
+
+    public RecordDefinition defineChildRecordDefinition(RecordDefinition recordDefinition) {
         if (recordDefinition != null) {
-            childRecordDefinitions.put(recordDefinition.getName(), recordDefinition);
+            RecordDefinitionChild recordDefinitionChild = RecordDefinitionChild.define(this, recordDefinition);
+            childRecordDefinitions.put(recordDefinition.getName(), recordDefinitionChild);
             definitionTableMode.update();
         } else {
             Error.CLARITY_NULL_DEFINITION.record().create();
@@ -136,7 +142,7 @@ public class RecordDefinition extends DatabaseObject {
         return "rec_def_" + getName().toLowerCase();
     }
 
-    public HashMap<String, RecordDefinition> getChildRecordDefinitions() {
+    public HashMap<String, RecordDefinitionChild> getChildRecordDefinitions() {
         return childRecordDefinitions;
     }
 }

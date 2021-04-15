@@ -2,31 +2,42 @@ package clarity.definition;
 
 import data.model.DatabaseObject;
 
+import java.util.UUID;
+
 public class RecordDefinitionChild extends DatabaseObject {
 
     private RecordDefinition recordDefinitionParent;
     private RecordDefinition recordDefinitionChild;
 
-    private RecordDefinitionChild() {
+    public RecordDefinitionChild() {
     }
 
     public static RecordDefinitionChild define(RecordDefinition recordDefinitionParent, RecordDefinition recordDefinitionChild) {
-        RecordDefinitionChild recordDefinitionChild1 = new RecordDefinitionChild();
+        RecordDefinitionChild recordDefinitionChild1 = RecordDefinitionChild.create(RecordDefinitionChild.class);
         recordDefinitionChild1.setRecordDefinitionChild(recordDefinitionChild);
         recordDefinitionChild1.setRecordDefinitionParent(recordDefinitionParent);
+        recordDefinitionChild1.save();
         return recordDefinitionChild1;
     }
 
-    private RecordDefinition getRecordDefinitionParent() {
+    public RecordDefinition getRecordDefinitionParent() {
         return recordDefinitionParent;
+    }
+
+    public UUID getRecordDefinitionParentUUID() {
+        return recordDefinitionParent.getUuid();
     }
 
     public void setRecordDefinitionParent(RecordDefinition recordDefinitionParent) {
         this.recordDefinitionParent = recordDefinitionParent;
     }
 
-    private RecordDefinition getRecordDefinitionChild() {
+    public RecordDefinition getRecordDefinitionChild() {
         return recordDefinitionChild;
+    }
+
+    public UUID getRecordDefinitionChildUUID() {
+        return recordDefinitionChild.getUuid();
     }
 
     public void setRecordDefinitionChild(RecordDefinition recordDefinitionChild) {

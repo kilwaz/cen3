@@ -16,7 +16,7 @@ public class RecordDefinitionChildDatabaseLink extends DatabaseLink {
 
         // Make sure the order is the same as column order in database
         link("uuid", method("getUuidString"), method("setUuid", UUID.class)); // 1
-        link("record_definition_parent_uuid", method("getRecordDefinitionParent"), method("setRecordDefinitionParent", RecordDefinition.class)); // 2
-        link("record_definition_child_uuid", method("getRecordDefinitionChild"), method("setRecordDefinitionChild", RecordDefinition.class)); // 3
+        link("record_definition_parent_uuid", method("getRecordDefinitionParentUUID"), method("setRecordDefinitionParent", RecordDefinition.class)); // 2
+        link("record_definition_child_uuid", method("getRecordDefinitionChildUUID"), method("setRecordDefinitionChild", RecordDefinition.class)); // 3
     }
 }

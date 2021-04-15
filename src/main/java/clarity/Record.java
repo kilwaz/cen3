@@ -54,15 +54,23 @@ public class Record extends ConfigurableDatabaseObject {
         Records.getInstance().addRecord(this);
     }
 
-    public Record addChild(Record record) {
-        RecordDefinition recordDefinition = record.getRecordDefinition();
-        List<Record> records = new ArrayList<>();
-        if (children.containsKey(recordDefinition)) {
-            records = children.get(recordDefinition);
+    public Record addChild(Record childRecord) {
+        RecordDefinition childRecordDefinition = childRecord.getRecordDefinition();
+
+        if (!this.recordDefinition.getChildRecordDefinitions().containsKey(childRecordDefinition.getName())) {
+            log.info("CLARITY WARNING: Tired to add child '" + childRecordDefinition.getName() + "' to record '" + this.recordDefinition.getName() + "' which is not configured to support that child");
+            return this;
         }
 
-        records.add(record);
-        children.put(recordDefinition, records);
+        List<Record> records;
+        if (children.containsKey(childRecordDefinition)) {
+            records = children.get(childRecordDefinition);
+        } else {
+            records = new ArrayList<>();
+        }
+
+        records.add(childRecord);
+        children.put(childRecordDefinition, records);
 
         return this;
     }
@@ -87,7 +95,7 @@ public class Record extends ConfigurableDatabaseObject {
             entry.record(this);
             entryHashMap.put(entry.getReference().toLowerCase(), entry);
         } else {
-            log.info("WARNING: Tired to add entry '" + entry.getDefinition().getName() + "' to '" + recordDefinition.getName() + "' which is not configured to support that entry");
+            log.info("CLARITY WARNING: Tired to add definition '" + entry.getDefinition().getName() + "' to record '" + recordDefinition.getName() + "' which is not configured to support that entry");
         }
 
         return this;

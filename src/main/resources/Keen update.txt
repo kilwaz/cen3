@@ -1,0 +1,7 @@
+Steps to update to new version of Keen Themes (latest = v7.2.6):
+
+1) Download updated package from envato market.
+2) Extract files.
+3) Find Angular version - theme/angular/demo1
+4) Move files into ngapp folders (e2e and src)
+5) 
