@@ -34,8 +34,6 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    debugger;
-    //waitForDebugger();
     // load view settings
     this.disableAsideSelfDisplay =
       this.layout.getProp('aside.self.display') === false;

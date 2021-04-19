@@ -13,6 +13,7 @@ export const DynamicAsideMenuConfig = {
       title: 'Tool',
       root: true,
       icon: 'flaticon2-architecture-and-city',
+      svg: './assets/media/svg/icons/Design/Layers.svg',
       page: '/tool',
       translate: 'MENU.TOOL',
       bullet: 'dot',
