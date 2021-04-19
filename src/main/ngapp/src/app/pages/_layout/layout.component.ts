@@ -16,8 +16,8 @@ import KTLayoutContent from '../../../assets/js/layout/base/content';
 export class LayoutComponent implements OnInit, AfterViewInit {
   // Public variables
   selfLayout = 'default';
-  asideSelfDisplay: true;
-  asideMenuStatic: true;
+  asideSelfDisplay: false;
+  asideMenuStatic: false;
   contentClasses = '';
   contentContainerClasses = '';
   subheaderDisplay = true;
