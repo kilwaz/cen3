@@ -1,4 +1,7 @@
+/* eslint-disable */
 "use strict";
+
+import { KTUtil } from "./util";
 
 // Component Definition
 var KTCard = function(elementId, options) {
@@ -195,6 +198,12 @@ var KTCard = function(elementId, options) {
         remove: function() {
             if (Plugin.eventTrigger('beforeRemove') === false) {
                 return;
+            }
+
+            // Remove tooltips
+            var tooltips;
+            if ( tooltips = document.querySelectorAll('.tooltip.show') ) {
+                $(tooltips).tooltip('dispose');
             }
 
             KTUtil.remove(element);
@@ -427,5 +436,7 @@ var KTCard = function(elementId, options) {
 
 // webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTCard;
+    // module.exports = KTCard;
 }
+
+export default KTCard;

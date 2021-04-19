@@ -10,8 +10,10 @@
             fill: $color !important;
         }
 
-        &.svg-fill-light-#{$name} {
-            fill: theme-light-color($name) !important;
+        @if (theme-light-color($name)) {
+            &.svg-fill-light-#{$name} {
+                fill: theme-light-color($name) !important;
+            }
         }
     }
 }

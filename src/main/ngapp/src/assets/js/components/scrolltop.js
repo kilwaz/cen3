@@ -1,4 +1,7 @@
+/* eslint-disable */
 "use strict";
+
+import { KTUtil } from "./util";
 
 // Component Definition
 var KTScrolltop = function(elementId, options) {
@@ -168,5 +171,7 @@ var KTScrolltop = function(elementId, options) {
 
 // webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTScrolltop;
+    // module.exports = KTScrolltop;
 }
+
+export default KTScrolltop;

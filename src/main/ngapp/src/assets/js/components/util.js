@@ -1,4 +1,9 @@
+/* eslint-disable */
 "use strict";
+
+import PerfectScrollbar from "perfect-scrollbar";
+
+import { KTCookie } from "./cookie.js";
 
 /**
  * @class KTUtil  base utilize class that privides helper functions
@@ -47,6 +52,7 @@ if (!Element.prototype.closest) {
 		};
 	}
 })(['Element', 'CharacterData', 'DocumentType']);
+
 
 //
 // requestAnimationFrame polyfill by Erik Möller.
@@ -108,12 +114,25 @@ if (!Element.prototype.closest) {
     });
 })([Element.prototype, Document.prototype, DocumentFragment.prototype]);
 
+// getAttributeNames
+if (Element.prototype.getAttributeNames == undefined) {
+  Element.prototype.getAttributeNames = function () {
+    var attributes = this.attributes;
+    var length = attributes.length;
+    var result = new Array(length);
+    for (var i = 0; i < length; i++) {
+      result[i] = attributes[i].name;
+    }
+    return result;
+  };
+}
+
 // Global variables
 window.KTUtilElementDataStore = {};
 window.KTUtilElementDataStoreID = 0;
 window.KTUtilDelegatedEventHandlers = {};
 
-var KTUtil = function() {
+export var KTUtil = function() {
     var resizeHandlers = [];
 
     /** @type {object} breakpoints The device width breakpoints **/
@@ -446,25 +465,26 @@ var KTUtil = function() {
             return window.Zone !== undefined ? true : false;
         },
 
-        // jQuery Workarounds
-
         // Deep extend:  $.extend(true, {}, objA, objB);
         deepExtend: function(out) {
             out = out || {};
 
             for (var i = 1; i < arguments.length; i++) {
                 var obj = arguments[i];
-
-                if (!obj)
-                    continue;
+                if (!obj) continue;
 
                 for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        if (typeof obj[key] === 'object')
-                            out[key] = KTUtil.deepExtend(out[key], obj[key]);
-                        else
-                            out[key] = obj[key];
+                    if (!obj.hasOwnProperty(key)) {
+                        continue;
                     }
+
+                    // based on https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+                    if ( Object.prototype.toString.call(obj[key]) === '[object Object]' ) {
+                        out[key] = KTUtil.deepExtend(out[key], obj[key]);
+                        continue;
+                    }
+
+                    out[key] = obj[key];
                 }
             }
 
@@ -861,11 +881,11 @@ var KTUtil = function() {
             return KTUtil.css(el, 'height');
         },
 
-        outerHeight: function(el, withMargic = false) {
+        outerHeight: function(el, withMargin) {
             var height = el.offsetHeight;
             var style;
 
-            if (withMargic) {
+            if (typeof withMargin !== 'undefined' && withMargin === true) {
                 style = getComputedStyle(el);
                 height += parseInt(style.marginTop) + parseInt(style.marginBottom);
 
@@ -1469,10 +1489,12 @@ var KTUtil = function() {
                 if (options.height instanceof Function) {
                     height = options.height.call();
                 } else {
-                    if (options.mobileHeight) {
+                    if (KTUtil.isMobileDevice() === true && options.mobileHeight) {
                         height = parseInt(options.mobileHeight);
-                    } else {
+                    } else if (options.height) {
                         height = parseInt(options.height);
+                    } else {
+                        height = parseInt(KTUtil.css(element, 'height'));
                     }
                 }
 
@@ -1537,20 +1559,38 @@ var KTUtil = function() {
 
                 // Remember scroll position in cookie
                 var uid = KTUtil.attr(element, 'id');
-                // Consider using Localstorage
-                //if (options.rememberPosition === true && Cookies && uid) {
-                //    if (KTCookie.getCookie(uid)) {
-                //        var pos = parseInt(KTCookie.getCookie(uid));
-                //
-                //        if (pos > 0) {
-                //            element.scrollTop = pos;
-                //        }
-                //    }
-                //
-                //    element.addEventListener('ps-scroll-y', function() {
-                //        KTCookie.setCookie(uid, element.scrollTop);
-                //    });
-                //}
+                try {
+                  if (uid) {
+                    var cookie = KTCookie.getCookie(uid);
+                    if (options.rememberPosition === true && cookie) {
+                      var pos = parseInt(cookie);
+                      if (pos > 0) {
+                          element.scrollTop = pos;
+                      }
+                      element.addEventListener('ps-scroll-y', function() {
+                          KTCookie.setCookie(uid, element.scrollTop, {});
+                      });
+                    }
+                  }
+                }
+                catch (e) {
+                    console.error(e);
+                }
+
+                // Todo:Consider using Localstorage
+                if (options.rememberPosition === true && KTCookie && uid) {
+                    if (KTCookie.getCookie(uid)) {
+                        var pos = parseInt(KTCookie.getCookie(uid));
+
+                        if (pos > 0) {
+                            element.scrollTop = pos;
+                        }
+                    }
+
+                    element.addEventListener('ps-scroll-y', function() {
+                        KTCookie.setCookie(uid, element.scrollTop);
+                    });
+                }
             }
 
             // Init
@@ -1626,34 +1666,34 @@ var KTUtil = function() {
             return  (document.scrollingElement || document.documentElement).scrollTop;
         },
 
-        colorDarken: function(color, amount) {
-            var subtractLight = function(color, amount){
-                var cc = parseInt(color,16) - amount;
-                var c = (cc < 0) ? 0 : (cc);
-                c = (c.toString(16).length > 1 ) ? c.toString(16) : `0${c.toString(16)}`;
+        changeColor: function(col, amt) {
 
-                return c;
+            var usePound = false;
+
+            if (col[0] == "#") {
+                col = col.slice(1);
+                usePound = true;
             }
 
-            color = (color.indexOf("#")>=0) ? color.substring(1,color.length) : color;
-            amount = parseInt((255*amount)/100);
+            var num = parseInt(col,16);
 
-            return color = `#${subtractLight(color.substring(0,2), amount)}${subtractLight(color.substring(2,4), amount)}${subtractLight(color.substring(4,6), amount)}`;
-        },
+            var r = (num >> 16) + amt;
 
-        colorLighten: function(color, amount) {
-            var addLight = function(color, amount){
-                var cc = parseInt(color,16) + amount;
-                var c = (cc > 255) ? 255 : (cc);
-                c = (c.toString(16).length > 1 ) ? c.toString(16) : `0${c.toString(16)}`;
+            if (r > 255) r = 255;
+            else if  (r < 0) r = 0;
 
-                return c;
-            }
+            var b = ((num >> 8) & 0x00FF) + amt;
 
-            color = (color.indexOf("#")>=0) ? color.substring(1,color.length) : color;
-            amount = parseInt((255*amount)/100);
+            if (b > 255) b = 255;
+            else if  (b < 0) b = 0;
 
-            return color = `#${addLight(color.substring(0,2), amount)}${addLight(color.substring(2,4), amount)}${addLight(color.substring(4,6), amount)}`;
+            var g = (num & 0x0000FF) + amt;
+
+            if (g > 255) g = 255;
+            else if (g < 0) g = 0;
+
+            return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+
         },
 
         // Throttle function: Input as function which needs to be throttled and delay is the time interval in milliseconds
@@ -1682,12 +1722,12 @@ var KTUtil = function() {
         	timer  =  setTimeout(func, delay);
         },
 
-        btnWait: function(el, cls, message, disable = true) {
+        btnWait: function(el, cls, message, disable) {
             if (!el) {
                 return;
             }
 
-            if (disable) {
+            if (typeof disable !== 'undefined' && disable === true) {
                 KTUtil.attr(el, "disabled", true);
             }
 
@@ -1730,7 +1770,9 @@ var KTUtil = function() {
             }
         },
 
-        isOffscreen: function(el, direction, offset = 0) {
+        isOffscreen: function(el, direction, offset) {
+            offset = offset || 0;
+
             var windowWidth = KTUtil.getViewPort().width;
             var windowHeight = KTUtil.getViewPort().height;
 
@@ -1780,7 +1822,7 @@ var KTUtil = function() {
 
 // webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTUtil;
+    // module.exports = KTUtil;
 }
 
 // Initialize KTUtil class on document ready
@@ -1791,11 +1833,3 @@ KTUtil.ready(function() {
 		KTUtil.init();
 	}
 });
-
-// CSS3 Transitions only after page load(.page-loading class added to body tag and remove with JS on page load)
-window.onload = function() {
-    var result = KTUtil.getByTagName('body');
-    if (result && result[0]) {
-        KTUtil.removeClass(result[0], 'page-loading');
-    }
-}

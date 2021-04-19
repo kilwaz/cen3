@@ -18,12 +18,18 @@ $dt-page-color-active: $white;
 .dataTables_wrapper {
     padding: 0 !important;
 
+    .DTFC_LeftWrapper, .DTFC_RightWrapper {
+        .dataTable {
+            margin-top: 0 !important;
+        }
+    }
+
     // Table
     .dataTable {
         width: 100% !important;
         border-collapse: initial !important;
         border-spacing: 0 !important;
-        margin: 1rem 0 !important;
+        //margin: 1rem 0 !important;
 
         @include border-radius($border-radius);
 
@@ -338,14 +344,18 @@ $dt-page-color-active: $white;
 
     // Responsive mode
     table.dataTable.collapsed > tbody > {
-        tr[role="row"] > td:first-child {
-            padding-left: 25px !important;
+        tr > td:first-child {
+            padding-left: 30px !important;
+
+            &:before {
+                padding-right: 10px !important;
+            }
         }
     }
 
     // Responsive mode toggle icon
     table.dataTable.dtr-inline.collapsed > tbody > {
-        tr[role="row"] > td:first-child:before {
+        tr > td:first-child:before {
             box-shadow: none;
             border-radius: 0;
             top: 50%;

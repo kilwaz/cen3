@@ -5,8 +5,8 @@
 @mixin offcanvas-base($class, $config) {
 	$width: get($config, width);
 	$height: get($config, height);
-
 	$offset: 20px;
+
 	$transition: left 0.3s ease, right 0.3s ease, bottom 0.3s ease, top 0.3s ease;
 
 	.#{$class} {
@@ -100,9 +100,11 @@
 }
 
 @mixin offcanvas-width($class, $width) {
+	$offset: 20px;
+
 	.#{$class} {
 		width: $width;
-		left: -($width + 20px);
+		left: -($width + $offset);
 
 		&.#{$class}-on {
 			left: 0;
@@ -111,7 +113,7 @@
 
 	// Right Direction
 	.#{$class}.#{$class}-right {
-		right: -($width + 20px);
+		right: -($width + $offset);
 		left: auto;
 
 		&.#{$class}-on {
@@ -122,6 +124,8 @@
 }
 
 @mixin offcanvas-height($class, $height) {
+	$offset: 20px;
+
 	// Top Direction
 	.#{$class}.#{$class}-top {
 		top: -($height + $offset);
@@ -129,7 +133,6 @@
 		right: 0;
 
 		&.#{$class}-on {
-			transition: $transition;
 			top: 0;
 			left: 0;
 			right: 0;
@@ -143,7 +146,6 @@
 		right: 0;
 
 		&.#{$class}-on {
-			transition: $transition;
 			bottom: 0;
 			left: 0;
 			right: 0;
@@ -220,6 +222,13 @@
 			.#{$class} {
 				width: 90% !important;
 			}
+		}
+	}
+
+	// Tablet & Mobile Modes
+	@include media-breakpoint-down(md) {
+		[data-offcanvas-#{$class}=on] {
+			overflow: hidden !important;
 		}
 	}
 }

@@ -1,4 +1,7 @@
+/* eslint-disable */
 "use strict";
+
+import { KTUtil } from "./util";
 
 // Component Definition
 var KTHeader = function(elementId, options) {
@@ -202,5 +205,7 @@ var KTHeader = function(elementId, options) {
 
 // webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTHeader;
+    // module.exports = KTHeader;
 }
+
+export default KTHeader;

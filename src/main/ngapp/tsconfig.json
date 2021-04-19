@@ -10,20 +10,14 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    // "emitDecoratorMetadata": true,
-    "target": "es2015", // es5
-    // "typeRoots": [
-    //   "node_modules/@types"
-    // ],
+    "target": "es2015",
     "lib": [
       "es2018",
       "dom"
     ]
-    // "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": false,
-    "strictInjectionParameters": true,
-    "enableIvy": false
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }

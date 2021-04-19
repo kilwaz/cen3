@@ -1,4 +1,7 @@
+/* eslint-disable */
 "use strict";
+
+import { KTUtil } from "./util";
 
 // Component Definition
 var KTMenu = function(elementId, options) {
@@ -465,6 +468,7 @@ var KTMenu = function(elementId, options) {
                 } else {
                     KTUtil.slideUp(submenu, speed, function() {
                         Plugin.scrollToItem(item);
+                        Plugin.scrollUpdate();
                         Plugin.eventTrigger('submenuToggle', submenu, e);
                     });
 
@@ -866,7 +870,7 @@ var KTMenu = function(elementId, options) {
 
 // webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTMenu;
+    // module.exports = KTMenu;
 }
 
 // Plugin global lazy initialization
@@ -895,3 +899,5 @@ document.addEventListener("click", function (e) {
         }
     }
 });
+
+export default KTMenu;

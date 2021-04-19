@@ -11,14 +11,18 @@
     }
 
     // Inverse color
-    .text-inverse-#{$name} {
-        color: theme-inverse-color($name) !important;
+    @if (theme-light-color($name)) {
+        .text-inverse-#{$name} {
+            color: theme-inverse-color($name) !important;
+        }
     }
 
     // Light colors
-    .text-light-#{$name} {
-        color: theme-light-color($name) !important;
-    }
+    @if (theme-light-color($name)) {
+        .text-light-#{$name} {
+            color: theme-light-color($name) !important;
+        }
+    }   
 
     // Text hover
     a.text-hover-#{$name},
@@ -96,27 +100,27 @@
 
 // Line heights
 .line-height-0 {
-    line-height: 0;
+    line-height: 0 !important;
 }
 
 .line-height-xs {
-    line-height: 0.75;
+    line-height: 0.75 !important;
 }
 
 .line-height-sm {
-    line-height: 1;
+    line-height: 1 !important;
 }
 
 .line-height-md {
-    line-height: 1.25;
+    line-height: 1.25 !important;
 }
 
 .line-height-lg {
-    line-height: 1.5;
+    line-height: 1.5 !important;
 }
 
 .line-height-xl {
-    line-height: 1.75;
+    line-height: 1.75 !important;
 }
 
 // Text transparent

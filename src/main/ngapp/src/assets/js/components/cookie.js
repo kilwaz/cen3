@@ -1,8 +1,9 @@
+/* eslint-disable */
 "use strict";
 // DOCS: https://javascript.info/cookie
 
-// Component Definition 
-var KTCookie = function() {
+// Component Definition
+export var KTCookie = function() {
   return {
     // returns the cookie with the given name,
     // or undefined if not found
@@ -16,7 +17,7 @@ var KTCookie = function() {
     // so getCookie uses a built-in decodeURIComponent function to decode it.
     setCookie: function(name, value, options) {
       if (!options) {
-        options = {};
+          options = {};
       }
 
       options = Object.assign({}, {path: '/'}, options);
@@ -51,5 +52,5 @@ var KTCookie = function() {
 
 // webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  module.exports = KTCookie;
+  // module.exports = KTCookie;
 }

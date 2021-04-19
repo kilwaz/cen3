@@ -1,4 +1,7 @@
+/* eslint-disable */
 "use strict";
+
+import { KTUtil } from "./util";
 
 // Component Definition
 var KTWizard = function(elementId, options) {
@@ -17,7 +20,8 @@ var KTWizard = function(elementId, options) {
     // Default options
     var defaultOptions = {
         startStep: 1,
-        clickableSteps: false // to make steps clickable this set value true and add data-wizard-clickable="true" in HTML for class="wizard" element
+        clickableSteps: false, // to make steps clickable this set value true and add data-wizard-clickable="true" in HTML for class="wizard" element
+        navigation: true
     };
 
     ////////////////////////////
@@ -58,15 +62,15 @@ var KTWizard = function(elementId, options) {
             // Elements
             the.steps = KTUtil.findAll(element, '[data-wizard-type="step"]');
 
-            the.btnSubmit = KTUtil.find(element, '[data-wizard-type="action-submit"]');
             the.btnNext = KTUtil.find(element, '[data-wizard-type="action-next"]');
             the.btnPrev = KTUtil.find(element, '[data-wizard-type="action-prev"]');
-            the.btnLast = KTUtil.find(element, '[data-wizard-type="action-last"]');
-            the.btnFirst = KTUtil.find(element, '[data-wizard-type="action-first"]');
+            the.btnSubmit = KTUtil.find(element, '[data-wizard-type="action-submit"]');
 
             // Variables
             the.events = [];
+            the.lastStep = 0;
             the.currentStep = 1;
+            the.newStep = 0;
             the.stopped = false;
             the.totalSteps = the.steps.length;
 
@@ -83,35 +87,52 @@ var KTWizard = function(elementId, options) {
          * Build Form Wizard
          */
         build: function() {
-            // Next button event handler
-            KTUtil.addEvent(the.btnNext, 'click', function(e) {
-                e.preventDefault();
-                Plugin.goTo(Plugin.getNextStep(), true);
-            });
+            if (the.options.navigation) {
+                // Next button event handler
+                KTUtil.addEvent(the.btnNext, 'click', function(e) {
+                    e.preventDefault();
 
-            // Prev button event handler
-            KTUtil.addEvent(the.btnPrev, 'click', function(e) {
-                e.preventDefault();
-                Plugin.goTo(Plugin.getPrevStep(), true);
-            });
+                    // Set new step number
+                    Plugin.setNewStep(Plugin.getNextStep());
 
-            // First button event handler
-            KTUtil.addEvent(the.btnFirst, 'click', function(e) {
-                e.preventDefault();
-                Plugin.goTo(Plugin.getFirstStep(), true);
-            });
+                    // Trigger change event
+                    if (Plugin.eventTrigger('change') !== false) {
+                        Plugin.goTo(Plugin.getNextStep());
+                    }
+                });
 
-            // Last button event handler
-            KTUtil.addEvent(the.btnLast, 'click', function(e) {
-                e.preventDefault();
-                Plugin.goTo(Plugin.getLastStep(), true);
-            });
+                // Prev button event handler
+                KTUtil.addEvent(the.btnPrev, 'click', function(e) {
+                    e.preventDefault();
+
+                    // Set new step number
+                    Plugin.setNewStep(Plugin.getPrevStep());
+
+                    // Trigger change event
+                    if (Plugin.eventTrigger('change') !== false) {
+                        Plugin.goTo(Plugin.getPrevStep());
+                    }
+                });
+
+                // Submit button event handler
+                KTUtil.addEvent(the.btnSubmit, 'click', function(e) {
+                    e.preventDefault();
+
+                    Plugin.eventTrigger('submit');
+                });
+            }
 
             if (the.options.clickableSteps === true) {
                 KTUtil.on(element, '[data-wizard-type="step"]', 'click', function() {
                     var index = KTUtil.index(this) + 1;
+
                     if (index !== the.currentStep) {
-                        Plugin.goTo(index, true);
+                        Plugin.setNewStep(index);
+
+                        // Trigger change event
+                        if (Plugin.eventTrigger('change') !== false) {
+                            Plugin.goTo(index);
+                        }
                     }
                 });
             }
@@ -120,8 +141,12 @@ var KTWizard = function(elementId, options) {
         /**
          * Handles wizard click wizard
          */
-        goTo: function(number, eventHandle) {
-            console.log('go to:' + number);
+        goTo: function(number) {
+            // Skip if stopped
+            if (the.stopped === true) {
+                the.stopped = false;
+                return;
+            }
 
             // Skip if this step is already shown
             if (number === the.currentStep || number > the.totalSteps || number < 0) {
@@ -129,70 +154,31 @@ var KTWizard = function(elementId, options) {
             }
 
             // Validate step number
-            if (number) {
-                number = parseInt(number);
-            } else {
-                number = Plugin.getNextStep();
-            }
+            number = parseInt(number);
 
-            // Before next and prev events
-            var callback;
+            // Set current step
+            the.lastStep = the.currentStep;
+            the.currentStep = number;
+            the.newStep = 0;
 
-            if (eventHandle === true) {
-                if (number > the.currentStep) {
-                    callback = Plugin.eventTrigger('beforeNext');
-                } else {
-                    callback = Plugin.eventTrigger('beforePrev');
-                }
-            }
+            Plugin.updateUI();
 
-            // Skip if stopped
-            if (the.stopped === true) {
-                the.stopped = false;
-                return;
-            }
-
-            // Continue if no exit
-            if (callback !== false) {
-                // Before change
-                if (eventHandle === true) {
-                    Plugin.eventTrigger('beforeChange');
-                }
-
-                // Set current step
-                the.currentStep = number;
-
-                Plugin.updateUI();
-
-                // Trigger change event
-                if (eventHandle === true) {
-                    Plugin.eventTrigger('change');
-                }
-            }
-
-            // After next and prev events
-            if (eventHandle === true) {
-                if (number > the.startStep) {
-                    Plugin.eventTrigger('afterNext');
-                } else {
-                    Plugin.eventTrigger('afterPrev');
-                }
-            }
+            Plugin.eventTrigger('changed');
 
             return the;
         },
 
         /**
-         * Cancel
+         * Stop wizard
          */
         stop: function() {
             the.stopped = true;
         },
 
         /**
-         * Resume
+         * Resume wizard
          */
-        start: function() {
+        resume: function() {
             the.stopped = false;
         },
 
@@ -218,7 +204,7 @@ var KTWizard = function(elementId, options) {
         },
 
         /**
-         * Go to the first step
+         * Update wizard UI after step change
          */
         updateUI: function() {
             var stepType = '';
@@ -277,7 +263,7 @@ var KTWizard = function(elementId, options) {
         },
 
         /**
-         * Get next step
+         * Get next step number
          */
         getNextStep: function() {
             if (the.totalSteps >= (the.currentStep + 1)) {
@@ -288,7 +274,7 @@ var KTWizard = function(elementId, options) {
         },
 
         /**
-         * Get prev step
+         * Get prev step number
          */
         getPrevStep: function() {
             if ((the.currentStep - 1) >= 1) {
@@ -296,6 +282,20 @@ var KTWizard = function(elementId, options) {
             } else {
                 return 1;
             }
+        },
+
+        /**
+         * Get new step number
+         */
+        getNewStep: function() {
+            return the.newStep;
+        },
+
+        /**
+         * Set new step
+         */
+        setNewStep: function(step) {
+            the.newStep = step;
         },
 
         /**
@@ -345,50 +345,50 @@ var KTWizard = function(elementId, options) {
     /**
      * Go to the next step
      */
-    the.goNext = function(eventHandle) {
-        return Plugin.goTo(Plugin.getNextStep(), eventHandle);
+    the.goNext = function() {
+        return Plugin.goTo(Plugin.getNextStep());
     };
 
     /**
      * Go to the prev step
      */
-    the.goPrev = function(eventHandle) {
-        return Plugin.goTo(Plugin.getPrevStep(),eventHandle);
+    the.goPrev = function() {
+        return Plugin.goTo(Plugin.getPrevStep());
     };
 
     /**
      * Go to the last step
      */
-    the.goLast = function(eventHandle) {
-        return Plugin.goTo(Plugin.getLastStep(), eventHandle);
+    the.goLast = function() {
+        return Plugin.goTo(Plugin.getLastStep());
     };
 
     /**
      * Go to the first step
      */
-    the.goFirst = function(eventHandle) {
-        return Plugin.goTo(Plugin.getFirstStep(), eventHandle);
+    the.goFirst = function() {
+        return Plugin.goTo(Plugin.getFirstStep());
     };
 
     /**
      * Go to a step
      */
-    the.goTo = function(number, eventHandle) {
-        return Plugin.goTo(number, eventHandle);
+    the.goTo = function(number) {
+        return Plugin.goTo(number);
     };
 
     /**
-     * Cancel step
+     * Stop wizard
      */
     the.stop = function() {
         return Plugin.stop();
     };
 
     /**
-     * Resume step
+     * Resume wizard
      */
-    the.start = function() {
-        return Plugin.start();
+    the.resume = function() {
+        return Plugin.resume();
     };
 
     /**
@@ -396,6 +396,20 @@ var KTWizard = function(elementId, options) {
      */
     the.getStep = function() {
         return the.currentStep;
+    };
+
+    /**
+     * Get new step number
+     */
+    the.getNewStep = function() {
+        return Plugin.getNewStep();
+    };
+
+    /**
+     * Set new step number
+     */
+    the.setNewStep = function(number) {
+        Plugin.setNewStep(number);
     };
 
     /**
@@ -413,7 +427,7 @@ var KTWizard = function(elementId, options) {
     };
 
     /**
-     * Attach event
+     * Attach event("change", "changed", "submit")
      */
     the.on = function(name, handler) {
         return Plugin.addEvent(name, handler);
@@ -434,5 +448,7 @@ var KTWizard = function(elementId, options) {
 
 // webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTWizard;
+    // module.exports = KTWizard;
 }
+
+export default KTWizard;

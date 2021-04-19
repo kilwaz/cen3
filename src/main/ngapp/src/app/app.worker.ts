@@ -1,8 +1,6 @@
 /// <reference lib="webworker" />
 
 addEventListener('message', ({data}) => {
-  console.log('Anything here?');
-
   const files: FileList = data;
 
   Array.from(files).forEach(file => {
@@ -12,28 +10,28 @@ addEventListener('message', ({data}) => {
     fileReader.onload = () => {
       postMessage(fileReader.result);
 
-      const _fileUploadWS: WebSocket = new WebSocket('ws://localhost:4568/upload');
-      let _arrayBuffer: ArrayBuffer = null;
+      const fileUploadWS: WebSocket = new WebSocket('ws://localhost:4568/upload');
+      let arrayBuffer: ArrayBuffer = null;
 
       if (fileReader.result instanceof ArrayBuffer) {
-        _arrayBuffer = fileReader.result;
+        arrayBuffer = fileReader.result;
       }
 
-      _fileUploadWS.onopen = evt => {
-        _fileUploadWS.send(file.name);
+      fileUploadWS.onopen = evt => {
+        fileUploadWS.send(file.name);
       };
 
-      _fileUploadWS.onmessage = evt => {
+      fileUploadWS.onmessage = evt => {
         const chunkSize = 30000;
         let i: number;
         let j: number;
-        for (i = 0, j = _arrayBuffer.byteLength; i < j; i += chunkSize) {
-          _fileUploadWS.send(_arrayBuffer.slice(i, i + chunkSize));
+        for (i = 0, j = arrayBuffer.byteLength; i < j; i += chunkSize) {
+          fileUploadWS.send(arrayBuffer.slice(i, i + chunkSize));
         }
 
-        _fileUploadWS.close(1000, 'File Complete');
+        fileUploadWS.close(1000, 'File Complete');
       };
-      _fileUploadWS.onclose = () => {
+      fileUploadWS.onclose = () => {
         console.log('Upload connection closed');
       };
     };
