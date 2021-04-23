@@ -1,0 +1,9 @@
+Implemented:
+
+To Implement:
+
+Birthday age finder
+Text cases
+Random data generator
+Maths solver / Calculator
+

@@ -8,7 +8,7 @@ import {Observable, Subject} from 'rxjs';
 import {finalize, takeUntil, tap} from 'rxjs/operators';
 // Store
 import {select, Store} from '@ngrx/store';
-import {AppState} from '../../../core/reducers';
+// import {AppState} from '../../../core/reducers';
 // Auth
 // import {AuthNoticeService} from '../../../../core/auth';
 import {ClarityLoginFailed, ClarityLoginSuccess} from '../_actions/auth.actions';
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     // private authNoticeService: AuthNoticeService,
     private translate: TranslateService,
-    private store: Store<AppState>,
+    // private store: Store<AppState>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute
@@ -110,9 +110,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         tap(login => {
           if (login) {
             if (login.acceptedAuth) {
-              this.store.dispatch(new ClarityLoginSuccess({}));
+              // this.store.dispatch(new ClarityLoginSuccess({}));
             } else {
-              this.store.dispatch(new ClarityLoginFailed({errorMessage: login.errorMessage}));
+              // this.store.dispatch(new ClarityLoginFailed({errorMessage: login.errorMessage}));
             }
           } else {
             // this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');

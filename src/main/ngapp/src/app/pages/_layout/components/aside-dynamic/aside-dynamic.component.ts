@@ -3,7 +3,6 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { LayoutService, DynamicAsideMenuService } from '../../../../_metronic/core';
-import {waitForDebugger} from "inspector";
 
 @Component({
   selector: 'app-aside-dynamic',

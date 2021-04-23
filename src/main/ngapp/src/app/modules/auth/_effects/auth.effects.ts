@@ -18,7 +18,7 @@ import {
   UserRequested
 } from '../_actions/auth.actions';
 import {AuthService} from '../_services/auth.service';
-import {AppState} from '../../../core/reducers';
+// import {AppState} from '../../../core/reducers';
 import {environment} from '../../../../environments/environment';
 import {isUserLoaded} from '../_selectors/auth.selectors';
 
@@ -29,7 +29,7 @@ export class AuthEffects {
     ofType<Login>(AuthActionTypes.Login),
     tap(action => {
       localStorage.setItem(environment.USERDATA_KEY, action.payload.authToken);
-      this.store.dispatch(new UserRequested());
+      // this.store.dispatch(new UserRequested());
     }),
   );
 
@@ -46,7 +46,7 @@ export class AuthEffects {
   clarityLoginFailed$ = this.actions$.pipe(
     ofType<ClarityLoginFailed>(AuthActionTypes.ClarityLoginFailed),
     tap(action => {
-      // action.payload.errorMessage
+       // action.payload.errorMessage;
     }),
   );
 
@@ -99,7 +99,8 @@ export class AuthEffects {
   constructor(private actions$: Actions,
               private router: Router,
               private auth: AuthService,
-              private store: Store<AppState>) {
+              // private store: Store<AppState>
+  ) {
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

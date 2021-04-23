@@ -17,17 +17,14 @@ import {StoreModule} from '@ngrx/store';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
-// State
-import { metaReducers, reducers } from './core/reducers';
 
 function appInitializer(authService: AuthService) {
   return () => {
     // return new Promise((resolve) => {
-      // authService.getUserByToken().subscribe().add(resolve);
+    // authService.getUserByToken().subscribe().add(resolve);
     // });
   };
 }
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,7 +39,7 @@ function appInitializer(authService: AuthService) {
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
-    StoreModule.forRoot(reducers, {metaReducers}),
+    StoreModule.forRoot({ }),
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     StoreDevtoolsModule.instrument(),

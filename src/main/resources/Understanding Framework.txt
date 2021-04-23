@@ -1,0 +1,10 @@
+Actions
+    Keeps track of what actions a module can do and what parameters that action can take
+Reducers
+    Updates the internal state with what has changed by the action, also contains default states
+Selectors
+    Contains code of how data can be selected from the state
+Effects
+    Contains the result of an action that is being called (what the action does)
+Services
+    Contains code to communicate with any WebSockets or data transfers
