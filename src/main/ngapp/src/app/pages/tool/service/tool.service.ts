@@ -8,9 +8,15 @@ export class ToolService {
   constructor(private webSocketService: WebSocketService) {
   }
 
-  test(message: string): Observable<ToolTest> {
+  test(startDay: number, startMonth: number, startYear: number, ageOnDay: number, ageOnMonth: number, ageOnYear: number): Observable<ToolTest> {
     const toolTestAction: ToolTest = new ToolTest();
-    toolTestAction.message = message;
+    toolTestAction.startDay = startDay;
+    toolTestAction.startMonth = startMonth;
+    toolTestAction.startYear = startYear;
+    
+    toolTestAction.ageOnDay = ageOnDay;
+    toolTestAction.ageOnMonth = ageOnMonth;
+    toolTestAction.ageOnYear = ageOnYear;
 
     return this.webSocketService.sendWithObservable(toolTestAction) as Observable<ToolTest>;
   }

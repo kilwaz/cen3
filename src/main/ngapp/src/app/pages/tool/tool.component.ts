@@ -1,19 +1,20 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 
 // RxJS
-import {Observable, Subject} from 'rxjs';
+import {combineLatest, forkJoin, Observable, Subject} from 'rxjs';
 
 // Store
 import {select, Store} from '@ngrx/store';
 import {ToolState} from './reducers/tool.reducers';
 
 // Selectors
-import {message} from './selectors/tool.selectors';
+import {ageDays, ageMonths, ageYears, ageOnDate, startDate} from './selectors/tool.selectors';
 import {ToolService} from './service/tool.service';
-import {finalize, takeUntil, tap} from 'rxjs/operators';
+import {finalize, takeUntil, tap, map, withLatestFrom} from 'rxjs/operators';
 
 // Action
-import {Test} from './actions/tool.actions';
+import {StartDateChange, AgeOnDateChange, Test} from './actions/tool.actions';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-tool',
@@ -22,7 +23,12 @@ import {Test} from './actions/tool.actions';
 })
 export class ToolComponent implements OnInit, OnDestroy {
   tick: boolean;
-  message$: Observable<string>;
+  ageDays$: Observable<number>;
+  ageMonths$: Observable<number>;
+  ageYears$: Observable<number>;
+  ageResult$: Observable<number>;
+  startDate$: Observable<Date>;
+  ageOnDate$: Observable<Date>;
 
   private unsubscribe: Subject<any>;
 
@@ -37,23 +43,49 @@ export class ToolComponent implements OnInit, OnDestroy {
     this.tick = true;
 
     // @ts-ignore
-    this.message$ = this.store.pipe(select(message));
+    this.ageDays$ = this.store.pipe(select(ageDays));
+    // @ts-ignore
+    this.ageMonths$ = this.store.pipe(select(ageMonths));
+    // @ts-ignore
+    this.ageYears$ = this.store.pipe(select(ageYears));
+    // @ts-ignore
+    this.startDate$ = this.store.pipe(select(startDate));
+    // @ts-ignore
+    this.ageOnDate$ = this.store.pipe(select(ageOnDate));
+
+    combineLatest(this.startDate$, this.ageOnDate$).pipe(
+      map(([startDate, ageOnDate]) => ({startDate, ageOnDate})),
+    ).subscribe(x => {
+      if (x.startDate != null && x.ageOnDate != null) {
+        this.toolService
+          .test(x.startDate.getDate(), x.startDate.getMonth() + 1, x.startDate.getFullYear(), x.ageOnDate.getDate(), x.ageOnDate.getMonth() + 1, x.ageOnDate.getFullYear())
+          .pipe(
+            tap(test => {
+              this.store.dispatch(new Test({
+                ageDays: test.ageDays,
+                ageMonths: test.ageMonths,
+                ageYears: test.ageYears
+              }));
+            }),
+            takeUntil(this.unsubscribe),
+            finalize(() => {
+              // this.cdr.markForCheck();
+            })
+          ).subscribe();
+      }
+    });
   }
 
-  testMessage() {
-    this.toolService
-      .test('How are you doing today server?')
-      .pipe(
-        tap(test => {
-          console.log('Response from server' + test.message);
-          this.store.dispatch(new Test({message: test.message}));
-        }),
-        takeUntil(this.unsubscribe),
-        finalize(() => {
-          // this.cdr.markForCheck();
-        })
-      )
-      .subscribe();
+  startDateChange(event: MatDatepickerInputEvent<Date>) {
+    this.store.dispatch(new StartDateChange({
+      startDate: event.value
+    }));
+  }
+
+  ageOnDateChange(event: MatDatepickerInputEvent<Date>) {
+    this.store.dispatch(new AgeOnDateChange({
+      ageOnDate: event.value
+    }));
   }
 
   ngOnDestroy(): void {

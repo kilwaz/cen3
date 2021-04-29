@@ -2,6 +2,9 @@ package requests.spark.websockets.objects.messages.request;
 
 import log.AppLogger;
 import org.apache.log4j.Logger;
+import org.joda.time.*;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.dataobjects.ToolTestData;
@@ -15,9 +18,20 @@ public class ToolTest extends Message {
     public void process() {
         ToolTestData toolTestData = (ToolTestData) this.getWebSocketData();
 
-        log.info("The value was: " + toolTestData.getMessage());
+        DateTimeZone LONDON = DateTimeZone.forID("Europe/London");
+        DateTime start = new DateTime(toolTestData.getStartYear(), toolTestData.getStartMonth(), toolTestData.getStartDay(), 0, 0, 0, LONDON);
+        DateTime end = new DateTime(toolTestData.getAgeOnYear(), toolTestData.getAgeOnMonth(), toolTestData.getAgeOnDay(), 0, 0, 0, LONDON);
 
-        toolTestData.setMessage("Server says hello");
+        Period period = new Period(start.toLocalDate(), end.toLocalDate(), PeriodType.yearMonthDay());
+        PeriodFormatter formatter = new PeriodFormatterBuilder()
+                .printZeroAlways().minimumPrintedDigits(1)
+                .appendYears().appendSuffix(" Years ").appendMonths().appendSuffix(" Months ").appendDays().appendSuffix(" Days")
+                .toFormatter();
+        String periodStr = formatter.print(period);
+
+        toolTestData.setAgeDays(period.getDays());
+        toolTestData.setAgeMonths(period.getMonths());
+        toolTestData.setAgeYears(period.getYears());
     }
 }
 

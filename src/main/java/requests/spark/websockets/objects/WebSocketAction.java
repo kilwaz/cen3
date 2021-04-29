@@ -83,9 +83,14 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                     if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                         Method fieldMethod = dataClass.getMethod("set" + capFieldName, JSONArray.class);
                         fieldMethod.invoke(wsData, jsonObjectDecoded.getJSONArray("_" + fieldName));
-                    } else {
+                    } else if (field.getType() == Integer.class) { // Integer
+                        Method fieldMethod = dataClass.getMethod("set" + capFieldName, Integer.class);
+                        fieldMethod.invoke(wsData, jsonObjectDecoded.getInt("_" + fieldName));
+                    } else if (field.getType() == String.class) { // String
                         Method fieldMethod = dataClass.getMethod("set" + capFieldName, String.class);
                         fieldMethod.invoke(wsData, jsonObjectDecoded.getString("_" + fieldName));
+                    } else { // Attempt to try String if everything else fails
+                        Error.WEBSOCKET_PARSE_METHOD.record().additionalInformation("Could not find matching method class for " + capFieldName + " with class " + field.getType()).create();
                     }
                 } catch (NoSuchMethodException ex) {
                     Error.WEBSOCKET_PARSE_METHOD.record().additionalInformation("Variable name is " + capFieldName).create(ex);

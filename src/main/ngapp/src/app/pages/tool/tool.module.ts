@@ -9,19 +9,31 @@ import {HighlightModule} from 'ngx-highlightjs';
 import {StoreModule} from '@ngrx/store';
 import {toolReducer} from './reducers/tool.reducers';
 import {ToolService} from './service/tool.service';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [ToolComponent],
   providers: [
-    ToolService
+    ToolService,
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
   ],
   imports: [
     CommonModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
     GeneralModule,
     HighlightModule,
     NgbNavModule,
     NgbTooltipModule,
+    MatInputModule,
+    MatDatepickerModule,
     StoreModule.forFeature('tool', toolReducer),
     RouterModule.forChild([
       {
