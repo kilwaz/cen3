@@ -14,6 +14,7 @@ export const locale = {
       APPS: 'Apps',
       DASHBOARD: 'Dashboard',
       TOOL: 'Tools',
+      TEXTCASES: 'Text Cases',
     },
     AUTH: {
       GENERAL: {

@@ -1,9 +1,23 @@
 Implemented:
+    Birthday age finder
 
 To Implement:
 
-Birthday age finder
 Text cases
-Random data generator
-Maths solver / Calculator
+    1 - Sentence case
+    2 - lower case
+    3 - UPPER CASE
+    4 - Capitalised Case
+    5 - aLtErNaTiNg cAsE
+    6 - Title Case
+    7 - InVeRsE CaSe
 
+PDF:
+    Splitting pages
+    Joining pages
+    Converting to PDF from other formats
+
+Other ideas:
+    Random data generator
+    Maths solver / Calculator
+    BPM calculator

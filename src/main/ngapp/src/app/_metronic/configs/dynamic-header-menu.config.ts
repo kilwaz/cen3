@@ -15,6 +15,13 @@ export const DynamicHeaderMenuConfig = {
       translate: 'MENU.TOOL',
     },
     {
+      title: 'Text Cases',
+      root: true,
+      alignment: 'left',
+      page: '/text-cases',
+      translate: 'MENU.TEXTCASES',
+    },
+    {
       title: 'Builder',
       root: true,
       alignment: 'left',

@@ -3,7 +3,6 @@ import {Injectable} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 // RxJS
 import {filter, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
-import {defer, Observable, of} from 'rxjs';
 // NGRX
 import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';

@@ -19,6 +19,15 @@ export const DynamicAsideMenuConfig = {
       bullet: 'dot',
     },
     {
+      title: 'Text Cases',
+      root: true,
+      icon: 'flaticon2-architecture-and-city',
+      svg: './assets/media/svg/icons/Design/Layers.svg',
+      page: '/text-cases',
+      translate: 'MENU.TEXTCASES',
+      bullet: 'dot',
+    },
+    {
       title: 'Layout Builder',
       root: true,
       icon: 'flaticon2-expand',

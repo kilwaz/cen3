@@ -18,6 +18,11 @@ const routes: Routes = [
           import('./tool/tool.module').then((m) => m.ToolModule),
       },
       {
+        path: 'text-cases',
+        loadChildren: () =>
+          import('./text-cases/text-cases.module').then((m) => m.TextCasesModule),
+      },
+      {
         path: 'builder',
         loadChildren: () =>
           import('./builder/builder.module').then((m) => m.BuilderModule),
