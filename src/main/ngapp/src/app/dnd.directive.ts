@@ -38,7 +38,7 @@ export class DndDirective {
       if (typeof Worker !== 'undefined') {
         // Create a new worker to deal with our task
         console.log('Starting worker..');
-        const worker = new Worker('./app.worker.ts', {type: 'module'});
+        const worker = new Worker(new URL('./app.worker.ts', import.meta.url), {type: 'module'});
         worker.postMessage(files);
       } else {
         // Web Workers are not supported in this environment.
