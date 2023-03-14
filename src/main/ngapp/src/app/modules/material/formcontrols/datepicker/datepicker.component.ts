@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import {
   MAT_MOMENT_DATE_FORMATS,
@@ -510,10 +510,10 @@ export class DatepickerComponent implements OnInit {
   exampleUsesMomentJsDates;
 
   startDate = new Date(1990, 0, 1);
-  date = new FormControl(new Date());
-  date10 = new FormControl(moment([2017, 0, 1]));
+  date = new UntypedFormControl(new Date());
+  date10 = new UntypedFormControl(moment([2017, 0, 1]));
 
-  serializedDate = new FormControl(new Date().toISOString());
+  serializedDate = new UntypedFormControl(new Date().toISOString());
   minDate = new Date(2011, 0, 1);
   maxDate = new Date(2018, 11, 1);
 

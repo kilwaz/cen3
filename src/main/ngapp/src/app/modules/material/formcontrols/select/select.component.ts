@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
-  FormControl,
+  UntypedFormControl,
   Validators,
   FormGroupDirective,
   NgForm,
@@ -417,7 +417,7 @@ export class SelectErrorStateMatcherExample {
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
-    control: FormControl | null,
+    control: UntypedFormControl | null,
     form: FormGroupDirective | NgForm | null
   ): boolean {
     const isSubmitted = form && form.submitted;
@@ -462,9 +462,9 @@ export class SelectComponent implements OnInit {
   exampleSelectWithCustomPanelStyling;
   exampleSelectWithACustomErrorStateMatcher;
 
-  toppings = new FormControl();
-  toppings2 = new FormControl();
-  panelColor = new FormControl('red');
+  toppings = new UntypedFormControl();
+  toppings2 = new UntypedFormControl();
+  panelColor = new UntypedFormControl('red');
 
   toppingList2 = [
     'Extra cheese',
@@ -545,7 +545,7 @@ export class SelectComponent implements OnInit {
 
   selectedValue: string;
 
-  pokemonControl = new FormControl();
+  pokemonControl = new UntypedFormControl();
 
   pokemonGroups = [
     {
@@ -582,7 +582,7 @@ export class SelectComponent implements OnInit {
     },
   ];
 
-  animalControl = new FormControl('', [Validators.required]);
+  animalControl = new UntypedFormControl('', [Validators.required]);
 
   animals = [
     { name: 'Dog', sound: 'Woof!' },
@@ -591,7 +591,7 @@ export class SelectComponent implements OnInit {
     { name: 'Fox', sound: 'Wa-pa-pa-pa-pa-pa-pow!' },
   ];
 
-  selected2 = new FormControl('valid', [
+  selected2 = new UntypedFormControl('valid', [
     Validators.required,
     Validators.pattern('valid'),
   ]);

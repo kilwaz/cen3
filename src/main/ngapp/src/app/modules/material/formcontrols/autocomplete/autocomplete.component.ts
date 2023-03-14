@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, NgModel } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, UntypedFormBuilder, NgModel } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -477,24 +477,24 @@ export class AutocompleteComponent implements OnInit {
   exampleAutocompleteOverview;
   exampleOptionGroupsAutocomplete;
 
-  myControl: FormControl = new FormControl();
+  myControl: UntypedFormControl = new UntypedFormControl();
   options = ['One', 'Two', 'Three'];
 
-  myControl2: FormControl = new FormControl();
+  myControl2: UntypedFormControl = new UntypedFormControl();
   filteredOptions: Observable<string[]>;
 
-  myControl33 = new FormControl();
+  myControl33 = new UntypedFormControl();
   options33 = [new User('Mary'), new User('Shelley'), new User('Igor')];
   filteredOptions33: Observable<User[]>;
 
-  myControl44: FormControl = new FormControl();
+  myControl44: UntypedFormControl = new UntypedFormControl();
   options44 = ['One', 'Two', 'Three'];
   filteredOptions44: Observable<string[]>;
 
-  stateCtrl: FormControl;
+  stateCtrl: UntypedFormControl;
   filteredStates: Observable<any[]>;
 
-  myControl3: FormControl = new FormControl();
+  myControl3: UntypedFormControl = new UntypedFormControl();
 
   states: State[] = [
     {
@@ -527,7 +527,7 @@ export class AutocompleteComponent implements OnInit {
     },
   ];
 
-  stateForm: FormGroup = this.fb.group({
+  stateForm: UntypedFormGroup = this.fb.group({
     stateGroup: '',
   });
 
@@ -630,8 +630,8 @@ export class AutocompleteComponent implements OnInit {
 
   stateGroupOptions: Observable<StateGroup[]>;
 
-  constructor(private fb: FormBuilder) {
-    this.stateCtrl = new FormControl();
+  constructor(private fb: UntypedFormBuilder) {
+    this.stateCtrl = new UntypedFormControl();
     this.filteredStates = this.stateCtrl.valueChanges.pipe(
       startWith(''),
       map((state) => (state ? this.filterStates(state) : this.states.slice()))

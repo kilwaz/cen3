@@ -7,10 +7,10 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
-  FormControl,
+  UntypedFormControl,
 } from '@angular/forms';
 
 const simpleFormField = {
@@ -532,10 +532,10 @@ export class FormfieldComponent implements OnInit {
   exampleFormFieldTheming;
   exampleFormFieldWithCustomTelephoneNumberInputControl;
   exampleFormFieldAppearanceVariants;
-  options: FormGroup;
-  options2: FormGroup;
+  options: UntypedFormGroup;
+  options2: UntypedFormGroup;
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  email = new UntypedFormControl('', [Validators.required, Validators.email]);
   hide = true;
 
   getErrorMessage() {
@@ -546,7 +546,7 @@ export class FormfieldComponent implements OnInit {
       : '';
   }
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: UntypedFormBuilder) {
     this.options = fb.group({
       hideRequired: false,
       floatLabel: 'auto',

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
-  FormControl,
+  UntypedFormControl,
   FormGroupDirective,
   NgForm,
   Validators,
@@ -428,7 +428,7 @@ export class DatepickerMomentExample {
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
-    control: FormControl | null,
+    control: UntypedFormControl | null,
     form: FormGroupDirective | NgForm | null
   ): boolean {
     const isSubmitted = form && form.submitted;
@@ -471,11 +471,11 @@ export class InputComponent implements OnInit {
   exampleInputsWithPrefixesAndSuffixes;
 
   constructor() {}
-  emailFormControl = new FormControl('', [
+  emailFormControl = new UntypedFormControl('', [
     Validators.required,
     Validators.email,
   ]);
-  emailFormControl2 = new FormControl('', [
+  emailFormControl2 = new UntypedFormControl('', [
     Validators.required,
     Validators.email,
   ]);

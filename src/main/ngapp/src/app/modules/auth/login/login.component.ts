@@ -1,6 +1,6 @@
 // Angular
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {AuthService} from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 // RxJS
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     email: 'admin@demo.com',
     password: 'demo',
   };
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   loading = false;
   hasError: boolean;
   returnUrl: string;
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // private authNoticeService: AuthNoticeService,
     private translate: TranslateService,
     // private store: Store<AppState>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {
