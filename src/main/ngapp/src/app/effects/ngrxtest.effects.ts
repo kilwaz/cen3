@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {WebSocketService} from "../services/websocket.service";
@@ -12,7 +12,6 @@ export class NgrxtestEffects {
   constructor(private actions$: Actions, private webSocketService: WebSocketService) {
   }
 
-  @Effect()
   loadRecords$ = createEffect(() => this.actions$
     .pipe(
       ofType(LoadRecordAction),

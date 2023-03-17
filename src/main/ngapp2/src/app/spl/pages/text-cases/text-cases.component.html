@@ -1,0 +1,43 @@
+<!--<app-notice [svg]="'./assets/media/svg/icons/Tools/Tools.svg'">-->
+<!--  <p>-->
+<!--    Change the case of text.-->
+<!--  </p>-->
+<!--</app-notice>-->
+
+<div class="card card-custom gutter-b">
+  <form class="form" novalidate #form="ngForm">
+    <div class="card-body">
+      <div class="tab-content pt-3">
+        <span>
+          Some stuff might be here soon...?
+        </span>
+
+        <div class="text-center pt-3">
+          <button mat-raised-button (click)="processText(SENTENCE_CASE)">Sentence case</button>
+          <button mat-raised-button (click)="processText(LOWER_CASE)">lower case</button>
+          <button mat-raised-button (click)="processText(UPPER_CASE)">UPPER CASE</button>
+          <button mat-raised-button (click)="processText(CAPITALISED_CASE)">Capitalised Case</button>
+          <button mat-raised-button (click)="processText(ALTERNATING_CASE)">aLtErNaTiNg cAsE</button>
+          <button mat-raised-button (click)="processText(TITLE_CASE)">Title Case</button>
+          <button mat-raised-button (click)="processText(INVERSE_CASE)">InVeRsE CaSe</button>
+        </div>
+
+        <div class="text-center pt-3">
+          <mat-form-field [style.width.%]="100">
+              <textarea matInput [textContent]="textToProcess$ | async" (input)="textToProcessChange($event)"
+                        placeholder="Enter text below" matTextareaAutosize matAutosizeMinRows="10"
+                        matAutosizeMaxRows="50"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="text-center pt-3">
+          <mat-form-field [style.width.%]="100">
+              <textarea matInput [textContent]="textResult$ | async" placeholder="Result below" matTextareaAutosize
+                        matAutosizeMinRows="10"
+                        matAutosizeMaxRows="50"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

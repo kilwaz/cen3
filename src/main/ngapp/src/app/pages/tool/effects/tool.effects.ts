@@ -4,7 +4,7 @@ import {NavigationEnd, Router} from '@angular/router';
 // RxJS
 import {filter, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 // NGRX
-import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 // Actions
 import {

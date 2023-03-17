@@ -5,7 +5,7 @@ import {NavigationEnd, Router} from '@angular/router';
 import {filter, finalize, map, mergeMap, takeUntil, tap, withLatestFrom} from 'rxjs/operators';
 import {combineLatest, defer, Observable, of} from 'rxjs';
 // NGRX
-import {Actions, concatLatestFrom, createEffect, Effect, ofType} from '@ngrx/effects';
+import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 // Actions
 import {
