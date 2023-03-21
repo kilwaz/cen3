@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>group-games</groupId>
-    <artifactId>group-games</artifactId>
+    <groupId>cen3</groupId>
+    <artifactId>cen3</artifactId>
     <version>SNAPSHOT</version>
 
     <properties>
-        <java.version>13</java.version>
+        <java.version>19</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
-            <version>2.9.1</version>
+            <version>2.9.4</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>

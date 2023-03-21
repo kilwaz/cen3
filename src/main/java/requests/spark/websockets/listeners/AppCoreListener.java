@@ -23,12 +23,13 @@ public class AppCoreListener {
     // New connections trigger here
     @OnWebSocketConnect
     public void connected(Session session) {
-        //log.info("New connected session " + session.getRemoteAddress());
+        log.info("New connected session " + session.getRemoteAddress());
     }
 
     // Closed connections trigger here
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
+        log.info("Closed connected session " + session.getRemoteAddress());
         WebSocketManager.getInstance().removeSession(session);
     }
 

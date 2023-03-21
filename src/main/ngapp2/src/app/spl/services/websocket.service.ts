@@ -87,6 +87,7 @@ export class WebSocketService {
     );
     this.ws.subscribe();
     WebSocketService.connected = true;
+    console.log("Web socket connected");
   }
 
   sendCallback(message: Message, callback: (message: Message) => any) {

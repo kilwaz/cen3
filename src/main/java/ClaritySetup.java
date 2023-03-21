@@ -7,6 +7,7 @@ import clarity.definition.RecordDefinition;
 import clarity.load.store.DefinedMatrix;
 import clarity.load.store.MatrixEntry;
 import clarity.load.store.Records;
+import core.builders.requests.WebSocketMessageMapping;
 import data.SelectQuery;
 import data.SelectResult;
 import data.SelectResultRow;

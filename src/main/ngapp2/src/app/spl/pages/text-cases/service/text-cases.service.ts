@@ -9,7 +9,6 @@ export class TextCasesService {
   }
 
   textFunction(textToProcess: string, textFunction: number): Observable<TextCases> {
-    console.log('What the fuck? ' + textToProcess);
     const textCasesAction: TextCases = new TextCases();
     textCasesAction.textToProcess = textToProcess;
     textCasesAction.textFunction = textFunction;
