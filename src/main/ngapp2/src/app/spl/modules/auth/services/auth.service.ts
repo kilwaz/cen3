@@ -3,7 +3,6 @@ import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { map, catchError, switchMap, finalize } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
 import { AuthModel } from '../models/auth.model';
-import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import {WebSocketService} from '../../../services/websocket.service';
@@ -34,7 +33,6 @@ export class AuthService implements OnDestroy {
   }
 
   constructor(
-    private authHttpService: AuthHTTPService,
     private webSocketService: WebSocketService,
     private router: Router
   ) {
@@ -69,41 +67,44 @@ export class AuthService implements OnDestroy {
       return of(undefined);
     }
 
-    this.isLoadingSubject.next(true);
-    return this.authHttpService.getUserByToken(auth.authToken).pipe(
-      map((user: UserType) => {
-        if (user) {
-          this.currentUserSubject.next(user);
-        } else {
-          this.logout();
-        }
-        return user;
-      }),
-      finalize(() => this.isLoadingSubject.next(false))
-    );
+    // this.isLoadingSubject.next(true);
+    // return this.authHttpService.getUserByToken(auth.authToken).pipe(
+    //   map((user: UserType) => {
+    //     if (user) {
+    //       this.currentUserSubject.next(user);
+    //     } else {
+    //       this.logout();
+    //     }
+    //     return user;
+    //   }),
+    //   finalize(() => this.isLoadingSubject.next(false))
+    // );
+    return of(undefined);
   }
 
   // need create new user then login
   registration(user: UserModel): Observable<any> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService.createUser(user).pipe(
-      map(() => {
-        this.isLoadingSubject.next(false);
-      }),
-      switchMap(() => this.login(user.email, user.password)),
-      catchError((err) => {
-        console.error('err', err);
-        return of(undefined);
-      }),
-      finalize(() => this.isLoadingSubject.next(false))
-    );
+    // this.isLoadingSubject.next(true);
+    // return this.authHttpService.createUser(user).pipe(
+    //   map(() => {
+    //     this.isLoadingSubject.next(false);
+    //   }),
+    //   switchMap(() => this.login(user.email, user.password)),
+    //   catchError((err) => {
+    //     console.error('err', err);
+    //     return of(undefined);
+    //   }),
+    //   finalize(() => this.isLoadingSubject.next(false))
+    // );
+    return of(undefined);
   }
 
   forgotPassword(email: string): Observable<boolean> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService
-      .forgotPassword(email)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)));
+    // this.isLoadingSubject.next(true);
+    // return this.authHttpService
+    //   .forgotPassword(email)
+    //   .pipe(finalize(() => this.isLoadingSubject.next(false)));
+    return of(false);
   }
 
   // private methods
