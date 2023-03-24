@@ -60,11 +60,9 @@ export class TextCasesComponent implements OnInit, OnDestroy {
         textToProcess: target.value
       }));
     }
-
   }
 
   ngOnDestroy(): void {
-    // this.unsubscribe.next();
     this.unsubscribe.complete();
   }
 }

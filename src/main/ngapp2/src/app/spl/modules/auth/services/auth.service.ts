@@ -54,35 +54,6 @@ export class AuthService implements OnDestroy {
     loginAction.password = password;
 
     return this.webSocketService.sendWithObservable(loginAction) as Observable<Login>;
-
-    // return this.webSocketService.sendWithObservable(loginAction).pipe(
-    //     map((auth: AuthModel) => {
-    //       const result = this.setAuthFromLocalStorage(auth);
-    //       return result;
-    //     }),
-    //     switchMap(() => this.getUserByToken()),
-    //     catchError((err) => {
-    //       console.error('err', err);
-    //       return of(undefined);
-    //     }),
-    //     finalize(() => this.isLoadingSubject.next(false))
-    //   );
-
-
-    // return this.authHttpService.login(email, password).pipe(
-    //   map((auth: AuthModel) => {
-    //     const result = this.setAuthFromLocalStorage(auth);
-    //     return result;
-    //   }),
-    //   switchMap(() => this.getUserByToken()),
-    //   catchError((err) => {
-    //     console.error('err', err);
-    //     return of(undefined);
-    //   }),
-    //   finalize(() => this.isLoadingSubject.next(false))
-    // );
-
-
   }
 
   logout() {

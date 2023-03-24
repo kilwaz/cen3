@@ -21,7 +21,7 @@ import java.util.List;
 public class ClaritySetup {
     private static Logger log = AppLogger.logger();
 
-    private static Boolean clearDownDatabase = false;
+    private static Boolean clearDownDatabase = true;
 
     public static void main(String[] args) {
         ApplicationInitialiser.init(); // Connects to the database/inits web sockets
@@ -61,7 +61,7 @@ public class ClaritySetup {
         Record user1 = Record.create("User");
         entries = new ArrayList<>();
         entries.add(Entry.create("USER_Username", "alex@spl.com"));
-        entries.add(Entry.create("USER_Password", "Hello"));
+        entries.add(Entry.create("USER_Password", "hello"));
         entries.add(Entry.create("USER_ID", "1"));
         user1.set(entries);
         user1.save();

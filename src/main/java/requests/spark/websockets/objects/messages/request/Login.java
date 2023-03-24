@@ -23,10 +23,10 @@ public class Login extends Message {
 
         if(loginData.getPassword().equals("demo") && loginData.getUsername().equals("admin@demo.com")){
             loginData.setAcceptedAuth(true);
-//            loginData.setErrorMessage("INVALID DETAILS");
+            loginData.setErrorMessage("CORRECT YOU WIN!");
         } else {
             loginData.setAcceptedAuth(false);
-            loginData.setErrorMessage("INVALID DETAILS");
+            loginData.setErrorMessage("OMG THE DETAILS ARE WRONG!!");
         }
 
         for (Record record : records) {

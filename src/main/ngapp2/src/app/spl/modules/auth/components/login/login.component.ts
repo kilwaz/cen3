@@ -1,11 +1,16 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription, Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
-import { UserModel } from '../../models/user.model';
-import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Subscription, Observable} from 'rxjs';
+import {first} from 'rxjs/operators';
+import {UserModel} from '../../models/user.model';
+import {AuthService} from '../../services/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Login} from "../../../../wsActions/login";
+import {select, Store} from "@ngrx/store";
+import {username, password, errorMessage} from "../../selectors/auth.selectors";
+import {LoginResultState} from "../../reducers/auth.reducers";
+import {InputPasswordUpdated, InputUsernameUpdated, SubmitLogin} from "../../actions/auth.actions";
+import {ProcessText} from "../../../../pages/text-cases/actions/text-cases.actions";
 
 @Component({
   selector: 'app-login',
@@ -23,6 +28,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string;
   isLoading$: Observable<boolean>;
 
+  username$: Observable<string>;
+  password$: Observable<string>;
+  errorMessage$: Observable<string>;
+
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
@@ -30,7 +39,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private store: Store<LoginResultState>
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -42,8 +52,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     // get return url from route parameters or default to '/'
-    this.returnUrl =
-      this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
+    this.username$ = this.store.pipe(select(username));
+    this.password$ = this.store.pipe(select(password));
+    this.errorMessage$ = this.store.pipe(select(errorMessage));
+  }
+
+  inputFieldUpdate(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.name === "email") {
+      this.store.dispatch(new InputUsernameUpdated({username: target.value}));
+    } else if (target.name === "password") {
+      this.store.dispatch(new InputPasswordUpdated({password: target.value}));
+    }
   }
 
   // convenience getter for easy access to form fields
@@ -54,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   initForm() {
     this.loginForm = this.fb.group({
       email: [
-        this.defaultAuth.email,
+        this.username$,
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -63,7 +84,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         ]),
       ],
       password: [
-        this.defaultAuth.password,
+        this.password$,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -74,18 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.hasError = false;
-    const loginSubscr = this.authService
-      .login(this.f.email.value, this.f.password.value)
-      .pipe(first())
-      .subscribe((login: Login | undefined) => {
-        if (login) {
-          this.router.navigate([this.returnUrl]);
-        } else {
-          this.hasError = true;
-        }
-      });
-    this.unsubscribe.push(loginSubscr);
+    this.store.dispatch(new SubmitLogin({}));
   }
 
   ngOnDestroy() {
