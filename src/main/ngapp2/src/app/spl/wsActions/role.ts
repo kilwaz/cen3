@@ -15,6 +15,7 @@ export class Role extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
+		this._username = msgRaw.username;
 	}
 
 	get username(): string {

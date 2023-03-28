@@ -3,7 +3,8 @@ import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {SideBarState} from "../reducers/sidebar.reducers";
 
 // Selectors
-export const selectRoles = createFeatureSelector<SideBarState>('sidebar');
+export const selectRoles = createFeatureSelector<SideBarState>('sideBar');
 
-// export const loadRole = createSelector(selectRoles, textCases => textCases?.textToProcess);
+export const username = createSelector(selectRoles, sideBar => sideBar?.username);
+export const menuItems = createSelector(selectRoles, sideBar => sideBar?.menuItem);
 

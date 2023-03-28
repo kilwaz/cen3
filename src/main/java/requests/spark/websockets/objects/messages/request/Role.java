@@ -15,5 +15,6 @@ public class Role extends Message {
     public void process() {
         RoleData roleData = (RoleData) this.getWebSocketData();
 
+        roleData.setUsername("This is the new wording");
     }
 }

@@ -1,7 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ILayout, LayoutType } from '../../core/configs/config';
-import { LayoutService } from '../../core/layout.service';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
+import {ILayout, LayoutType} from '../../core/configs/config';
+import {LayoutService} from '../../core/layout.service';
+import {SideBarService} from "./service/sidebar.service";
+import {select, Store} from "@ngrx/store";
+import {SideBarState} from "./reducers/sidebar.reducers";
+import {username} from "./selectors/sidebar.selectors";
+import {RequestMenuLayout} from "./actions/sidebar.actions";
 
 @Component({
   selector: 'app-sidebar',
@@ -10,6 +15,8 @@ import { LayoutService } from '../../core/layout.service';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
+
+  username$: Observable<string>;
 
   // public props
   appSidebarDisplay: boolean;
@@ -72,9 +79,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
   toggleType: string;
   toggleState: string;
 
-  constructor(private layout: LayoutService) {}
+  constructor(private layout: LayoutService, private sideBarService: SideBarService, private store: Store<SideBarState>) {
+  }
 
   ngOnInit(): void {
+    this.username$ = this.store.pipe(select(username));
+    this.store.dispatch(new RequestMenuLayout({}));
+
     const subscr = this.layout.layoutConfigSubject
       .asObservable()
       .subscribe((config: ILayout) => {

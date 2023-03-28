@@ -1,15 +1,15 @@
 <div class="menu-item">
   <a
     class="menu-link without-sub"
-    [routerLink]="routerLink"
+    [routerLink]="menuItem.routeLink"
     routerLinkActive="active"
     ><span class="menu-icon">
       <span
-        [inlineSVG]="icon"
+        [inlineSVG]="menuItem.icon"
         class="svg-icon svg-icon-2"
       ></span>
     </span>
 <!--    <span class="menu-title" translate="MENU.DASHBOARD"></span>-->
-    <span class="menu-title" [textContent]="title"></span>
+    <span class="menu-title" [textContent]="menuItem.title"></span>
   </a>
 </div>

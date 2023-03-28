@@ -41,6 +41,11 @@ import { ExtendedComponent } from './components/toolbar/extended/extended.compon
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
 import {SidebarItemComponent} from "./components/sidebar/sidebar-item/sidebar-item.component";
+import {StoreModule} from "@ngrx/store";
+import {EffectsModule} from "@ngrx/effects";
+import {sideBarReducer} from "./components/sidebar/reducers/sidebar.reducers";
+import {SideBarEffects} from "./components/sidebar/effects/sidebar.effects";
+import {SideBarService} from "./components/sidebar/service/sidebar.service";
 
 const routes: Routes = [
   {
@@ -51,6 +56,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  providers : [
+    SideBarService
+  ],
   declarations: [
     LayoutComponent,
     AsideComponent,
@@ -90,7 +98,10 @@ const routes: Routes = [
     DropdownMenusModule,
     NgbTooltipModule,
     TranslateModule,
-    ThemeModeModule
+    ThemeModeModule,
+
+    StoreModule.forFeature('sideBar', sideBarReducer),
+    EffectsModule.forFeature([SideBarEffects]),
   ],
   exports: [RouterModule],
 })

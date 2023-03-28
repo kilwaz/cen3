@@ -43,7 +43,7 @@ public class AppCoreListener {
     @OnWebSocketMessage
     public void message(Session session, String rawMessage) {
         try {
-            log.info("-> Incoming message " + rawMessage);
+            log.info("-> I " + rawMessage);
 
             JSONContainer messageContainer = new JSONContainer(rawMessage);
 
@@ -55,7 +55,7 @@ public class AppCoreListener {
                 message.process();
                 JSONContainer responseContainer = webSocketAction.response(message);
                 if (session.isOpen()) {
-                    log.info("<- Outgoing message " + responseContainer.writeResponse());
+                    log.info("<- O " + responseContainer.writeResponse());
                     session.getRemote().sendString(responseContainer.writeResponse());
                 }
             }

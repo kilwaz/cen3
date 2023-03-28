@@ -1,17 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {WebSocketService} from '../../../../../spl/services/websocket.service';
-import {Role} from "../../../../../spl/wsActions/role";
+import {Menu} from "../../../../../spl/wsActions/menu";
 
 @Injectable()
 export class SideBarService {
   constructor(private webSocketService: WebSocketService) {
   }
 
-  textFunction(): Observable<Role> {
-    const roleAction: Role = new Role();
-    roleAction.username = "err hello? role";
+  requestMenuLayout(): Observable<Menu> {
+    const menuAction: Menu = new Menu();
 
-    return this.webSocketService.sendWithObservable(roleAction) as Observable<Role>;
+    return this.webSocketService.sendWithObservable(menuAction) as Observable<Menu>;
   }
 }

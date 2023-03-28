@@ -4,8 +4,7 @@ import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
 public class RoleData extends WebSocketData {
-    // INCOMING
-    @WSDataIncoming
+    @WSDataOutgoing @WSDataIncoming
     private String username = null;
 
     public String getUsername() {

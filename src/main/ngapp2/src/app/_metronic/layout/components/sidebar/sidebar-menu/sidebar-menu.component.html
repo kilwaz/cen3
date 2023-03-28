@@ -6,30 +6,8 @@
   <!--begin::Menu-->
   <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true"
     data-kt-menu-expand="false">
-    <!-- Dashboard -->
-    <div class="menu-item">
-      <a class="menu-link without-sub" routerLink="/dashboard" routerLinkActive="active"><span class="menu-icon">
-          <span [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'" class="svg-icon svg-icon-2"></span>
-        </span>
-        <span class="menu-title" translate="MENU.DASHBOARD"></span></a>
-    </div>
 
-    <!-- Layout builder -->
-    <div class="menu-item">
-      <a class="menu-link without-sub" routerLink="/builder" routerLinkActive="active"><span class="menu-icon">
-          <span [inlineSVG]="'./assets/media/icons/duotune/general/gen019.svg'" class="svg-icon svg-icon-2"></span>
-        </span><span class="menu-title">Layout Builder</span></a>
-    </div>
-
-    <!-- Text Cases -->
-    <div class="menu-item">
-      <a class="menu-link without-sub" routerLink="/text-cases" routerLinkActive="active"><span class="menu-icon">
-          <span [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'" class="svg-icon svg-icon-2"></span>
-        </span>
-        <span class="menu-title" translate="MENU.TEXTCASES"></span></a>
-    </div>
-
-    <app-sidebar-item id="asideItem" [title]="'Title passed through'"></app-sidebar-item>
+    <app-sidebar-item *ngFor="let menuItem of menuItems$ | async" id="asideItem2" [menuItem]="menuItem"></app-sidebar-item>
 
     <!-- Separator -->
     <div class="menu-item">
