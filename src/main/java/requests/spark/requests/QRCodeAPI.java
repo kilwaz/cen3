@@ -4,7 +4,7 @@ import data.model.objects.json.JSONContainer;
 import log.AppLogger;
 import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import requests.annotations.RequestName;
 import requests.spark.SparkRequest;
 import spark.Request;

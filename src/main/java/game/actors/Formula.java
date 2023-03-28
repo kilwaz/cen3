@@ -7,7 +7,7 @@ import clarity.load.store.expression.values.Evaluation;
 import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Textual;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataIgnore;

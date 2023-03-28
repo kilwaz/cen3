@@ -3,7 +3,7 @@ package data;
 
 import error.Error;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
 import java.io.InputStream;

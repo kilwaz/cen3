@@ -3,7 +3,7 @@ package requests.spark.websockets.objects.messages.request;
 import clarity.Record;
 import clarity.load.store.Records;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;

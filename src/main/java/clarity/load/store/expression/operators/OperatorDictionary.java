@@ -4,7 +4,7 @@ import clarity.load.store.expression.Expression;
 import error.Error;
 import error.RecordedError;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Constructor;

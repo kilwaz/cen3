@@ -3,7 +3,7 @@ package data;
 import core.builders.resources.ResourceFileMapper;
 import error.Error;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
 import org.flywaydb.core.api.Location;

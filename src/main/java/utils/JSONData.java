@@ -4,7 +4,7 @@ import data.model.DatabaseObject;
 import data.model.objects.json.JSONContainer;
 import data.model.objects.json.JSONDataSource;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

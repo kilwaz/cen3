@@ -3,7 +3,7 @@ package build;
 import error.Error;
 import log.AppLogger;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.dataobjects.WebSocketData;
@@ -229,7 +229,7 @@ public class TypeScriptBuilder {
         try {
             path = new File(TypeScriptBuilder.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
             path = path.replace("target\\classes", "");
-            path += "src\\main\\ngapp\\src\\app\\" + folderName;
+            path += "src\\main\\ngapp2\\src\\app\\spl\\" + folderName;
         } catch (URISyntaxException ex) {
             Error.TYPE_SCRIPT_BUILD_FOLDER_URI.record().create(ex);
         }

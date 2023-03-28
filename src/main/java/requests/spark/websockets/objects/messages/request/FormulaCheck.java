@@ -6,7 +6,7 @@ import clarity.load.store.Records;
 import clarity.load.store.expression.Formula;
 import clarity.load.store.expression.instance.InstancedFormula;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.dataobjects.FormulaCheckData;

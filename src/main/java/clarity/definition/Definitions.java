@@ -5,7 +5,7 @@ import data.model.dao.DefinitionDAO;
 import data.model.dao.RecordDefinitionChildDAO;
 import data.model.dao.RecordDefinitionDAO;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

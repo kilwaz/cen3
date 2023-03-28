@@ -1,7 +1,7 @@
 import core.builders.requests.RequestMapper;
 import core.builders.requests.WebSocketMessageMapping;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import utils.AppManager;
 
 import java.net.InetAddress;

@@ -6,7 +6,7 @@ import data.SelectQuery;
 import data.UpdateQuery;
 import error.Error;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.SimpleScheduleBuilder;

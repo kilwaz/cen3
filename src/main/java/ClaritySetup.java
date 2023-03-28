@@ -12,7 +12,7 @@ import data.SelectQuery;
 import data.SelectResult;
 import data.SelectResultRow;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.time.Duration;
 import java.util.ArrayList;

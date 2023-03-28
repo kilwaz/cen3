@@ -3,7 +3,7 @@ package data.model;
 import data.model.objects.json.JSONMappable;
 import error.Error;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import utils.managers.DatabaseObjectManager;
 
 import java.lang.reflect.InvocationTargetException;

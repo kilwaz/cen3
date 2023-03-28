@@ -1,7 +1,8 @@
 package error;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -47,17 +48,17 @@ public class RecordedError {
             lineNumber = stackTraceElement.getLineNumber();
             className = stackTraceElement.getClassName();
 
-            log = Logger.getLogger(stackTraceElement.getClassName());
+            log = LogManager.getLogger(stackTraceElement.getClassName());
         }
 
         if (log == null) {
-            log = Logger.getLogger(Error.class);
+            log = LogManager.getLogger(Error.class);
         }
 
         if (exception != null && printStackTrace) {
-            log.log(Error.class.getCanonicalName(), Level.ERROR, this.toString(), exception);
+            log.log(Level.ERROR, Error.class.getCanonicalName(), this.toString(), exception);
         } else {
-            log.log(Error.class.getCanonicalName(), Level.ERROR, this.toString(), null);
+            log.log(Level.ERROR, Error.class.getCanonicalName(), this.toString(), null);
         }
 
         return this;

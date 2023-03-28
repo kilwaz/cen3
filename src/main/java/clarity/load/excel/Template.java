@@ -5,7 +5,7 @@ import clarity.load.data.Record;
 import clarity.load.data.StringValue;
 import clarity.load.data.Value;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

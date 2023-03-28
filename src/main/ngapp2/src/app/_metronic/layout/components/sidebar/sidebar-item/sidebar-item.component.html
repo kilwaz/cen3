@@ -1,0 +1,15 @@
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    [routerLink]="routerLink"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <span
+        [inlineSVG]="icon"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+<!--    <span class="menu-title" translate="MENU.DASHBOARD"></span>-->
+    <span class="menu-title" [textContent]="title"></span>
+  </a>
+</div>

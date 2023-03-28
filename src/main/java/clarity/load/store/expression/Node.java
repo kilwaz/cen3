@@ -3,7 +3,7 @@ package clarity.load.store.expression;
 import clarity.load.store.expression.instance.InstancedNode;
 import error.Error;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

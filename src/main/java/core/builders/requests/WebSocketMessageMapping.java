@@ -1,7 +1,7 @@
 package core.builders.requests;
 
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;

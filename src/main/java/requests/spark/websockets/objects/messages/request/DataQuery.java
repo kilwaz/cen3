@@ -4,7 +4,7 @@ import clarity.Record;
 import clarity.load.store.Records;
 import game.actors.Entry;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import requests.spark.websockets.objects.Message;

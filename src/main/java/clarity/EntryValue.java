@@ -5,7 +5,7 @@ import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Textual;
 import error.Error;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 

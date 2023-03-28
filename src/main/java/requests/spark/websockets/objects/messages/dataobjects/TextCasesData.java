@@ -4,14 +4,6 @@ import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 
 public class TextCasesData extends WebSocketData {
-    public static final int SENTENCE_CASE = 1;
-    public static final int LOWER_CASE = 2;
-    public static final int UPPER_CASE = 3;
-    public static final int CAPITALISED_CASE = 4;
-    public static final int ALTERNATING_CASE = 5;
-    public static final int TITLE_CASE = 6;
-    public static final int INVERSE_CASE = 7;
-
     @WSDataIncoming
     private String textToProcess = null;
     @WSDataIncoming

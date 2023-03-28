@@ -4,7 +4,7 @@ import data.model.DatabaseObject;
 import data.model.dao.DefinitionGroupDAO;
 import error.Error;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

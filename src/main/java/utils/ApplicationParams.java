@@ -12,7 +12,7 @@ public class ApplicationParams {
     public final static String APP_VERSION = "v0.3.0";
 
     // Database information - Defaults are displayed here and can be overridden by the SDE.xml file
-    private static Boolean DATABASE_ENABLED = true;
+    private static Boolean DATABASE_ENABLED = false;
 
     private static String REMOTE_DATABASE_USERNAME = "clarity";
 //    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://uk-mysql:3306/clarity?autoReconnect=true&useSSL=false";

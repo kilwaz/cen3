@@ -3,7 +3,7 @@ package data.model.objects;
 import data.model.DatabaseObject;
 import data.model.objects.json.JSONMappable;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.UUID;
 

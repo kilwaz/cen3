@@ -4,7 +4,7 @@ import core.builders.requests.WebSocketMessageMapping;
 import data.model.objects.json.JSONContainer;
 import error.Error;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;

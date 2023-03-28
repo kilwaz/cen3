@@ -1,7 +1,7 @@
 package requests.spark.websockets;
 
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;

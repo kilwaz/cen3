@@ -3,7 +3,7 @@ package clarity.definition;
 import data.SelectQuery;
 import data.SelectResult;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

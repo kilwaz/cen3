@@ -2,7 +2,7 @@ package clarity.definition;
 
 import data.model.DatabaseObject;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.UUID;
 

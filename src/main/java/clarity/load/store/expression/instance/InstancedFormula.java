@@ -7,7 +7,7 @@ import clarity.load.store.expression.Formula;
 import clarity.load.store.expression.Node;
 import clarity.load.store.expression.values.Reference;
 import log.AppLogger;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 public class InstancedFormula {
     private static Logger log = AppLogger.logger();
