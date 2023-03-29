@@ -16,14 +16,14 @@ public class Menu extends Message {
 
     public void process() {
         MenuData menuData = (MenuData) this.getWebSocketData();
-
         JSONArray menuItemJSON = new JSONArray();
 
-        menuItemJSON.put(new MenuItem("dashboard", "Dashboard", "./assets/media/icons/duotune/general/gen025.svg").prepareForJSON());
-        menuItemJSON.put(new MenuItem("builder", "Layout Builder", "./assets/media/icons/duotune/general/gen019.svg").prepareForJSON());
-        menuItemJSON.put(new MenuItem("text-cases", "Text Cases", "./assets/media/icons/duotune/arrows/arr001.svg").prepareForJSON());
+        menuItemJSON.put(new MenuItem("dashboard", "Dashboard", "./assets/media/icons/duotune/general/gen025.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuItem("builder", "Layout Builder", "./assets/media/icons/duotune/general/gen019.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuItem("Separate", "separator").prepareForJSON());
+        menuItemJSON.put(new MenuItem("text-cases", "Text Cases", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuItem("Crafted", "separator").prepareForJSON());
 
         menuData.setMenuItems(menuItemJSON);
-        menuData.setUsername("WayHey!");
     }
 }

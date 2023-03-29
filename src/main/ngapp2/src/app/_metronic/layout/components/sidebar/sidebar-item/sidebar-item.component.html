@@ -1,6 +1,6 @@
-<div class="menu-item">
-  <a
-    class="menu-link without-sub"
+<!-- Menu Item -->
+<div *ngIf="menuItem.type == 'menuItem'" class="menu-item">
+  <a class="menu-link without-sub"
     [routerLink]="menuItem.routeLink"
     routerLinkActive="active"
     ><span class="menu-icon">
@@ -12,4 +12,11 @@
 <!--    <span class="menu-title" translate="MENU.DASHBOARD"></span>-->
     <span class="menu-title" [textContent]="menuItem.title"></span>
   </a>
+</div>
+
+<!-- Separator -->
+<div *ngIf="menuItem.type == 'separator'" class="menu-item">
+  <div class="menu-content pt-8 pb-2">
+    <span class="menu-section text-muted text-uppercase fs-8 ls-1" [textContent]="menuItem.title"></span>
+  </div>
 </div>

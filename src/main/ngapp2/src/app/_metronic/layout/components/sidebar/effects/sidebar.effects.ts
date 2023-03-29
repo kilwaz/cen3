@@ -30,7 +30,6 @@ export class SideBarEffects {
           .pipe(
             tap(result => {
               this.store.dispatch(new LoadRoles({
-                username: result.username,
                 menuItems: result.menuItems
               }));
             }),

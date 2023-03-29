@@ -32,9 +32,10 @@ public enum WSData {
     DEFINITION_NAME(),
     DEFINITION_EXPRESSION(),
 
-    MENU_ITEM_ROUTELINK(),
+    MENU_ITEM_ROUTE_LINK(),
     MENU_ITEM_TITLE(),
     MENU_ITEM_ICON(),
+    MENU_ITEM_TYPE(),
 
     WSData() {
     }

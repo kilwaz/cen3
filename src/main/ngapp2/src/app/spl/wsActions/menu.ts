@@ -8,7 +8,6 @@ import {Message} from "./message";
 import {MenuItem} from "../wsObjects/menuItem";
 
 export class Menu extends Message {
-	private _username: string;
 	private _menuItems: Array<MenuItem> = [];
 	
 	constructor() {
@@ -17,20 +16,11 @@ export class Menu extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._username = msgRaw.username;
 		this._menuItems = msgRaw.menuItems;
 	}
 
-	get username(): string {
-		return this._username;
-	}
-	
 	get menuItems(): Array<MenuItem> {
 		return this._menuItems;
-	}
-	
-	set username(value: string) {
-		this._username = value;
 	}
 	
 	set menuItems(value: Array<MenuItem>) {

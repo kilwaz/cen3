@@ -1,5 +1,4 @@
 import {Action} from '@ngrx/store';
-import {Menu} from "../../../../../spl/wsActions/menu";
 import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
 
 export enum SideBarActionTypes {
@@ -11,7 +10,6 @@ export class LoadRoles implements Action {
   readonly type = SideBarActionTypes.LoadRoles;
 
   constructor(public payload: {
-    username: string,
     menuItems: Array<MenuItem>
   }) {
   }

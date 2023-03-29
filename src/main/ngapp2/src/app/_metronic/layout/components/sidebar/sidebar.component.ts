@@ -5,7 +5,6 @@ import {LayoutService} from '../../core/layout.service';
 import {SideBarService} from "./service/sidebar.service";
 import {select, Store} from "@ngrx/store";
 import {SideBarState} from "./reducers/sidebar.reducers";
-import {username} from "./selectors/sidebar.selectors";
 import {RequestMenuLayout} from "./actions/sidebar.actions";
 
 @Component({
@@ -15,8 +14,6 @@ import {RequestMenuLayout} from "./actions/sidebar.actions";
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
-
-  username$: Observable<string>;
 
   // public props
   appSidebarDisplay: boolean;
@@ -83,7 +80,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.username$ = this.store.pipe(select(username));
     this.store.dispatch(new RequestMenuLayout({}));
 
     const subscr = this.layout.layoutConfigSubject

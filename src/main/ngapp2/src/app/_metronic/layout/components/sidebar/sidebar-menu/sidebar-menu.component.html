@@ -7,14 +7,7 @@
   <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true"
     data-kt-menu-expand="false">
 
-    <app-sidebar-item *ngFor="let menuItem of menuItems$ | async" id="asideItem2" [menuItem]="menuItem"></app-sidebar-item>
-
-    <!-- Separator -->
-    <div class="menu-item">
-      <div class="menu-content pt-8 pb-2">
-        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Crafted</span>
-      </div>
-    </div>
+    <app-sidebar-item *ngFor="let menuItem of menuItems$ | async" [menuItem]="menuItem"></app-sidebar-item>
 
     <!-- Pages -->
     <div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show">
