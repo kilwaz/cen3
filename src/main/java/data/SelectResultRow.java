@@ -39,8 +39,8 @@ public class SelectResultRow {
         // int = int
 
         // Handled for both boolean and integer return types
-        if (rowValues.get(colName) != null) {
-            Object value = rowValues.get(colName);
+        if (rowValues.get(colName.toUpperCase()) != null) {
+            Object value = rowValues.get(colName.toUpperCase());
             if (value instanceof Boolean) {
                 return (Boolean) value ? 1 : 0;
             } else if (value instanceof Integer) {
@@ -52,15 +52,15 @@ public class SelectResultRow {
     }
 
     public String getString(String colName) {
-        return (String) rowValues.get(colName);
+        return (String) rowValues.get(colName.toUpperCase());
     }
 
     public Double getDouble(String colName) {
-        return (Double) rowValues.get(colName);
+        return (Double) rowValues.get(colName.toUpperCase());
     }
 
     public DateTime getDateTime(String colName) {
-        return new DateTime(rowValues.get(colName));
+        return new DateTime(rowValues.get(colName.toUpperCase()));
     }
 
     public Boolean getBoolean(String colName) {

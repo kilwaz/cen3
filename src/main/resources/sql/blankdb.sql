@@ -10,7 +10,7 @@ create table definition (
   uuid char(36) NOT NULL,
   name varchar(200),
   expression varchar(1000),
-  calculated bool,
+  calculated char(1),
   definition_type int,
   PRIMARY KEY (uuid));
 

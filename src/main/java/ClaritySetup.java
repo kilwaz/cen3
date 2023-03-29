@@ -95,7 +95,7 @@ public class ClaritySetup {
         Definition.define("C").expression("coNCat([A],' - ',[B])");
         Definition.define("SPL").expression("((25.0016/24.04)-1)*100");
         Definition.define("U").expression("upper([C])");
-        Definition.define("L").expression("lower([C]");
+        Definition.define("L").expression("lower([C])");
         Definition.define("Min").expression("min(1,2,3,4)");
         Definition.define("Max").expression("max(1,2,3,4)");
         Definition.define("Sum").expression("sum(1,2,3,4)");
@@ -126,11 +126,12 @@ public class ClaritySetup {
     }
 
     public static void clearDatabase() {
-        SelectQuery selectQuery = new SelectQuery("show tables");
+//        SelectQuery selectQuery = new SelectQuery("show tables");  // MySQL way
+        SelectQuery selectQuery = new SelectQuery("SELECT table_name FROM dba_tables where owner = 'CEN'"); // Oracle way
         SelectResult result = (SelectResult) selectQuery.execute();
         for (SelectResultRow selectResultRow : result.getResults()) {
-            String tableName = selectResultRow.getString("Tables_in_clarity");
-            if (!"definition_group".equals(tableName) && !"record_definition".equals(tableName) && !"definition".equals(tableName) && !"record_definition_child".equals(tableName)) {
+            String tableName = selectResultRow.getString("table_name");
+            if (!"definition_group".equalsIgnoreCase(tableName) && !"record_definition".equalsIgnoreCase(tableName) && !"definition".equalsIgnoreCase(tableName) && !"record_definition_child".equalsIgnoreCase(tableName)) {
                 log.info("Deleting " + tableName);
                 new SelectQuery("truncate table " + tableName).execute();
                 new SelectQuery("drop table " + tableName).execute();
