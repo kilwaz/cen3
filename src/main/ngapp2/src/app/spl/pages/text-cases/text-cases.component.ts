@@ -8,11 +8,11 @@ import {select, Store} from '@ngrx/store';
 import {TextCasesState} from './reducers/text-cases.reducers';
 
 // Selectors
-import {textFunction, textResult, textToProcess} from './selectors/text-cases.selectors';
+import {fileToUpload, textFunction, textResult, textToProcess} from './selectors/text-cases.selectors';
 import {TextCasesService} from './service/text-cases.service';
 
 // Action
-import {TextToProcessUpdated, ProcessText} from './actions/text-cases.actions';
+import {TextToProcessUpdated, ProcessText, FilePicked} from './actions/text-cases.actions';
 
 @Component({
   selector: 'app-text-cases',
@@ -31,6 +31,7 @@ export class TextCasesComponent implements OnInit, OnDestroy {
   textToProcess$: Observable<string>;
   textResult$: Observable<string>;
   textFunction$: Observable<number>;
+  fileToUpload$: Observable<File>;
 
   private unsubscribe: Subject<any>;
 
@@ -45,6 +46,7 @@ export class TextCasesComponent implements OnInit, OnDestroy {
     this.textToProcess$ = this.store.pipe(select(textToProcess));
     this.textResult$ = this.store.pipe(select(textResult));
     this.textFunction$ = this.store.pipe(select(textFunction));
+    this.fileToUpload$ = this.store.pipe(select(fileToUpload));
   }
 
   processText(textFunctionProvided: number) {
@@ -64,5 +66,15 @@ export class TextCasesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe.complete();
+  }
+
+  onFileSelected(event): void {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.store.dispatch(new FilePicked({
+        fileToUpload: file
+      }));
+    }
   }
 }

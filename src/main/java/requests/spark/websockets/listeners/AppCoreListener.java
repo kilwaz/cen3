@@ -12,13 +12,14 @@ import requests.annotations.RequestName;
 import requests.spark.websockets.WebSocketManager;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.WebSocketAction;
+import utils.managers.FileUploadManager;
 
 import java.io.IOException;
 
 @WebSocket
 @RequestName("ws")
 public class AppCoreListener {
-    private static Logger log = AppLogger.logger();
+    private static final Logger log = AppLogger.logger();
 
     // New connections trigger here
     @OnWebSocketConnect
@@ -29,14 +30,14 @@ public class AppCoreListener {
     // Closed connections trigger here
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
-        log.info("Closed connected session " + session.getRemoteAddress());
+        log.info("Closed connected session " + session.getRemoteAddress() + " Code:" + statusCode + " Reason: " + reason);
         WebSocketManager.getInstance().removeSession(session);
     }
 
     // Incoming messages if it is a byte buffer
     @OnWebSocketMessage
     public void handleBinaryMessage(Session session, byte[] buffer, int offset, int length) throws IOException {
-        log.info("New Binary Message Received " + length + " (Server did nothing with this message)");
+        FileUploadManager.getInstance().processBuffer(buffer);
     }
 
     // Incoming messages reach the server via this method

@@ -34,4 +34,17 @@
       </div>
     </div>
   </form>
+
+<div id="uploader">
+  <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+  <div class="file-upload">
+
+    {{"No file uploaded yet."}}
+
+    <button mat-raised-button (click)="fileUpload.click()">Upload!
+<!--      <mat-icon>attach_file</mat-icon>-->
+    </button>
+  </div>
+</div>
 </div>

@@ -13,7 +13,7 @@ export class WebSocketService {
   private static callObjs: { [key: string]: Message } = {};
   public static websocketAddress = 'ws://localhost:4568'; // If hosting on another machine this needs to be set correctly
 
-  public ws: any;
+  public ws$: any;
 
   constructor() {
     this.buildSocket();
@@ -79,13 +79,18 @@ export class WebSocketService {
   }
 
   private buildSocket() {
-    this.ws = webSocket(WebSocketService.websocketAddress + '/ws'); // Local Dev IP
-    this.ws.subscribe(
+    this.ws$ = webSocket({
+      url: WebSocketService.websocketAddress + '/ws',  // Local Dev IP
+      serializer: msg => msg as any,
+      binaryType: "arraybuffer"
+    });
+
+    this.ws$.subscribe(
       msg => WebSocketService.received(msg),
       err => WebSocketService.error(err),
       () => WebSocketService.complete()
     );
-    this.ws.subscribe();
+    this.ws$.subscribe();
     WebSocketService.connected = true;
     console.log("Web socket connected");
   }
@@ -107,12 +112,20 @@ export class WebSocketService {
     return sendSubject.asObservable();
   }
 
-  send(message: Message) {
+  private checkIsConnected() {
     if (!WebSocketService.connected) {
       console.log('The connection is closed.');
       this.buildSocket();
     }
+  }
 
-    this.ws.next(JSON.stringify(message));
+  sendBinaryData(data: Uint8Array) {
+    this.checkIsConnected();
+    this.ws$.next(data);
+  }
+
+  send(message: Message) {
+    this.checkIsConnected();
+    this.ws$.next(JSON.stringify(message));
   }
 }

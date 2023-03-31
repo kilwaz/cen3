@@ -9,3 +9,5 @@ export const textToProcess = createSelector(selectTextCases, textCases => textCa
 export const textResult = createSelector(selectTextCases, textCases => textCases?.textResult);
 export const textFunction = createSelector(selectTextCases, textCases => textCases?.textFunction);
 
+export const fileToUpload = createSelector(selectTextCases, textCases => textCases?.fileToUpload);
+

@@ -5,12 +5,14 @@ export interface TextCasesState {
   textToProcess: string;
   textResult: string;
   textFunction: number;
+  fileToUpload: File;
 }
 
 export const initialAuthState: TextCasesState = {
   textToProcess: '',
   textResult: '',
-  textFunction: 0
+  textFunction: 0,
+  fileToUpload: null
 };
 
 export function textCasesReducer(state = initialAuthState, action: TextCasesActions): TextCasesState {
@@ -37,6 +39,14 @@ export function textCasesReducer(state = initialAuthState, action: TextCasesActi
       return {
         ...state,
         textFunction: textFunctionPayload,
+      };
+    }
+    case TextCasesActionTypes.FilePicked: {
+      const fileToUploadPayload: File = action.payload.fileToUpload;
+
+      return {
+        ...state,
+        fileToUpload: fileToUploadPayload,
       };
     }
     default:

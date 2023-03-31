@@ -7,7 +7,7 @@ import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 // Actions
 import {
-  TextCasesActionTypes, ProcessText, TextResultUpdated
+  TextCasesActionTypes, ProcessText, TextResultUpdated, UploadFileBegin, FilePicked
 } from '../actions/text-cases.actions';
 import {AppState} from '../../../core/reducers';
 import {TextCasesService} from '../service/text-cases.service';
@@ -34,6 +34,31 @@ export class TextCasesEffects {
               }));
             }),
           ).subscribe(); // Does this subscribe forever?
+      }));
+  }, {dispatch: false});
+
+  filePicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<FilePicked>(TextCasesActionTypes.FilePicked),
+      tap(x => {
+        this.store.dispatch(new UploadFileBegin({}));
+      })
+    );
+  }, {dispatch: false});
+
+  uploadFile$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<UploadFileBegin>(TextCasesActionTypes.UploadFileBegin),
+      concatLatestFrom(() =>
+        this.store.pipe(select(selectTextCases))
+      ),
+      map(([, uploadFile]) => {
+        this.textCaseService.sendTestFile(uploadFile.fileToUpload);
+        // .pipe(
+        //   tap(result => {
+        //
+        //   }),
+        // ).subscribe(); // Does this subscribe forever?
       }));
   }, {dispatch: false});
 }
