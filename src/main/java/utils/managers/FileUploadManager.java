@@ -12,7 +12,7 @@ public class FileUploadManager {
     private static FileUploadManager instance;
     private static HashMap<Integer, FileTransferStatus> transferStatusHashMap = new HashMap<>();
 
-    private static final Integer FRAME_SIZE_BYTES = 10000;
+    private static final Integer FRAME_SIZE_BYTES = 50000; // 50 KBs
 
     private static final Logger log = AppLogger.logger();
 
@@ -42,7 +42,7 @@ public class FileUploadManager {
         byte[] referenceBytes = Arrays.copyOfRange(bytes, 0, 8);
         byte[] fileData = Arrays.copyOfRange(bytes, 8, bytes.length);
 
-        Integer pieceNum = Byte.toUnsignedInt(referenceBytes[0]);
+        Integer pieceNum = (Byte.toUnsignedInt(referenceBytes[1]) * 254) + Byte.toUnsignedInt(referenceBytes[0]);
         Integer fileReference = Byte.toUnsignedInt(referenceBytes[2]);
 
         FileTransferStatus fileTransferStatus = transferStatusHashMap.get(fileReference);

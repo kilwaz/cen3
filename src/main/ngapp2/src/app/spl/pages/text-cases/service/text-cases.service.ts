@@ -36,7 +36,7 @@ export class TextCasesService {
           const fullFileArray = new Uint8Array(buffer);
 
           for (let frame = 0; frame < result.numberOfPieces; frame++) {
-            let referenceBytes = new Uint8Array([frame, 0, result.fileReference, 0, 0, 0, 0, 0]);
+            let referenceBytes = new Uint8Array([frame % 254, Math.floor(frame / 254), result.fileReference, 0, 0, 0, 0, 0]);
 
             // Create frame size
             let frameArray;
