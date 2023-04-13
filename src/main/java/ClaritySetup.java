@@ -7,6 +7,9 @@ import clarity.definition.RecordDefinition;
 import clarity.load.store.DefinedMatrix;
 import clarity.load.store.MatrixEntry;
 import clarity.load.store.Records;
+import clarity.load.store.expression.Expression;
+import clarity.load.store.expression.Formula;
+import clarity.load.store.expression.instance.InstancedFormula;
 import core.builders.requests.WebSocketMessageMapping;
 import data.SelectQuery;
 import data.SelectResult;
@@ -74,14 +77,16 @@ public class ClaritySetup {
         bonusRecord.save();
 
         record.addChild(bonusRecord);
-        user1.addChild(bonusRecord);
+//        user1.addChild(bonusRecord); // This should throw and error
 
-        Duration gap = Duration.ofSeconds(10).plus(Duration.ofMinutes(2));
+//        Duration gap = Duration.ofSeconds(10).plus(Duration.ofMinutes(2));
 
         Infer.infer();
 
         List<Record> records = Records.getInstance().findRecords("A", "aLExAnder");
-        Record bonusTest = records.get(0).getChildren(Definitions.getInstance().findRecordDefinition("Bonus")).get(0);
+        Infer.me(records.get(0));
+
+//        Record bonusTest = records.get(0).getChildren(Definitions.getInstance().findRecordDefinition("Bonus")).get(0);
 
         log.info("Ready!");
     }
@@ -104,16 +109,17 @@ public class ClaritySetup {
         Definition.define("Proper").expression("proper([C])");
         Definition.define("Equals").expression("1=1");
         Definition.define("Length").expression("len([Sum])");
-        Definition.define("Equals 2").expression("2.00003=2.0000301");
+        Definition.define("Equals_2").expression("2.00003=2.0000301");
         Definition.define("Greater").expression("'B'>'A'");
         Definition.define("Less").expression("1>2");
         Definition.define("Round").expression("round(10.12545,4)");
         Definition.define("If").expression("if([Less],[Average],[SPL])");
         Definition.define("Num").expression("3.3");
+        Definition.define("Num_2").expression("3.7*10");
         Definition.define("Matrix").expression("matrix('Country','USA')");
 
         RecordDefinition employee = RecordDefinition.define("Employee").addDefinitions("ID", "C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
-                "Count", "Average", "Equals", "Equals 2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num", "SPL");
+                "Count", "Average", "Equals", "Equals_2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num", "Num_2", "SPL");
 
         RecordDefinition bonus = RecordDefinition.define("Bonus").addDefinitions("D", "E", "Max");
         employee.defineChildRecordDefinition(bonus);

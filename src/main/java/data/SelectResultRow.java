@@ -21,15 +21,15 @@ public class SelectResultRow {
     }
 
     public Boolean hasColumn(String colName) {
-        return rowValues.get(colName) != null;
+        return rowValues.get(colName.toUpperCase()) != null;
     }
     
     public void addColumn(String colName, Object colValue) {
-        rowValues.put(colName, colValue);
+        rowValues.put(colName.toUpperCase(), colValue);
     }
 
     public Object getColumnObject(String colName) {
-        return rowValues.get(colName);
+        return rowValues.get(colName.toUpperCase());
     }
 
     public Integer getInt(String colName) {
@@ -69,12 +69,14 @@ public class SelectResultRow {
         // 0 = false
 
         // Handled for both boolean and integer return types
-        if (rowValues.get(colName) != null) {
-            Object value = rowValues.get(colName);
+        if (rowValues.get(colName.toUpperCase()) != null) {
+            Object value = rowValues.get(colName.toUpperCase());
             if (value instanceof Boolean) {
                 return (Boolean) value;
             } else if (value instanceof Integer) {
                 return (Integer) value == 1;
+            } else if (value instanceof BigDecimal) {
+                return ((BigDecimal) value).intValue() == 1;
             }
         }
         return false;
@@ -82,9 +84,9 @@ public class SelectResultRow {
 
     public InputStream getBlobInputStream(String colName) {
         try {
-            return ((Blob) rowValues.get(colName + "-Blob")).getBinaryStream();
+            return ((Blob) rowValues.get(colName.toUpperCase() + "-Blob")).getBinaryStream();
         } catch (NullPointerException ex) {
-            Error.SQL_BLOB.record().additionalInformation("Nothing returned from column lookup: " + colName + "-Blob").create(ex);
+            Error.SQL_BLOB.record().additionalInformation("Nothing returned from column lookup: " + colName.toUpperCase() + "-Blob").create(ex);
         } catch (SQLException ex) {
             Error.SQL_BLOB.record().create(ex);
         }
@@ -92,26 +94,26 @@ public class SelectResultRow {
     }
 
     public BigDecimal getBigDecimal(String colName) {
-        return (BigDecimal) rowValues.get(colName);
+        return (BigDecimal) rowValues.get(colName.toUpperCase());
     }
 
     public BigInteger getBigInt(String colName) {
-        return (BigInteger) rowValues.get(colName);
+        return (BigInteger) rowValues.get(colName.toUpperCase());
     }
 
     public Long getLong(String colName) {
-        return (Long) rowValues.get(colName);
+        return (Long) rowValues.get(colName.toUpperCase());
     }
 
     public String getBlobString(String colName) {
-        return (String) rowValues.get(colName + "-String");
+        return (String) rowValues.get(colName.toUpperCase() + "-String");
     }
 
     public Integer getBlobInt(String colName) {
-        return Integer.parseInt((String) rowValues.get(colName + "-String"));
+        return Integer.parseInt((String) rowValues.get(colName.toUpperCase() + "-String"));
     }
 
     public Double getBlobDouble(String colName) {
-        return Double.parseDouble((String) rowValues.get(colName + "-String"));
+        return Double.parseDouble((String) rowValues.get(colName.toUpperCase() + "-String"));
     }
 }

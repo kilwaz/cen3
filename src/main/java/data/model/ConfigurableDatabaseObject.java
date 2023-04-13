@@ -47,7 +47,8 @@ public class ConfigurableDatabaseObject extends DatabaseObject {
     public static <DBObject extends DatabaseObject> DBObject create(Class<DBObject> clazz) {
         try {
             return clazz.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                 InvocationTargetException ex) {
             Error.CREATE_NEW_INSTANCE_ERROR.record().create(ex);
         }
 
@@ -55,8 +56,12 @@ public class ConfigurableDatabaseObject extends DatabaseObject {
     }
 
     public void save() {
+        save(DatabaseAction.STATE_RAW);
+    }
+
+    public void save(int state) {
         try {
-            new DatabaseAction<>().save(this, new ConfigurableDatabaseLink(this.recordDefinition));
+            new DatabaseAction<>().save(this, new ConfigurableDatabaseLink(this.recordDefinition), state);
         } catch (DatabaseNotEnabled ex) {
             Error.DATABASE_NOT_ENABLED_EXCEPTION.record().create(ex);
         }
@@ -64,20 +69,22 @@ public class ConfigurableDatabaseObject extends DatabaseObject {
 
     public void delete() {
         try {
-            new DatabaseAction<>().delete(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance());
+            new DatabaseAction<>().delete(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance(), DatabaseAction.STATE_RAW);
         } catch (DatabaseNotEnabled ex) {
             Error.DATABASE_NOT_ENABLED_EXCEPTION.record().create(ex);
-        } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
+        } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException |
+                 InvocationTargetException ex) {
             Error.DATABASE_DELETE_CLASS_INIT.record().additionalInformation("Class " + this.getClass()).create(ex);
         }
     }
 
     public void load() {
         try {
-            new DatabaseAction<>().load(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance());
+            new DatabaseAction<>().load(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance(), DatabaseAction.STATE_STATIC);
         } catch (DatabaseNotEnabled ex) {
             Error.DATABASE_NOT_ENABLED_EXCEPTION.record().create(ex);
-        } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
+        } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException |
+                 InvocationTargetException ex) {
             Error.DATABASE_LOAD_CLASS_INIT.record().additionalInformation("Class " + this.getClass()).create(ex);
         }
     }

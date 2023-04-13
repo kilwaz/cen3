@@ -25,7 +25,9 @@ public class Formula {
     private Boolean isBuilt = false;
 
     public Formula(String strExpression) {
-        this.strExpression = strExpression;
+        if (strExpression != null) {
+            this.strExpression = strExpression;
+        }
     }
 
     public Boolean build() {

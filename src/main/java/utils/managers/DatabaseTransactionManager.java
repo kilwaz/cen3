@@ -83,7 +83,7 @@ public class DatabaseTransactionManager {
     }
 
     public synchronized void addUpdate(UpdateQuery updateQuery) {
-        //log.info("Update - " + updateQuery.getQuery());
+//        log.info("Update - " + updateQuery.getQuery());
         logQueryParams(updateQuery);
         if (!inTransaction) {
             try {
@@ -121,9 +121,9 @@ public class DatabaseTransactionManager {
         List<Object> params = query.getParameters();
         for (Object o : params) {
             if (o != null) {
-                //log.info("   " + o.toString());
+//                log.info("   " + o.toString());
             } else {
-                log.info("   null");
+//                log.info("   null");
             }
         }
     }
@@ -131,7 +131,7 @@ public class DatabaseTransactionManager {
     public void checkIfNeedToFinalise() {
         if (inTransaction) {
             if (pendingQueryList.size() > 0 && timeOfLastQuery.getTimeSince() > 1000) {
-                //log.info("Committing " + pendingQueryList.size() + " query transactions after 1000ms");
+//                log.info("Committing " + pendingQueryList.size() + " query transactions after 1000ms");
                 finaliseTransactions();
             }
         }

@@ -1,5 +1,6 @@
 package clarity.definition;
 
+import data.model.DatabaseAction;
 import data.model.DatabaseObject;
 import data.model.dao.DefinitionGroupDAO;
 import error.Error;
@@ -138,8 +139,20 @@ public class RecordDefinition extends DatabaseObject {
         return definitionTableMode;
     }
 
-    public String getTableName() {
-        return "rec_def_" + getName().toLowerCase();
+    public String getBaseTableName() {
+        return "rec_" + getName().toLowerCase();
+    }
+
+    public String getTableNameByState(int state) {
+        if (state == DatabaseAction.STATE_RAW) {
+            return "rec_" + getName().toLowerCase() + "_raw";
+        } else if (state == DatabaseAction.STATE_CALC) {
+            return "rec_" + getName().toLowerCase() + "_calc";
+        } else if (state == DatabaseAction.STATE_STATIC) {
+            return "rec_" + getName().toLowerCase() + "_static";
+        }
+
+        return null;
     }
 
     public HashMap<String, RecordDefinitionChild> getChildRecordDefinitions() {

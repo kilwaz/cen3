@@ -42,6 +42,18 @@ public class DatabaseLink {
         return tableName;
     }
 
+    public String getTableNameByState(int state) {
+        if (state == DatabaseAction.STATE_RAW) {
+            return tableName + "_raw";
+        } else if (state == DatabaseAction.STATE_CALC) {
+            return tableName + "_calc";
+        } else if (state == DatabaseAction.STATE_STATIC) {
+            return tableName + "_static";
+        }
+
+        return tableName;
+    }
+
     public List<ModelColumn> getModelColumns() {
         return modelColumns;
     }

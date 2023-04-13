@@ -49,7 +49,7 @@ public class RecordedError {
             lineNumber = stackTraceElement.getLineNumber();
             className = stackTraceElement.getClassName();
 
-            Configurator.setLevel(stackTraceElement.getClassName(), Level.DEBUG);
+            Configurator.setLevel(stackTraceElement.getClassName(), Level.ALL);
             log = LogManager.getLogger(stackTraceElement.getClassName());
         }
 

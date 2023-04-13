@@ -32,6 +32,7 @@ public class UpdateQuery implements Query {
 
     public Object execute() {
         DatabaseTransactionManager.getInstance().addUpdate(this);
+//        log.info(query);
         return DataBank.runUpdateQuery(this);
     }
 }

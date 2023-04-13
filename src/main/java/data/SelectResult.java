@@ -30,4 +30,8 @@ public class SelectResult {
     public Boolean hasException() {
         return exception != null;
     }
+
+    public Boolean hasNoResults() {
+        return results.size() == 0;
+    }
 }

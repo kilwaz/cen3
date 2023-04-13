@@ -31,8 +31,6 @@ export class TextCasesService {
       // Response from server
       fileUploadRequest$.pipe(
         tap(result => {
-          console.log("This would be the data section of the file being sent, reference of " + result.fileReference + " and pieces " + result.numberOfPieces + " - " + result.frameSize);
-
           const fullFileArray = new Uint8Array(buffer);
 
           for (let frame = 0; frame < result.numberOfPieces; frame++) {
@@ -51,10 +49,8 @@ export class TextCasesService {
             // Create the frame file contents
             let frameFileArray;
             if (frame !== result.numberOfPieces - 1) {
-              console.log((result.frameSize * frame) + "," + result.frameSize * (frame + 1));
               frameFileArray = fullFileArray.slice(result.frameSize * frame, result.frameSize * (frame + 1));
             } else { // Last frame size needs to be treated differently due to partial frame size
-              console.log((result.frameSize * frame) + "," + fullFileArray.length);
               frameFileArray = fullFileArray.slice(result.frameSize * frame, fullFileArray.length);
             }
             // Join the frame file contents onto the end of frame

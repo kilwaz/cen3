@@ -1,5 +1,6 @@
 package data.model;
 
+import clarity.Entry;
 import clarity.Record;
 import clarity.definition.*;
 import data.*;
@@ -24,37 +25,50 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends DatabaseLink> {
     private static Logger log = AppLogger.logger();
 
+    public static final int STATE_RAW = 1;
+    public static final int STATE_CALC = 2;
+    public static final int STATE_STATIC = 3;
+
     private static ConcurrentHashMap<String, DelayedLoad> delayedLoadedObjects = new ConcurrentHashMap<>();
 
-    void save(DBObject dbObject, DBLink dbLink) throws DatabaseNotEnabled {
+    void save(DBObject dbObject, DBLink dbLink, int state) throws DatabaseNotEnabled {
         if (!ApplicationParams.getDatabaseEnabled()) {
             throw new DatabaseNotEnabled("Save operation attempted with database disabled");
         }
 
         // Building the update query string
         var updateQueryBuilder = new StringBuilder();
-        updateQueryBuilder.append("update ")
-                .append(dbLink.getTableName());
+        updateQueryBuilder.append("update ");
+
+        if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
+            updateQueryBuilder.append(dbLink.getTableNameByState(state));
+        } else {
+            updateQueryBuilder.append(dbLink.getTableName());
+        }
         Boolean firstColumn = true;
 
-        List<DatabaseColumnModel> databaseColumnModelList = new ArrayList<>();
+        List<DefinitionModel> databaseColumnModelList = new ArrayList<>();
         if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
             ConfigurableDatabaseLink configurableDbLink = (ConfigurableDatabaseLink) dbLink;
             DefinitionTableModel definitionTableModel = configurableDbLink.getRecordDefinition().getDefinitionTableMode();
 
-            HashMap<String, DatabaseColumnModel> definedModel = definitionTableModel.getDefinedModelHashMap();
+            HashMap<String, DefinitionModel> definedModel = definitionTableModel.getDefinedModelHashMap();
             databaseColumnModelList = new ArrayList<>(definedModel.values());
 
-            for (DatabaseColumnModel databaseColumnModel : databaseColumnModelList) {
+            for (DefinitionModel databaseColumnModel : databaseColumnModelList) {
                 if (firstColumn) {
-                    updateQueryBuilder.append(" set ")
-                            .append(databaseColumnModel.getColumnName())
-                            .append(" = ?");
-                    firstColumn = false;
+                    if (databaseColumnModel.hasModelByState(state)) {
+                        updateQueryBuilder.append(" set ")
+                                .append(databaseColumnModel.getModelByState(state).getColumnName())
+                                .append(" = ?");
+                        firstColumn = false;
+                    }
                 } else {
-                    updateQueryBuilder.append(", ")
-                            .append(databaseColumnModel.getColumnName())
-                            .append(" = ?");
+                    if (databaseColumnModel.hasModelByState(state)) {
+                        updateQueryBuilder.append(", ")
+                                .append(databaseColumnModel.getModelByState(state).getColumnName())
+                                .append(" = ?");
+                    }
                 }
             }
         } else { // Pre-defined Database Link
@@ -81,8 +95,15 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
             if (dbObject instanceof Record) {
                 Record record = (Record) dbObject;
 
-                for (DatabaseColumnModel databaseColumnModel : databaseColumnModelList) {
-                    updateQuery.addParameter(record.get(databaseColumnModel.getColumnName()).get().getValue());
+                for (DefinitionModel databaseColumnModel : databaseColumnModelList) {
+                    if (databaseColumnModel.hasModelByState(state)) {
+                        Entry entry = record.get(databaseColumnModel.getModelByState(state).getColumnName());
+                        if (entry != null) {
+                            updateQuery.addParameter(entry.get().getValue());
+                        } else {
+                            updateQuery.addParameter(null);
+                        }
+                    }
                 }
             }
         } else { // Pre-defined Database Link
@@ -106,31 +127,43 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         // Execute the update query
         var updateResult = (UpdateResult) updateQuery.execute();
 
-        // If record does not exist insert a new one..
+        // If record does not exist insert a new one
         if (updateResult.getResultNumber() == 0) {
             // Build the insert statement
             StringBuilder insertQueryBuilder = new StringBuilder();
-            insertQueryBuilder.append("insert into ")
-                    .append(dbLink.getTableName())
-                    .append("(");
+            insertQueryBuilder.append("insert into ");
+
+            if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
+                insertQueryBuilder.append(dbLink.getTableNameByState(state));
+            } else {
+                insertQueryBuilder.append(dbLink.getTableName());
+            }
+            insertQueryBuilder.append("(");
 
             firstColumn = true;
 
             if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
                 insertQueryBuilder.append("uuid,");
 
-                for (DatabaseColumnModel databaseColumnModel : databaseColumnModelList) {
+                int queryParameterCount = 0;
+                for (DefinitionModel databaseColumnModel : databaseColumnModelList) {
                     if (firstColumn) {
-                        insertQueryBuilder.append(databaseColumnModel.getColumnName());
-                        firstColumn = false;
+                        if (databaseColumnModel.hasModelByState(state)) {
+                            insertQueryBuilder.append(databaseColumnModel.getModelByState(state).getColumnName());
+                            firstColumn = false;
+                            queryParameterCount++;
+                        }
                     } else {
-                        insertQueryBuilder.append(",").append(databaseColumnModel.getColumnName());
+                        if (databaseColumnModel.hasModelByState(state)) {
+                            insertQueryBuilder.append(",").append(databaseColumnModel.getModelByState(state).getColumnName());
+                            queryParameterCount++;
+                        }
                     }
                 }
 
                 insertQueryBuilder.append(")")
                         .append(" values (?, ?")  // First item here is uuid of newly inserted config db item
-                        .append(StringUtils.repeat(", ?", databaseColumnModelList.size() - 1))
+                        .append(StringUtils.repeat(", ?", queryParameterCount - 1))
                         .append(")");
             } else { // Pre-defined Database Link
                 for (ModelColumn modelColumn : dbLink.getModelColumns()) {
@@ -158,8 +191,15 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                     // The uuid to update, always is the first param
                     insertQuery.addParameter(dbObject.getUuidString());
 
-                    for (DatabaseColumnModel databaseColumnModel : databaseColumnModelList) {
-                        insertQuery.addParameter(record.get(databaseColumnModel.getColumnName()).get().getValue());
+                    for (DefinitionModel databaseColumnModel : databaseColumnModelList) {
+                        if (databaseColumnModel.hasModelByState(state)) {
+                            Entry entry = record.get(databaseColumnModel.getModelByState(state).getColumnName());
+                            if (entry != null) {
+                                insertQuery.addParameter(entry.get().getValue());
+                            } else {
+                                insertQuery.addParameter(null);
+                            }
+                        }
                     }
                 }
             } else { // Pre-defined Database Link
@@ -177,13 +217,13 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         }
     }
 
-    void delete(DBObject dbObject, DBLink dbLink) throws DatabaseNotEnabled {
+    void delete(DBObject dbObject, DBLink dbLink, int state) throws DatabaseNotEnabled {
         if (!ApplicationParams.getDatabaseEnabled()) {
             throw new DatabaseNotEnabled("Save operation attempted with database disabled");
         }
 
         // Create query object and fill in parameters
-        var deleteQuery = new UpdateQuery("delete from " + dbLink.getTableName() + " where uuid = ?");
+        var deleteQuery = new UpdateQuery("delete from " + dbLink.getTableNameByState(state) + " where uuid = ?");
         for (ModelColumn modelColumn : dbLink.getModelColumns()) {
             try {
                 if ("uuid".equals(modelColumn.getColumnName())) {
@@ -198,7 +238,7 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
         deleteQuery.execute();
     }
 
-    void load(DBObject dbObject, DBLink dbLink) throws DatabaseNotEnabled {
+    void load(DBObject dbObject, DBLink dbLink, int state) throws DatabaseNotEnabled {
         if (!ApplicationParams.getDatabaseEnabled()) {
             throw new DatabaseNotEnabled("Save operation attempted with database disabled");
         }
@@ -219,10 +259,14 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                         .append(" ");
             }
         }
-        selectQueryBuilder
-                .append("from ")
-                .append(dbLink.getTableName())
-                .append(" where uuid = ?");
+        selectQueryBuilder.append("from ");
+
+        if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
+            selectQueryBuilder.append(dbLink.getTableNameByState(state));
+        } else {
+            selectQueryBuilder.append(dbLink.getTableName());
+        }
+        selectQueryBuilder.append(" where uuid = ?");
 
         var selectResult = (SelectResult) new SelectQuery(selectQueryBuilder.toString())
                 .addParameter(dbObject.getUuidString())
