@@ -1,6 +1,7 @@
 package clarity;
 
 import clarity.definition.Definition;
+import clarity.definition.RecordState;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.instance.InstancedFormula;
 import data.model.DatabaseAction;
@@ -75,6 +76,6 @@ public class Infer {
             }
         }
 
-        record.save(DatabaseAction.STATE_STATIC);
+        record.save(RecordState.STATIC);
     }
 }

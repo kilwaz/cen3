@@ -24,9 +24,21 @@ public class Record extends ConfigurableDatabaseObject {
     private HashMap<RecordDefinition, List<Record>> children = new HashMap<>();
 
     public Record(RecordDefinition recordDefinition) {
-        super(recordDefinition);
+        super();
         this.recordDefinition = recordDefinition;
-        Records.getInstance().addRecord(this);
+    }
+
+    public static Record load(RecordDefinition recordDefinition, UUID uuid) {
+        Record record = new Record(recordDefinition);
+        record.setRecordDefinition(recordDefinition);
+        record.setUuid(uuid);
+
+        List<Definition> definitions = recordDefinition.getDefinitions();
+        for (Definition definition : definitions) {
+            record.set(new Entry(record, definition));
+        }
+
+        return record;
     }
 
     public static Record create(String reference) {
@@ -51,7 +63,6 @@ public class Record extends ConfigurableDatabaseObject {
                     .additionalInformation("Reference name = " + reference)
                     .create();
         }
-        Records.getInstance().addRecord(this);
     }
 
     public Record addChild(Record childRecord) {

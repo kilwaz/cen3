@@ -51,6 +51,10 @@ public class SelectResultRow {
         return 0;
     }
 
+    public Object get(String colName) {
+        return rowValues.get(colName.toUpperCase());
+    }
+
     public String getString(String colName) {
         return (String) rowValues.get(colName.toUpperCase());
     }

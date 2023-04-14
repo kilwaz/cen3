@@ -20,7 +20,7 @@ public class Round extends Expression implements Function {
     @Override
     public Expression apply(ArrayList<Expression> parameters) {
         if (OperatorDictionary.validateParameterCount(this, parameters)) {
-            return new Number(parameters.get(0).getNumericRepresentation().setScale(parameters.get(1).getNumericRepresentation().intValue(), RoundingMode.HALF_EVEN));
+            return new Number(parameters.get(0).getNumericRepresentation().setScale(parameters.get(1).getNumericRepresentation().intValue(), RoundingMode.HALF_UP));
         }
 
         return null;

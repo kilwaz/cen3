@@ -4,6 +4,7 @@ import clarity.Record;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
+import clarity.definition.RecordState;
 import clarity.load.store.DefinedMatrix;
 import clarity.load.store.MatrixEntry;
 import clarity.load.store.Records;
@@ -14,6 +15,7 @@ import core.builders.requests.WebSocketMessageMapping;
 import data.SelectQuery;
 import data.SelectResult;
 import data.SelectResultRow;
+import data.model.DatabaseCollect;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
@@ -52,6 +54,7 @@ public class ClaritySetup {
         entries.add(Entry.create("ID", "1"));
         record.set(entries);
         record.save();
+        Infer.me(record);
 
         Record record2 = Record.create("Employee");
         entries = new ArrayList<>();
@@ -60,6 +63,7 @@ public class ClaritySetup {
         entries.add(Entry.create("ID", "2"));
         record2.set(entries);
         record2.save();
+        Infer.me(record2);
 
         Record user1 = Record.create("User");
         entries = new ArrayList<>();
@@ -83,8 +87,14 @@ public class ClaritySetup {
 
         Infer.infer();
 
-        List<Record> records = Records.getInstance().findRecords("A", "aLExAnder");
-        Infer.me(records.get(0));
+        List<Record> empRecords = DatabaseCollect
+                .create()
+                .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))
+                .state(RecordState.RAW)
+                .collect();
+
+//        List<Record> records = Records.getInstance().findRecords("A", "aLExAnder");
+//        Infer.me(records.get(0));
 
 //        Record bonusTest = records.get(0).getChildren(Definitions.getInstance().findRecordDefinition("Bonus")).get(0);
 
@@ -99,8 +109,8 @@ public class ClaritySetup {
         Definition.define("E");
         Definition.define("C").expression("coNCat([A],' - ',[B])");
         Definition.define("SPL").expression("((25.0016/24.04)-1)*100");
-        Definition.define("U").expression("upper([C])");
-        Definition.define("L").expression("lower([C])");
+        Definition.define("Upper").expression("upper([C])");
+        Definition.define("Lower").expression("lower([C])");
         Definition.define("Min").expression("min(1,2,3,4)");
         Definition.define("Max").expression("max(1,2,3,4)");
         Definition.define("Sum").expression("sum(1,2,3,4)");
@@ -118,7 +128,7 @@ public class ClaritySetup {
         Definition.define("Num_2").expression("3.7*10");
         Definition.define("Matrix").expression("matrix('Country','USA')");
 
-        RecordDefinition employee = RecordDefinition.define("Employee").addDefinitions("ID", "C", "U", "L", "A", "B", "Min", "Max", "Sum", "Proper",
+        RecordDefinition employee = RecordDefinition.define("Employee").addDefinitions("ID", "C", "Upper", "Lower", "A", "B", "Min", "Max", "Sum", "Proper",
                 "Count", "Average", "Equals", "Equals_2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num", "Num_2", "SPL");
 
         RecordDefinition bonus = RecordDefinition.define("Bonus").addDefinitions("D", "E", "Max");

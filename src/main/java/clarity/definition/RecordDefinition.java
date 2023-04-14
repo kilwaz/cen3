@@ -144,11 +144,11 @@ public class RecordDefinition extends DatabaseObject {
     }
 
     public String getTableNameByState(int state) {
-        if (state == DatabaseAction.STATE_RAW) {
+        if (state == RecordState.RAW) {
             return "rec_" + getName().toLowerCase() + "_raw";
-        } else if (state == DatabaseAction.STATE_CALC) {
+        } else if (state == RecordState.CALC) {
             return "rec_" + getName().toLowerCase() + "_calc";
-        } else if (state == DatabaseAction.STATE_STATIC) {
+        } else if (state == RecordState.STATIC) {
             return "rec_" + getName().toLowerCase() + "_static";
         }
 

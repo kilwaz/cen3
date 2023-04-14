@@ -1,5 +1,6 @@
 package data.model;
 
+import clarity.definition.RecordState;
 import data.model.objects.annotations.DatabaseLinkClass;
 import error.Error;
 import org.reflections.Reflections;
@@ -43,11 +44,11 @@ public class DatabaseLink {
     }
 
     public String getTableNameByState(int state) {
-        if (state == DatabaseAction.STATE_RAW) {
+        if (state == RecordState.RAW) {
             return tableName + "_raw";
-        } else if (state == DatabaseAction.STATE_CALC) {
+        } else if (state == RecordState.CALC) {
             return tableName + "_calc";
-        } else if (state == DatabaseAction.STATE_STATIC) {
+        } else if (state == RecordState.STATIC) {
             return tableName + "_static";
         }
 

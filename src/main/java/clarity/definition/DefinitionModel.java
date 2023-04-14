@@ -26,11 +26,11 @@ public class DefinitionModel {
     }
 
     public DatabaseColumnModel getModelByState(int state) {
-        if (state == DatabaseAction.STATE_RAW) {
+        if (state == RecordState.RAW) {
             return rawModel;
-        } else if (state == DatabaseAction.STATE_CALC) {
+        } else if (state == RecordState.CALC) {
             return calcModel;
-        } else if (state == DatabaseAction.STATE_STATIC) {
+        } else if (state == RecordState.STATIC) {
             return staticModel;
         }
 
@@ -38,11 +38,11 @@ public class DefinitionModel {
     }
 
     public DatabaseColumnModel setModelByState(DatabaseColumnModel model, int state) {
-        if (state == DatabaseAction.STATE_RAW) {
+        if (state == RecordState.RAW) {
             return rawModel = model;
-        } else if (state == DatabaseAction.STATE_CALC) {
+        } else if (state == RecordState.CALC) {
             return calcModel = model;
-        } else if (state == DatabaseAction.STATE_STATIC) {
+        } else if (state == RecordState.STATIC) {
             return staticModel = model;
         }
 
@@ -50,11 +50,11 @@ public class DefinitionModel {
     }
 
     public Boolean hasModelByState(int state) {
-        if (state == DatabaseAction.STATE_RAW) {
+        if (state == RecordState.RAW) {
             return rawModel != null;
-        } else if (state == DatabaseAction.STATE_CALC) {
+        } else if (state == RecordState.CALC) {
             return calcModel != null;
-        } else if (state == DatabaseAction.STATE_STATIC) {
+        } else if (state == RecordState.STATIC) {
             return staticModel != null;
         }
 

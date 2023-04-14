@@ -1,5 +1,6 @@
 package data.model;
 
+import clarity.definition.RecordState;
 import data.model.objects.json.JSONMappable;
 import error.Error;
 import log.AppLogger;
@@ -86,7 +87,7 @@ public class DatabaseObject {
     }
 
     public void save() {
-        save(DatabaseAction.STATE_RAW);
+        save(RecordState.RAW);
     }
 
     public void delete(int state) {
@@ -101,7 +102,7 @@ public class DatabaseObject {
     }
 
     public void delete() {
-        delete(DatabaseAction.STATE_RAW);
+        delete(RecordState.RAW);
     }
 
     public void load(int state) {
@@ -116,6 +117,6 @@ public class DatabaseObject {
     }
 
     public void load() {
-        load(DatabaseAction.STATE_STATIC);
+        load(RecordState.STATIC);
     }
 }

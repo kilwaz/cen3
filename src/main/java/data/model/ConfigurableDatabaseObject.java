@@ -1,6 +1,7 @@
 package data.model;
 
 import clarity.definition.RecordDefinition;
+import clarity.definition.RecordState;
 import error.Error;
 import utils.managers.DatabaseObjectManager;
 
@@ -56,7 +57,7 @@ public class ConfigurableDatabaseObject extends DatabaseObject {
     }
 
     public void save() {
-        save(DatabaseAction.STATE_RAW);
+        save(RecordState.RAW);
     }
 
     public void save(int state) {
@@ -69,7 +70,7 @@ public class ConfigurableDatabaseObject extends DatabaseObject {
 
     public void delete() {
         try {
-            new DatabaseAction<>().delete(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance(), DatabaseAction.STATE_RAW);
+            new DatabaseAction<>().delete(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance(), RecordState.RAW);
         } catch (DatabaseNotEnabled ex) {
             Error.DATABASE_NOT_ENABLED_EXCEPTION.record().create(ex);
         } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException |
@@ -79,12 +80,15 @@ public class ConfigurableDatabaseObject extends DatabaseObject {
     }
 
     public void load() {
+        load(RecordState.STATIC);
+    }
+
+    public void load(int state) {
         try {
-            new DatabaseAction<>().load(this, (DatabaseLink) DatabaseLink.getLinkClass(this.getClass()).getDeclaredConstructor().newInstance(), DatabaseAction.STATE_STATIC);
+            new DatabaseAction<>().load(this, new ConfigurableDatabaseLink(this.recordDefinition), state);
         } catch (DatabaseNotEnabled ex) {
             Error.DATABASE_NOT_ENABLED_EXCEPTION.record().create(ex);
-        } catch (NullPointerException | InstantiationException | IllegalAccessException | NoSuchMethodException |
-                 InvocationTargetException ex) {
+        } catch (NullPointerException ex) {
             Error.DATABASE_LOAD_CLASS_INIT.record().additionalInformation("Class " + this.getClass()).create(ex);
         }
     }

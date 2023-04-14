@@ -66,9 +66,9 @@ public class DefinitionTableModel {
     }
 
     public void verifyTable() {
-        fillHashMap(verifyByTable(recordDefinition.getTableNameByState(DatabaseAction.STATE_RAW).toUpperCase()), DatabaseAction.STATE_RAW);
-        fillHashMap(verifyByTable(recordDefinition.getTableNameByState(DatabaseAction.STATE_CALC).toUpperCase()), DatabaseAction.STATE_CALC);
-        fillHashMap(verifyByTable(recordDefinition.getTableNameByState(DatabaseAction.STATE_STATIC).toUpperCase()), DatabaseAction.STATE_STATIC);
+        fillHashMap(verifyByTable(recordDefinition.getTableNameByState(RecordState.RAW).toUpperCase()), RecordState.RAW);
+        fillHashMap(verifyByTable(recordDefinition.getTableNameByState(RecordState.CALC).toUpperCase()), RecordState.CALC);
+        fillHashMap(verifyByTable(recordDefinition.getTableNameByState(RecordState.STATIC).toUpperCase()), RecordState.STATIC);
     }
 
     private void fillHashMap(HashMap<String, DatabaseColumnModel> columnModelHashMap, int state) {
@@ -154,9 +154,9 @@ public class DefinitionTableModel {
 
     public List<SelectQuery> getDeltaQueries() {
         List<SelectQuery> queries = new ArrayList<>();
-        processDeltaQuery(queries, recordDefinition.getTableNameByState(DatabaseAction.STATE_RAW), DatabaseAction.STATE_RAW);
-        processDeltaQuery(queries, recordDefinition.getTableNameByState(DatabaseAction.STATE_CALC), DatabaseAction.STATE_CALC);
-        processDeltaQuery(queries, recordDefinition.getTableNameByState(DatabaseAction.STATE_STATIC), DatabaseAction.STATE_STATIC);
+        processDeltaQuery(queries, recordDefinition.getTableNameByState(RecordState.RAW), RecordState.RAW);
+        processDeltaQuery(queries, recordDefinition.getTableNameByState(RecordState.CALC), RecordState.CALC);
+        processDeltaQuery(queries, recordDefinition.getTableNameByState(RecordState.STATIC), RecordState.STATIC);
 
         return queries;
     }
@@ -186,15 +186,15 @@ public class DefinitionTableModel {
                         .append("uuid char(36) NOT NULL,\n");
 
                 for (Definition definition : recordDefinition.getDefinitions()) {
-                    if (state == DatabaseAction.STATE_RAW) {
+                    if (state == RecordState.RAW) {
                         if (!definition.isCalculated()) {
                             stringBuilder.append(definition.getName()).append(" ").append(databaseTypeMappings.get(definition.getDefinitionType())).append(",\n");
                         }
-                    } else if (state == DatabaseAction.STATE_CALC) {
+                    } else if (state == RecordState.CALC) {
                         if (definition.isCalculated()) {
                             stringBuilder.append(definition.getName()).append(" ").append(databaseTypeMappings.get(definition.getDefinitionType())).append(",\n");
                         }
-                    } else if (state == DatabaseAction.STATE_STATIC) {
+                    } else if (state == RecordState.STATIC) {
                         stringBuilder.append(definition.getName()).append(" ").append(databaseTypeMappings.get(definition.getDefinitionType())).append(",\n");
                     }
                 }

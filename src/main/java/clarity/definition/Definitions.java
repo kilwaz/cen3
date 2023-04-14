@@ -121,7 +121,7 @@ public class Definitions {
     }
 
     public RecordDefinition getRecordDefinition(String name) {
-        return recordDefinitionHashMap.get(name);
+        return recordDefinitionHashMap.get(name.toLowerCase());
     }
 
     public Definition getDefinition(String name) {

@@ -25,10 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends DatabaseLink> {
     private static Logger log = AppLogger.logger();
 
-    public static final int STATE_RAW = 1;
-    public static final int STATE_CALC = 2;
-    public static final int STATE_STATIC = 3;
-
     private static ConcurrentHashMap<String, DelayedLoad> delayedLoadedObjects = new ConcurrentHashMap<>();
 
     void save(DBObject dbObject, DBLink dbLink, int state) throws DatabaseNotEnabled {
@@ -146,16 +142,16 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                 insertQueryBuilder.append("uuid,");
 
                 int queryParameterCount = 0;
-                for (DefinitionModel databaseColumnModel : databaseColumnModelList) {
+                for (DefinitionModel definitionModel : databaseColumnModelList) {
                     if (firstColumn) {
-                        if (databaseColumnModel.hasModelByState(state)) {
-                            insertQueryBuilder.append(databaseColumnModel.getModelByState(state).getColumnName());
+                        if (definitionModel.hasModelByState(state)) {
+                            insertQueryBuilder.append(definitionModel.getModelByState(state).getColumnName());
                             firstColumn = false;
                             queryParameterCount++;
                         }
                     } else {
-                        if (databaseColumnModel.hasModelByState(state)) {
-                            insertQueryBuilder.append(",").append(databaseColumnModel.getModelByState(state).getColumnName());
+                        if (definitionModel.hasModelByState(state)) {
+                            insertQueryBuilder.append(",").append(definitionModel.getModelByState(state).getColumnName());
                             queryParameterCount++;
                         }
                     }
@@ -245,21 +241,48 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
 
         // Building the select query string
         var selectQueryBuilder = new StringBuilder();
-        selectQueryBuilder.append("select ");
         var firstColumn = true;
-        for (ModelColumn modelColumn : dbLink.getModelColumns()) {
-            if (firstColumn) {
-                selectQueryBuilder
-                        .append(modelColumn.getColumnName())
-                        .append(" ");
-                firstColumn = false;
-            } else {
-                selectQueryBuilder.append(", ")
-                        .append(modelColumn.getColumnName())
-                        .append(" ");
+
+        selectQueryBuilder.append("select ");
+        List<DefinitionModel> databaseColumnModelList = new ArrayList<>();
+        if (dbLink instanceof ConfigurableDatabaseLink configurableDbLink) { // Configurable Database Link
+            DefinitionTableModel definitionTableModel = configurableDbLink.getRecordDefinition().getDefinitionTableMode();
+            HashMap<String, DefinitionModel> definedModel = definitionTableModel.getDefinedModelHashMap();
+            databaseColumnModelList = new ArrayList<>(definedModel.values());
+
+            for (DefinitionModel definitionModel : databaseColumnModelList) {
+                if (firstColumn) {
+                    if (definitionModel.hasModelByState(state)) {
+                        selectQueryBuilder
+                                .append(definitionModel.getModelByState(state).getColumnName())
+                                .append(" ");
+                        firstColumn = false;
+                    }
+                } else {
+                    if (definitionModel.hasModelByState(state)) {
+                        selectQueryBuilder
+                                .append(", ")
+                                .append(definitionModel.getModelByState(state).getColumnName())
+                                .append(" ");
+                    }
+                }
             }
+            selectQueryBuilder.append("from ");
+        } else { // Pre-defined Database Link
+            for (ModelColumn modelColumn : dbLink.getModelColumns()) {
+                if (firstColumn) {
+                    selectQueryBuilder
+                            .append(modelColumn.getColumnName())
+                            .append(" ");
+                    firstColumn = false;
+                } else {
+                    selectQueryBuilder.append(", ")
+                            .append(modelColumn.getColumnName())
+                            .append(" ");
+                }
+            }
+            selectQueryBuilder.append("from ");
         }
-        selectQueryBuilder.append("from ");
 
         if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
             selectQueryBuilder.append(dbLink.getTableNameByState(state));
@@ -273,66 +296,79 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                 .execute();
 
         for (var resultRow : selectResult.getResults()) {
-            for (var modelColumn : dbLink.getModelColumns()) {
-                try {
-                    if (modelColumn.getObjectLoadMethod() != null) {
-                        var loadMethodParameter = modelColumn.getObjectLoadMethod().getParameterTypes();
-                        Class loadParameterClass = null;
+            if (dbLink instanceof ConfigurableDatabaseLink) { // Configurable Database Link
+                for (DefinitionModel definitionModel : databaseColumnModelList) {
+                    DatabaseColumnModel databaseColumnModel = definitionModel.getModelByState(state);
 
-                        if (loadMethodParameter.length > 0) {
-                            loadParameterClass = loadMethodParameter[0];
-                        }
-                        if (loadParameterClass != null) {
-                            if (loadParameterClass.equals(String.class)) {  // STRING
-                                modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getString(modelColumn.getColumnName()));
-                            } else if (loadParameterClass.equals(Double.class)) { // DOUBLE
-                                modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getDouble(modelColumn.getColumnName()));
-                            } else if (loadParameterClass.equals(DateTime.class)) { // DATE TIME
-                                modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getDateTime(modelColumn.getColumnName()));
-                            } else if (loadParameterClass.equals(Integer.class)) { // INTEGER
-                                modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getInt(modelColumn.getColumnName()));
-                            } else if (loadParameterClass.equals(Boolean.class)) { // BOOLEAN
-                                modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getBoolean(modelColumn.getColumnName()));
-                            } else if (loadParameterClass.equals(JSONObject.class)) { // JSON OBJECT
-                                var jsonStr = resultRow.getString(modelColumn.getColumnName());
-                                if (jsonStr != null) {
-                                    var jsonContainer = new JSONContainer(jsonStr);
-                                    modelColumn.getObjectLoadMethod().invoke(dbObject, jsonContainer.toJSONObject());
-                                }
-                            } else if (loadParameterClass.equals(UUID.class)) { // UUID
-                                String uuid = resultRow.getString(modelColumn.getColumnName());
-                                if (uuid != null && !uuid.isEmpty()) {
-                                    modelColumn.getObjectLoadMethod().invoke(dbObject, DAO.UUIDFromString(uuid));
-                                }
-                                // TODO: FROM THESE ELSE IF STATEMENTS ON, THINK OF A GENERIC WAY TO HANDLE THESE SITUATIONS
-                            } else if (loadParameterClass.equals(Definition.class)) { // Definition
-                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
-                                if (uuidStr != null && !uuidStr.isEmpty()) {
-                                    Definition definition = loadCachedObject(uuidStr, Definition.class);
-                                    modelColumn.getObjectLoadMethod().invoke(dbObject, definition);
-                                }
-                            } else if (loadParameterClass.equals(RecordDefinition.class)) { // RecordDefinition
-                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
-                                if (uuidStr != null && !uuidStr.isEmpty()) {
-                                    RecordDefinition recordDefinition = loadCachedObject(uuidStr, RecordDefinition.class);
-                                    modelColumn.getObjectLoadMethod().invoke(dbObject, recordDefinition);
-                                }
-                            } else if (loadParameterClass.equals(RecordDefinitionChild.class)) { // RecordDefinitionChild
-                                String uuidStr = resultRow.getString(modelColumn.getColumnName());
-                                if (uuidStr != null && !uuidStr.isEmpty()) {
-                                    RecordDefinitionChild recordDefinitionChild = loadCachedObject(uuidStr, RecordDefinitionChild.class);
-                                    modelColumn.getObjectLoadMethod().invoke(dbObject, recordDefinitionChild);
-                                }
-                                // TODO: ***********************************************************************************
-                            } else if (loadParameterClass.equals(Object.class)) { // OBJECT
-                                modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getColumnObject(modelColumn.getColumnName()));
-                            }
+                    if (databaseColumnModel != null) {
+                        if (dbObject instanceof Record) {
+                            Record record = (Record) dbObject;
+                            record.get(databaseColumnModel.getColumnName()).get().setValue(resultRow.get(databaseColumnModel.getColumnName()));
                         }
                     }
-                } catch (IllegalAccessException | InvocationTargetException ex) {
-                    Error.DATABASE_OBJECT_METHOD_NOT_FOUND.record().create(ex);
-                } catch (IllegalArgumentException ex) {
-                    Error.DATABASE_OBJECT_METHOD_NOT_FOUND.record().additionalInformation("Method name: " + modelColumn.getObjectLoadMethod().getName()).create(ex);
+                }
+            } else {
+                for (var modelColumn : dbLink.getModelColumns()) {
+                    try {
+                        if (modelColumn.getObjectLoadMethod() != null) {
+                            var loadMethodParameter = modelColumn.getObjectLoadMethod().getParameterTypes();
+                            Class loadParameterClass = null;
+
+                            if (loadMethodParameter.length > 0) {
+                                loadParameterClass = loadMethodParameter[0];
+                            }
+                            if (loadParameterClass != null) {
+                                if (loadParameterClass.equals(String.class)) {  // STRING
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getString(modelColumn.getColumnName()));
+                                } else if (loadParameterClass.equals(Double.class)) { // DOUBLE
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getDouble(modelColumn.getColumnName()));
+                                } else if (loadParameterClass.equals(DateTime.class)) { // DATE TIME
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getDateTime(modelColumn.getColumnName()));
+                                } else if (loadParameterClass.equals(Integer.class)) { // INTEGER
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getInt(modelColumn.getColumnName()));
+                                } else if (loadParameterClass.equals(Boolean.class)) { // BOOLEAN
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getBoolean(modelColumn.getColumnName()));
+                                } else if (loadParameterClass.equals(JSONObject.class)) { // JSON OBJECT
+                                    var jsonStr = resultRow.getString(modelColumn.getColumnName());
+                                    if (jsonStr != null) {
+                                        var jsonContainer = new JSONContainer(jsonStr);
+                                        modelColumn.getObjectLoadMethod().invoke(dbObject, jsonContainer.toJSONObject());
+                                    }
+                                } else if (loadParameterClass.equals(UUID.class)) { // UUID
+                                    String uuid = resultRow.getString(modelColumn.getColumnName());
+                                    if (uuid != null && !uuid.isEmpty()) {
+                                        modelColumn.getObjectLoadMethod().invoke(dbObject, DAO.UUIDFromString(uuid));
+                                    }
+                                    // TODO: FROM THESE ELSE IF STATEMENTS ON, THINK OF A GENERIC WAY TO HANDLE THESE SITUATIONS
+                                } else if (loadParameterClass.equals(Definition.class)) { // Definition
+                                    String uuidStr = resultRow.getString(modelColumn.getColumnName());
+                                    if (uuidStr != null && !uuidStr.isEmpty()) {
+                                        Definition definition = loadCachedObject(uuidStr, Definition.class);
+                                        modelColumn.getObjectLoadMethod().invoke(dbObject, definition);
+                                    }
+                                } else if (loadParameterClass.equals(RecordDefinition.class)) { // RecordDefinition
+                                    String uuidStr = resultRow.getString(modelColumn.getColumnName());
+                                    if (uuidStr != null && !uuidStr.isEmpty()) {
+                                        RecordDefinition recordDefinition = loadCachedObject(uuidStr, RecordDefinition.class);
+                                        modelColumn.getObjectLoadMethod().invoke(dbObject, recordDefinition);
+                                    }
+                                } else if (loadParameterClass.equals(RecordDefinitionChild.class)) { // RecordDefinitionChild
+                                    String uuidStr = resultRow.getString(modelColumn.getColumnName());
+                                    if (uuidStr != null && !uuidStr.isEmpty()) {
+                                        RecordDefinitionChild recordDefinitionChild = loadCachedObject(uuidStr, RecordDefinitionChild.class);
+                                        modelColumn.getObjectLoadMethod().invoke(dbObject, recordDefinitionChild);
+                                    }
+                                    // TODO: ***********************************************************************************
+                                } else if (loadParameterClass.equals(Object.class)) { // OBJECT
+                                    modelColumn.getObjectLoadMethod().invoke(dbObject, resultRow.getColumnObject(modelColumn.getColumnName()));
+                                }
+                            }
+                        }
+                    } catch (IllegalAccessException | InvocationTargetException ex) {
+                        Error.DATABASE_OBJECT_METHOD_NOT_FOUND.record().create(ex);
+                    } catch (IllegalArgumentException ex) {
+                        Error.DATABASE_OBJECT_METHOD_NOT_FOUND.record().additionalInformation("Method name: " + modelColumn.getObjectLoadMethod().getName()).create(ex);
+                    }
                 }
             }
         }
