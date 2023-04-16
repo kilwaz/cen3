@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class RecordDefinition extends DatabaseObject {
     private static Logger log = AppLogger.logger();
@@ -18,6 +19,7 @@ public class RecordDefinition extends DatabaseObject {
     private HashMap<String, Definition> definitionHashMap = null;
     private DefinitionTableModel definitionTableMode;
     private HashMap<String, RecordDefinitionChild> childRecordDefinitions = new HashMap<>();
+    private Definition primaryKey = null;
 
     public RecordDefinition() {
         name = hashCode() + "";
@@ -157,5 +159,22 @@ public class RecordDefinition extends DatabaseObject {
 
     public HashMap<String, RecordDefinitionChild> getChildRecordDefinitions() {
         return childRecordDefinitions;
+    }
+
+    public Definition getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public UUID getPrimaryKeyUUID() {
+        if (primaryKey != null) {
+            return primaryKey.getUuid();
+        } else {
+            return null;
+        }
+    }
+
+    public void primaryKey(Definition primaryKey) {
+        this.primaryKey = primaryKey;
+        this.save();
     }
 }

@@ -129,6 +129,10 @@ public class Record extends ConfigurableDatabaseObject {
         return entryHashMap.get(reference.toLowerCase());
     }
 
+    public Entry get(Definition definition) {
+        return entryHashMap.get(definition.getName().toLowerCase());
+    }
+
     public HashMap<RecordDefinition, List<Record>> getChildren() {
         return children;
     }

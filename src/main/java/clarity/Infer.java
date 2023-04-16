@@ -70,8 +70,6 @@ public class Infer {
                         .record(record);
 
                 Expression solvedExpression = instancedFormula.solve();
-                log.info(definition.getName() + " -> " + solvedExpression.getStringRepresentation());
-
                 record.get(definition.getName()).get().setValue(solvedExpression.getStringRepresentation());
             }
         }

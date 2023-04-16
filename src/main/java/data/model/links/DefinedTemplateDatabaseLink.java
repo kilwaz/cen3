@@ -7,11 +7,11 @@ import data.model.objects.annotations.DatabaseLinkClass;
 import java.util.UUID;
 
 @DatabaseLinkClass(
-        linkClass = clarity.definition.RecordDefinition.class,
-        tableName = "record_definition"
+        linkClass = clarity.load.excel.DefinedTemplate.class,
+        tableName = "defined_template"
 )
-public class RecordDefinitionDatabaseLink extends DatabaseLink {
-    public RecordDefinitionDatabaseLink() {
+public class DefinedTemplateDatabaseLink extends DatabaseLink {
+    public DefinedTemplateDatabaseLink() {
         super();
 
         // Make sure the order is the same as column order in database

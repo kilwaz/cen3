@@ -1,13 +1,10 @@
 drop table definition;
 drop table record_definition;
--- drop table definition_in_record;
 drop table definition_group;
+drop table defined_template;
 drop table record_definition_child;
 
 drop table custom_imports;
-
--- drop table flyway_testing_migrate;
--- drop table flyway_schema_history;
 
 create table definition (
   uuid char(36) NOT NULL,
@@ -20,6 +17,7 @@ create table definition (
 create table record_definition (
   uuid char(36) NOT NULL,
   name varchar(200),
+  primary_key char(36),
   PRIMARY KEY (uuid));
 
 -- Joining mapping table between the many to many relationship of definition and record definition above
@@ -36,25 +34,23 @@ create table record_definition_child (
   PRIMARY KEY (uuid)
   );
 
+drop table defined_template;
+create table defined_template (
+  uuid char(36) NOT NULL,
+  name varchar(1000),
+  primary_key char(36),
+  PRIMARY KEY (uuid));
+
+drop table defined_bridge;
+create table defined_bridge (
+  uuid char(36) NOT NULL,
+  column_title varchar(1000),
+  definition_id char(36),
+  record_definition_id char(36),
+  defined_template_id char(36),
+  PRIMARY KEY (uuid));
 
 
-create table custom_imports (
-    uuid char(36) NOT NULL,
-
-
-
-
-    PRIMARY KEY (uuid)
-);
-
-
-REC_EMPLOYEE_RAW -- imported values straight into here - taps import
-REC_EMPLOYEE_CALC -- used as reference for other calculations - mid view - all calc go into static, maybe only calculated fields go into here, static raw go straight to end if they are needed
-REC_EMPLOYEE_STATIC -- generated from all - final values only - final view
-
-
-
---static for whole table?
 
 
 

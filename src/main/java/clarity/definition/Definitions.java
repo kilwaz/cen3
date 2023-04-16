@@ -125,6 +125,6 @@ public class Definitions {
     }
 
     public Definition getDefinition(String name) {
-        return definitionHashMap.get(name);
+        return definitionHashMap.get(name.toLowerCase());
     }
 }

@@ -3,6 +3,7 @@ package data.model;
 import clarity.Entry;
 import clarity.Record;
 import clarity.definition.*;
+import clarity.load.excel.DefinedTemplate;
 import data.*;
 import data.model.dao.DAO;
 import data.model.objects.json.JSONContainer;
@@ -357,6 +358,12 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                                     if (uuidStr != null && !uuidStr.isEmpty()) {
                                         RecordDefinitionChild recordDefinitionChild = loadCachedObject(uuidStr, RecordDefinitionChild.class);
                                         modelColumn.getObjectLoadMethod().invoke(dbObject, recordDefinitionChild);
+                                    }
+                                } else if (loadParameterClass.equals(DefinedTemplate.class)) { // DefinedTemplate
+                                    String uuidStr = resultRow.getString(modelColumn.getColumnName());
+                                    if (uuidStr != null && !uuidStr.isEmpty()) {
+                                        DefinedTemplate definedTemplate = loadCachedObject(uuidStr, DefinedTemplate.class);
+                                        modelColumn.getObjectLoadMethod().invoke(dbObject, definedTemplate);
                                     }
                                     // TODO: ***********************************************************************************
                                 } else if (loadParameterClass.equals(Object.class)) { // OBJECT

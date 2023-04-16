@@ -7,11 +7,13 @@ public class Value {
     private int type;
     private int column;
     private int row;
+    private String columnName;
 
-    public Value(int type, int column, int row) {
+    public Value(int type, int column, int row, String columnName) {
         this.type = type;
         this.column = column;
         this.row = row;
+        this.columnName = columnName;
     }
 
     public int getType() {
@@ -24,5 +26,13 @@ public class Value {
 
     public int getRow() {
         return row;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public Object getValue() { // Overridden
+        return null;
     }
 }

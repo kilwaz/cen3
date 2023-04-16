@@ -1,6 +1,7 @@
 package clarity.load;
 
-import clarity.load.data.Record;
+import clarity.load.data.LoadedRecord;
+import clarity.load.data.Value;
 import clarity.load.excel.Template;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
@@ -34,26 +35,31 @@ public class Excel implements Loader {
                 Sheet datatypeSheet = workbook.getSheetAt(0);
 
                 Template template = new Template();
+                LoadedRecord headerRecord = new LoadedRecord();
                 for (Row currentRow : datatypeSheet) {
-                    Record record = new Record();
-                    for (Cell currentCell : currentRow) {
-                        if (currentCell.getCellType() == CellType.STRING) {
-                            log.info("String " + currentCell.getStringCellValue());
-                            record.addValue(currentCell.getStringCellValue(), currentCell.getColumnIndex(), currentCell.getRowIndex());
-                        } else if (currentCell.getCellType() == CellType.NUMERIC) {
-                            log.info("Number " + currentCell.getNumericCellValue());
-                            record.addValue(currentCell.getNumericCellValue(), currentCell.getColumnIndex(), currentCell.getRowIndex());
+                    if (currentRow.getRowNum() == 0) { // Construct the header row first to get all the column names
+                        for (Cell currentCell : currentRow) {
+                            if (currentCell.getCellType() == CellType.STRING) {
+                                headerRecord.addValue(currentCell.getStringCellValue(), currentCell.getColumnIndex(), currentCell.getRowIndex(), currentCell.getStringCellValue());
+                            } else if (currentCell.getCellType() == CellType.NUMERIC) {
+                                headerRecord.addValue(currentCell.getNumericCellValue(), currentCell.getColumnIndex(), currentCell.getRowIndex(), currentCell.getStringCellValue());
+                            }
                         }
-                    }
+                    } else { // Loop through the rest of the data, reference header row to apply column names to data
+                        LoadedRecord dataRecord = new LoadedRecord();
+                        for (Cell currentCell : currentRow) {
 
-                    if (currentRow.getRowNum() == 0) {
-                        template.headerRecord(record);
-                    } else {
-                        template.addRecord(record);
+                            Value headerColumn = headerRecord.getValueByColumnNumber(currentCell.getColumnIndex());
+                            if (currentCell.getCellType() == CellType.STRING) {
+                                dataRecord.addValue(currentCell.getStringCellValue(), currentCell.getColumnIndex(), currentCell.getRowIndex(), headerColumn.getColumnName());
+                            } else if (currentCell.getCellType() == CellType.NUMERIC) {
+                                dataRecord.addValue(currentCell.getNumericCellValue(), currentCell.getColumnIndex(), currentCell.getRowIndex(), headerColumn.getColumnName());
+                            }
+                        }
+
+                        template.integrate(dataRecord);
                     }
                 }
-
-                template.integrate();
 
                 log.info("Done");
             } catch (IOException | InvalidFormatException ex) {

@@ -1,5 +1,6 @@
 package data.model;
 
+import clarity.Entry;
 import clarity.Record;
 import clarity.definition.RecordDefinition;
 import data.SelectQuery;
@@ -16,6 +17,7 @@ public class DatabaseCollect {
 
     private RecordDefinition recordDefinition;
     private int state;
+    private String primaryKey;
 
     private DatabaseCollect() {
 
@@ -35,6 +37,11 @@ public class DatabaseCollect {
         return this;
     }
 
+    public DatabaseCollect primaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
+        return this;
+    }
+
     public List<Record> collect() {
         if (recordDefinition == null) {
             log.info("Can't collect due to null requirements");
@@ -46,6 +53,9 @@ public class DatabaseCollect {
         // Building the select query string
         var selectQueryBuilder = new StringBuilder();
         selectQueryBuilder.append("select uuid from ").append(recordDefinition.getTableNameByState(state));
+        if (primaryKey != null) {
+            selectQueryBuilder.append(" where " + recordDefinition.getPrimaryKey().getName() + " = '" + primaryKey + "'");
+        }
 
         var selectResult = (SelectResult) new SelectQuery(selectQueryBuilder.toString()).execute();
         for (var resultRow : selectResult.getResults()) {
@@ -56,5 +66,9 @@ public class DatabaseCollect {
         }
 
         return resultList;
+    }
+
+    public Record singleResult() {
+        return collect().get(0);
     }
 }

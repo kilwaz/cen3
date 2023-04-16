@@ -1,7 +1,9 @@
 package clarity.load;
 
+import java.io.File;
+
 public class Load {
-    public Excel excel() {
-        return new Excel();
+    public static Excel excel(File excelFileToLoad) {
+        return new Excel().file(excelFileToLoad);
     }
 }
