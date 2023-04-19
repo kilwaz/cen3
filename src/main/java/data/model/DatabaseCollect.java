@@ -69,6 +69,12 @@ public class DatabaseCollect {
     }
 
     public Record singleResult() {
-        return collect().get(0);
+        List<Record> results = collect();
+
+        if (results.size() == 0) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 }

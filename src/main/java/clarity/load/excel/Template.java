@@ -16,8 +16,6 @@ import data.model.dao.DefinedTemplateDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
 public class Template {
     private static Logger log = AppLogger.logger();
 
@@ -26,27 +24,34 @@ public class Template {
     public Template() {
         DefinedTemplate definedTemplate = DefinedTemplate.create(DefinedTemplate.class);
         definedTemplate.name("Test import");
-        definedTemplate.primaryKey(Definitions.getInstance().getDefinition("ID"));
+        definedTemplate.primaryKey(Definitions.getInstance().getDefinition("Employee_Number"));
         definedTemplate.save();
 
         DefinedBridge definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("A"));
+        definedBridge.definition(Definitions.getInstance().getDefinition("First_Name"));
         definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Test A");
+        definedBridge.columnTitle("First Name");
         definedBridge.definedTemplate(definedTemplate);
         definedBridge.save();
 
         definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("B"));
+        definedBridge.definition(Definitions.getInstance().getDefinition("Last_Name"));
         definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Test B");
+        definedBridge.columnTitle("Last Name");
         definedBridge.definedTemplate(definedTemplate);
         definedBridge.save();
 
         definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("ID"));
+        definedBridge.definition(Definitions.getInstance().getDefinition("Preferred_Name"));
         definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("ID");
+        definedBridge.columnTitle("Preferred Name");
+        definedBridge.definedTemplate(definedTemplate);
+        definedBridge.save();
+
+        definedBridge = DefinedBridge.create(DefinedBridge.class);
+        definedBridge.definition(Definitions.getInstance().getDefinition("Employee_Number"));
+        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
+        definedBridge.columnTitle("Employee Number");
         definedBridge.definedTemplate(definedTemplate);
         definedBridge.save();
     }
@@ -63,7 +68,7 @@ public class Template {
     public void integrate(LoadedRecord loadedRecord) {
         DefinedTemplateDAO definedTemplateDAO = new DefinedTemplateDAO();
         DefinedTemplate definedTemplateLoaded = definedTemplateDAO.getDefinedTemplateByName("Test import");
-        Definition templatePrimaryKey = definedTemplateLoaded.getPrimaryKey();
+//        Definition templatePrimaryKey = definedTemplateLoaded.getPrimaryKey();
 
         Value primaryValue = loadedRecord.getValueByColumnNumber(0);
         DatabaseCollect databaseCollect = DatabaseCollect
@@ -72,32 +77,39 @@ public class Template {
                 .state(RecordState.RAW);
 
         if (primaryValue instanceof StringValue) {
-            log.info("String primary");
             databaseCollect.primaryKey(((StringValue) primaryValue).getValue());
         } else if (primaryValue instanceof DoubleValue) {
-            log.info("Double primary");
             databaseCollect.primaryKey("" + ((DoubleValue) primaryValue).getValue().intValue());
-//            ((DoubleValue) primaryValue).getValue();
         }
         Record dbRecord = databaseCollect.singleResult();
 
-        log.info("Primary is " + primaryValue.getValue());
+//        log.info("Primary is " + primaryValue.getValue());
+
+        Boolean newRecord = false;
+        if (dbRecord == null) {
+            dbRecord = Record.create("Employee");
+            newRecord = true;
+        }
 
         for (Value recordValue : loadedRecord.getValues()) {
-            if (!recordValue.equals(primaryValue)) { // Don't update the primary key just to be safe, this should match anyway
+            if (!recordValue.equals(primaryValue) || newRecord) { // Don't update the primary key just to be safe, this should match anyway
                 DefinedBridge definedBridge = definedTemplateLoaded.getDefinedBridgeByName(recordValue.getColumnName());
 
                 Entry entry = dbRecord.get(definedBridge.getDefinition());
+                if (entry == null) {
+                    entry = new Entry(dbRecord, definedBridge.getDefinition());
+                    dbRecord.set(entry);
+                }
                 EntryValue entryValue = entry.get();
                 entryValue.setValue(recordValue.getValue());
 
-                log.info(recordValue.getColumnName() + " -> " + recordValue.getValue());
+//                log.info(recordValue.getColumnName() + " -> " + recordValue.getValue());
             }
         }
 
         dbRecord.save(RecordState.RAW);
         Infer.me(dbRecord);
 
-        log.info("Saving..");
+//        log.info("Saving..");
     }
 }

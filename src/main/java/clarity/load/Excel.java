@@ -31,6 +31,8 @@ public class Excel implements Loader {
         if (excelFileToLoad != null && excelFileToLoad.exists()) {
             Workbook workbook = null;
             try {
+                log.info("Start");
+                long startMili = System.currentTimeMillis();
                 workbook = new XSSFWorkbook(excelFileToLoad);
                 Sheet datatypeSheet = workbook.getSheetAt(0);
 
@@ -61,7 +63,7 @@ public class Excel implements Loader {
                     }
                 }
 
-                log.info("Done");
+                log.info("Done " + (System.currentTimeMillis() - startMili));
             } catch (IOException | InvalidFormatException ex) {
                 log.error(ex);
             } finally {

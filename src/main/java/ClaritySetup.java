@@ -38,10 +38,10 @@ public class ClaritySetup {
         }
         Definitions.getInstance(); // Load in data from database
 
-        DefinedMatrix countryMatrix = DefinedMatrix.define().name("Country");
-        countryMatrix.addItem(new MatrixEntry("GBR", "United Kingdom"));
-        countryMatrix.addItem(new MatrixEntry("USA", "United States"));
-        countryMatrix.addItem(new MatrixEntry("ESP", "Spain"));
+//        DefinedMatrix countryMatrix = DefinedMatrix.define().name("Country");
+//        countryMatrix.addItem(new MatrixEntry("GBR", "United Kingdom"));
+//        countryMatrix.addItem(new MatrixEntry("USA", "United States"));
+//        countryMatrix.addItem(new MatrixEntry("ESP", "Spain"));
 
         setupDB();
 
@@ -49,52 +49,51 @@ public class ClaritySetup {
 
         Infer.infer();
 
-        Record record = Record.create("Employee");
+//        Record record = Record.create("Employee");
+//        List<Entry> entries = new ArrayList<>();
+//        entries.add(Entry.create("A", "aLExAnder"));
+//        entries.add(Entry.create("B", "bROwn"));
+//        entries.add(Entry.create("ID", "1"));
+//        record.set(entries);
+//        record.save();
+//        Infer.me(record);
+//
+//        Record record2 = Record.create("Employee");
+//        entries = new ArrayList<>();
+//        entries.add(Entry.create("A", "Sam"));
+//        entries.add(Entry.create("B", "Dude"));
+//        entries.add(Entry.create("ID", "2"));
+//        record2.set(entries);
+//        record2.save();
+//        Infer.me(record2);
 
-        List<Entry> entries = new ArrayList<>();
-        entries.add(Entry.create("A", "aLExAnder"));
-        entries.add(Entry.create("B", "bROwn"));
-        entries.add(Entry.create("ID", "1"));
-        record.set(entries);
-        record.save();
-        Infer.me(record);
+//        Record user1 = Record.create("User");
+//        entries = new ArrayList<>();
+//        entries.add(Entry.create("USER_Username", "alex@spl.com"));
+//        entries.add(Entry.create("USER_Password", "hello"));
+//        entries.add(Entry.create("USER_ID", "1"));
+//        user1.set(entries);
+//        user1.save();
+//
+//        Record bonusRecord = Record.create("Bonus");
+//        entries = new ArrayList<>();
+//        entries.add(Entry.create("D", "1"));
+//        entries.add(Entry.create("E", "GBP"));
+//        bonusRecord.set(entries);
+//        bonusRecord.save();
 
-        Record record2 = Record.create("Employee");
-        entries = new ArrayList<>();
-        entries.add(Entry.create("A", "Sam"));
-        entries.add(Entry.create("B", "Dude"));
-        entries.add(Entry.create("ID", "2"));
-        record2.set(entries);
-        record2.save();
-        Infer.me(record2);
-
-        Record user1 = Record.create("User");
-        entries = new ArrayList<>();
-        entries.add(Entry.create("USER_Username", "alex@spl.com"));
-        entries.add(Entry.create("USER_Password", "hello"));
-        entries.add(Entry.create("USER_ID", "1"));
-        user1.set(entries);
-        user1.save();
-
-        Record bonusRecord = Record.create("Bonus");
-        entries = new ArrayList<>();
-        entries.add(Entry.create("D", "1"));
-        entries.add(Entry.create("E", "GBP"));
-        bonusRecord.set(entries);
-        bonusRecord.save();
-
-        record.addChild(bonusRecord);
+//        record.addChild(bonusRecord);
 //        user1.addChild(bonusRecord); // This should throw and error
 
 //        Duration gap = Duration.ofSeconds(10).plus(Duration.ofMinutes(2));
 
-        Infer.infer();
+//        Infer.infer();
 
-        List<Record> empRecords = DatabaseCollect
-                .create()
-                .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))
-                .state(RecordState.RAW)
-                .collect();
+//        List<Record> empRecords = DatabaseCollect
+//                .create()
+//                .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))
+//                .state(RecordState.RAW)
+//                .collect();
 
 //        List<Record> records = Records.getInstance().findRecords("A", "aLExAnder");
 //        Infer.me(records.get(0));
@@ -108,52 +107,51 @@ public class ClaritySetup {
         Load.excel(file).process();
 
 
-
-
-
         log.info("Ready!");
     }
 
     private static void setupDB() {
-        Definition.define("ID");
-        Definition.define("A");
-        Definition.define("B");
-        Definition.define("D");
-        Definition.define("E");
-        Definition.define("C").expression("coNCat([A],' - ',[B])");
-        Definition.define("SPL").expression("((25.0016/24.04)-1)*100");
+        Definition.define("Employee_Number");
+        Definition.define("First_Name");
+        Definition.define("Preferred_Name");
+        Definition.define("Last_Name");
+//        Definition.define("E");
+        Definition.define("C").expression("concat([First_Name],' ',[Last_Name])");
+//        Definition.define("SPL").expression("((25.0016/24.04)-1)*100");
         Definition.define("Upper").expression("upper([C])");
         Definition.define("Lower").expression("lower([C])");
-        Definition.define("Min").expression("min(1,2,3,4)");
-        Definition.define("Max").expression("max(1,2,3,4)");
-        Definition.define("Sum").expression("sum(1,2,3,4)");
-        Definition.define("Average").expression("average(1,2,3,4)");
-        Definition.define("Count").expression("count(1,2,3,4)");
+//        Definition.define("Min").expression("min(1,2,3,4)");
+//        Definition.define("Max").expression("max(1,2,3,4)");
+//        Definition.define("Sum").expression("sum(1,2,3,4)");
+//        Definition.define("Average").expression("average(1,2,3,4)");
+//        Definition.define("Count").expression("count(1,2,3,4)");
         Definition.define("Proper").expression("proper([C])");
-        Definition.define("Equals").expression("1=1");
-        Definition.define("Length").expression("len([Sum])");
-        Definition.define("Equals_2").expression("2.00003=2.0000301");
-        Definition.define("Greater").expression("'B'>'A'");
-        Definition.define("Less").expression("1>2");
-        Definition.define("Round").expression("round(10.12545,4)");
-        Definition.define("If").expression("if([Less],[Average],[SPL])");
-        Definition.define("Num").expression("3.3");
-        Definition.define("Num_2").expression("3.7*10");
-        Definition.define("Matrix").expression("matrix('Country','USA')");
+//        Definition.define("Equals").expression("1=1");
+//        Definition.define("Length").expression("len([Sum])");
+//        Definition.define("Equals_2").expression("2.00003=2.0000301");
+//        Definition.define("Greater").expression("'B'>'A'");
+//        Definition.define("Less").expression("1>2");
+//        Definition.define("Round").expression("round(10.12545,4)");
+//        Definition.define("If").expression("if([Less],[Average],[SPL])");
+//        Definition.define("Num").expression("3.3");
+//        Definition.define("Num_2").expression("3.7*10");
+//        Definition.define("Matrix").expression("matrix('Country','USA')");
 
         RecordDefinition employee = RecordDefinition.define("Employee");
-        employee.primaryKey(Definitions.getInstance().findDefinition("ID"));
-        employee.addDefinitions("ID", "C", "Upper", "Lower", "A", "B", "Min", "Max", "Sum", "Proper",
-                "Count", "Average", "Equals", "Equals_2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num", "Num_2", "SPL");
+//        employee.primaryKey(Definitions.getInstance().findDefinition("ID"));
+        employee.primaryKey(Definitions.getInstance().findDefinition("Employee_Number"));
+        employee.addDefinitions("Employee_Number", "First_Name", "Preferred_Name", "Last_Name", "C", "Upper", "Lower", "Proper");
+//        employee.addDefinitions("ID", "C", "Upper", "Lower", "A", "B", "Min", "Max", "Sum", "Proper",
+//                "Count", "Average", "Equals", "Equals_2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num", "Num_2", "SPL");
 
-        RecordDefinition bonus = RecordDefinition.define("Bonus").addDefinitions("D", "E", "Max");
-        employee.defineChildRecordDefinition(bonus);
-
-        Definition.define("USER_ID");
-        Definition.define("USER_Username");
-        Definition.define("USER_Password");
-
-        RecordDefinition.define("User").addDefinitions("USER_ID", "USER_Username", "USER_Password");
+//        RecordDefinition bonus = RecordDefinition.define("Bonus").addDefinitions("D", "E", "Max");
+//        employee.defineChildRecordDefinition(bonus);
+//
+//        Definition.define("USER_ID");
+//        Definition.define("USER_Username");
+//        Definition.define("USER_Password");
+//
+//        RecordDefinition.define("User").addDefinitions("USER_ID", "USER_Username", "USER_Password");
     }
 
     public static void clearDatabase() {
