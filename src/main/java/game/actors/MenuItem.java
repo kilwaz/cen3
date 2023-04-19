@@ -27,7 +27,7 @@ public class MenuItem extends JSONWeb {
         this.type = type;
     }
 
-    public MenuItem(String routeLink, String title, String icon, String type) {
+    public MenuItem(String title, String routeLink, String icon, String type) {
         this.routeLink = routeLink;
         this.title = title;
         this.icon = icon;
