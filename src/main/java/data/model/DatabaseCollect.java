@@ -1,6 +1,5 @@
 package data.model;
 
-import clarity.Entry;
 import clarity.Record;
 import clarity.definition.RecordDefinition;
 import data.SelectQuery;

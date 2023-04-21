@@ -23,7 +23,7 @@ public class DefinitionLookup extends Message {
 
         HashMap<String, Definition> definitionHashMap = Definitions.getInstance().getDefinitionHashMap();
         for (Definition definition : definitionHashMap.values()) {
-            definitionJSON.put(new game.actors.Definition(definition).prepareForJSON());
+            definitionJSON.put(new requests.spark.websockets.objects.messages.dataitems.Definition(definition).prepareForJSON());
         }
 
         definitionLookupData.setEntries(definitionJSON);

@@ -41,7 +41,7 @@ public class FormulaCheck extends Message {
                 instancedFormula.solve();
 
                 // Convert to actor formula
-                game.actors.Formula formula = new game.actors.Formula();
+                requests.spark.websockets.objects.messages.dataitems.Formula formula = new requests.spark.websockets.objects.messages.dataitems.Formula();
                 formula.convertClarityNode(instancedFormula);
                 formulaCheckData.setFormula(formula);
             }

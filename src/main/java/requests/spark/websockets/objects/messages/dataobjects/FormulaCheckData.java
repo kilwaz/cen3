@@ -1,6 +1,6 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
-import game.actors.Formula;
+import requests.spark.websockets.objects.messages.dataitems.Formula;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;

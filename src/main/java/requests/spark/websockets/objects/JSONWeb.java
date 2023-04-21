@@ -3,6 +3,7 @@ package requests.spark.websockets.objects;
 import error.Error;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
@@ -38,11 +39,22 @@ public class JSONWeb {
                     if (requestedDataList.size() == 0 || requestedDataList.contains(field.getAnnotation(WSDataReference.class).value())) {
                         Object valueObject = fieldMethod.invoke(this);
 
-                        if (valueObject instanceof JSONWeb) {
-                            JSONWeb jsonWebObject = (JSONWeb) valueObject;
-                            jsonObject.put(field.getName(), jsonWebObject.prepareForJSON());
+                        if (valueObject instanceof List) {
+                            JSONArray jsonArray = new JSONArray();
+                            List resultList = (List) valueObject;
+
+                            for (Object resultListItem : resultList) {
+                                jsonArray.put(((JSONWeb) resultListItem).prepareForJSON());
+                            }
+
+                            jsonObject.put(field.getName(), jsonArray);
                         } else {
-                            jsonObject.put(field.getName(), fieldMethod.invoke(this));
+                            if (valueObject instanceof JSONWeb) {
+                                JSONWeb jsonWebObject = (JSONWeb) valueObject;
+                                jsonObject.put(field.getName(), jsonWebObject.prepareForJSON());
+                            } else {
+                                jsonObject.put(field.getName(), fieldMethod.invoke(this));
+                            }
                         }
                     }
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
@@ -56,4 +68,16 @@ public class JSONWeb {
 
         return jsonObject;
     }
+
+//    public JSONArray unpackListForJSON(List list) {
+//        JSONArray jsonArray = new JSONArray();
+//        List resultList = (List) result;
+//
+//        for (Object resultListItem : resultList) {
+//            if()
+//            jsonArray.put()
+//        }
+//
+//        return jsonArray;
+//    }
 }

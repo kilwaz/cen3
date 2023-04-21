@@ -129,7 +129,7 @@ public class TypeScriptBuilder {
 
         // Generate Actors
         String pathToWsObjects = generatePath("wsObjects");
-        Set<Class<? extends JSONWeb>> actorClasses = new Reflections("game.actors").getSubTypesOf(JSONWeb.class);
+        Set<Class<? extends JSONWeb>> actorClasses = new Reflections("requests.spark.websockets.objects.messages.dataitems").getSubTypesOf(JSONWeb.class);
         for (Class<? extends JSONWeb> clazz : actorClasses) {
             try {
                 Field[] declaredFields = clazz.getDeclaredFields();
@@ -165,7 +165,7 @@ public class TypeScriptBuilder {
                         }
                     } else if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                         WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
-                        if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}")) {
+                        if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}") && !clazz.getSimpleName().equals(wsDataJSONArrayClass.value().getSimpleName())) {
                             tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"./")
                                     .append(Character.toLowerCase(wsDataJSONArrayClass.value().getSimpleName().charAt(0)))
                                     .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))

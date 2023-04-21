@@ -1,10 +1,11 @@
-package game.actors;
+package requests.spark.websockets.objects.messages.dataitems;
 
+import clarity.Entry;
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class Entry extends JSONWeb {
+public class WebEntry extends JSONWeb {
     @WSDataReference(WSData.ENTRY_UUID)
     private String uuid = null;
 
@@ -17,9 +18,11 @@ public class Entry extends JSONWeb {
     @WSDataReference(WSData.ENTRY_NAME)
     private String name = null;
 
-    public Entry(clarity.Entry entryClarity) {
+    public WebEntry(Entry entryClarity) {
         this.uuid = entryClarity.getUuid().toString();
-        this.value = entryClarity.get().getValue().toString();
+        if(entryClarity.get().getValue() != null){
+            this.value = entryClarity.get().getValue().toString();
+        }
         this.name = entryClarity.getReference();
         this.recordUUID = entryClarity.getRecord().getUuid().toString();
     }

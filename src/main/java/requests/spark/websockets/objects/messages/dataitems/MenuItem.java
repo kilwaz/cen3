@@ -1,4 +1,4 @@
-package game.actors;
+package requests.spark.websockets.objects.messages.dataitems;
 
 import org.json.JSONArray;
 import requests.spark.websockets.objects.JSONWeb;

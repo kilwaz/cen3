@@ -5,12 +5,12 @@ DO NOT MANUALLY CHANGE THIS FILE
 */
 
 import {Message} from "./message";
-import {Record} from "../wsObjects/record";
+import {WebRecord} from "../wsObjects/webRecord";
 
 export class Search extends Message {
 	private _searchItem: string;
 	private _searchValue: string;
-	private _searchResults: Array<Record> = [];
+	private _searchResults: Array<WebRecord> = [];
 	
 	constructor() {
 		super();
@@ -29,7 +29,7 @@ export class Search extends Message {
 		return this._searchValue;
 	}
 	
-	get searchResults(): Array<Record> {
+	get searchResults(): Array<WebRecord> {
 		return this._searchResults;
 	}
 	
@@ -41,7 +41,7 @@ export class Search extends Message {
 		this._searchValue = value;
 	}
 	
-	set searchResults(value: Array<Record>) {
+	set searchResults(value: Array<WebRecord>) {
 		this._searchResults = value;
 	}
 	

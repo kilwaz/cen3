@@ -1,6 +1,6 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-game.actors.Node
+requests.spark.websockets.objects.messages.dataitems.Node
 DO NOT MANUALLY CHANGE THIS FILE
 */
 

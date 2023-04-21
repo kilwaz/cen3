@@ -2,7 +2,7 @@ package requests.spark.websockets.objects.messages.request;
 
 import clarity.Record;
 import clarity.load.store.Records;
-import game.actors.Entry;
+import requests.spark.websockets.objects.messages.dataitems.WebEntry;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -36,7 +36,7 @@ public class DataQuery extends Message {
 
                 List<clarity.Entry> entries = record.get(references);
                 for (clarity.Entry entry : entries) {
-                    dataQueryJSON.put(new Entry(entry).prepareForJSON());
+                    dataQueryJSON.put(new WebEntry(entry).prepareForJSON());
                 }
             }
 

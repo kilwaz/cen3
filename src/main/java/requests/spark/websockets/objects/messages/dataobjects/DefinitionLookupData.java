@@ -1,6 +1,6 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
-import game.actors.Definition;
+import requests.spark.websockets.objects.messages.dataitems.Definition;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;

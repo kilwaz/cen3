@@ -1,4 +1,4 @@
-package game.actors;
+package requests.spark.websockets.objects.messages.dataitems;
 
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.instance.InstancedFormula;
@@ -33,11 +33,11 @@ public class Formula extends JSONWeb {
         rootNode = convertToClarityUINode(instancedFormula.getInstancedRoot());
     }
 
-    private game.actors.Node convertToClarityUINode(InstancedNode instancedNode) {
+    private Node convertToClarityUINode(InstancedNode instancedNode) {
         if (instancedNode.getReferenceNode() && instancedNode.getInstancedFormula() != null) { // If node is a reference with instanced formula, skip straight to it
             return convertToClarityUINode(instancedNode.getInstancedFormula().getInstancedRoot());
         } else {
-            game.actors.Node newNode = new game.actors.Node();
+            Node newNode = new Node();
 
             Expression expression = instancedNode.getExpression();
             if (expression instanceof Number || expression instanceof Textual || expression instanceof Evaluation) {

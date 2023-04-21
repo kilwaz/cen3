@@ -1,11 +1,11 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-game.actors.Entry
+requests.spark.websockets.objects.messages.dataitems.WebEntry
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class Entry {
+export class WebEntry {
 	private _uuid: string;
 	private _value: string;
 	private _recordUUID: string;
@@ -14,7 +14,7 @@ export class Entry {
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : Entry {
+	wsFill(webSocketReference: any) : WebEntry {
 		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
 		this._value = webSocketReference.value != undefined ? webSocketReference.value : this._value;
 		this._recordUUID = webSocketReference.recordUUID != undefined ? webSocketReference.recordUUID : this._recordUUID;

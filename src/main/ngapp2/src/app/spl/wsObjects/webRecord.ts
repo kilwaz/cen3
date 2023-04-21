@@ -1,19 +1,19 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-game.actors.Record
+requests.spark.websockets.objects.messages.dataitems.WebRecord
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
-import {Entry} from "./entry";
+import {WebEntry} from "./webEntry";
 
-export class Record {
+export class WebRecord {
 	private _uuid: string;
-	private _entries: Array<Entry> = [];
+	private _entries: Array<WebEntry> = [];
 	
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : Record {
+	wsFill(webSocketReference: any) : WebRecord {
 		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
 		this._entries = webSocketReference.entries != undefined ? webSocketReference.entries : this._entries;
 		return this;
@@ -23,7 +23,7 @@ export class Record {
 		return this._uuid;
 	}
 	
-	get entries(): Array<Entry> {
+	get entries(): Array<WebEntry> {
 		return this._entries;
 	}
 	
@@ -31,7 +31,7 @@ export class Record {
 		this._uuid = value;
 	}
 	
-	set entries(value: Array<Entry>) {
+	set entries(value: Array<WebEntry>) {
 		this._entries = value;
 	}
 	

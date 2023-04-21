@@ -1,0 +1,11 @@
+<div class="card card-custom gutter-b">
+    <div class="card-body">
+      <div class="tab-content pt-3">
+
+        <div [textContent]="requestID$ | async"></div>
+
+        <worksheet-table [worksheetRecords]="worksheetRecords$ | async"></worksheet-table>
+      </div>
+    </div>
+</div>
+

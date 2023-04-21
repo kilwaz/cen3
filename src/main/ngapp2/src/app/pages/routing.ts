@@ -12,6 +12,11 @@ const Routing: Routes = [
       import('../spl/pages/text-cases/text-cases.module').then((m) => m.TextCasesModule),
   },
   {
+    path: 'worksheet',
+    loadChildren: () =>
+      import('../spl/pages/worksheet/worksheet.module').then((m) => m.WorksheetModule),
+  },
+  {
     path: 'builder',
     loadChildren: () =>
       import('./builder/builder.module').then((m) => m.BuilderModule),

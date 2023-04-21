@@ -18,6 +18,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WebSocketAction<WSMessage extends Message, WSData extends WebSocketData> {
     Logger log = AppLogger.logger();
@@ -156,10 +157,22 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
 
                     if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
                         Object result = fieldMethod.invoke(wsData);
-                        if (result instanceof JSONWeb) {
-                            jsonObject.put("" + fieldName, ((JSONWeb) result).prepareForJSON());
+
+                        if (result instanceof List) {
+                            JSONArray jsonArray = new JSONArray();
+                            List resultList = (List) result;
+
+                            for (Object resultListItem : resultList) {
+                                jsonArray.put(((JSONWeb) resultListItem).prepareForJSON());
+                            }
+
+                            jsonObject.put("" + fieldName, jsonArray);
                         } else {
-                            jsonObject.put("" + fieldName, fieldMethod.invoke(wsData));
+                            if (result instanceof JSONWeb) {
+                                jsonObject.put("" + fieldName, ((JSONWeb) result).prepareForJSON());
+                            } else {
+                                jsonObject.put("" + fieldName, fieldMethod.invoke(wsData));
+                            }
                         }
                     } else {
                         jsonObject.put("" + fieldName, fieldMethod.invoke(wsData));

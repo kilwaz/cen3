@@ -1,8 +1,7 @@
-package game.actors;
+package requests.spark.websockets.objects.messages.dataitems;
 
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
-import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
