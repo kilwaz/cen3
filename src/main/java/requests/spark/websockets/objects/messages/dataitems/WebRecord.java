@@ -17,6 +17,7 @@ public class WebRecord extends JSONWeb {
 
     @WSDataReference(WSData.RECORD_ENTRIES)
     @WSDataJSONArrayClass(WebEntry.class)
+    @WSDataTypeScriptClass(WebEntry.class)
     private List<WebEntry> entries = null;
 
     public WebRecord() {

@@ -1,3 +1,4 @@
 <tr>
-  <th>This is a table header thing</th>
+  <th #headerCellComponent worksheet-header-cell *ngFor="let worksheetConfigsRowRecord of worksheetConfigs"
+      [webWorksheetConfig]="worksheetConfigsRowRecord"></th>
 </tr>

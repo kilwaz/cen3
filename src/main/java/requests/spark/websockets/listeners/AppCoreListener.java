@@ -15,6 +15,8 @@ import requests.spark.websockets.objects.WebSocketAction;
 import utils.managers.FileUploadManager;
 
 import java.io.IOException;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 
 @WebSocket
 @RequestName("ws")
@@ -44,7 +46,8 @@ public class AppCoreListener {
     @OnWebSocketMessage
     public void message(Session session, String rawMessage) {
         try {
-            log.info("-> I " + rawMessage.length() + ": " + rawMessage);
+            log.info("-> I " + humanReadableByteCountBin(rawMessage.length()) + ": " + rawMessage);
+            long startTime = System.currentTimeMillis();
 
             JSONContainer messageContainer = new JSONContainer(rawMessage);
 
@@ -57,12 +60,27 @@ public class AppCoreListener {
                 JSONContainer responseContainer = webSocketAction.response(message);
                 if (session.isOpen()) {
                     String response = responseContainer.writeResponse();
-                    log.info("<- O " + response.length() + ": " + response);
+                    log.info("<- O " + (System.currentTimeMillis() - startTime) + "ms " + humanReadableByteCountBin(response.length()) + ": " + response);
                     session.getRemote().sendString(response);
                 }
             }
         } catch (Exception ex) {
             error.Error.GENERIC_WEBSOCKET_EXCEPTION.record().create(ex);
         }
+    }
+
+    private static String humanReadableByteCountBin(long bytes) {
+        long absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
+        if (absB < 1024) {
+            return bytes + " B";
+        }
+        long value = absB;
+        CharacterIterator ci = new StringCharacterIterator("KMGTPE");
+        for (int i = 40; i >= 0 && absB > 0xfffccccccccccccL >> i; i -= 10) {
+            value >>= 10;
+            ci.next();
+        }
+        value *= Long.signum(bytes);
+        return String.format("%.1f %ciB", value / 1024.0, ci.current());
     }
 }

@@ -1,6 +1,7 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
 import requests.spark.websockets.objects.messages.dataitems.WebRecord;
+import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
@@ -19,6 +20,11 @@ public class WorksheetData extends WebSocketData {
     @WSDataTypeScriptClass(WebRecord.class)
     private List<WebRecord> worksheetRecords = null;
 
+    @WSDataOutgoing
+    @WSDataJSONArrayClass(WebWorksheetConfig.class)
+    @WSDataTypeScriptClass(WebWorksheetConfig.class)
+    private List<WebWorksheetConfig> worksheetConfig = null;
+
     public String getRequestID() {
         return requestID;
     }
@@ -33,5 +39,13 @@ public class WorksheetData extends WebSocketData {
 
     public void setWorksheetRecords(List<WebRecord> worksheetRecords) {
         this.worksheetRecords = worksheetRecords;
+    }
+
+    public List<WebWorksheetConfig> getWorksheetConfig() {
+        return worksheetConfig;
+    }
+
+    public void setWorksheetConfig(List<WebWorksheetConfig> worksheetConfig) {
+        this.worksheetConfig = worksheetConfig;
     }
 }

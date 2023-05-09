@@ -98,7 +98,7 @@ export const DarkHeaderConfig: ILayout = {
     },
     content: {
       componentName: 'content',
-      container: 'fixed',
+      container: 'fluid',
     },
     footer: {
       componentName: 'footer',

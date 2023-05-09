@@ -54,6 +54,48 @@ public class Template {
         definedBridge.columnTitle("Employee Number");
         definedBridge.definedTemplate(definedTemplate);
         definedBridge.save();
+
+        definedBridge = DefinedBridge.create(DefinedBridge.class);
+        definedBridge.definition(Definitions.getInstance().getDefinition("Assignment_Status"));
+        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
+        definedBridge.columnTitle("Assignment Status");
+        definedBridge.definedTemplate(definedTemplate);
+        definedBridge.save();
+
+        definedBridge = DefinedBridge.create(DefinedBridge.class);
+        definedBridge.definition(Definitions.getInstance().getDefinition("Grade"));
+        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
+        definedBridge.columnTitle("Grade");
+        definedBridge.definedTemplate(definedTemplate);
+        definedBridge.save();
+
+        definedBridge = DefinedBridge.create(DefinedBridge.class);
+        definedBridge.definition(Definitions.getInstance().getDefinition("Employment_Category"));
+        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
+        definedBridge.columnTitle("Employment Category");
+        definedBridge.definedTemplate(definedTemplate);
+        definedBridge.save();
+
+        definedBridge = DefinedBridge.create(DefinedBridge.class);
+        definedBridge.definition(Definitions.getInstance().getDefinition("Office_Location"));
+        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
+        definedBridge.columnTitle("Office Location");
+        definedBridge.definedTemplate(definedTemplate);
+        definedBridge.save();
+
+        definedBridge = DefinedBridge.create(DefinedBridge.class);
+        definedBridge.definition(Definitions.getInstance().getDefinition("Currency"));
+        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
+        definedBridge.columnTitle("Currency");
+        definedBridge.definedTemplate(definedTemplate);
+        definedBridge.save();
+
+        definedBridge = DefinedBridge.create(DefinedBridge.class);
+        definedBridge.definition(Definitions.getInstance().getDefinition("Salary"));
+        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
+        definedBridge.columnTitle("Salary");
+        definedBridge.definedTemplate(definedTemplate);
+        definedBridge.save();
     }
 
     public Template headerRecord(LoadedRecord headerRecord) {
@@ -68,7 +110,6 @@ public class Template {
     public void integrate(LoadedRecord loadedRecord) {
         DefinedTemplateDAO definedTemplateDAO = new DefinedTemplateDAO();
         DefinedTemplate definedTemplateLoaded = definedTemplateDAO.getDefinedTemplateByName("Test import");
-//        Definition templatePrimaryKey = definedTemplateLoaded.getPrimaryKey();
 
         Value primaryValue = loadedRecord.getValueByColumnNumber(0);
         DatabaseCollect databaseCollect = DatabaseCollect
@@ -82,8 +123,6 @@ public class Template {
             databaseCollect.primaryKey("" + ((DoubleValue) primaryValue).getValue().intValue());
         }
         Record dbRecord = databaseCollect.singleResult();
-
-//        log.info("Primary is " + primaryValue.getValue());
 
         Boolean newRecord = false;
         if (dbRecord == null) {
@@ -102,14 +141,10 @@ public class Template {
                 }
                 EntryValue entryValue = entry.get();
                 entryValue.setValue(recordValue.getValue());
-
-//                log.info(recordValue.getColumnName() + " -> " + recordValue.getValue());
             }
         }
 
         dbRecord.save(RecordState.RAW);
         Infer.me(dbRecord);
-
-//        log.info("Saving..");
     }
 }

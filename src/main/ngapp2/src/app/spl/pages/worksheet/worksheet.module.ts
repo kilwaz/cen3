@@ -17,6 +17,10 @@ import {WorksheetTableComponent} from "./components/worksheet-table/worksheet-ta
 import {WorksheetHeaderComponent} from "./components/worksheet-header/worksheet-header.component";
 import {WorksheetRowComponent} from "./components/worksheet-row/worksheet-row.component";
 import {WorksheetCellComponent} from "./components/worksheet-cell/worksheet-cell.component";
+import {WorksheetHeaderCellComponent} from "./components/worksheet-header-cell/worksheet-header-cell.component";
+import {WorksheetSortFilterComponent} from "./components/worksheet-sort-filter/worksheet-sort-filter.component";
+import {WorksheetSummaryComponent} from "./components/worksheet-summary/worksheet-summary.component";
+import {ClickStopPropagation} from "./directives/click-stop-propagation";
 
 @NgModule({
   declarations: [
@@ -24,7 +28,11 @@ import {WorksheetCellComponent} from "./components/worksheet-cell/worksheet-cell
     WorksheetTableComponent,
     WorksheetHeaderComponent,
     WorksheetRowComponent,
-    WorksheetCellComponent
+    WorksheetCellComponent,
+    WorksheetHeaderCellComponent,
+    WorksheetSortFilterComponent,
+    WorksheetSummaryComponent,
+    ClickStopPropagation
   ],
   providers: [
     WorksheetService

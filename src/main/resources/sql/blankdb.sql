@@ -50,8 +50,17 @@ create table defined_bridge (
   defined_template_id char(36),
   PRIMARY KEY (uuid));
 
-
-
+drop table worksheet_settings;
+create table worksheet_settings (
+  uuid char(36) NOT NULL,
+  column_title varchar(200),
+  definition_id char(36),
+  column_type varchar(200),
+  data_type varchar(200),
+  column_order int,
+  text_align varchar(200),
+  colour varchar(200),
+  PRIMARY KEY (uuid));
 
 
 

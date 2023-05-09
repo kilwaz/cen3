@@ -1,11 +1,9 @@
 import clarity.Entry;
 import clarity.Infer;
 import clarity.Record;
-import clarity.definition.Definition;
-import clarity.definition.Definitions;
-import clarity.definition.RecordDefinition;
-import clarity.definition.RecordState;
+import clarity.definition.*;
 import clarity.load.Load;
+import clarity.load.excel.DefinedBridge;
 import clarity.load.excel.DefinedTemplate;
 import clarity.load.store.DefinedMatrix;
 import clarity.load.store.MatrixEntry;
@@ -20,6 +18,7 @@ import data.SelectResultRow;
 import data.model.DatabaseCollect;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
+import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
 
 import java.io.File;
 import java.time.Duration;
@@ -44,6 +43,9 @@ public class ClaritySetup {
 //        countryMatrix.addItem(new MatrixEntry("ESP", "Spain"));
 
         setupDB();
+
+        File fileJson = new File("C:\\Users\\alex\\Downloads\\Arup HR Roles 2023\\Uploads\\configjson.json");
+        Load.configJSON(fileJson).process();
 
         Definitions.getInstance().rebuild();
 
@@ -100,32 +102,37 @@ public class ClaritySetup {
 
 //        Record bonusTest = records.get(0).getChildren(Definitions.getInstance().findRecordDefinition("Bonus")).get(0);
 
-
-
-
-        File file = new File("C:\\Users\\alex\\Downloads\\Arup HR Roles 2023\\Uploads\\Test.xlsx");
-        Load.excel(file).process();
-
+        File fileExcel = new File("C:\\Users\\alex\\Downloads\\Arup HR Roles 2023\\Uploads\\Test.xlsx");
+        Load.excel(fileExcel).process();
 
         log.info("Ready!");
     }
 
     private static void setupDB() {
-        Definition.define("Employee_Number");
-        Definition.define("First_Name");
-        Definition.define("Preferred_Name");
-        Definition.define("Last_Name");
+//        Definition.define("Employee_Number");
+//        Definition.define("First_Name");
+//        Definition.define("Preferred_Name");
+//        Definition.define("Last_Name");
+//        Definition.define("Assignment_Status");
+//        Definition.define("Grade");
+//        Definition.define("Employment_Category");
+//        Definition.define("Office_Location");
+//        Definition.define("Currency");
+//        Definition.define("Salary");
+
+//        Definition.define("New_Salary").expression("[Salary]+[Increase]");
+//        Definition.define("Increase").expression("[Salary]*0.15");
 //        Definition.define("E");
-        Definition.define("C").expression("concat([First_Name],' ',[Last_Name])");
+//        Definition.define("C").expression("concat([First_Name],' ',[Last_Name])");
 //        Definition.define("SPL").expression("((25.0016/24.04)-1)*100");
-        Definition.define("Upper").expression("upper([C])");
-        Definition.define("Lower").expression("lower([C])");
+//        Definition.define("Upper").expression("upper([C])");
+//        Definition.define("Lower").expression("lower([C])");
 //        Definition.define("Min").expression("min(1,2,3,4)");
 //        Definition.define("Max").expression("max(1,2,3,4)");
 //        Definition.define("Sum").expression("sum(1,2,3,4)");
 //        Definition.define("Average").expression("average(1,2,3,4)");
 //        Definition.define("Count").expression("count(1,2,3,4)");
-        Definition.define("Proper").expression("proper([C])");
+//        Definition.define("Proper").expression("proper([C])");
 //        Definition.define("Equals").expression("1=1");
 //        Definition.define("Length").expression("len([Sum])");
 //        Definition.define("Equals_2").expression("2.00003=2.0000301");
@@ -137,10 +144,10 @@ public class ClaritySetup {
 //        Definition.define("Num_2").expression("3.7*10");
 //        Definition.define("Matrix").expression("matrix('Country','USA')");
 
-        RecordDefinition employee = RecordDefinition.define("Employee");
+//        RecordDefinition employee = RecordDefinition.define("Employee");
 //        employee.primaryKey(Definitions.getInstance().findDefinition("ID"));
-        employee.primaryKey(Definitions.getInstance().findDefinition("Employee_Number"));
-        employee.addDefinitions("Employee_Number", "First_Name", "Preferred_Name", "Last_Name", "C", "Upper", "Lower", "Proper");
+//        employee.primaryKey(Definitions.getInstance().findDefinition("Employee_Number"));
+//        employee.addDefinitions("Employee_Number", "First_Name", "Preferred_Name", "Last_Name", "C", "Upper", "Lower", "Proper", "Assignment_Status", "Grade", "Office_Location", "Employment_Category", "Currency", "Salary", "Increase");
 //        employee.addDefinitions("ID", "C", "Upper", "Lower", "A", "B", "Min", "Max", "Sum", "Proper",
 //                "Count", "Average", "Equals", "Equals_2", "Length", "Greater", "Less", "Round", "If", "Matrix", "Num", "Num_2", "SPL");
 
@@ -163,6 +170,7 @@ public class ClaritySetup {
             if (!"definition_group".equalsIgnoreCase(tableName) && !"record_definition".equalsIgnoreCase(tableName)
                     && !"definition".equalsIgnoreCase(tableName) && !"record_definition_child".equalsIgnoreCase(tableName)
                     && !"defined_template".equalsIgnoreCase(tableName) && !"defined_bridge".equalsIgnoreCase(tableName)
+                    && !"worksheet_config".equalsIgnoreCase(tableName)
             ) {
                 log.info("Deleting " + tableName);
                 new SelectQuery("truncate table " + tableName).execute();
@@ -175,5 +183,6 @@ public class ClaritySetup {
         new SelectQuery("truncate table record_definition_child").execute();
         new SelectQuery("truncate table defined_template").execute();
         new SelectQuery("truncate table defined_bridge").execute();
+        new SelectQuery("truncate table worksheet_config").execute();
     }
 }

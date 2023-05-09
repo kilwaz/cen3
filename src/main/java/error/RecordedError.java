@@ -1,5 +1,6 @@
 package error;
 
+import log.AppLogger;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -59,9 +60,9 @@ public class RecordedError {
         }
 
         if (exception != null && printStackTrace) {
-            log.log(Level.ERROR, Error.class.getCanonicalName(), this.toString(), exception);
+            log.log(Level.ERROR, this.toString(), Error.class.getCanonicalName(), exception);
         } else {
-            log.log(Level.ERROR, Error.class.getCanonicalName(), this.toString(), null);
+            log.log(Level.ERROR, this.toString(), Error.class.getCanonicalName());
         }
 
         return this;

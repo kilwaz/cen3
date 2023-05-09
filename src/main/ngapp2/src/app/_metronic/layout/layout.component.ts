@@ -100,6 +100,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.updateProps(config);
       });
     this.unsubscribe.push(subscr);
+
+    // This has been added outside the config
+    this.appContentContiner = 'fluid';
   }
 
   updateProps(config: ILayout) {

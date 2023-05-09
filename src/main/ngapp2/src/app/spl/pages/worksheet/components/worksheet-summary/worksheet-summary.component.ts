@@ -1,16 +1,13 @@
 import {Component, OnInit, OnDestroy, Input} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {WebEntry} from "../../../../wsObjects/webEntry";
 
 
 @Component({
-  selector: '[worksheet-cell]',
-  templateUrl: './worksheet-cell.component.html',
-  styleUrls: ['./worksheet-cell.component.scss'],
+  selector: 'worksheet-summary',
+  templateUrl: './worksheet-summary.component.html',
+  styleUrls: ['./worksheet-summary.component.scss'],
 })
-export class WorksheetCellComponent implements OnInit, OnDestroy {
-  @Input('worksheetCellEntry') worksheetCellEntry: WebEntry;
-
+export class WorksheetSummaryComponent implements OnInit, OnDestroy {
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 

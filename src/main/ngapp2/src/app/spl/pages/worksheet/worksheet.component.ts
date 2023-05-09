@@ -9,9 +9,10 @@ import {WorksheetState} from './reducers/worksheet.reducers';
 
 // Selectors
 import {WorksheetService} from './service/worksheet.service';
-import {requestID, worksheetRecords} from "./selectors/worksheet.selectors";
+import {requestID, worksheetConfigs, worksheetRecords} from "./selectors/worksheet.selectors";
 import {RequestWorksheetData} from "./actions/worksheet.actions";
 import {WebRecord} from "../../wsObjects/webRecord";
+import {WebWorksheetConfig} from "../../wsObjects/webWorksheetConfig";
 
 @Component({
   selector: 'app-worksheet',
@@ -21,6 +22,7 @@ import {WebRecord} from "../../wsObjects/webRecord";
 export class WorksheetComponent implements OnInit, OnDestroy {
   requestID$: Observable<string>;
   worksheetRecords$: Observable<Array<WebRecord>>;
+  worksheetConfigs$: Observable<Array<WebWorksheetConfig>>;
 
   private unsubscribe: Subject<any>;
 
@@ -34,6 +36,7 @@ export class WorksheetComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.requestID$ = this.store.pipe(select(requestID));
     this.worksheetRecords$ = this.store.pipe(select(worksheetRecords));
+    this.worksheetConfigs$ = this.store.pipe(select(worksheetConfigs));
 
     this.store.dispatch(new RequestWorksheetData({
       requestID: '10174'

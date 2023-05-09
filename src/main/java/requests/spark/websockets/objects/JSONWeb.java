@@ -68,16 +68,4 @@ public class JSONWeb {
 
         return jsonObject;
     }
-
-//    public JSONArray unpackListForJSON(List list) {
-//        JSONArray jsonArray = new JSONArray();
-//        List resultList = (List) result;
-//
-//        for (Object resultListItem : resultList) {
-//            if()
-//            jsonArray.put()
-//        }
-//
-//        return jsonArray;
-//    }
 }

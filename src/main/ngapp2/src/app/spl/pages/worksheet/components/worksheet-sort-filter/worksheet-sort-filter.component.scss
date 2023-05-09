@@ -1,0 +1,43 @@
+.form-popup {
+  position: fixed;
+  background-color: #fff;
+  border: 3px solid #f1f1f1;
+  z-index: 12;
+}
+
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+.form-container .btn {
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  width: 100%;
+  background-color: #e61e28;
+  opacity: 0.8;
+}
+
+.okFilterButton {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.filterButtonList {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.icon-left {
+  float: left;
+  margin-top: 1px;
+}
+
+.icon-right {
+  float: right;
+  margin-top: 1px;
+}
+

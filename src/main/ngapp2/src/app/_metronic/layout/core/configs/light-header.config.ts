@@ -98,7 +98,7 @@ export const LightHeaderConfig: ILayout = {
     },
     content: {
       componentName: 'content',
-      container: 'fixed',
+      container: 'fluid',
     },
     footer: {
       componentName: 'footer',

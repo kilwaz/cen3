@@ -1,9 +1,14 @@
 import {Action} from '@ngrx/store';
 import {WebRecord} from "../../../wsObjects/webRecord";
+import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
 
 export enum WorksheetActionTypes {
   RequestWorksheetData = '[Worksheet-RequestWorksheetData] Action',
-  ProcessWorksheetData = '[Worksheet-ProcessWorksheetData] Action'
+  ProcessWorksheetData = '[Worksheet-ProcessWorksheetData] Action',
+
+  ToggleSortFilterPopup = '[Worksheet-ToggleSortFilterPopup] Action',
+  SetSortFilterColumn = '[Worksheet-SetSortFilterColumn] Action',
+  SetSortFilterPopupPosition = '[Worksheet-SetSortFilterPopupPosition] Action'
 }
 
 export class RequestWorksheetData implements Action {
@@ -20,11 +25,43 @@ export class ProcessWorksheetData implements Action {
 
   constructor(public payload: {
     requestID: string,
-    worksheetRecords: Array<WebRecord>
+    worksheetRecords: Array<WebRecord>,
+    worksheetConfigs: Array<WebWorksheetConfig>
+  }) {
+  }
+}
+
+export class ToggleSortFilterPopup implements Action {
+  readonly type = WorksheetActionTypes.ToggleSortFilterPopup;
+
+  constructor(public payload: {
+    isOpen: boolean
+  }) {
+  }
+}
+
+export class SetSortFilterColumn implements Action {
+  readonly type = WorksheetActionTypes.SetSortFilterColumn;
+
+  constructor(public payload: {
+    currentSortFilterColumn: WebWorksheetConfig
+  }) {
+  }
+}
+
+export class SetSortFilterPopupPosition implements Action {
+  readonly type = WorksheetActionTypes.SetSortFilterPopupPosition;
+
+  constructor(public payload: {
+    sortFilterPopupX: any,
+    sortFilterPopupY: any
   }) {
   }
 }
 
 export type WorksheetActions =
   RequestWorksheetData |
-  ProcessWorksheetData;
+  ProcessWorksheetData |
+  ToggleSortFilterPopup |
+  SetSortFilterColumn |
+  SetSortFilterPopupPosition;

@@ -1,0 +1,35 @@
+<ng-container *ngIf="isSortFilterOpen$ | async">
+  <div class="form-popup" id="sortWindow"
+       [style.top]="(sortFilterPopupY$ | async) + 'px'"
+       [style.left]="(sortFilterPopupX$ | async) + 'px'"
+  >
+    <div class="form-container">
+      <h3 id="sortHeader">{{(currentSortFilterColumn$ | async)?.name}}</h3>
+
+      <div class="filterButtonList">
+        <a class="btn btn-sm btn-danger me-3 cursor-pointer">
+          Sort A to Z
+          <i class="fa-solid fa-arrow-up-long icon-left"></i>
+        </a>
+      </div>
+      <div class="filterButtonList">
+        <a class="btn btn-sm btn-danger me-3 cursor-pointer">
+          Sort Z to A
+          <i class="fa-solid fa-arrow-down-long icon-left"></i>
+        </a>
+      </div>
+      <div class="filterButtonList">
+        <a class="btn btn-sm btn-danger me-3 cursor-pointer">
+          Text filters
+          <i class="fa-solid fa-chevron-right icon-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="okFilterButton">
+      <a class="btn btn-sm btn-danger me-3 cursor-pointer">
+        OK
+      </a>
+    </div>
+  </div>
+</ng-container>

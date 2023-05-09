@@ -1,35 +1,68 @@
 // Actions
-import {WorksheetActions, WorksheetActionTypes} from '../actions/worksheet.actions';
+import {
+  SetSortFilterColumn,
+  ToggleSortFilterPopup,
+  WorksheetActions,
+  WorksheetActionTypes
+} from '../actions/worksheet.actions';
 import {WebRecord} from "../../../wsObjects/webRecord";
+import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
 
 export interface WorksheetState {
   requestID: string;
   worksheetRecords: Array<WebRecord>
+  worksheetConfigs: Array<WebWorksheetConfig>,
+
+  isSortFilterOpen: boolean,
+  currentSortFilterColumn: WebWorksheetConfig,
+  sortFilterPopupX: any,
+  sortFilterPopupY: any
 }
 
 export const initialAuthState: WorksheetState = {
   requestID: '',
-  worksheetRecords: undefined
+  worksheetRecords: undefined,
+  worksheetConfigs: undefined,
+
+  isSortFilterOpen: false,
+  currentSortFilterColumn: undefined,
+  sortFilterPopupX: 0,
+  sortFilterPopupY: 0
 };
 
 export function worksheetReducer(state = initialAuthState, action: WorksheetActions): WorksheetState {
   switch (action.type) {
     case WorksheetActionTypes.RequestWorksheetData: {
-      const requestIDPayload: string = action.payload.requestID;
-
       return {
         ...state,
-        requestID: requestIDPayload
+        requestID: action.payload.requestID
       };
     }
     case WorksheetActionTypes.ProcessWorksheetData: {
-      const requestIDPayload: string = action.payload.requestID;
-      const worksheetRecordsPayload: Array<WebRecord> = action.payload.worksheetRecords;
-
       return {
         ...state,
-        requestID: requestIDPayload,
-        worksheetRecords: worksheetRecordsPayload
+        requestID: action.payload.requestID,
+        worksheetRecords: action.payload.worksheetRecords,
+        worksheetConfigs: action.payload.worksheetConfigs
+      };
+    }
+    case WorksheetActionTypes.ToggleSortFilterPopup: {
+      return {
+        ...state,
+        isSortFilterOpen: action.payload.isOpen
+      };
+    }
+    case WorksheetActionTypes.SetSortFilterColumn: {
+      return {
+        ...state,
+        currentSortFilterColumn: action.payload.currentSortFilterColumn
+      };
+    }
+    case WorksheetActionTypes.SetSortFilterPopupPosition: {
+      return {
+        ...state,
+        sortFilterPopupX: action.payload.sortFilterPopupX,
+        sortFilterPopupY: action.payload.sortFilterPopupY
       };
     }
     default:

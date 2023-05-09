@@ -4,7 +4,7 @@ import {WebRecord} from "../../../../wsObjects/webRecord";
 
 
 @Component({
-  selector: 'worksheet-row',
+  selector: '[worksheet-row]',
   templateUrl: './worksheet-row.component.html',
   styleUrls: ['./worksheet-row.component.scss'],
 })

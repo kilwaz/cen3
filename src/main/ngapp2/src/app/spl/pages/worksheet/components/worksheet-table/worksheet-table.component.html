@@ -1,10 +1,8 @@
 <div id="table-container" class="table-container">
-  <table id="table">
-    <thead>
-    <worksheet-header></worksheet-header>
-    </thead>
+  <table id="table" (click)="closeSortFilter()">
+    <thead worksheet-header [worksheetConfigs]="worksheetConfigs"></thead>
     <tbody>
-    <worksheet-row *ngFor="let worksheetRowRecord of worksheetRecords" [worksheetRowRecord]="worksheetRowRecord"></worksheet-row>
+      <tr worksheet-row *ngFor="let worksheetRowRecord of worksheetRecords" [worksheetRowRecord]="worksheetRowRecord"></tr>
     </tbody>
   </table>
 </div>
