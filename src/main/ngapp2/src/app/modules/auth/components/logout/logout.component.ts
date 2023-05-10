@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import {AuthService} from "../../../../spl/modules/auth/services/auth2.service";
 
 @Component({
   selector: 'app-logout',

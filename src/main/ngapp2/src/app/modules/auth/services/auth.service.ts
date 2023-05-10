@@ -61,10 +61,11 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
-    localStorage.removeItem(this.authLocalStorageToken);
-    this.router.navigate(['/auth/login'], {
-      queryParams: {},
-    });
+    console.log("LOGGING OUT VIA SERVICE!");
+    // localStorage.removeItem(this.authLocalStorageToken);
+    // this.router.navigate(['/auth/login'], {
+    //   queryParams: {},
+    // });
   }
 
   getUserByToken(): Observable<UserType> {

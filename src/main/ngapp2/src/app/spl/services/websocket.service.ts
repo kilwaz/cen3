@@ -20,7 +20,7 @@ export class WebSocketService {
   }
 
   private static complete() {
-    console.log('Websocket connection closed');
+    // console.log('Websocket connection closed');
     WebSocketService.connected = false;
   }
 
@@ -30,7 +30,7 @@ export class WebSocketService {
 
   private static received(msgRaw: any) {
     if (msgRaw.type !== 'HeartBeat') { // Don't report on HeartBeat messages
-      console.log(msgRaw);
+      // console.log(msgRaw);
     }
 
     if (msgRaw.hasOwnProperty('callBackUUID')) { // Response from the server from generated client request
@@ -64,17 +64,17 @@ export class WebSocketService {
   }
 
   private static error(err: any) {
-    console.log('Websocket error happened ' + err);
-    console.log('Code ' + err.code);
+    // console.log('Websocket error happened ' + err);
+    // console.log('Code ' + err.code);
 
     if (err.type === 'close' || err.type === 'error') {
       WebSocketService.complete();
     }
 
     if (err.code === 1006) {
-      console.log('Server has gone away');
+      // console.log('Server has gone away');
     } else if (err.code === undefined) {
-      console.log('Server could not be found');
+      // console.log('Server could not be found');
     }
   }
 
@@ -92,7 +92,7 @@ export class WebSocketService {
     );
     this.ws$.subscribe();
     WebSocketService.connected = true;
-    console.log("Web socket connected");
+    // console.log("Web socket connected");
   }
 
   sendCallback(message: Message, callback: (message: Message) => any) {
@@ -114,7 +114,7 @@ export class WebSocketService {
 
   private checkIsConnected() {
     if (!WebSocketService.connected) {
-      console.log('The connection is closed.');
+      // console.log('The connection is closed.');
       this.buildSocket();
     }
   }

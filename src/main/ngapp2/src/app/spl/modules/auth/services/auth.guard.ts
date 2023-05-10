@@ -17,11 +17,12 @@ export class AuthGuard implements CanActivate {
       // logged in so return true
       console.log("Returning true from guard");
       return true;
+    } else {
+      console.log("Auth has failed, logging out");
     }
 
     // not logged in so redirect to login page with the return url
     this.authService.logout();
-    console.log("Returning false from guard");
     return false;
   }
 }

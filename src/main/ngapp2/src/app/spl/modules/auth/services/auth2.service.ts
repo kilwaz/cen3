@@ -79,6 +79,7 @@ export class AuthService {
   }
 
   logout() {
+    console.log("LOGGING OUT VIA SERVICE! 2");
     localStorage.removeItem(this.authLocalStorageToken);
     this.router.navigate(['/auth/login'], {
       queryParams: {},
