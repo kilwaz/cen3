@@ -15,3 +15,5 @@ export const currentSortFilterColumn = createSelector(selectWorksheet, worksheet
 export const sortFilterPopupX = createSelector(selectWorksheet, worksheet => worksheet?.sortFilterPopupX);
 export const sortFilterPopupY = createSelector(selectWorksheet, worksheet => worksheet?.sortFilterPopupY);
 
+export const filteredList = createSelector(selectWorksheet, worksheet => worksheet?.filteredList);
+

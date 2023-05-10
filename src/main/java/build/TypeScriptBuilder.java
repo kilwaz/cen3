@@ -53,7 +53,16 @@ public class TypeScriptBuilder {
                 tsClassBuilder.append("import {Message} from \"./message\";").append(nl);
 
                 for (Field field : fields) {
-                    if (!field.isAnnotationPresent(WSDataIgnore.class)) {
+                    if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
+                        WSDataTypeScriptClass wsDataTypeScriptClass = field.getAnnotation(WSDataTypeScriptClass.class);
+                        String simpleName = wsDataTypeScriptClass.value().getSimpleName();
+                        if (!"String".equals(simpleName)) {
+                            tsClassBuilder.append("import {").append(simpleName).append("} from \"../wsObjects/")
+                                    .append(Character.toLowerCase(simpleName.charAt(0)))
+                                    .append(simpleName.substring(1))
+                                    .append("\";").append(nl);
+                        }
+                    } else if (!field.isAnnotationPresent(WSDataIgnore.class)) {
                         if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                             WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
                             if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}")) {
@@ -62,13 +71,6 @@ public class TypeScriptBuilder {
                                         .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
                                         .append("\";").append(nl);
                             }
-                        } else if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
-                            WSDataTypeScriptClass wsDataTypeScriptClass = field.getAnnotation(WSDataTypeScriptClass.class);
-
-                            tsClassBuilder.append("import {").append(wsDataTypeScriptClass.value().getSimpleName()).append("} from \"../wsObjects/")
-                                    .append(Character.toLowerCase(wsDataTypeScriptClass.value().getSimpleName().charAt(0)))
-                                    .append(wsDataTypeScriptClass.value().getSimpleName().substring(1))
-                                    .append("\";").append(nl);
                         }
                     }
                 }
@@ -157,11 +159,14 @@ public class TypeScriptBuilder {
                 for (Field field : fields) {
                     if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
                         WSDataTypeScriptClass wsDataTypeScriptClass = field.getAnnotation(WSDataTypeScriptClass.class);
-                        if (!tsClassBuilder.toString().contains("import {" + wsDataTypeScriptClass.value().getSimpleName() + "}") && !clazz.getSimpleName().equals(wsDataTypeScriptClass.value().getSimpleName())) {
-                            tsClassBuilder.append("import {").append(wsDataTypeScriptClass.value().getSimpleName()).append("} from \"./")
-                                    .append(Character.toLowerCase(wsDataTypeScriptClass.value().getSimpleName().charAt(0)))
-                                    .append(wsDataTypeScriptClass.value().getSimpleName().substring(1))
-                                    .append("\";").append(nl);
+                        String simpleName = wsDataTypeScriptClass.value().getSimpleName();
+                        if (!"String".equals(simpleName)) {
+                            if (!tsClassBuilder.toString().contains("import {" + simpleName + "}") && !clazz.getSimpleName().equals(simpleName)) {
+                                tsClassBuilder.append("import {").append(simpleName).append("} from \"./")
+                                        .append(Character.toLowerCase(simpleName.charAt(0)))
+                                        .append(simpleName.substring(1))
+                                        .append("\";").append(nl);
+                            }
                         }
                     } else if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                         WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
@@ -261,10 +266,15 @@ public class TypeScriptBuilder {
                 if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
                     WSDataTypeScriptClass wsDataTypeScriptClass = field.getAnnotation(WSDataTypeScriptClass.class);
 
+                    String simpleName = wsDataTypeScriptClass.value().getSimpleName();
+                    if ("String".equals(simpleName)) {
+                        simpleName = "string";
+                    }
+
                     if (declaration) {
-                        return "Array<" + wsDataTypeScriptClass.value().getSimpleName() + "> = []";
+                        return "Array<" + simpleName + "> = []";
                     } else {
-                        return "Array<" + wsDataTypeScriptClass.value().getSimpleName() + ">";
+                        return "Array<" + simpleName + ">";
                     }
                 }
             default:

@@ -41,8 +41,6 @@ public class Worksheet extends Message {
 
         worksheetData.setWorksheetConfig(webWorksheetWebConfigs);
 
-
-
         List<Record> empRecords = DatabaseCollect
                 .create()
                 .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))

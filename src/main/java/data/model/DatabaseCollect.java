@@ -1,6 +1,7 @@
 package data.model;
 
 import clarity.Record;
+import clarity.definition.Definition;
 import clarity.definition.RecordDefinition;
 import data.SelectQuery;
 import data.SelectResult;
@@ -16,7 +17,8 @@ public class DatabaseCollect {
 
     private RecordDefinition recordDefinition;
     private int state;
-    private String primaryKey;
+    private String primaryKey; // Confusing name?
+    private List<Definition> definitions = null;
 
     private DatabaseCollect() {
 
@@ -24,6 +26,11 @@ public class DatabaseCollect {
 
     public static DatabaseCollect create() {
         return new DatabaseCollect();
+    }
+
+    public DatabaseCollect withDefinitions(List<Definition> definitions) {
+        this.definitions = definitions;
+        return this;
     }
 
     public DatabaseCollect recordDefinition(RecordDefinition recordDefinition) {

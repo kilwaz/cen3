@@ -26,6 +26,17 @@
       </div>
     </div>
 
+    <div class="filterCheckboxesParent">
+      <input id="filterSearchBox" type="text" placeholder="Search" onkeyup=""/>
+      <div id="filterCheckboxes">
+        <ul>
+          <li *ngFor="let listItem of filteredList$ | async">
+            <p><input type="checkbox" onclick="filterCheckAll(this)" value="{{listItem}}"/>{{listItem}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <div class="okFilterButton">
       <a class="btn btn-sm btn-danger me-3 cursor-pointer">
         OK

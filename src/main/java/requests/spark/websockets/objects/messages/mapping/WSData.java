@@ -31,6 +31,7 @@ public enum WSData {
     MENU_ITEM_TYPE(),
 
     WORKSHEET_CONFIG_NAME(),
+    WORKSHEET_CONFIG_DEFINITION(),
 
     WSData() {
     }

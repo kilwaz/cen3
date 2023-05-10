@@ -1,7 +1,6 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
 import clarity.Entry;
-import org.json.JSONArray;
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;

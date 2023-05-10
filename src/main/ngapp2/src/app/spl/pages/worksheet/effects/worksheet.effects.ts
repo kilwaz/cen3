@@ -11,7 +11,7 @@ import {
   ToggleSortFilterPopup,
   ProcessWorksheetData,
   RequestWorksheetData,
-  WorksheetActionTypes
+  WorksheetActionTypes, ProcessFilteredListData
 } from "../actions/worksheet.actions";
 import {selectWorksheet} from "../selectors/worksheet.selectors";
 import {map, tap} from "rxjs/operators";
@@ -28,8 +28,8 @@ export class WorksheetEffects {
       concatLatestFrom(() =>
         this.store.pipe(select(selectWorksheet))
       ),
-      map(([, uploadFile]) => {
-        this.worksheetService.testFunction().pipe(
+      map(() => {
+        this.worksheetService.worksheetRequest().pipe(
           tap(result => {
             this.store.dispatch(new ProcessWorksheetData({
               requestID: result.requestID,
@@ -39,5 +39,25 @@ export class WorksheetEffects {
           }),
         ).subscribe(); // Does this subscribe forever?
       }));
+  }, {dispatch: false});
+
+  toggleSortFilterPopup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<ToggleSortFilterPopup>(WorksheetActionTypes.ToggleSortFilterPopup),
+      concatLatestFrom(() =>
+        this.store.pipe(select(selectWorksheet))
+      ),
+      tap(([, worksheetState]) => {
+        if (worksheetState.isSortFilterOpen) {
+          this.worksheetService.filteredListRequest(worksheetState.currentSortFilterColumn.definitionName).pipe(
+            tap(result => {
+              this.store.dispatch(new ProcessFilteredListData({
+                filteredList: result.listItem,
+              }));
+            }),
+          ).subscribe();
+        }
+      })
+    );
   }, {dispatch: false});
 }

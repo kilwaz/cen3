@@ -8,6 +8,9 @@ public class WebWorksheetConfig extends JSONWeb {
     @WSDataReference(WSData.WORKSHEET_CONFIG_NAME)
     private String name = null;
 
+    @WSDataReference(WSData.WORKSHEET_CONFIG_DEFINITION)
+    private String definitionName = null;
+
     public WebWorksheetConfig() {
 
     }
@@ -18,5 +21,13 @@ public class WebWorksheetConfig extends JSONWeb {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDefinitionName() {
+        return definitionName;
+    }
+
+    public void setDefinitionName(String definitionName) {
+        this.definitionName = definitionName;
     }
 }

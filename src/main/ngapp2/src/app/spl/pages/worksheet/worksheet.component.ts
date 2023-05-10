@@ -10,7 +10,7 @@ import {WorksheetState} from './reducers/worksheet.reducers';
 // Selectors
 import {WorksheetService} from './service/worksheet.service';
 import {requestID, worksheetConfigs, worksheetRecords} from "./selectors/worksheet.selectors";
-import {RequestWorksheetData} from "./actions/worksheet.actions";
+import {ProcessWorksheetData, RequestWorksheetData} from "./actions/worksheet.actions";
 import {WebRecord} from "../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../wsObjects/webWorksheetConfig";
 
@@ -40,6 +40,14 @@ export class WorksheetComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new RequestWorksheetData({
       requestID: '10174'
+    }));
+  }
+
+  clearWorksheetData(): void {
+    this.store.dispatch(new ProcessWorksheetData({
+      requestID: null,
+      worksheetRecords: null,
+      worksheetConfigs: null
     }));
   }
 

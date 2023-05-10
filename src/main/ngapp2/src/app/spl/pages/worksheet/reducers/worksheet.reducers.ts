@@ -16,7 +16,8 @@ export interface WorksheetState {
   isSortFilterOpen: boolean,
   currentSortFilterColumn: WebWorksheetConfig,
   sortFilterPopupX: any,
-  sortFilterPopupY: any
+  sortFilterPopupY: any,
+  filteredList: Array<string>
 }
 
 export const initialAuthState: WorksheetState = {
@@ -27,7 +28,8 @@ export const initialAuthState: WorksheetState = {
   isSortFilterOpen: false,
   currentSortFilterColumn: undefined,
   sortFilterPopupX: 0,
-  sortFilterPopupY: 0
+  sortFilterPopupY: 0,
+  filteredList: undefined
 };
 
 export function worksheetReducer(state = initialAuthState, action: WorksheetActions): WorksheetState {
@@ -44,6 +46,12 @@ export function worksheetReducer(state = initialAuthState, action: WorksheetActi
         requestID: action.payload.requestID,
         worksheetRecords: action.payload.worksheetRecords,
         worksheetConfigs: action.payload.worksheetConfigs
+      };
+    }
+    case WorksheetActionTypes.ProcessFilteredListData: {
+      return {
+        ...state,
+        filteredList: action.payload.filteredList,
       };
     }
     case WorksheetActionTypes.ToggleSortFilterPopup: {

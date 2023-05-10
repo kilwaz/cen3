@@ -90,6 +90,7 @@ public class WorksheetConfig extends DatabaseObject {
     public WebWorksheetConfig getAsWebWorksheetConfig() {
         WebWorksheetConfig webWorksheetConfig = new WebWorksheetConfig();
         webWorksheetConfig.setName(columnTitle);
+        webWorksheetConfig.setDefinitionName(definition.getName());
         return webWorksheetConfig;
     }
 }

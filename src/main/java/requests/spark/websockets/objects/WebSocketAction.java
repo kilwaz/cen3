@@ -163,7 +163,11 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                             List resultList = (List) result;
 
                             for (Object resultListItem : resultList) {
-                                jsonArray.put(((JSONWeb) resultListItem).prepareForJSON());
+                                if (resultListItem instanceof JSONWeb) {
+                                    jsonArray.put(((JSONWeb) resultListItem).prepareForJSON());
+                                } else if (resultListItem instanceof String) {
+                                    jsonArray.put(resultListItem);
+                                }
                             }
 
                             jsonObject.put("" + fieldName, jsonArray);

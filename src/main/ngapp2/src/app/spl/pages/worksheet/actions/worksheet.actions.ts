@@ -5,6 +5,7 @@ import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
 export enum WorksheetActionTypes {
   RequestWorksheetData = '[Worksheet-RequestWorksheetData] Action',
   ProcessWorksheetData = '[Worksheet-ProcessWorksheetData] Action',
+  ProcessFilteredListData = '[Worksheet-ProcessFilteredListData] Action',
 
   ToggleSortFilterPopup = '[Worksheet-ToggleSortFilterPopup] Action',
   SetSortFilterColumn = '[Worksheet-SetSortFilterColumn] Action',
@@ -27,6 +28,15 @@ export class ProcessWorksheetData implements Action {
     requestID: string,
     worksheetRecords: Array<WebRecord>,
     worksheetConfigs: Array<WebWorksheetConfig>
+  }) {
+  }
+}
+
+export class ProcessFilteredListData implements Action {
+  readonly type = WorksheetActionTypes.ProcessFilteredListData;
+
+  constructor(public payload: {
+    filteredList: Array<string>,
   }) {
   }
 }
@@ -64,4 +74,5 @@ export type WorksheetActions =
   ProcessWorksheetData |
   ToggleSortFilterPopup |
   SetSortFilterColumn |
-  SetSortFilterPopupPosition;
+  SetSortFilterPopupPosition |
+  ProcessFilteredListData;
