@@ -1,6 +1,8 @@
 import {Action} from '@ngrx/store';
 import {WebRecord} from "../../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
+import {SortItem} from "../../../wsObjects/sortItem";
+import {SortFilter} from "../../../wsObjects/sortFilter";
 
 export enum WorksheetActionTypes {
   RequestWorksheetData = '[Worksheet-RequestWorksheetData] Action',
@@ -9,7 +11,12 @@ export enum WorksheetActionTypes {
 
   ToggleSortFilterPopup = '[Worksheet-ToggleSortFilterPopup] Action',
   SetSortFilterColumn = '[Worksheet-SetSortFilterColumn] Action',
-  SetSortFilterPopupPosition = '[Worksheet-SetSortFilterPopupPosition] Action'
+  SetSortFilterPopupPosition = '[Worksheet-SetSortFilterPopupPosition] Action',
+
+  AddSortItem = '[Worksheet-AddSortItem] Action',
+  RemoveSortItem = '[Worksheet-RemoveSortItem] Action',
+  ClearSort = '[Worksheet-ClearSort] Action',
+  UpdateSortFilter = '[Worksheet-UpdateSortFilter] Action'
 }
 
 export class RequestWorksheetData implements Action {
@@ -69,10 +76,50 @@ export class SetSortFilterPopupPosition implements Action {
   }
 }
 
+export class AddSortItem implements Action {
+  readonly type = WorksheetActionTypes.AddSortItem;
+
+  constructor(public payload: {
+    sort: SortItem
+  }) {
+  }
+}
+
+export class RemoveSortItem implements Action {
+  readonly type = WorksheetActionTypes.RemoveSortItem;
+
+  constructor(public payload: {
+    sortReference: string
+  }) {
+  }
+}
+
+export class ClearSort implements Action {
+  readonly type = WorksheetActionTypes.ClearSort;
+
+  constructor(public payload: {}) {
+  }
+}
+
+export class UpdateSortFilter implements Action {
+  readonly type = WorksheetActionTypes.UpdateSortFilter;
+
+  constructor(public payload: {
+    sortFilter: SortFilter
+  }) {
+  }
+}
+
 export type WorksheetActions =
   RequestWorksheetData |
   ProcessWorksheetData |
   ToggleSortFilterPopup |
+
   SetSortFilterColumn |
   SetSortFilterPopupPosition |
-  ProcessFilteredListData;
+  ProcessFilteredListData |
+
+  AddSortItem |
+  RemoveSortItem |
+  ClearSort |
+  UpdateSortFilter;

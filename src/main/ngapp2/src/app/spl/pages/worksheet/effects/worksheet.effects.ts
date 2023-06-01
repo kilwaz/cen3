@@ -11,15 +11,19 @@ import {
   ToggleSortFilterPopup,
   ProcessWorksheetData,
   RequestWorksheetData,
-  WorksheetActionTypes, ProcessFilteredListData
+  WorksheetActionTypes, ProcessFilteredListData, AddSortItem, ClearSort, UpdateSortFilter, RemoveSortItem
 } from "../actions/worksheet.actions";
-import {selectWorksheet} from "../selectors/worksheet.selectors";
+import {selectWorksheet, sortFilter} from "../selectors/worksheet.selectors";
 import {map, tap} from "rxjs/operators";
+import {SortFilterService} from "../service/sort-filter.service";
+import {SortFilter} from "../../../wsObjects/sortFilter";
 
 @Injectable()
 export class WorksheetEffects {
   constructor(private actions$: Actions,
-              private worksheetService: WorksheetService, private store: Store<AppState>) {
+              private store: Store<AppState>,
+              private worksheetService: WorksheetService,
+              private sortFilterService: SortFilterService) {
   }
 
   requestWorksheetData$ = createEffect(() => {
@@ -28,8 +32,8 @@ export class WorksheetEffects {
       concatLatestFrom(() =>
         this.store.pipe(select(selectWorksheet))
       ),
-      map(() => {
-        this.worksheetService.worksheetRequest().pipe(
+      map(([,worksheetState]) => {
+        this.worksheetService.worksheetRequest(worksheetState.sortFilter).pipe(
           tap(result => {
             this.store.dispatch(new ProcessWorksheetData({
               requestID: result.requestID,
@@ -57,6 +61,52 @@ export class WorksheetEffects {
             }),
           ).subscribe();
         }
+      })
+    );
+  }, {dispatch: false});
+
+  addSortItem$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<AddSortItem>(WorksheetActionTypes.AddSortItem),
+      concatLatestFrom(() =>
+        this.store.pipe(select(sortFilter))
+      ),
+      tap(([addSortItem, sortFilter]) => {
+        this.sortFilterService.addSort(addSortItem.payload.sort, sortFilter);
+
+        this.store.dispatch(new RequestWorksheetData({
+          requestID: '10174'
+        }));
+      })
+    );
+  }, {dispatch: false});
+
+  removeSortItem$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<RemoveSortItem>(WorksheetActionTypes.RemoveSortItem),
+      concatLatestFrom(() =>
+        this.store.pipe(select(sortFilter))
+      ),
+      tap(([removeSortItem, sortFilter]) => {
+        this.sortFilterService.removeSort(removeSortItem.payload.sortReference, sortFilter);
+
+        this.store.dispatch(new RequestWorksheetData({
+          requestID: '10174'
+        }));
+      })
+    );
+  }, {dispatch: false});
+
+  clearSort$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<ClearSort>(WorksheetActionTypes.ClearSort),
+      concatLatestFrom(() =>
+        this.store.pipe(select(sortFilter))
+      ),
+      tap(() => {
+        this.store.dispatch(new UpdateSortFilter({
+          sortFilter: new SortFilter()
+        }));
       })
     );
   }, {dispatch: false});

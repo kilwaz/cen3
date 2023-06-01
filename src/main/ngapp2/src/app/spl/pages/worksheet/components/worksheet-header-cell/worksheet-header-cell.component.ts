@@ -2,8 +2,9 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
 import {SetSortFilterColumn, SetSortFilterPopupPosition, ToggleSortFilterPopup} from "../../actions/worksheet.actions";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {WorksheetState} from "../../reducers/worksheet.reducers";
+import {isActiveSort} from "../../selectors/worksheet.selectors";
 
 @Component({
   selector: '[worksheet-header-cell]',
@@ -13,18 +14,21 @@ import {WorksheetState} from "../../reducers/worksheet.reducers";
 export class WorksheetHeaderCellComponent implements OnInit, OnDestroy {
   @Input('webWorksheetConfig') webWorksheetConfig: WebWorksheetConfig;
 
-  // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  // Derived variables
+  isActiveSort: boolean;
+
+  // Unsubscribe tracker
+  private unsubscribe: Subscription[] = [];
 
   constructor(private store: Store<WorksheetState>) {
   }
 
   ngOnInit(): void {
-    this.webWorksheetConfig.name;
-  }
-
-  ngOnDestroy() {
-    // this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.push(
+      this.store.pipe(select(isActiveSort(this.webWorksheetConfig.definitionName))).subscribe(result => {
+        this.isActiveSort = (result !== undefined);
+      })
+    );
   }
 
   openPopup(e: MouseEvent) {
@@ -41,5 +45,9 @@ export class WorksheetHeaderCellComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ToggleSortFilterPopup({
       isOpen: true
     }));
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

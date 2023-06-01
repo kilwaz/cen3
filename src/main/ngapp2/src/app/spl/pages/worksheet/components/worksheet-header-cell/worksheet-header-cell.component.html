@@ -1,6 +1,6 @@
 <div class="header-div">
   {{webWorksheetConfig.name}}
 </div>
-<input click-stop-propagation class="sort-button" type="button" (click)="openPopup($event)" value="▼">
-
-
+<button click-stop-propagation type="button" class="sort-button btn btn-sm btn-icon btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable row view" (click)="openPopup($event)">
+  <i class="fa-solid fa-caret-down"></i>
+</button>

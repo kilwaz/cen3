@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WebSocketAction<WSMessage extends Message, WSData extends WebSocketData> {
+public class WebSocketAction<WSMessage extends Message, WSData extends WebSocketData, WSJsonWeb extends requests.spark.websockets.objects.JSONWeb> {
     Logger log = AppLogger.logger();
 
     public void push(Push push) {
@@ -84,6 +84,12 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                     if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                         Method fieldMethod = dataClass.getMethod("set" + capFieldName, JSONArray.class);
                         fieldMethod.invoke(wsData, jsonObjectDecoded.getJSONArray("_" + fieldName));
+                    } else if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
+                        WSJsonWeb jsonWeb = (WSJsonWeb) field.getAnnotation(WSDataTypeScriptClass.class).value().getConstructor().newInstance();
+                        jsonWeb.populateFromJSON(jsonObjectDecoded.getJSONObject("_" + fieldName));
+
+                        Method fieldMethod = dataClass.getMethod("set" + capFieldName, field.getAnnotation(WSDataTypeScriptClass.class).value());
+                        fieldMethod.invoke(wsData, jsonWeb);
                     } else if (field.getType() == Integer.class) { // Integer
                         Method fieldMethod = dataClass.getMethod("set" + capFieldName, Integer.class);
                         fieldMethod.invoke(wsData, jsonObjectDecoded.getInt("_" + fieldName));

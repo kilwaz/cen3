@@ -21,6 +21,7 @@ import {WorksheetHeaderCellComponent} from "./components/worksheet-header-cell/w
 import {WorksheetSortFilterComponent} from "./components/worksheet-sort-filter/worksheet-sort-filter.component";
 import {WorksheetSummaryComponent} from "./components/worksheet-summary/worksheet-summary.component";
 import {ClickStopPropagation} from "./directives/click-stop-propagation";
+import {SortFilterService} from "./service/sort-filter.service";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {ClickStopPropagation} from "./directives/click-stop-propagation";
     ClickStopPropagation
   ],
   providers: [
-    WorksheetService
+    WorksheetService,
+    SortFilterService
   ],
   imports: [
     CommonModule,

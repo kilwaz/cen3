@@ -6,11 +6,13 @@ import clarity.definition.Definitions;
 import clarity.definition.RecordState;
 import clarity.definition.WorksheetConfig;
 import data.model.DatabaseCollect;
+import data.model.DatabaseSortFilter;
 import data.model.dao.WorksheetConfigDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
+import requests.spark.websockets.objects.messages.dataitems.SortItem;
 import requests.spark.websockets.objects.messages.dataitems.WebRecord;
 import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
 import requests.spark.websockets.objects.messages.dataobjects.WorksheetData;
@@ -27,7 +29,6 @@ public class Worksheet extends Message {
 
     public void process() {
         WorksheetData worksheetData = (WorksheetData) this.getWebSocketData();
-        log.info("This is what was got from client: " + worksheetData.getRequestID());
 
         WorksheetConfigDAO worksheetConfigDAO = new WorksheetConfigDAO();
         List<WorksheetConfig> webWorksheetConfigs = worksheetConfigDAO.getAllWorksheetConfigs();
@@ -44,10 +45,10 @@ public class Worksheet extends Message {
         List<Record> empRecords = DatabaseCollect
                 .create()
                 .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))
+                .sortFilter(new DatabaseSortFilter(worksheetData.getSortFilter()))
                 .state(RecordState.STATIC)
                 .collect();
 
-//        int count = 0;
         List<WebRecord> worksheetRecords = new ArrayList<>();
         for (Record record : empRecords) {
             WebRecord webRecord = new WebRecord();
@@ -61,12 +62,7 @@ public class Worksheet extends Message {
             }
 
             webRecord.setEntriesFromClarity(Arrays.asList(entriesToShow));
-
             worksheetRecords.add(webRecord);
-//            count++;
-//            if (count > 5) {
-//                break;
-//            }
         }
 
         worksheetData.setWorksheetRecords(worksheetRecords);

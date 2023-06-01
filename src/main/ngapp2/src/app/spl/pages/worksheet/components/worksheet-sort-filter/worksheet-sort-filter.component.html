@@ -4,20 +4,38 @@
        [style.left]="(sortFilterPopupX$ | async) + 'px'"
   >
     <div class="form-container">
-      <h3 id="sortHeader">{{(currentSortFilterColumn$ | async)?.name}}</h3>
+      <h3 id="sortHeader">{{(currentSortFilterColumn$ | async)?.name}} {{activeSortDirection}}</h3>
 
       <div class="filterButtonList">
-        <a class="btn btn-sm btn-danger me-3 cursor-pointer">
-          Sort A to Z
-          <i class="fa-solid fa-arrow-up-long icon-left"></i>
-        </a>
+        <ng-container *ngIf="isActiveSort && activeSortDirection == 'asc'; else notActiveSortAtoZ">
+          <a class="btn btn-sm btn-danger me-3 cursor-pointer" (click)="removeSort()">
+            Remove A to Z Sort
+            <i class="fa-solid fa-remove icon-left"></i>
+          </a>
+
+        </ng-container>
+        <ng-template #notActiveSortAtoZ>
+          <a class="btn btn-sm btn-danger me-3 cursor-pointer" (click)="addSort('asc')">
+            Sort A to Z
+            <i class="fa-solid fa-arrow-up-long icon-left"></i>
+          </a>
+        </ng-template>
       </div>
       <div class="filterButtonList">
-        <a class="btn btn-sm btn-danger me-3 cursor-pointer">
-          Sort Z to A
-          <i class="fa-solid fa-arrow-down-long icon-left"></i>
-        </a>
+        <ng-container *ngIf="isActiveSort && activeSortDirection == 'desc'; else notActiveSortZtoA">
+          <a class="btn btn-sm btn-danger me-3 cursor-pointer" (click)="removeSort()">
+            Remove Sort Z to A
+            <i class="fa-solid fa-remove icon-left"></i>
+          </a>
+        </ng-container>
+        <ng-template #notActiveSortZtoA>
+          <a class="btn btn-sm btn-danger me-3 cursor-pointer" (click)="addSort('desc')">
+            Sort Z to A
+            <i class="fa-solid fa-arrow-down-long icon-left"></i>
+          </a>
+        </ng-template>
       </div>
+
       <div class="filterButtonList">
         <a class="btn btn-sm btn-danger me-3 cursor-pointer">
           Text filters
@@ -31,14 +49,14 @@
       <div id="filterCheckboxes">
         <ul>
           <li *ngFor="let listItem of filteredList$ | async">
-            <p><input type="checkbox" onclick="filterCheckAll(this)" value="{{listItem}}"/>{{listItem}}</p>
+            <p><input type="checkbox" onclick="" value="{{listItem}}"/>{{listItem}}</p>
           </li>
         </ul>
       </div>
     </div>
 
     <div class="okFilterButton">
-      <a class="btn btn-sm btn-danger me-3 cursor-pointer">
+      <a class="btn btn-sm btn-danger me-3 cursor-pointer" (click)="okClicked()">
         OK
       </a>
     </div>

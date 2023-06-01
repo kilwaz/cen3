@@ -17,3 +17,17 @@ export const sortFilterPopupY = createSelector(selectWorksheet, worksheet => wor
 
 export const filteredList = createSelector(selectWorksheet, worksheet => worksheet?.filteredList);
 
+export const sortFilter = createSelector(selectWorksheet, worksheet => worksheet?.sortFilter);
+
+export const isActiveSort = (sortName: string) =>
+  createSelector(
+    sortFilter,
+    (sortFilter) => {
+      for (let i = 0; i < sortFilter.sorts.length; i++) {
+        if (sortFilter.sorts[i].definitionName === sortName) {
+          return sortFilter.sorts[i];
+        }
+      }
+      return undefined;
+    }
+  );

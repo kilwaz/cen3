@@ -1,12 +1,8 @@
 // Actions
-import {
-  SetSortFilterColumn,
-  ToggleSortFilterPopup,
-  WorksheetActions,
-  WorksheetActionTypes
-} from '../actions/worksheet.actions';
+import {WorksheetActions, WorksheetActionTypes} from '../actions/worksheet.actions';
 import {WebRecord} from "../../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
+import {SortFilter} from "../../../wsObjects/sortFilter";
 
 export interface WorksheetState {
   requestID: string;
@@ -17,7 +13,9 @@ export interface WorksheetState {
   currentSortFilterColumn: WebWorksheetConfig,
   sortFilterPopupX: any,
   sortFilterPopupY: any,
-  filteredList: Array<string>
+  filteredList: Array<string>,
+
+  sortFilter: SortFilter
 }
 
 export const initialAuthState: WorksheetState = {
@@ -29,7 +27,9 @@ export const initialAuthState: WorksheetState = {
   currentSortFilterColumn: undefined,
   sortFilterPopupX: 0,
   sortFilterPopupY: 0,
-  filteredList: undefined
+  filteredList: undefined,
+
+  sortFilter: new SortFilter()
 };
 
 export function worksheetReducer(state = initialAuthState, action: WorksheetActions): WorksheetState {
@@ -71,6 +71,12 @@ export function worksheetReducer(state = initialAuthState, action: WorksheetActi
         ...state,
         sortFilterPopupX: action.payload.sortFilterPopupX,
         sortFilterPopupY: action.payload.sortFilterPopupY
+      };
+    }
+    case WorksheetActionTypes.UpdateSortFilter: {
+      return {
+        ...state,
+        sortFilter: action.payload.sortFilter,
       };
     }
     default:

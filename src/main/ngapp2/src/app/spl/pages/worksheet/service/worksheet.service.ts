@@ -3,14 +3,16 @@ import {Observable} from 'rxjs';
 import {WebSocketService} from '../../../services/websocket.service';
 import {Worksheet} from "../../../wsActions/worksheet";
 import {FilteredList} from "../../../wsActions/filteredList";
+import {SortFilter} from "../../../wsObjects/sortFilter";
 
 @Injectable()
 export class WorksheetService {
   constructor(private webSocketService: WebSocketService) {
   }
 
-  worksheetRequest(): Observable<Worksheet> {
+  worksheetRequest(sortFilter: SortFilter): Observable<Worksheet> {
     const worksheet: Worksheet = new Worksheet();
+    worksheet.sortFilter = sortFilter;
 
     return this.webSocketService.sendWithObservable(worksheet) as Observable<Worksheet>;
   }

@@ -1,5 +1,6 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
+import requests.spark.websockets.objects.messages.dataitems.SortFilter;
 import requests.spark.websockets.objects.messages.dataitems.WebRecord;
 import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
@@ -25,6 +26,10 @@ public class WorksheetData extends WebSocketData {
     @WSDataTypeScriptClass(WebWorksheetConfig.class)
     private List<WebWorksheetConfig> worksheetConfig = null;
 
+    @WSDataOutgoing @WSDataIncoming
+    @WSDataTypeScriptClass(SortFilter.class)
+    private SortFilter sortFilter = null;
+
     public String getRequestID() {
         return requestID;
     }
@@ -47,5 +52,13 @@ public class WorksheetData extends WebSocketData {
 
     public void setWorksheetConfig(List<WebWorksheetConfig> worksheetConfig) {
         this.worksheetConfig = worksheetConfig;
+    }
+
+    public SortFilter getSortFilter() {
+        return sortFilter;
+    }
+
+    public void setSortFilter(SortFilter sortFilter) {
+        this.sortFilter = sortFilter;
     }
 }

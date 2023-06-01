@@ -19,6 +19,7 @@ public class DatabaseCollect {
     private int state;
     private String primaryKey; // Confusing name?
     private List<Definition> definitions = null;
+    private DatabaseSortFilter databaseSortFilter = null;
 
     private DatabaseCollect() {
 
@@ -43,6 +44,11 @@ public class DatabaseCollect {
         return this;
     }
 
+    public DatabaseCollect sortFilter(DatabaseSortFilter databaseSortFilter) {
+        this.databaseSortFilter = databaseSortFilter;
+        return this;
+    }
+
     public DatabaseCollect primaryKey(String primaryKey) {
         this.primaryKey = primaryKey;
         return this;
@@ -60,8 +66,32 @@ public class DatabaseCollect {
         var selectQueryBuilder = new StringBuilder();
         selectQueryBuilder.append("select uuid from ").append(recordDefinition.getTableNameByState(state));
         if (primaryKey != null) {
-            selectQueryBuilder.append(" where " + recordDefinition.getPrimaryKey().getName() + " = '" + primaryKey + "'");
+            selectQueryBuilder.append(" where ").append(recordDefinition.getPrimaryKey().getName()).append(" = '").append(primaryKey).append("'");
         }
+
+        // Apply any sorting
+        if (databaseSortFilter != null) {
+            List<DatabaseSort> databaseSorts = databaseSortFilter.getSorts();
+            if (databaseSorts.size() > 0) {
+                selectQueryBuilder.append(" order by ");
+                int orderCounter = 0;
+                for (DatabaseSort databaseSort : databaseSorts) {
+                    Definition definition = recordDefinition.getDefinition(databaseSort.getDefinition());
+                    if(orderCounter > 0){
+                        selectQueryBuilder.append(",");
+                    }
+                    selectQueryBuilder.append(definition.getName()).append(" ");
+                    if ("desc".equalsIgnoreCase(databaseSort.getDirection())) {
+                        selectQueryBuilder.append("desc ");
+                    }
+
+                    orderCounter++;
+                }
+            }
+        }
+
+        log.info("Worksheet query vvv");
+        log.info(selectQueryBuilder);
 
         var selectResult = (SelectResult) new SelectQuery(selectQueryBuilder.toString()).execute();
         for (var resultRow : selectResult.getResults()) {

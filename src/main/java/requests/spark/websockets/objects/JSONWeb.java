@@ -6,8 +6,11 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import requests.spark.websockets.objects.messages.mapping.WSData;
+import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
+import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
+import javax.lang.model.type.ArrayType;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,6 +23,49 @@ public class JSONWeb {
 
     public JSONWeb() {
 
+    }
+
+    public void populateFromJSON(JSONObject jsonObject) {
+        Field[] dataFields = this.getClass().getDeclaredFields();
+
+        for (Field field : dataFields) {
+            if (field.isAnnotationPresent(WSDataReference.class)) {
+                String fieldName = field.getName();
+                String capFieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+
+                try {
+                    if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
+                        Method fieldMethod = this.getClass().getMethod("set" + capFieldName, field.getType());
+                        List newObjectList = new ArrayList<>();
+
+                        JSONArray jsonArray = jsonObject.getJSONArray("_" + fieldName);
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONWeb newJsonWebListObject = (JSONWeb) field.getAnnotation(WSDataTypeScriptClass.class).value().getConstructor().newInstance();
+                            newJsonWebListObject.populateFromJSON(jsonArray.getJSONObject(i));
+                            newObjectList.add(newJsonWebListObject);
+                        }
+
+                        fieldMethod.invoke(this, newObjectList);
+                    } else if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
+                        Method fieldMethod = this.getClass().getMethod("set" + capFieldName, field.getAnnotation(WSDataTypeScriptClass.class).value());
+                        fieldMethod.invoke(this, "");
+                    } else if (field.getType() == Integer.class) { // Integer
+                        Method fieldMethod = this.getClass().getMethod("set" + capFieldName, Integer.class);
+                        fieldMethod.invoke(this, jsonObject.getInt("_" + fieldName));
+                    } else if (field.getType() == String.class) { // String
+                        Method fieldMethod = this.getClass().getMethod("set" + capFieldName, String.class);
+                        fieldMethod.invoke(this, jsonObject.getString("_" + fieldName));
+                    }
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException |
+                         InstantiationException ex) {
+                    Error.WEBSOCKET_JSON_RESPONSE.record()
+                            .additionalInformation("Field name: " + capFieldName)
+                            .additionalInformation("Method name: get" + capFieldName)
+                            .create(ex);
+                }
+            }
+        }
     }
 
     public JSONObject prepareForJSON(WSData... requestedData) {

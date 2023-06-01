@@ -10,9 +10,10 @@ import {WorksheetState} from './reducers/worksheet.reducers';
 // Selectors
 import {WorksheetService} from './service/worksheet.service';
 import {requestID, worksheetConfigs, worksheetRecords} from "./selectors/worksheet.selectors";
-import {ProcessWorksheetData, RequestWorksheetData} from "./actions/worksheet.actions";
+import {ClearSort, ProcessWorksheetData, RequestWorksheetData, UpdateSortFilter} from "./actions/worksheet.actions";
 import {WebRecord} from "../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../wsObjects/webWorksheetConfig";
+import {SortFilter} from "../../wsObjects/sortFilter";
 
 @Component({
   selector: 'app-worksheet',
@@ -49,6 +50,7 @@ export class WorksheetComponent implements OnInit, OnDestroy {
       worksheetRecords: null,
       worksheetConfigs: null
     }));
+    this.store.dispatch(new ClearSort({}));
   }
 
   ngOnDestroy(): void {

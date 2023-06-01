@@ -7,11 +7,13 @@ DO NOT MANUALLY CHANGE THIS FILE
 import {Message} from "./message";
 import {WebRecord} from "../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../wsObjects/webWorksheetConfig";
+import {SortFilter} from "../wsObjects/sortFilter";
 
 export class Worksheet extends Message {
 	private _requestID: string;
 	private _worksheetRecords: Array<WebRecord> = [];
 	private _worksheetConfig: Array<WebWorksheetConfig> = [];
+	private _sortFilter: SortFilter;
 	
 	constructor() {
 		super();
@@ -22,6 +24,7 @@ export class Worksheet extends Message {
 		this._requestID = msgRaw.requestID;
 		this._worksheetRecords = msgRaw.worksheetRecords;
 		this._worksheetConfig = msgRaw.worksheetConfig;
+		this._sortFilter = msgRaw.sortFilter;
 	}
 
 	get requestID(): string {
@@ -36,6 +39,10 @@ export class Worksheet extends Message {
 		return this._worksheetConfig;
 	}
 	
+	get sortFilter(): SortFilter {
+		return this._sortFilter;
+	}
+	
 	set requestID(value: string) {
 		this._requestID = value;
 	}
@@ -46,6 +53,10 @@ export class Worksheet extends Message {
 	
 	set worksheetConfig(value: Array<WebWorksheetConfig>) {
 		this._worksheetConfig = value;
+	}
+	
+	set sortFilter(value: SortFilter) {
+		this._sortFilter = value;
 	}
 	
 }
