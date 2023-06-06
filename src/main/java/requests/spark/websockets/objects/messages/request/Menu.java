@@ -22,6 +22,7 @@ public class Menu extends Message {
         menuItemJSON.put(new MenuItem("Layout Builder", "builder", "./assets/media/icons/duotune/general/gen019.svg", "menuItem").prepareForJSON());
         menuItemJSON.put(new MenuItem("Separate", "separator").prepareForJSON());
         menuItemJSON.put(new MenuItem("Text Cases", "text-cases", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuItem("Hierarchy", "hierarchy", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
         menuItemJSON.put(new MenuItem("Worksheet", "worksheet", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
         menuItemJSON.put(new MenuItem("Crafted", "separator").prepareForJSON());
 

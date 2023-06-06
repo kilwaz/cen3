@@ -6,32 +6,33 @@ import {map, tap} from 'rxjs/operators';
 import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 // Actions
-import {HierarchyActionTypes, ProcessText} from '../actions/hierarchy.actions';
-import {AppState} from '../../../core/reducers';
+import {HierarchyActionTypes, LoadHierarchy, RequestHierarchy} from '../actions/hierarchy.actions';
 import {HierarchyService} from '../service/hierarchy.service';
-import {selectTextCases} from '../selectors/hierarchy.selectors';
+import {selectHierarchy} from '../selectors/hierarchy.selectors';
+import {HierarchyState} from "../reducers/hierarchy.reducers";
 
 @Injectable()
 export class HierarchyEffects {
   constructor(private actions$: Actions,
-              private textCaseService: HierarchyService, private store: Store<AppState>) {
+              private hierarchyService: HierarchyService, private store: Store<HierarchyState>) {
   }
 
-  processText$ = createEffect(() => {
+  requestHierarchy$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType<ProcessText>(HierarchyActionTypes.ProcessText),
+      ofType<RequestHierarchy>(HierarchyActionTypes.RequestHierarchy),
       concatLatestFrom(() =>
-        this.store.pipe(select(selectTextCases))
+        this.store.pipe(select(selectHierarchy))
       ),
-      map(([, textProcess]) => {
-        this.textCaseService.textFunction(textProcess.textToProcess, textProcess.textFunction)
+      map(result => {
+        this.hierarchyService.requestHierarchy()
           .pipe(
             tap(result => {
-              // this.store.dispatch(new TextResultUpdated({
-              //   textResult: result.textResult
-              // }));
+              this.store.dispatch(new LoadHierarchy({
+                hierarchyItems: result.hierarchyItems
+              }));
             }),
-          ).subscribe(); // Does this subscribe forever?
-      }));
+          ).subscribe();
+      })
+    );
   }, {dispatch: false});
 }

@@ -13,11 +13,9 @@ export const initialAuthState: SideBarState = {
 export function sideBarReducer(state = initialAuthState, action: SideBarActions): SideBarState {
   switch (action.type) {
     case SideBarActionTypes.LoadRoles: {
-      const menuPayload: Array<MenuItem> = action.payload.menuItems;
-
       return {
         ...state,
-        menuItem: menuPayload
+        menuItem: action.payload.menuItems
       };
     }
     default:

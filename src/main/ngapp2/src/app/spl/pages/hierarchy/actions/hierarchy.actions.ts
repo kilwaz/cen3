@@ -1,17 +1,27 @@
 import {Action} from '@ngrx/store';
+import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
 
 export enum HierarchyActionTypes {
-  ProcessText = '[Hierarchy-ProcessText] Action'
+  RequestHierarchy = '[Hierarchy-RequestHierarchy] Action',
+  LoadHierarchy = '[Hierarchy-LoadHierarchy] Action'
 }
 
-export class ProcessText implements Action {
-  readonly type = HierarchyActionTypes.ProcessText;
+export class LoadHierarchy implements Action {
+  readonly type = HierarchyActionTypes.LoadHierarchy;
 
   constructor(public payload: {
-    textFunction: number
+    hierarchyItems: Array<HierarchyListItem>
   }) {
   }
 }
 
+export class RequestHierarchy implements Action {
+  readonly type = HierarchyActionTypes.RequestHierarchy;
+
+  constructor(public payload: {}) {
+  }
+}
+
 export type HierarchyActions =
-  ProcessText;
+  LoadHierarchy |
+  RequestHierarchy;

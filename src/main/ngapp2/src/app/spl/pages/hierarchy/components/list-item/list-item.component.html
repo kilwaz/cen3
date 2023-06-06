@@ -1,0 +1,9 @@
+<ul>
+  <li *ngFor="let hierarchyListItem of hierarchyListItems">
+    <i class="fa-solid fa-folder"></i> {{hierarchyListItem.title}}
+
+    <ng-container *ngIf="hierarchyListItem.children !== undefined && hierarchyListItem.children.length > 0">
+      <list-item [hierarchyListItem]="hierarchyListItem.children"></list-item>
+    </ng-container>
+  </li>
+</ul>

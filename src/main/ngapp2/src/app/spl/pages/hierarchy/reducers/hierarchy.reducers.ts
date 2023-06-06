@@ -1,20 +1,21 @@
 // Actions
 import {HierarchyActions, HierarchyActionTypes} from '../actions/hierarchy.actions';
+import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
 
 export interface HierarchyState {
-  textToProcess: string;
+  hierarchyItems: Array<HierarchyListItem>;
 }
 
 export const initialAuthState: HierarchyState = {
-  textToProcess: ''
+  hierarchyItems: null
 };
 
 export function hierarchyReducer(state = initialAuthState, action: HierarchyActions): HierarchyState {
   switch (action.type) {
-    case HierarchyActionTypes.ProcessText: {
+    case HierarchyActionTypes.LoadHierarchy: {
       return {
         ...state,
-        // textFunction: textFunctionPayload,
+        hierarchyItems: action.payload.hierarchyItems
       };
     }
     default:
