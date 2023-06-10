@@ -41,6 +41,9 @@ public class DefinedBridge extends DatabaseObject {
     }
 
     public String getDefinitionUUID() {
+        if (definition == null) {
+            return null;
+        }
         return definition.getUuidString();
     }
 

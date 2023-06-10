@@ -1,9 +1,6 @@
 package clarity.load;
 
-import clarity.definition.Definition;
-import clarity.definition.Definitions;
-import clarity.definition.RecordDefinition;
-import clarity.definition.WorksheetConfig;
+import clarity.definition.*;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -75,6 +72,14 @@ public class ConfigJSON implements Loader {
                     worksheetConfig.save();
                 }
 
+                JSONArray hierarchyTrees = jsonObject.getJSONArray("hierarchy_trees");
+                for (int i = 0; i < hierarchyTrees.length(); i++) {
+                    JSONObject hierarchyTreeJson = hierarchyTrees.getJSONObject(i);
+
+                    HierarchyTree hierarchyTree = HierarchyTree.create(HierarchyTree.class);
+                    hierarchyTree.name(hierarchyTreeJson.getString("name"));
+                    hierarchyTree.save();
+                }
 
                 log.info("Finished loading");
             } catch (IOException e) {

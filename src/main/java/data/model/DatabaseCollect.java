@@ -90,9 +90,6 @@ public class DatabaseCollect {
             }
         }
 
-        log.info("Worksheet query vvv");
-        log.info(selectQueryBuilder);
-
         var selectResult = (SelectResult) new SelectQuery(selectQueryBuilder.toString()).execute();
         for (var resultRow : selectResult.getResults()) {
             String uuid = resultRow.getString("UUID");

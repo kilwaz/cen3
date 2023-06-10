@@ -4,7 +4,6 @@ import clarity.Entry;
 import clarity.EntryValue;
 import clarity.Infer;
 import clarity.Record;
-import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.definition.RecordState;
 import clarity.load.data.DoubleValue;
@@ -96,6 +95,13 @@ public class Template {
         definedBridge.columnTitle("Salary");
         definedBridge.definedTemplate(definedTemplate);
         definedBridge.save();
+
+        definedBridge = DefinedBridge.create(DefinedBridge.class);
+        definedBridge.definition(Definitions.getInstance().getDefinition("Reviewing_Manager_ID"));
+        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
+        definedBridge.columnTitle("Reviewing Manager ID");
+        definedBridge.definedTemplate(definedTemplate);
+        definedBridge.save();
     }
 
     public Template headerRecord(LoadedRecord headerRecord) {
@@ -134,15 +140,18 @@ public class Template {
             if (!recordValue.equals(primaryValue) || newRecord) { // Don't update the primary key just to be safe, this should match anyway
                 DefinedBridge definedBridge = definedTemplateLoaded.getDefinedBridgeByName(recordValue.getColumnName());
 
-                Entry entry = dbRecord.get(definedBridge.getDefinition());
-                if (entry == null) {
-                    entry = new Entry(dbRecord, definedBridge.getDefinition());
-                    dbRecord.set(entry);
+                if (definedBridge != null) { // Check that the column is a defined template column, otherwise ignore
+                    Entry entry = dbRecord.get(definedBridge.getDefinition());
+                    if (entry == null) {
+                        entry = new Entry(dbRecord, definedBridge.getDefinition());
+                        dbRecord.set(entry);
+                    }
+                    EntryValue entryValue = entry.get();
+                    entryValue.setValue(recordValue.getValue());
                 }
-                EntryValue entryValue = entry.get();
-                entryValue.setValue(recordValue.getValue());
             }
         }
+
 
         dbRecord.save(RecordState.RAW);
         Infer.me(dbRecord);

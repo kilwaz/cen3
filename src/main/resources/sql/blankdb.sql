@@ -50,8 +50,8 @@ create table defined_bridge (
   defined_template_id char(36),
   PRIMARY KEY (uuid));
 
-drop table worksheet_settings;
-create table worksheet_settings (
+drop table worksheet_config;
+create table worksheet_config (
   uuid char(36) NOT NULL,
   column_title varchar(200),
   definition_id char(36),
@@ -62,6 +62,72 @@ create table worksheet_settings (
   colour varchar(200),
   PRIMARY KEY (uuid));
 
+drop table application_parameters;
+create table application_parameters (
+    uuid char(36) NOT NULL,
+    name varchar(200),
+    value varchar(200),
+    PRIMARY KEY (uuid));
+
+drop table hierarchy;
+create table hierarchy (
+     uuid char(36) NOT NULL,
+     node_reference varchar(200),
+     parent_reference varchar(200),
+     tree_uuid char(36),
+     employee_uuid char(36),
+     PRIMARY KEY (uuid));
+
+drop table hierarchy_nodes;
+create table hierarchy_nodes (
+    uuid char(36) NOT NULL,
+    node_reference varchar(200),
+    node_name varchar(200),
+    employee_uuid char(36),
+    parent_reference varchar(200),
+    tree_uuid char(36),
+    path_from_top varchar(200),
+    is_leaf number,
+    node_type varchar(200),
+    PRIMARY KEY (uuid));
+
+drop table hierarchy_nodes_calc;
+create table hierarchy_nodes_calc (
+    uuid char(36) NOT NULL,
+    node_reference varchar(200),
+    node_name varchar(200),
+    employee_uuid char(36),
+    parent_reference varchar(200),
+    tree_uuid char(36),
+    path_from_top varchar(200),
+    is_leaf number,
+    node_type varchar(200),
+    PRIMARY KEY (uuid));
+
+drop table hierarchy_trees;
+create table hierarchy_trees (
+    uuid char(36) NOT NULL,
+    name varchar(200),
+    PRIMARY KEY (uuid));
+
+drop table event_log;
+create table event_log (
+    uuid char(36) NOT NULL,
+    user_uuid char(36),
+    session_uuid char(36),
+    emplid varchar(200),
+    event_type varchar(200),
+    role_uuid char(36),
+    before varchar(200),
+    after varchar(200),
+    data_reference varchar(200),
+    audited_employee_uuid char(36),
+    event_page varchar(200),
+    node_reference varchar(200),
+    tree_uuid char(36),
+    event_comment varchar(200),
+    event_date date,
+    PRIMARY KEY (uuid));
 
 
 -- Columns say what base data tables have in them

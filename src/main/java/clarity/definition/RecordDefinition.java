@@ -1,6 +1,5 @@
 package clarity.definition;
 
-import data.model.DatabaseAction;
 import data.model.DatabaseObject;
 import data.model.dao.DefinitionGroupDAO;
 import error.Error;

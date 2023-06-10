@@ -1,15 +1,15 @@
 package clarity;
 
 import clarity.definition.Definition;
+import clarity.definition.Hierarchy;
+import clarity.definition.HierarchyTree;
 import clarity.definition.RecordState;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.instance.InstancedFormula;
-import data.model.DatabaseAction;
+import data.model.dao.HierarchyTreeDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
-import org.flywaydb.core.internal.database.base.Database;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Infer {
@@ -63,14 +63,41 @@ public class Infer {
 
     public static void me(Record record) {
         List<Definition> definitions = record.getRecordDefinition().getDefinitions();
+        HierarchyTree hierarchyTree = new HierarchyTreeDAO().getHierarchyTreeByName("ARUP");
+
         for (Definition definition : definitions) {
-            if (definition.isCalculated()) {
+            if (definition.isCalculated() && record.has(definition)) {
                 InstancedFormula instancedFormula = definition.getFormula()
                         .createInstance()
                         .record(record);
 
                 Expression solvedExpression = instancedFormula.solve();
                 record.get(definition.getName()).get().setValue(solvedExpression.getStringRepresentation());
+            }
+            if ("Reviewing_Manager_ID".equalsIgnoreCase(definition.getName())) { // Hierarchy linked
+                Hierarchy hierarchy = Hierarchy.create(Hierarchy.class);
+                hierarchy.employee(record);
+                Double value2 = (Double) record.get("Employee_Number").get().getValue();
+                hierarchy.nodeReference(String.valueOf(value2.intValue()));
+                if (record.has(definition)) { // Check record has this definition
+                    Double value = (Double) record.get(definition.getName()).get().getValue();
+                    hierarchy.parentReference("N9-" + String.valueOf(value.intValue()));
+                }
+                hierarchy.hierarchyTree(hierarchyTree);
+                hierarchy.save();
+
+                // This is to create N9 nodes in the hierarchy
+                hierarchy = Hierarchy.create(Hierarchy.class);
+                hierarchy.nodeReference("N9-" + String.valueOf(value2.intValue()));
+                if (record.has(definition)) { // Check record has this definition
+                    Double value = (Double) record.get(definition.getName()).get().getValue();
+                    hierarchy.parentReference("N9-" + String.valueOf(value.intValue()));
+                } else {
+                    hierarchy.parentReference(hierarchyTree.getName());
+                }
+
+                hierarchy.hierarchyTree(hierarchyTree);
+                hierarchy.save();
             }
         }
 

@@ -13,10 +13,7 @@ import utils.SDEUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DBConnection {
     private static Logger log = AppLogger.logger();
@@ -64,6 +61,15 @@ public class DBConnection {
     public PreparedStatement getPreparedStatement(String sql) {
         try {
             return connection.prepareStatement(sql);
+        } catch (Exception ex) {
+            Error.PREPARE_QUERY.record().create(ex);
+        }
+        return null;
+    }
+
+    public CallableStatement getPreparedCall(String sql) {
+        try {
+            return connection.prepareCall(sql);
         } catch (Exception ex) {
             Error.PREPARE_QUERY.record().create(ex);
         }

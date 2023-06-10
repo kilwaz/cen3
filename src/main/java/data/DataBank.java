@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,6 +59,33 @@ public class DataBank {
         }
 
         return null;
+    }
+
+    public static ProcedureResult runProcedureQuery(ProcedureQuery procedureQuery) {
+        return runProcedureQuery(DBConnectionManager.getInstance().getApplicationConnection(), procedureQuery);
+    }
+
+    public static ProcedureResult runProcedureQuery(DBConnection dbConnection, ProcedureQuery procedureQuery) {
+        ProcedureResult procedureResult = new ProcedureResult();
+        try {
+            if (dbConnection.isConnected()) {
+                CallableStatement callableStatement = dbConnection.getPreparedCall(procedureQuery.getQuery());
+
+                if (callableStatement != null) {
+                    setParameters(callableStatement, procedureQuery);
+                    ResultSet resultSet = callableStatement.executeQuery();
+                }
+            }
+        } catch (SQLException ex) {
+            Error.SELECT_QUERY.record().additionalInformation(procedureQuery.getQuery()).create(ex);
+            procedureResult.exception(ex);
+            if (!dbConnection.isConnected() && dbConnection.isApplicationConnection()) { // If we are not connected anymore, report this to the user status bar
+                dbConnection.connect();
+                runProcedureQuery(dbConnection, procedureQuery);
+            }
+        }
+
+        return procedureResult;
     }
 
     public static SelectResult runSelectQuery(SelectQuery selectQuery) {

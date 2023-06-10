@@ -9,10 +9,10 @@ import data.model.DatabaseCollect;
 import data.model.DatabaseSortFilter;
 import data.model.dao.WorksheetConfigDAO;
 import log.AppLogger;
+import log.EventLogCreator;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.messages.dataitems.SortItem;
 import requests.spark.websockets.objects.messages.dataitems.WebRecord;
 import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
 import requests.spark.websockets.objects.messages.dataobjects.WorksheetData;
@@ -66,5 +66,10 @@ public class Worksheet extends Message {
         }
 
         worksheetData.setWorksheetRecords(worksheetRecords);
+
+        EventLogCreator.init()
+                .pageLoadEvent("worksheet")
+                .comment("This is a log message")
+                .log();
     }
 }

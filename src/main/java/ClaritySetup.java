@@ -1,27 +1,16 @@
-import clarity.Entry;
 import clarity.Infer;
-import clarity.Record;
-import clarity.definition.*;
+import clarity.definition.Definitions;
+import clarity.definition.HierarchyTree;
 import clarity.load.Load;
-import clarity.load.excel.DefinedBridge;
-import clarity.load.excel.DefinedTemplate;
-import clarity.load.store.DefinedMatrix;
-import clarity.load.store.MatrixEntry;
-import clarity.load.store.Records;
-import clarity.load.store.expression.Expression;
-import clarity.load.store.expression.Formula;
-import clarity.load.store.expression.instance.InstancedFormula;
-import core.builders.requests.WebSocketMessageMapping;
+import data.ProcedureQuery;
 import data.SelectQuery;
 import data.SelectResult;
 import data.SelectResultRow;
-import data.model.DatabaseCollect;
+import data.model.dao.HierarchyTreeDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
-import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
 
 import java.io.File;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +94,13 @@ public class ClaritySetup {
         File fileExcel = new File("C:\\Users\\alex\\Downloads\\Arup HR Roles 2023\\Uploads\\Test.xlsx");
         Load.excel(fileExcel).process();
 
+        HierarchyTreeDAO hierarchyTreeDAO = new HierarchyTreeDAO();
+        HierarchyTree hierarchyTree = hierarchyTreeDAO.getHierarchyTreeByName("ARUP");
+
+        ProcedureQuery procedureQuery = new ProcedureQuery("{ call tree_populate(?)}");
+        procedureQuery.addParameter(hierarchyTree.getUuidString());
+        procedureQuery.execute();
+
         log.info("Ready!");
     }
 
@@ -162,27 +158,42 @@ public class ClaritySetup {
     }
 
     public static void clearDatabase() {
+        List<String> systemTables = new ArrayList<>();
+        // Definitions
+        systemTables.add("definition".toUpperCase());
+        systemTables.add("definition_group".toUpperCase());
+        systemTables.add("record_definition".toUpperCase());
+        systemTables.add("record_definition_child".toUpperCase());
+
+        // Imports
+        systemTables.add("defined_template".toUpperCase());
+        systemTables.add("defined_bridge".toUpperCase());
+
+        systemTables.add("worksheet_config".toUpperCase());
+
+        // Hierarchy
+        systemTables.add("hierarchy_trees".toUpperCase());
+        systemTables.add("hierarchy_nodes".toUpperCase());
+        systemTables.add("hierarchy_nodes_calc".toUpperCase());
+        systemTables.add("hierarchy".toUpperCase());
+
+        // Event Log
+        systemTables.add("event_log".toUpperCase());
+
 //        SelectQuery selectQuery = new SelectQuery("show tables");  // MySQL way
         SelectQuery selectQuery = new SelectQuery("SELECT table_name FROM dba_tables where owner = 'CEN'"); // Oracle way
         SelectResult result = (SelectResult) selectQuery.execute();
         for (SelectResultRow selectResultRow : result.getResults()) {
             String tableName = selectResultRow.getString("table_name");
-            if (!"definition_group".equalsIgnoreCase(tableName) && !"record_definition".equalsIgnoreCase(tableName)
-                    && !"definition".equalsIgnoreCase(tableName) && !"record_definition_child".equalsIgnoreCase(tableName)
-                    && !"defined_template".equalsIgnoreCase(tableName) && !"defined_bridge".equalsIgnoreCase(tableName)
-                    && !"worksheet_config".equalsIgnoreCase(tableName)
-            ) {
+            if (!systemTables.contains(tableName)) {
                 log.info("Deleting " + tableName);
                 new SelectQuery("truncate table " + tableName).execute();
                 new SelectQuery("drop table " + tableName).execute();
             }
         }
-        new SelectQuery("truncate table definition_group").execute();
-        new SelectQuery("truncate table record_definition").execute();
-        new SelectQuery("truncate table definition").execute();
-        new SelectQuery("truncate table record_definition_child").execute();
-        new SelectQuery("truncate table defined_template").execute();
-        new SelectQuery("truncate table defined_bridge").execute();
-        new SelectQuery("truncate table worksheet_config").execute();
+
+        for (String tableName : systemTables) {
+            new SelectQuery("truncate table " + tableName).execute();
+        }
     }
 }

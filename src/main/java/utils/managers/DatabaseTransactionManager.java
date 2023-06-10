@@ -1,9 +1,6 @@
 package utils.managers;
 
-import data.DBConnectionManager;
-import data.Query;
-import data.SelectQuery;
-import data.UpdateQuery;
+import data.*;
 import error.Error;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
@@ -52,6 +49,26 @@ public class DatabaseTransactionManager {
             databaseTransactionManager = new DatabaseTransactionManager();
         }
         return databaseTransactionManager;
+    }
+
+    public synchronized void addProcedure(ProcedureQuery procedureQuery) {
+//        log.info("Select - " + selectQuery.getQuery());
+//        logQueryParams(selectQuery);
+        try {
+            if (inTransaction) {
+                DBConnectionManager.getInstance().getApplicationConnection().getConnection().commit();
+                DBConnectionManager.getInstance().getApplicationConnection().getConnection().setAutoCommit(true);
+//                log.info("Committed and transaction ended");
+                inTransaction = false;
+            }
+            pendingQueryList.clear();
+            pendingQueryList.add(procedureQuery);
+        } catch (SQLNonTransientConnectionException ex) {
+            attemptReconnection();
+            addProcedure(procedureQuery);
+        } catch (SQLException ex) {
+            Error.DATABASE_TRANSACTION.record().create(ex);
+        }
     }
 
     public synchronized void addSelect(SelectQuery selectQuery) {

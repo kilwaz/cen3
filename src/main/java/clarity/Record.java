@@ -3,7 +3,6 @@ package clarity;
 import clarity.definition.Definition;
 import clarity.definition.Definitions;
 import clarity.definition.RecordDefinition;
-import clarity.load.store.Records;
 import data.model.ConfigurableDatabaseObject;
 import error.Error;
 import log.AppLogger;
@@ -127,6 +126,14 @@ public class Record extends ConfigurableDatabaseObject {
 
     public List<Entry> getEntries() {
         return new ArrayList<>(entryHashMap.values());
+    }
+
+    public Boolean has(Definition definition) {
+        if (definition == null) {
+            return false;
+        } else {
+            return entryHashMap.containsKey(definition.getName().toLowerCase());
+        }
     }
 
     public Entry get(String reference) {
