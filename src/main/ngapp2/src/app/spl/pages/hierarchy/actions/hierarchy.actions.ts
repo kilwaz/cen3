@@ -3,7 +3,8 @@ import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
 
 export enum HierarchyActionTypes {
   RequestHierarchy = '[Hierarchy-RequestHierarchy] Action',
-  LoadHierarchy = '[Hierarchy-LoadHierarchy] Action'
+  LoadHierarchy = '[Hierarchy-LoadHierarchy] Action',
+  ClickedHierarchy = '[Hierarchy-ClickedHierarchy] Action'
 }
 
 export class LoadHierarchy implements Action {
@@ -22,6 +23,16 @@ export class RequestHierarchy implements Action {
   }
 }
 
+export class ClickedHierarchy implements Action {
+  readonly type = HierarchyActionTypes.ClickedHierarchy;
+
+  constructor(public payload: {
+    selectedItem: HierarchyListItem
+  }) {
+  }
+}
+
 export type HierarchyActions =
   LoadHierarchy |
-  RequestHierarchy;
+  RequestHierarchy |
+  ClickedHierarchy;

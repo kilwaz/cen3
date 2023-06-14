@@ -245,22 +245,21 @@ BEGIN
         hnc.path_from_top = ilv.new_path_from_top;
 
     --    -- Generate node names and link to employees as required
---    MERGE INTO fr_arup_nodes_calc an
---    USING
---        (select distinct
---             an.node_reference,
---             an.tree_seq_id,
---             ed.person_seq_id,
---             coalesce(ed.preferred_name, ed.first_name) || ' ' || ed.last_name as node_name
---         from fr_arup_nodes_calc an
---                  left join fr_emp_details ed on (an.node_reference = ed.emplid and ed.period_seq_id = 315)
---         where an.parent_reference is not null and an.node_reference <> 'Unallocated') ilv
---    ON(an.node_reference = ilv.node_reference and an.tree_seq_id = ilv.tree_seq_id)
---    WHEN MATCHED THEN UPDATE SET
---                                 an.node_name = initcap(trim(ilv.node_name)),
---                                 an.person_seq_id = ilv.person_seq_id;
---
---
+    MERGE INTO hierarchy_nodes_calc hnc
+    USING
+        (select distinct
+             hnc.node_reference,
+             hnc.tree_uuid,
+             res.uuid,
+             coalesce(res.preferred_name, res.first_name) || ' ' || res.last_name as node_name
+         from hierarchy_nodes_calc hnc
+                  left join rec_employee_static res on (hnc.node_reference = res.employee_number)
+         where hnc.parent_reference is not null and hnc.node_reference <> 'Unallocated') ilv
+    ON(hnc.node_reference = ilv.node_reference and hnc.tree_uuid = ilv.tree_uuid)
+    WHEN MATCHED THEN UPDATE SET
+                                 hnc.node_name = initcap(trim(ilv.node_name)),
+                                 hnc.employee_uuid = ilv.uuid;
+
 --    -- Generate node names for Grade 9 nodes
 --    MERGE INTO fr_arup_nodes_calc an
 --    USING

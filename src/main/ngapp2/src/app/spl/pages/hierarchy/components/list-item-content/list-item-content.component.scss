@@ -1,0 +1,12 @@
+$highlight-color: #FFECEE;
+
+span {
+  &:hover {
+    background-color: $highlight-color;
+    cursor: pointer;
+  }
+}
+
+.selected {
+  background-color: red;
+}

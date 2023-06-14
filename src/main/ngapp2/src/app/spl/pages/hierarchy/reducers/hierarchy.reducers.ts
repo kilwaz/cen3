@@ -4,10 +4,12 @@ import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
 
 export interface HierarchyState {
   hierarchyItems: Array<HierarchyListItem>;
+  selectedItem: HierarchyListItem;
 }
 
 export const initialAuthState: HierarchyState = {
-  hierarchyItems: null
+  hierarchyItems: null,
+  selectedItem: null
 };
 
 export function hierarchyReducer(state = initialAuthState, action: HierarchyActions): HierarchyState {
@@ -16,6 +18,12 @@ export function hierarchyReducer(state = initialAuthState, action: HierarchyActi
       return {
         ...state,
         hierarchyItems: action.payload.hierarchyItems
+      };
+    }
+    case HierarchyActionTypes.ClickedHierarchy: {
+      return {
+        ...state,
+        selectedItem: action.payload.selectedItem
       };
     }
     default:

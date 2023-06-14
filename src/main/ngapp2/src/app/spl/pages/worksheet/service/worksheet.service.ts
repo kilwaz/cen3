@@ -10,9 +10,10 @@ export class WorksheetService {
   constructor(private webSocketService: WebSocketService) {
   }
 
-  worksheetRequest(sortFilter: SortFilter): Observable<Worksheet> {
+  worksheetRequest(sortFilter: SortFilter, worksheetId: string): Observable<Worksheet> {
     const worksheet: Worksheet = new Worksheet();
     worksheet.sortFilter = sortFilter;
+    worksheet.requestID = worksheetId;
 
     return this.webSocketService.sendWithObservable(worksheet) as Observable<Worksheet>;
   }

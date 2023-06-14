@@ -21,6 +21,7 @@ public class DatabaseCollect {
     private String uuid;
     private List<Definition> definitions = null;
     private DatabaseSortFilter databaseSortFilter = null;
+    private String nodeReference;
 
     private DatabaseCollect() {
 
@@ -50,6 +51,11 @@ public class DatabaseCollect {
         return this;
     }
 
+    public DatabaseCollect nodeReference(String nodeReference) {
+        this.nodeReference = nodeReference;
+        return this;
+    }
+
     public DatabaseCollect sortFilter(DatabaseSortFilter databaseSortFilter) {
         this.databaseSortFilter = databaseSortFilter;
         return this;
@@ -70,7 +76,10 @@ public class DatabaseCollect {
 
         // Building the select query string
         var selectQueryBuilder = new StringBuilder();
-        selectQueryBuilder.append("select uuid from ").append(recordDefinition.getTableNameByState(state));
+        selectQueryBuilder.append("select res.uuid from ").append(recordDefinition.getTableNameByState(state)).append(" res");
+        if (nodeReference != null) {
+            selectQueryBuilder.append(" left join hierarchy_nodes hn on (hn.employee_uuid = res.uuid) where hn.parent_reference = '").append(nodeReference).append("' and hn.node_type = 'Employee' ");
+        }
         if (primaryKey != null) {
             selectQueryBuilder.append(" where ").append(recordDefinition.getPrimaryKey().getName()).append(" = '").append(primaryKey).append("'");
         } else if (uuid != null) {
@@ -88,7 +97,7 @@ public class DatabaseCollect {
                     if (orderCounter > 0) {
                         selectQueryBuilder.append(",");
                     }
-                    selectQueryBuilder.append(definition.getName()).append(" ");
+                    selectQueryBuilder.append("res.").append(definition.getName()).append(" ");
                     if ("desc".equalsIgnoreCase(databaseSort.getDirection())) {
                         selectQueryBuilder.append("desc ");
                     }

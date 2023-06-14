@@ -47,6 +47,7 @@ public class Worksheet extends Message {
                 .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))
                 .sortFilter(new DatabaseSortFilter(worksheetData.getSortFilter()))
                 .state(RecordState.STATIC)
+                .nodeReference(worksheetData.getRequestID())
                 .collect();
 
         List<WebRecord> worksheetRecords = new ArrayList<>();

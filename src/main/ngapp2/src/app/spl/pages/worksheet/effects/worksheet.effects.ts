@@ -42,7 +42,7 @@ export class WorksheetEffects {
         this.store.pipe(select(selectWorksheet))
       ),
       map(([, worksheetState]) => {
-        this.worksheetService.worksheetRequest(worksheetState.sortFilter).pipe(
+        this.worksheetService.worksheetRequest(worksheetState.sortFilter, worksheetState.requestID).pipe(
           tap(result => {
             this.store.dispatch(new ProcessWorksheetData({
               requestID: result.requestID,

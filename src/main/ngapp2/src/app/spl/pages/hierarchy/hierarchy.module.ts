@@ -14,11 +14,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {EffectsModule} from '@ngrx/effects';
 import {ListItemComponent} from "./components/list-item/list-item.component";
+import {ListItemContentComponent} from "./components/list-item-content/list-item-content.component";
 
 @NgModule({
   declarations: [
     HierarchyComponent,
-    ListItemComponent
+    ListItemComponent,
+    ListItemContentComponent
   ],
   providers: [
     HierarchyService

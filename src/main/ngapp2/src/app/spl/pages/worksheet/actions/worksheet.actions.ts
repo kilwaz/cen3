@@ -1,9 +1,8 @@
-import {Action, createAction, props} from '@ngrx/store';
+import {Action} from '@ngrx/store';
 import {WebRecord} from "../../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
 import {SortItem} from "../../../wsObjects/sortItem";
 import {SortFilter} from "../../../wsObjects/sortFilter";
-import {WebEntry} from "../../../wsObjects/webEntry";
 
 export enum WorksheetActionTypes {
   RequestWorksheetData = '[Worksheet-RequestWorksheetData] Action',

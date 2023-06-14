@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 // RxJS
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 // Store
 import {select, Store} from '@ngrx/store';
@@ -10,10 +10,10 @@ import {WorksheetState} from './reducers/worksheet.reducers';
 // Selectors
 import {WorksheetService} from './service/worksheet.service';
 import {requestID, worksheetConfigs, worksheetRecords} from "./selectors/worksheet.selectors";
-import {ClearSort, ProcessWorksheetData, RequestWorksheetData, UpdateSortFilter} from "./actions/worksheet.actions";
+import {ClearSort, ProcessWorksheetData, RequestWorksheetData} from "./actions/worksheet.actions";
 import {WebRecord} from "../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../wsObjects/webWorksheetConfig";
-import {SortFilter} from "../../wsObjects/sortFilter";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-worksheet',
@@ -25,13 +25,14 @@ export class WorksheetComponent implements OnInit, OnDestroy {
   worksheetRecords$: Observable<Array<WebRecord>>;
   worksheetConfigs$: Observable<Array<WebWorksheetConfig>>;
 
-  private unsubscribe: Subject<any>;
+  worksheetID: string;
+
+  private unsubscribe: Subscription[] = [];
 
   constructor(
     private worksheetService: WorksheetService,
-    private store: Store<WorksheetState>) {
-
-    this.unsubscribe = new Subject();
+    private store: Store<WorksheetState>,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -39,8 +40,14 @@ export class WorksheetComponent implements OnInit, OnDestroy {
     this.worksheetRecords$ = this.store.pipe(select(worksheetRecords));
     this.worksheetConfigs$ = this.store.pipe(select(worksheetConfigs));
 
+    this.unsubscribe.push(
+      this.route.paramMap.subscribe(params => {
+        this.worksheetID = params.get('worksheetId');
+      })
+    );
+
     this.store.dispatch(new RequestWorksheetData({
-      requestID: '10174'
+      requestID: this.worksheetID
     }));
   }
 
@@ -53,7 +60,7 @@ export class WorksheetComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ClearSort({}));
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.complete();
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

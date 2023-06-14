@@ -1,7 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {Store} from "@ngrx/store";
-import {HierarchyState} from "../../reducers/hierarchy.reducers";
 import {HierarchyListItem} from "../../../../wsObjects/hierarchyListItem";
 
 @Component({
@@ -17,7 +15,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
   // Unsubscribe tracker
   private unsubscribe: Subscription[] = [];
 
-  constructor(private store: Store<HierarchyState>) {
+  constructor() {
 
   }
 
