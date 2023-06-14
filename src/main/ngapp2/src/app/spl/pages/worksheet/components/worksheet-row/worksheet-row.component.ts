@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy, Input} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {WebRecord} from "../../../../wsObjects/webRecord";
+import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
 
 
 @Component({
@@ -10,6 +11,7 @@ import {WebRecord} from "../../../../wsObjects/webRecord";
 })
 export class WorksheetRowComponent implements OnInit, OnDestroy {
   @Input('worksheetRowRecord') worksheetRowRecord: WebRecord;
+  @Input('worksheetConfigs') worksheetConfigs: Array<WebWorksheetConfig>;
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/

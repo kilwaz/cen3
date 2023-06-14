@@ -15,7 +15,7 @@ public class Definition extends JSONWeb {
     private String name = null;
 
     public Definition(clarity.definition.Definition definitionClarity) {
-        this.uuid = definitionClarity.getUuid().toString();
+        this.uuid = definitionClarity.getUuidString();
         this.expression = definitionClarity.getExpression();
         this.name = definitionClarity.getName();
     }

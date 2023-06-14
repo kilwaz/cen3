@@ -51,7 +51,7 @@ public class DatabaseObject {
     }
 
     @JSONMappable("uuid")
-    public UUID getUuid() {
+    public UUID getUuid() { // Careful about using this compared to getUuidString()
         return uuid;
     }
 

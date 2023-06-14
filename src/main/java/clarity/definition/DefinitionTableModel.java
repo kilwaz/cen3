@@ -26,7 +26,7 @@ public class DefinitionTableModel {
     static {
         if (ApplicationParams.getRemoteDatabaseDialect().equals(ApplicationParams.ORACLE_DIALECT)) {
             databaseTypeMappings.put(Definition.DEFINITION_TYPE_UNDEFINED, "varchar2(200)");
-            databaseTypeMappings.put(Definition.DEFINITION_TYPE_NUMBER, "int");
+            databaseTypeMappings.put(Definition.DEFINITION_TYPE_NUMBER, "number");
             databaseTypeMappings.put(Definition.DEFINITION_TYPE_STRING, "varchar2(200)");
             databaseTypeMappings.put(Definition.DEFINITION_TYPE_DURATION, "varchar2(200)");
         } else { // MySQL
@@ -166,9 +166,9 @@ public class DefinitionTableModel {
             if (databaseTableExists) {
                 for (String definedModelKey : definedModelHashMap.keySet()) {
                     DatabaseColumnModel databaseColumn = databaseColumnModelHashMap.get(definedModelKey).getModelByState(state);
-                    ;
+
                     DatabaseColumnModel definedColumn = definedModelHashMap.get(definedModelKey).getModelByState(state);
-                    ;
+
 
                     if (databaseColumn == null && definedColumn != null) {
                         queries.add(new SelectQuery("alter table " + tableName + " add " + definedModelKey + " " + definedColumn.getColumnType()));

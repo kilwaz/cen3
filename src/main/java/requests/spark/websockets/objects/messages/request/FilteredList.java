@@ -38,7 +38,9 @@ public class FilteredList extends Message {
 
         List<String> itemList = new ArrayList<>();
         for (var resultRow : selectResult.getResults()) {
+
             String listItem = resultRow.getString(definition.getName());
+
             itemList.add(listItem);
         }
 

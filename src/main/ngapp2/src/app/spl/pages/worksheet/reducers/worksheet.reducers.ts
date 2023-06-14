@@ -76,7 +76,14 @@ export function worksheetReducer(state = initialAuthState, action: WorksheetActi
     case WorksheetActionTypes.UpdateSortFilter: {
       return {
         ...state,
-        sortFilter: action.payload.sortFilter,
+        sortFilter: action.payload.sortFilter
+      };
+    }
+    case WorksheetActionTypes.ApplyUpdate: {
+      return {
+        ...state,
+        worksheetRecords: state.worksheetRecords.map(worksheetRecord => worksheetRecord.uuid === action.payload.recordUUID ?
+          action.payload.webRecord : worksheetRecord)
       };
     }
     default:

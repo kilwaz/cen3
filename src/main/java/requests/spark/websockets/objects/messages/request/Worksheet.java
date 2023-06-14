@@ -52,7 +52,7 @@ public class Worksheet extends Message {
         List<WebRecord> worksheetRecords = new ArrayList<>();
         for (Record record : empRecords) {
             WebRecord webRecord = new WebRecord();
-            webRecord.setUuid(record.getUuid().toString());
+            webRecord.setUuid(record.getUuidString());
 
             Entry[] entriesToShow = new Entry[includeColumnCompareReference.size()];
             for (Entry entry : record.getEntries()) {

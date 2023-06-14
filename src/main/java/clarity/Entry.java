@@ -11,7 +11,7 @@ public class Entry {
 
     private Definition definition;
     private EntryValue entryValue;
-    private Boolean isFresh = false;
+    private Boolean isSaved = false;
     private Record record;
 
     public static Entry create(String reference, String value) {
@@ -26,41 +26,29 @@ public class Entry {
         this.definition = Definitions.getInstance().findDefinition(reference);
         this.entryValue = new EntryValue(value);
         this.record = record;
-        infer();
     }
 
     public Entry(Record record, Definition definition) {
         this.definition = definition;
         this.entryValue = new EntryValue();
         this.record = record;
-        infer();
     }
 
-    private void infer() {
-        if (definition != null && definition.isCalculated()) {
-            Infer.me(this);
-        } else {
-            isFresh = true;
-        }
+    public void markAsChanged() {
+        isSaved = false;
     }
 
-    public void setStale() {
-        isFresh = false;
-    }
-
-    public void setFresh() {
-        isFresh = true;
+    public void markAsSaved() {
+        isSaved = true;
     }
 
     public Entry record(Record record) {
         this.record = record;
-        infer();
         return this;
     }
 
     public Entry set(EntryValue entryValue) {
         this.entryValue = entryValue;
-        infer();
         return this;
     }
 
@@ -72,8 +60,8 @@ public class Entry {
         return definition.getName();
     }
 
-    public Boolean isFresh() {
-        return isFresh;
+    public Boolean isSaved() {
+        return isSaved;
     }
 
     public Definition getDefinition() {

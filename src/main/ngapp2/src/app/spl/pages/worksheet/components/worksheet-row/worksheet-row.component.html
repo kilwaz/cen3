@@ -1,1 +1,1 @@
-<td class="center-align" worksheet-cell *ngFor="let entry of worksheetRowRecord.entries" [worksheetCellEntry]="entry"></td>
+<td worksheet-cell *ngFor="let entry of worksheetRowRecord.entries; let i = index" [worksheetCellEntry]="entry" [worksheetConfig]="worksheetConfigs[i]"></td>

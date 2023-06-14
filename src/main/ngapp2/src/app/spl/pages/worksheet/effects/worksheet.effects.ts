@@ -8,22 +8,31 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../../../core/reducers';
 import {WorksheetService} from '../service/worksheet.service';
 import {
-  ToggleSortFilterPopup,
+  AddSortItem,
+  ApplyUpdate,
+  ClearSort,
+  ProcessFilteredListData,
   ProcessWorksheetData,
+  RemoveSortItem,
   RequestWorksheetData,
-  WorksheetActionTypes, ProcessFilteredListData, AddSortItem, ClearSort, UpdateSortFilter, RemoveSortItem
+  ToggleSortFilterPopup,
+  Update,
+  UpdateSortFilter,
+  WorksheetActionTypes
 } from "../actions/worksheet.actions";
 import {selectWorksheet, sortFilter} from "../selectors/worksheet.selectors";
 import {map, tap} from "rxjs/operators";
 import {SortFilterService} from "../service/sort-filter.service";
 import {SortFilter} from "../../../wsObjects/sortFilter";
+import {UpdateService} from "../service/update.service";
 
 @Injectable()
 export class WorksheetEffects {
   constructor(private actions$: Actions,
               private store: Store<AppState>,
               private worksheetService: WorksheetService,
-              private sortFilterService: SortFilterService) {
+              private sortFilterService: SortFilterService,
+              private updateService: UpdateService) {
   }
 
   requestWorksheetData$ = createEffect(() => {
@@ -32,7 +41,7 @@ export class WorksheetEffects {
       concatLatestFrom(() =>
         this.store.pipe(select(selectWorksheet))
       ),
-      map(([,worksheetState]) => {
+      map(([, worksheetState]) => {
         this.worksheetService.worksheetRequest(worksheetState.sortFilter).pipe(
           tap(result => {
             this.store.dispatch(new ProcessWorksheetData({
@@ -107,6 +116,26 @@ export class WorksheetEffects {
         this.store.dispatch(new UpdateSortFilter({
           sortFilter: new SortFilter()
         }));
+      })
+    );
+  }, {dispatch: false});
+
+  update$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<Update>(WorksheetActionTypes.Update),
+      concatLatestFrom(() =>
+        this.store.pipe(select(sortFilter))
+      ),
+      tap(([update]) => {
+        let payload = update.payload;
+        this.updateService.update(payload.value, payload.definitionName, payload.recordUUID, payload.updateSource).pipe(
+          tap(result => {
+            this.store.dispatch(new ApplyUpdate({
+              webRecord: result.webRecord,
+              recordUUID: result.recordUUID
+            }));
+          }),
+        ).subscribe();
       })
     );
   }, {dispatch: false});

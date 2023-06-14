@@ -11,6 +11,9 @@ public class WebWorksheetConfig extends JSONWeb {
     @WSDataReference(WSData.WORKSHEET_CONFIG_DEFINITION)
     private String definitionName = null;
 
+    @WSDataReference(WSData.WORKSHEET_CONFIG_DEFINITION)
+    private String columnType = null;
+
     public WebWorksheetConfig() {
 
     }
@@ -29,5 +32,13 @@ public class WebWorksheetConfig extends JSONWeb {
 
     public void setDefinitionName(String definitionName) {
         this.definitionName = definitionName;
+    }
+
+    public String getColumnType() {
+        return columnType;
+    }
+
+    public void setColumnType(String columnType) {
+        this.columnType = columnType;
     }
 }

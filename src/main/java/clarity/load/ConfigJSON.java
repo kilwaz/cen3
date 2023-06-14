@@ -6,7 +6,9 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 public class ConfigJSON implements Loader {
@@ -40,7 +42,17 @@ public class ConfigJSON implements Loader {
                 JSONArray definitions = jsonObject.getJSONArray("definitions");
                 for (int i = 0; i < definitions.length(); i++) {
                     JSONObject definition = definitions.getJSONObject(i);
-                    Definition newDefinition = Definition.define(definition.getString("name"));
+
+                    String type = definition.getString("type");
+                    Integer intType = Definition.DEFINITION_TYPE_UNDEFINED;
+                    if ("Number".equalsIgnoreCase(type)) {
+                        intType = Definition.DEFINITION_TYPE_NUMBER;
+                    } else if ("Text".equalsIgnoreCase(type)) {
+                        intType = Definition.DEFINITION_TYPE_STRING;
+                    }
+
+                    Definition newDefinition = Definition.define(definition.getString("name"), intType);
+
                     if (definition.has("expression")) {
                         newDefinition.expression(definition.getString("expression"));
                     }
@@ -67,6 +79,7 @@ public class ConfigJSON implements Loader {
 
                     WorksheetConfig worksheetConfig = WorksheetConfig.create(WorksheetConfig.class);
                     worksheetConfig.columnTitle(worksheetConfigJson.getString("column_title"));
+                    worksheetConfig.columnType(worksheetConfigJson.getString("column_type"));
                     worksheetConfig.columnOrder(worksheetConfigJson.getInt("column_order"));
                     worksheetConfig.definition(Definitions.getInstance().findDefinition(worksheetConfigJson.getString("definition")));
                     worksheetConfig.save();

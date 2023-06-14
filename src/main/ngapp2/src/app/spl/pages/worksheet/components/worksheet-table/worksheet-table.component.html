@@ -2,7 +2,7 @@
   <table id="table" (click)="closeSortFilter()">
     <thead worksheet-header [worksheetConfigs]="worksheetConfigs"></thead>
     <tbody>
-      <tr worksheet-row *ngFor="let worksheetRowRecord of worksheetRecords" [worksheetRowRecord]="worksheetRowRecord"></tr>
+      <tr worksheet-row *ngFor="let worksheetRowRecord of worksheetRecords" [worksheetRowRecord]="worksheetRowRecord" [worksheetConfigs]="worksheetConfigs"></tr>
     </tbody>
   </table>
 </div>

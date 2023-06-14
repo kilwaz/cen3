@@ -97,6 +97,7 @@ public class DatabaseAction<DBObject extends DatabaseObject, DBLink extends Data
                         Entry entry = record.get(databaseColumnModel.getModelByState(state).getColumnName());
                         if (entry != null) {
                             updateQuery.addParameter(entry.get().getValue());
+                            entry.markAsSaved();
                         } else {
                             updateQuery.addParameter(null);
                         }

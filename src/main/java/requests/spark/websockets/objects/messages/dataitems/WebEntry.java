@@ -6,9 +6,6 @@ import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
 public class WebEntry extends JSONWeb {
-    @WSDataReference(WSData.ENTRY_UUID)
-    private String uuid = null;
-
     @WSDataReference(WSData.ENTRY_VALUE)
     private String value = null;
 
@@ -19,20 +16,11 @@ public class WebEntry extends JSONWeb {
     private String name = null;
 
     public WebEntry(Entry entryClarity) {
-        this.uuid = entryClarity.getUuid().toString();
         if(entryClarity.get().getValue() != null){
             this.value = entryClarity.get().getValue().toString();
         }
         this.name = entryClarity.getReference();
-        this.recordUUID = entryClarity.getRecord().getUuid().toString();
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+        this.recordUUID = entryClarity.getRecord().getUuidString();
     }
 
     public String getValue() {

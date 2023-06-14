@@ -5,6 +5,7 @@ import clarity.definition.Definition;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Formula;
 import clarity.load.store.expression.Node;
+import clarity.load.store.expression.values.Number;
 import clarity.load.store.expression.values.Reference;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +36,11 @@ public class InstancedFormula {
                 node.instancedFormula(instancedFormula);
                 node.expression(solvedExpression);
             } else {
-                node.expression(record.get(definition.getName()).get().toExpression());
+                if (record.get(definition.getName()) != null) {
+                    node.expression(record.get(definition.getName()).get().toExpression());
+                } else { // If node cannot be found as it is probably null
+                    node.expression(new Number(0));
+                }
             }
         }
 

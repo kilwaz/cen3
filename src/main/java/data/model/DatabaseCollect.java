@@ -18,6 +18,7 @@ public class DatabaseCollect {
     private RecordDefinition recordDefinition;
     private int state;
     private String primaryKey; // Confusing name?
+    private String uuid;
     private List<Definition> definitions = null;
     private DatabaseSortFilter databaseSortFilter = null;
 
@@ -44,6 +45,11 @@ public class DatabaseCollect {
         return this;
     }
 
+    public DatabaseCollect uuid(String uuid) {
+        this.uuid = uuid;
+        return this;
+    }
+
     public DatabaseCollect sortFilter(DatabaseSortFilter databaseSortFilter) {
         this.databaseSortFilter = databaseSortFilter;
         return this;
@@ -67,6 +73,8 @@ public class DatabaseCollect {
         selectQueryBuilder.append("select uuid from ").append(recordDefinition.getTableNameByState(state));
         if (primaryKey != null) {
             selectQueryBuilder.append(" where ").append(recordDefinition.getPrimaryKey().getName()).append(" = '").append(primaryKey).append("'");
+        } else if (uuid != null) {
+            selectQueryBuilder.append(" where uuid = '").append(uuid).append("'");
         }
 
         // Apply any sorting
@@ -77,7 +85,7 @@ public class DatabaseCollect {
                 int orderCounter = 0;
                 for (DatabaseSort databaseSort : databaseSorts) {
                     Definition definition = recordDefinition.getDefinition(databaseSort.getDefinition());
-                    if(orderCounter > 0){
+                    if (orderCounter > 0) {
                         selectQueryBuilder.append(",");
                     }
                     selectQueryBuilder.append(definition.getName()).append(" ");

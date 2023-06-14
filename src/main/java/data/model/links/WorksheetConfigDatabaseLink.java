@@ -18,7 +18,7 @@ public class WorksheetConfigDatabaseLink extends DatabaseLink {
         link("uuid", method("getUuidString"), method("setUuid", UUID.class)); // 1
         link("column_title", method("getColumnTitle"), method("columnTitle", String.class)); // 2
         link("definition_id", method("getDefinitionUUID"), method("definition", Definition.class)); // 3
-        link("column_type", method("getColumnTitle"), method("columnType", String.class)); // 4
+        link("column_type", method("getColumnType"), method("columnType", String.class)); // 4
         link("data_type", method("getDataType"), method("dataType", String.class)); // 5
         link("column_order", method("getColumnOrder"), method("columnOrder", Integer.class)); // 6
         link("text_align", method("getTextAlign"), method("textAlign", String.class)); // 7

@@ -23,7 +23,7 @@ public class SelectResultRow {
     public Boolean hasColumn(String colName) {
         return rowValues.get(colName.toUpperCase()) != null;
     }
-    
+
     public void addColumn(String colName, Object colValue) {
         rowValues.put(colName.toUpperCase(), colValue);
     }
@@ -45,6 +45,8 @@ public class SelectResultRow {
                 return (Boolean) value ? 1 : 0;
             } else if (value instanceof Integer) {
                 return (Integer) value;
+            } else if (value instanceof BigDecimal) {
+                return ((BigDecimal) value).intValue();
             }
         }
 
@@ -56,7 +58,12 @@ public class SelectResultRow {
     }
 
     public String getString(String colName) {
-        return (String) rowValues.get(colName.toUpperCase());
+        Object value = rowValues.get(colName.toUpperCase());
+        if (value != null) {
+            return value.toString();
+        } else {
+            return null;
+        }
     }
 
     public Double getDouble(String colName) {

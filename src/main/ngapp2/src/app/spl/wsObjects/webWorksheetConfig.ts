@@ -8,6 +8,7 @@ DO NOT MANUALLY CHANGE THIS FILE
 export class WebWorksheetConfig {
 	private _name: string;
 	private _definitionName: string;
+	private _columnType: string;
 	
 	constructor() {
 	}
@@ -15,6 +16,7 @@ export class WebWorksheetConfig {
 	wsFill(webSocketReference: any) : WebWorksheetConfig {
 		this._name = webSocketReference.name != undefined ? webSocketReference.name : this._name;
 		this._definitionName = webSocketReference.definitionName != undefined ? webSocketReference.definitionName : this._definitionName;
+		this._columnType = webSocketReference.columnType != undefined ? webSocketReference.columnType : this._columnType;
 		return this;
 	}
 
@@ -26,12 +28,20 @@ export class WebWorksheetConfig {
 		return this._definitionName;
 	}
 	
+	get columnType(): string {
+		return this._columnType;
+	}
+	
 	set name(value: string) {
 		this._name = value;
 	}
 	
 	set definitionName(value: string) {
 		this._definitionName = value;
+	}
+	
+	set columnType(value: string) {
+		this._columnType = value;
 	}
 	
 }

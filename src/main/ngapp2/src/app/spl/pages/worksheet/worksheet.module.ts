@@ -22,6 +22,7 @@ import {WorksheetSortFilterComponent} from "./components/worksheet-sort-filter/w
 import {WorksheetSummaryComponent} from "./components/worksheet-summary/worksheet-summary.component";
 import {ClickStopPropagation} from "./directives/click-stop-propagation";
 import {SortFilterService} from "./service/sort-filter.service";
+import {UpdateService} from "./service/update.service";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {SortFilterService} from "./service/sort-filter.service";
   ],
   providers: [
     WorksheetService,
-    SortFilterService
+    SortFilterService,
+    UpdateService
   ],
   imports: [
     CommonModule,

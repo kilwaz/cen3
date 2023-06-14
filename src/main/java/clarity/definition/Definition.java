@@ -2,7 +2,11 @@ package clarity.definition;
 
 import clarity.load.store.expression.Formula;
 import data.model.DatabaseObject;
+import log.AppLogger;
+import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Definition extends DatabaseObject {
@@ -15,6 +19,9 @@ public class Definition extends DatabaseObject {
     private Formula formula;
     private Boolean calculated = false;
     private Integer definitionType = DEFINITION_TYPE_UNDEFINED;
+    private List<Definition> dependants = new ArrayList<>();
+
+    private static Logger log = AppLogger.logger();
 
     public Definition() {
         super();
@@ -28,12 +35,13 @@ public class Definition extends DatabaseObject {
         this.definitionType = definitionType;
     }
 
-    public static Definition define(String name) {
+    public static Definition define(String name, Integer type) {
         Definition definition;
         Definitions definitions = Definitions.getInstance();
         if (definitions.findDefinition(name) == null) {
             definition = Definition.create(Definition.class);
             definition.name(name);
+            definition.definitionType(type);
             definitions.addDefinition(definition);
         } else { // If definition already exists, get the already defined version
             definition = definitions.findDefinition(name);
@@ -107,6 +115,18 @@ public class Definition extends DatabaseObject {
 
     public int getDefinitionType() {
         return definitionType;
+    }
+
+    public void clearDependants() {
+        dependants.clear();
+    }
+
+    public void addDependant(Definition definition) {
+        dependants.add(definition);
+    }
+
+    public List<Definition> getDependants() {
+        return dependants;
     }
 
     public Definition definitionType(Integer definitionType) {

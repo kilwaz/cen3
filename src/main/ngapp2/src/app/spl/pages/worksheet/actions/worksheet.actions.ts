@@ -1,8 +1,9 @@
-import {Action} from '@ngrx/store';
+import {Action, createAction, props} from '@ngrx/store';
 import {WebRecord} from "../../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
 import {SortItem} from "../../../wsObjects/sortItem";
 import {SortFilter} from "../../../wsObjects/sortFilter";
+import {WebEntry} from "../../../wsObjects/webEntry";
 
 export enum WorksheetActionTypes {
   RequestWorksheetData = '[Worksheet-RequestWorksheetData] Action',
@@ -16,7 +17,10 @@ export enum WorksheetActionTypes {
   AddSortItem = '[Worksheet-AddSortItem] Action',
   RemoveSortItem = '[Worksheet-RemoveSortItem] Action',
   ClearSort = '[Worksheet-ClearSort] Action',
-  UpdateSortFilter = '[Worksheet-UpdateSortFilter] Action'
+  UpdateSortFilter = '[Worksheet-UpdateSortFilter] Action',
+
+  Update = '[Worksheet-Update] Action',
+  ApplyUpdate = '[Worksheet-ResolveUpdate] ApplyUpdate'
 }
 
 export class RequestWorksheetData implements Action {
@@ -110,6 +114,29 @@ export class UpdateSortFilter implements Action {
   }
 }
 
+export class Update implements Action {
+  readonly type = WorksheetActionTypes.Update;
+
+  constructor(public payload: {
+    value: string,
+    recordUUID: string,
+    definitionName: string,
+    updateSource: string
+  }) {
+  }
+}
+
+export class ApplyUpdate implements Action {
+  readonly type = WorksheetActionTypes.ApplyUpdate;
+
+  constructor(public payload: {
+    recordUUID: string,
+    webRecord: WebRecord
+  }) {
+  }
+}
+
+
 export type WorksheetActions =
   RequestWorksheetData |
   ProcessWorksheetData |
@@ -122,4 +149,7 @@ export type WorksheetActions =
   AddSortItem |
   RemoveSortItem |
   ClearSort |
-  UpdateSortFilter;
+  UpdateSortFilter |
+
+  Update |
+  ApplyUpdate;

@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Definitions {
     private static Logger log = AppLogger.logger();
@@ -70,6 +72,26 @@ public class Definitions {
                 recordDefinition.addChildRecordDefinition(recordDefinitionChild);
             } else {
                 log.info("Searching for record '" + recordDefinitionChild.getRecordDefinitionParent().getName() + "' but could not be found");
+            }
+        }
+
+        // Find dependant definitions within each expression
+        for (RecordDefinition recordDefinition : recordDefinitions) {
+            for (Definition definition : recordDefinition.getDefinitions()) { // Clear all dependants first
+                definition.clearDependants();
+            }
+            for (Definition definition : recordDefinition.getDefinitions()) { // Find all dependants and add them
+                if (definition.isCalculated()) {
+                    String str = definition.getFormula().getStrExpression();
+                    Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+                    Matcher matcher = pattern.matcher(str);
+                    while (matcher.find()) {
+                        Definition matchedDef = recordDefinition.getDefinition(matcher.group(1));
+                        if (matchedDef != null) {
+                            matchedDef.addDependant(definition);
+                        }
+                    }
+                }
             }
         }
     }

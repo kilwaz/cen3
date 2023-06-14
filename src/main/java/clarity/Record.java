@@ -155,4 +155,16 @@ public class Record extends ConfigurableDatabaseObject {
     public UUID getUuid() {
         return uuid;
     }
+
+    public List<Entry> getUnsavedEntries() {
+        List<Entry> entries = new ArrayList<>(entryHashMap.values());
+        List<Entry> unsavedEntries = new ArrayList<>();
+        for (Entry entry : entries) {
+            if (!entry.isSaved()) {
+                unsavedEntries.add(entry);
+            }
+        }
+        
+        return unsavedEntries;
+    }
 }
