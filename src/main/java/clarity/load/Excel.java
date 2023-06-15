@@ -38,6 +38,7 @@ public class Excel implements Loader {
 
                 Template template = new Template();
                 LoadedRecord headerRecord = new LoadedRecord();
+                Integer count = 0;
                 for (Row currentRow : datatypeSheet) {
                     if (currentRow.getRowNum() == 0) { // Construct the header row first to get all the column names
                         for (Cell currentCell : currentRow) {
@@ -60,6 +61,10 @@ public class Excel implements Loader {
                         }
 
                         template.integrate(dataRecord);
+                    }
+                    count++;
+                    if ((count & 10) == 0) {
+                        log.info(count);
                     }
                 }
 

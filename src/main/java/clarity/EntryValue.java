@@ -43,7 +43,9 @@ public class EntryValue {
     }
 
     public Expression toExpression() {
-        if (value instanceof Double) {
+        if (value == null) {
+            return new Number(0d); //  ??? Might need a null value object to handle this
+        } else if (value instanceof Double) {
             return new Number((Double) value);
         } else if (value instanceof Integer) {
             return new Number((Integer) value);

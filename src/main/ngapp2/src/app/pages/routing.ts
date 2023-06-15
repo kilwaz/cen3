@@ -22,7 +22,7 @@ const Routing: Routes = [
       import('../spl/pages/worksheet/worksheet.module').then((m) => m.WorksheetModule),
   },
   {
-    path: 'worksheet/:worksheetId',
+    path: 'worksheet/:worksheetId/:worksheetName',
     loadChildren: () =>
       import('../spl/pages/worksheet/worksheet.module').then((m) => m.WorksheetModule),
   },

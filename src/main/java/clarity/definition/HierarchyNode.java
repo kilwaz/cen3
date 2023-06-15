@@ -88,7 +88,7 @@ public class HierarchyNode extends DatabaseObject {
     }
 
     public HierarchyListItem getAsHierarchyListItem() {
-        HierarchyListItem hierarchyListItem = new HierarchyListItem(this.nodeReference);
+        HierarchyListItem hierarchyListItem = new HierarchyListItem(this.nodeName, this.nodeReference);
 
         if (this.children.size() > 0) {
             JSONArray children = new JSONArray();

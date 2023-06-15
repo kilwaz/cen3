@@ -45,6 +45,6 @@ export class ListItemContentComponent implements OnInit, OnDestroy {
   }
 
   worksheetClicked(): void {
-     this.router.navigate(['/worksheet/' + this.hierarchyListItem.title]);
+     this.router.navigate(['/worksheet/' + this.hierarchyListItem.nodeReference + '/' + this.hierarchyListItem.title]);
   }
 }
