@@ -3,6 +3,7 @@ package requests.spark.websockets.objects.messages.dataobjects;
 import requests.spark.websockets.objects.messages.dataitems.SortFilter;
 import requests.spark.websockets.objects.messages.dataitems.WebRecord;
 import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
+import requests.spark.websockets.objects.messages.dataitems.WorksheetStatus;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
@@ -15,7 +16,6 @@ public class WorksheetData extends WebSocketData {
     @WSDataOutgoing @WSDataIncoming
     private String requestID = null;
 
-    // OUTGOING
     @WSDataOutgoing
     @WSDataJSONArrayClass(WebRecord.class)
     @WSDataTypeScriptClass(WebRecord.class)
@@ -29,6 +29,10 @@ public class WorksheetData extends WebSocketData {
     @WSDataOutgoing @WSDataIncoming
     @WSDataTypeScriptClass(SortFilter.class)
     private SortFilter sortFilter = null;
+
+    @WSDataOutgoing @WSDataIncoming
+    @WSDataTypeScriptClass(WorksheetStatus.class)
+    private WorksheetStatus worksheetStatus = null;
 
     public String getRequestID() {
         return requestID;
@@ -60,5 +64,13 @@ public class WorksheetData extends WebSocketData {
 
     public void setSortFilter(SortFilter sortFilter) {
         this.sortFilter = sortFilter;
+    }
+
+    public WorksheetStatus getWorksheetStatus() {
+        return worksheetStatus;
+    }
+
+    public void setWorksheetStatus(WorksheetStatus worksheetStatus) {
+        this.worksheetStatus = worksheetStatus;
     }
 }

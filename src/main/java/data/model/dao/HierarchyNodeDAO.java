@@ -44,4 +44,16 @@ public class HierarchyNodeDAO {
 
         return hierarchyNode;
     }
+
+    public Integer getHeadCount(HierarchyNode hierarchyNode) {
+        SelectResult selectResult = (SelectResult) new SelectQuery("select count(uuid) as headcount from hierarchy_nodes where parent_reference = ? and node_type = 'Employee'")
+                .addParameter(hierarchyNode.getNodeReference()) // 1
+                .execute();
+
+        if (selectResult.hasNoResults() || selectResult.hasException()) {
+            return 0;
+        }
+
+        return selectResult.getResults().get(0).getInt("headcount");
+    }
 }

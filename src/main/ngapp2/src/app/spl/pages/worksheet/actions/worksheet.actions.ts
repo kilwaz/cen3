@@ -3,6 +3,7 @@ import {WebRecord} from "../../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
 import {SortItem} from "../../../wsObjects/sortItem";
 import {SortFilter} from "../../../wsObjects/sortFilter";
+import {WorksheetStatus} from "../../../wsObjects/worksheetStatus";
 
 export enum WorksheetActionTypes {
   RequestWorksheetData = '[Worksheet-RequestWorksheetData] Action',
@@ -19,7 +20,10 @@ export enum WorksheetActionTypes {
   UpdateSortFilter = '[Worksheet-UpdateSortFilter] Action',
 
   Update = '[Worksheet-Update] Action',
-  ApplyUpdate = '[Worksheet-ResolveUpdate] ApplyUpdate'
+  ApplyUpdate = '[Worksheet-ApplyUpdate] Action',
+
+  PaginationPageSizeChange = '[Worksheet-PaginationPageSizeChange] Action',
+  PaginationPageNumberChange = '[Worksheet-PaginationPageNumberChange] Action'
 }
 
 export class RequestWorksheetData implements Action {
@@ -37,7 +41,8 @@ export class ProcessWorksheetData implements Action {
   constructor(public payload: {
     requestID: string,
     worksheetRecords: Array<WebRecord>,
-    worksheetConfigs: Array<WebWorksheetConfig>
+    worksheetConfigs: Array<WebWorksheetConfig>,
+    worksheetStatus: WorksheetStatus
   }) {
   }
 }
@@ -135,6 +140,23 @@ export class ApplyUpdate implements Action {
   }
 }
 
+export class PaginationPageSizeChange implements Action {
+  readonly type = WorksheetActionTypes.PaginationPageSizeChange;
+
+  constructor(public payload: {
+    pageSize: number
+  }) {
+  }
+}
+
+export class PaginationPageNumberChange implements Action {
+  readonly type = WorksheetActionTypes.PaginationPageNumberChange;
+
+  constructor(public payload: {
+    currentPageNumber: number
+  }) {
+  }
+}
 
 export type WorksheetActions =
   RequestWorksheetData |
@@ -151,4 +173,7 @@ export type WorksheetActions =
   UpdateSortFilter |
 
   Update |
-  ApplyUpdate;
+  ApplyUpdate |
+
+  PaginationPageSizeChange |
+  PaginationPageNumberChange;

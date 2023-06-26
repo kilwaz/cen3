@@ -3,6 +3,7 @@ import {WorksheetActions, WorksheetActionTypes} from '../actions/worksheet.actio
 import {WebRecord} from "../../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
 import {SortFilter} from "../../../wsObjects/sortFilter";
+import {WorksheetStatus} from "../../../wsObjects/worksheetStatus";
 
 export interface WorksheetState {
   requestID: string;
@@ -15,7 +16,8 @@ export interface WorksheetState {
   sortFilterPopupY: any,
   filteredList: Array<string>,
 
-  sortFilter: SortFilter
+  sortFilter: SortFilter,
+  worksheetStatus: WorksheetStatus
 }
 
 export const initialAuthState: WorksheetState = {
@@ -29,7 +31,8 @@ export const initialAuthState: WorksheetState = {
   sortFilterPopupY: 0,
   filteredList: undefined,
 
-  sortFilter: new SortFilter()
+  sortFilter: new SortFilter(),
+  worksheetStatus: new WorksheetStatus()
 };
 
 export function worksheetReducer(state = initialAuthState, action: WorksheetActions): WorksheetState {
@@ -45,7 +48,8 @@ export function worksheetReducer(state = initialAuthState, action: WorksheetActi
         ...state,
         requestID: action.payload.requestID,
         worksheetRecords: action.payload.worksheetRecords,
-        worksheetConfigs: action.payload.worksheetConfigs
+        worksheetConfigs: action.payload.worksheetConfigs,
+        worksheetStatus: new WorksheetStatus().wsFill(action.payload.worksheetStatus)
       };
     }
     case WorksheetActionTypes.ProcessFilteredListData: {
@@ -85,6 +89,24 @@ export function worksheetReducer(state = initialAuthState, action: WorksheetActi
         worksheetRecords: state.worksheetRecords.map(worksheetRecord => worksheetRecord.uuid === action.payload.recordUUID ?
           action.payload.webRecord : worksheetRecord)
       };
+    }
+    case WorksheetActionTypes.PaginationPageSizeChange: {
+      let worksheetStatus: WorksheetStatus = new WorksheetStatus().wsFill(state.worksheetStatus);
+      worksheetStatus.pageSize = action.payload.pageSize;
+
+      return {
+        ...state,
+        worksheetStatus: worksheetStatus
+      }
+    }
+    case WorksheetActionTypes.PaginationPageNumberChange: {
+      let worksheetStatus: WorksheetStatus = new WorksheetStatus().wsFill(state.worksheetStatus);
+      worksheetStatus.currentPageNumber = action.payload.currentPageNumber;
+
+      return {
+        ...state,
+        worksheetStatus: worksheetStatus
+      }
     }
     default:
       return state;

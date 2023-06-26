@@ -23,6 +23,7 @@ import {WorksheetSummaryComponent} from "./components/worksheet-summary/workshee
 import {ClickStopPropagation} from "./directives/click-stop-propagation";
 import {SortFilterService} from "./service/sort-filter.service";
 import {UpdateService} from "./service/update.service";
+import {WorksheetPaginationComponent} from "./components/worksheet-pagination/worksheet-pagination.component";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {UpdateService} from "./service/update.service";
     WorksheetHeaderCellComponent,
     WorksheetSortFilterComponent,
     WorksheetSummaryComponent,
+    WorksheetPaginationComponent,
     ClickStopPropagation
   ],
   providers: [

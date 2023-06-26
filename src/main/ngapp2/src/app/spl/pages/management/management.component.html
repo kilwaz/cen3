@@ -1,0 +1,14 @@
+<div class="card card-custom gutter-b">
+  <div>
+    Total Memory: {{totalMemory$ | async}}
+  </div>
+  <div>
+    Free Memory: {{freeMemory$ | async}}
+  </div>
+  <div>
+    Used Memory: {{(totalMemory$ | async) - (freeMemory$ | async)}}
+  </div>
+  <div>
+    Max Memory: {{maxMemory$ | async}}
+  </div>
+</div>

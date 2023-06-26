@@ -8,12 +8,14 @@ import {Message} from "./message";
 import {WebRecord} from "../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../wsObjects/webWorksheetConfig";
 import {SortFilter} from "../wsObjects/sortFilter";
+import {WorksheetStatus} from "../wsObjects/worksheetStatus";
 
 export class Worksheet extends Message {
 	private _requestID: string;
 	private _worksheetRecords: Array<WebRecord> = [];
 	private _worksheetConfig: Array<WebWorksheetConfig> = [];
 	private _sortFilter: SortFilter;
+	private _worksheetStatus: WorksheetStatus;
 	
 	constructor() {
 		super();
@@ -25,6 +27,7 @@ export class Worksheet extends Message {
 		this._worksheetRecords = msgRaw.worksheetRecords;
 		this._worksheetConfig = msgRaw.worksheetConfig;
 		this._sortFilter = msgRaw.sortFilter;
+		this._worksheetStatus = msgRaw.worksheetStatus;
 	}
 
 	get requestID(): string {
@@ -43,6 +46,10 @@ export class Worksheet extends Message {
 		return this._sortFilter;
 	}
 	
+	get worksheetStatus(): WorksheetStatus {
+		return this._worksheetStatus;
+	}
+	
 	set requestID(value: string) {
 		this._requestID = value;
 	}
@@ -57,6 +64,10 @@ export class Worksheet extends Message {
 	
 	set sortFilter(value: SortFilter) {
 		this._sortFilter = value;
+	}
+	
+	set worksheetStatus(value: WorksheetStatus) {
+		this._worksheetStatus = value;
 	}
 	
 }

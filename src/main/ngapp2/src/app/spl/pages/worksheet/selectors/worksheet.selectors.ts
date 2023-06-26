@@ -19,6 +19,8 @@ export const filteredList = createSelector(selectWorksheet, worksheet => workshe
 
 export const sortFilter = createSelector(selectWorksheet, worksheet => worksheet?.sortFilter);
 
+export const worksheetStatus = createSelector(selectWorksheet, worksheet => worksheet?.worksheetStatus);
+
 export const isActiveSort = (sortName: string) =>
   createSelector(
     sortFilter,

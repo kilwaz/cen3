@@ -3,10 +3,12 @@ package requests.spark.websockets.objects.messages.request;
 import clarity.Entry;
 import clarity.Record;
 import clarity.definition.Definitions;
+import clarity.definition.HierarchyNode;
 import clarity.definition.RecordState;
 import clarity.definition.WorksheetConfig;
 import data.model.DatabaseCollect;
 import data.model.DatabaseSortFilter;
+import data.model.dao.HierarchyNodeDAO;
 import data.model.dao.WorksheetConfigDAO;
 import log.AppLogger;
 import log.EventLogCreator;
@@ -15,6 +17,7 @@ import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
 import requests.spark.websockets.objects.messages.dataitems.WebRecord;
 import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
+import requests.spark.websockets.objects.messages.dataitems.WorksheetStatus;
 import requests.spark.websockets.objects.messages.dataobjects.WorksheetData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
@@ -42,12 +45,16 @@ public class Worksheet extends Message {
 
         worksheetData.setWorksheetConfig(webWorksheetWebConfigs);
 
+        WorksheetStatus worksheetStatus = worksheetData.getWorksheetStatus();
+
         List<Record> empRecords = DatabaseCollect
                 .create()
                 .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))
                 .sortFilter(new DatabaseSortFilter(worksheetData.getSortFilter()))
                 .state(RecordState.STATIC)
                 .nodeReference(worksheetData.getRequestID())
+                .pageNumber(worksheetStatus != null && worksheetStatus.getCurrentPageNumber() != null ? worksheetStatus.getCurrentPageNumber() : 1)
+                .pageSize(worksheetStatus != null && worksheetStatus.getPageSize() != null ? worksheetStatus.getPageSize() : 25)
                 .collect();
 
         List<WebRecord> worksheetRecords = new ArrayList<>();
@@ -67,10 +74,39 @@ public class Worksheet extends Message {
         }
 
         worksheetData.setWorksheetRecords(worksheetRecords);
+        worksheetStatus();
 
         EventLogCreator.init()
                 .pageLoadEvent("worksheet")
                 .comment("This is a log message")
                 .log();
+    }
+
+    private void worksheetStatus() {
+        WorksheetData worksheetData = (WorksheetData) this.getWebSocketData();
+
+        WorksheetStatus worksheetStatus = worksheetData.getWorksheetStatus();
+        if (worksheetStatus == null) {
+            worksheetStatus = new WorksheetStatus();
+        }
+
+        HierarchyNodeDAO hierarchyNodeDAO = new HierarchyNodeDAO();
+        HierarchyNode hierarchyNode = hierarchyNodeDAO.getNodeByReference(worksheetData.getRequestID());
+
+        if (worksheetStatus.getPageSize() == null) {
+            worksheetStatus.setPageSize(25);
+        }
+
+        if (worksheetStatus.getCurrentPageNumber() == null) {
+            worksheetStatus.setCurrentPageNumber(1);
+        }
+
+        if (hierarchyNode != null) {
+            worksheetStatus.setWorksheetName(hierarchyNode.getNodeName());
+            worksheetStatus.setHeadCount(hierarchyNodeDAO.getHeadCount(hierarchyNode));
+            worksheetStatus.setTotalPages(worksheetStatus.getHeadCount() / worksheetStatus.getPageSize());
+        }
+
+        worksheetData.setWorksheetStatus(worksheetStatus);
     }
 }

@@ -55,7 +55,8 @@ export class WorksheetComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ProcessWorksheetData({
       requestID: null,
       worksheetRecords: null,
-      worksheetConfigs: null
+      worksheetConfigs: null,
+      worksheetStatus: null
     }));
     this.store.dispatch(new ClearSort({}));
   }

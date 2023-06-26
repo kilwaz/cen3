@@ -27,6 +27,11 @@ const Routing: Routes = [
       import('../spl/pages/worksheet/worksheet.module').then((m) => m.WorksheetModule),
   },
   {
+    path: 'management',
+    loadChildren: () =>
+      import('../spl/pages/management/management.module').then((m) => m.ManagementModule),
+  },
+  {
     path: 'builder',
     loadChildren: () =>
       import('./builder/builder.module').then((m) => m.BuilderModule),

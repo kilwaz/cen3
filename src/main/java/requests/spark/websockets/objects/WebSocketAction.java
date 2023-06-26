@@ -86,10 +86,13 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                         fieldMethod.invoke(wsData, jsonObjectDecoded.getJSONArray("_" + fieldName));
                     } else if (field.isAnnotationPresent(WSDataTypeScriptClass.class)) {
                         WSJsonWeb jsonWeb = (WSJsonWeb) field.getAnnotation(WSDataTypeScriptClass.class).value().getConstructor().newInstance();
-                        jsonWeb.populateFromJSON(jsonObjectDecoded.getJSONObject("_" + fieldName));
-
-                        Method fieldMethod = dataClass.getMethod("set" + capFieldName, field.getAnnotation(WSDataTypeScriptClass.class).value());
-                        fieldMethod.invoke(wsData, jsonWeb);
+                        if (jsonObjectDecoded.has("_" + fieldName)) {
+                            jsonWeb.populateFromJSON(jsonObjectDecoded.getJSONObject("_" + fieldName));
+                            Method fieldMethod = dataClass.getMethod("set" + capFieldName, field.getAnnotation(WSDataTypeScriptClass.class).value());
+                            fieldMethod.invoke(wsData, jsonWeb);
+                        } else {
+                            log.info("Expected incoming JSON field of " + "_" + fieldName + " has not been found on the object");
+                        }
                     } else if (field.getType() == Integer.class) { // Integer
                         Method fieldMethod = dataClass.getMethod("set" + capFieldName, Integer.class);
                         fieldMethod.invoke(wsData, jsonObjectDecoded.getInt("_" + fieldName));
@@ -103,13 +106,13 @@ public class WebSocketAction<WSMessage extends Message, WSData extends WebSocket
                     Error.WEBSOCKET_PARSE_METHOD.record().additionalInformation("Variable name is " + capFieldName).create(ex);
                 } catch (org.json.JSONException ex) {
                     log.info(ex.getMessage());
-                    log.info("But we don't really do anything with this");
                 }
             }
 
             wsMessage.webSocketData(wsData);
             return wsMessage;
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException ex) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                 InstantiationException ex) {
             //TODO: Make this a real error
             ex.printStackTrace();
         }

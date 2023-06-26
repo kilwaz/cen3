@@ -2,9 +2,11 @@ package data.model;
 
 import clarity.Record;
 import clarity.definition.Definition;
+import clarity.definition.HierarchyNode;
 import clarity.definition.RecordDefinition;
 import data.SelectQuery;
 import data.SelectResult;
+import data.SelectResultRow;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +24,8 @@ public class DatabaseCollect {
     private List<Definition> definitions = null;
     private DatabaseSortFilter databaseSortFilter = null;
     private String nodeReference;
+    private Integer pageNumber;
+    private Integer pageSize;
 
     private DatabaseCollect() {
 
@@ -51,6 +55,13 @@ public class DatabaseCollect {
         return this;
     }
 
+    public DatabaseCollect nodeReference(HierarchyNode hierarchyNode) {
+        if (hierarchyNode != null) {
+            this.nodeReference = hierarchyNode.getNodeReference();
+        }
+        return this;
+    }
+
     public DatabaseCollect nodeReference(String nodeReference) {
         this.nodeReference = nodeReference;
         return this;
@@ -63,6 +74,16 @@ public class DatabaseCollect {
 
     public DatabaseCollect primaryKey(String primaryKey) {
         this.primaryKey = primaryKey;
+        return this;
+    }
+
+    public DatabaseCollect pageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+        return this;
+    }
+
+    public DatabaseCollect pageSize(Integer pageSize) {
+        this.pageSize = pageSize;
         return this;
     }
 
@@ -108,11 +129,27 @@ public class DatabaseCollect {
         }
 
         var selectResult = (SelectResult) new SelectQuery(selectQueryBuilder.toString()).execute();
-        for (var resultRow : selectResult.getResults()) {
-            String uuid = resultRow.getString("UUID");
-            Record loadedRecord = Record.load(recordDefinition, UUID.fromString(uuid));
-            loadedRecord.load(state);
-            resultList.add(loadedRecord);
+        List<SelectResultRow> results = selectResult.getResults();
+        Integer startRange = 0;
+        Integer endRange = results.size();
+        if (pageSize != null && pageNumber != null) {
+            startRange = (pageNumber * pageSize) - pageSize;
+            endRange = pageNumber * pageSize;
+            if (endRange > results.size()) {
+                endRange = results.size();
+            }
+
+            log.info("Start range = " + startRange);
+            log.info("End range = " + endRange);
+        }
+
+        if (results.size() > 0) {
+            for (int i = startRange; i < endRange; i++) {
+                String uuid = results.get(i).getString("UUID");
+                Record loadedRecord = Record.load(recordDefinition, UUID.fromString(uuid));
+                loadedRecord.load(state);
+                resultList.add(loadedRecord);
+            }
         }
 
         return resultList;

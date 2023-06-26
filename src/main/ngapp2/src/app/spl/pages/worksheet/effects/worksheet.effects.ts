@@ -10,7 +10,8 @@ import {WorksheetService} from '../service/worksheet.service';
 import {
   AddSortItem,
   ApplyUpdate,
-  ClearSort,
+  ClearSort, PaginationPageNumberChange,
+  PaginationPageSizeChange,
   ProcessFilteredListData,
   ProcessWorksheetData,
   RemoveSortItem,
@@ -42,12 +43,13 @@ export class WorksheetEffects {
         this.store.pipe(select(selectWorksheet))
       ),
       map(([, worksheetState]) => {
-        this.worksheetService.worksheetRequest(worksheetState.sortFilter, worksheetState.requestID).pipe(
+        this.worksheetService.worksheetRequest(worksheetState.sortFilter, worksheetState.requestID, worksheetState.worksheetStatus).pipe(
           tap(result => {
             this.store.dispatch(new ProcessWorksheetData({
               requestID: result.requestID,
               worksheetRecords: result.worksheetRecords,
-              worksheetConfigs: result.worksheetConfig
+              worksheetConfigs: result.worksheetConfig,
+              worksheetStatus: result.worksheetStatus
             }));
           }),
         ).subscribe(); // Does this subscribe forever?
@@ -136,6 +138,34 @@ export class WorksheetEffects {
             }));
           }),
         ).subscribe();
+      })
+    );
+  }, {dispatch: false});
+
+  paginationPageSizeChange$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<PaginationPageSizeChange>(WorksheetActionTypes.PaginationPageSizeChange),
+      concatLatestFrom(() =>
+        this.store.pipe(select(selectWorksheet))
+      ),
+      tap(([, worksheetState]) => {
+        this.store.dispatch(new RequestWorksheetData({
+          requestID: worksheetState.requestID,
+        }));
+      })
+    );
+  }, {dispatch: false});
+
+  paginationPageNumberChange$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<PaginationPageNumberChange>(WorksheetActionTypes.PaginationPageNumberChange),
+      concatLatestFrom(() =>
+        this.store.pipe(select(selectWorksheet))
+      ),
+      tap(([, worksheetState]) => {
+        this.store.dispatch(new RequestWorksheetData({
+          requestID: worksheetState.requestID,
+        }));
       })
     );
   }, {dispatch: false});

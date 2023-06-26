@@ -5,7 +5,7 @@ import {HierarchyState} from "../../reducers/hierarchy.reducers";
 import {HierarchyListItem} from "../../../../wsObjects/hierarchyListItem";
 import {ClickedHierarchy} from "../../actions/hierarchy.actions";
 import {isSelectedItem} from "../../selectors/hierarchy.selectors";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'list-item-content',
@@ -45,6 +45,6 @@ export class ListItemContentComponent implements OnInit, OnDestroy {
   }
 
   worksheetClicked(): void {
-     this.router.navigate(['/worksheet/' + this.hierarchyListItem.nodeReference + '/' + this.hierarchyListItem.title]);
+    this.router.navigate(['/worksheet/' + this.hierarchyListItem.nodeReference + '/' + this.hierarchyListItem.title.replace(/ /g, '-')]);
   }
 }

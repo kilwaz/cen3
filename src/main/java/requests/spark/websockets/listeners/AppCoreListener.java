@@ -60,7 +60,8 @@ public class AppCoreListener {
                 JSONContainer responseContainer = webSocketAction.response(message);
                 if (session.isOpen()) {
                     String response = responseContainer.writeResponse();
-                    log.info("<- O " + (System.currentTimeMillis() - startTime) + "ms " + humanReadableByteCountBin(response.length()) + ": " + response);
+//                    log.info("<- O " + (System.currentTimeMillis() - startTime) + "ms " + humanReadableByteCountBin(response.length()) + ": " + response);
+                    log.info("<- O " + (System.currentTimeMillis() - startTime) + "ms " + humanReadableByteCountBin(response.length()));
                     session.getRemote().sendString(response);
                 }
             }

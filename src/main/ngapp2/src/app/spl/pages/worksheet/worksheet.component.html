@@ -3,6 +3,7 @@
 <div class="card card-custom gutter-b">
     <div class="card-body">
       <div class="tab-content pt-3">
+        <worksheet-pagination></worksheet-pagination>
         <worksheet-table [worksheetRecords]="worksheetRecords$ | async" [worksheetConfigs]="worksheetConfigs$ | async"></worksheet-table>
       </div>
     </div>
