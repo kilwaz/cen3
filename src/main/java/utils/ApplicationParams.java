@@ -1,29 +1,32 @@
 package utils;
 
 import error.Error;
+import log.AppLogger;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import utils.managers.LogManager;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 public class ApplicationParams {
-    // Application information
-    public final static String APP_TITLE = "Clarity";
-    public final static String APP_VERSION = "v0.3.0";
-
     public final static String ORACLE_DIALECT = "ORACLE";
     public final static String MYSQL_DIALECT = "MYSQL";
 
     // Database information - Defaults are displayed here and can be overridden by the SDE.xml file
     private static Boolean DATABASE_ENABLED = true;
 
-    private static String REMOTE_DATABASE_USERNAME = "cen";
+    private static String REMOTE_DATABASE_USERNAME = "";
     //    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://uk-mysql:3306/clarity?autoReconnect=true&useSSL=false";
 //    private static String REMOTE_DATABASE_PASSWORD = "ClarityDatabase123";
 //    private static String REMOTE_DATABASE_CONNECTION = "jdbc:mysql://localhost:3306/clarity?autoReconnect=true&useSSL=false";
-    private static String REMOTE_DATABASE_CONNECTION = "jdbc:oracle:thin:@oracle-11g:1521:FOCALTST";
+    private static String REMOTE_DATABASE_CONNECTION = "";
     private static String REMOTE_DATABASE_DIALECT = ORACLE_DIALECT;
-    private static String REMOTE_DATABASE_PASSWORD = "cen";
+    private static String REMOTE_DATABASE_PASSWORD = "";
 
     // Uploaded files settings
     private static String UPLOAD_FILE_TMP_LOCATION = "/home/kilwaz/tmp/";
@@ -34,6 +37,16 @@ public class ApplicationParams {
 
     // Database
     private static Integer DATABASE_DELETE_LIMIT = 100;
+
+    // Data clearing / loading
+    private static Boolean CLEAR_DOWN_TABLES = false;
+    private static Boolean IMPORT_DATA_WHEN_STARTING = false;
+
+    // Paths
+    private static String CONFIG_JSON_PATH = "";
+    private static String BASE_DATA_PATH = "";
+
+    private static Logger log = AppLogger.logger();
 
     public static String getRemoteDatabaseConnection() {
         return REMOTE_DATABASE_CONNECTION;
@@ -113,5 +126,58 @@ public class ApplicationParams {
 
     public static Boolean getDatabaseEnabled() {
         return DATABASE_ENABLED;
+    }
+
+    public static Boolean getClearDownTables() {
+        return CLEAR_DOWN_TABLES;
+    }
+
+    public static Boolean getImportDataWhenStarting() {
+        return IMPORT_DATA_WHEN_STARTING;
+    }
+
+    public static String getConfigJsonPath() {
+        return CONFIG_JSON_PATH;
+    }
+
+    public static String getBaseDataPath() {
+        return BASE_DATA_PATH;
+    }
+
+    public static void loadFromXML() {
+        File jsonFileToLoad = new File("C:\\Users\\alex\\Downloads\\Arup HR Roles 2023\\Uploads\\appconfig.json");
+
+        if (jsonFileToLoad.exists()) {
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(jsonFileToLoad);
+                byte[] data = new byte[(int) jsonFileToLoad.length()];
+                fis.read(data);
+                fis.close();
+
+                String rawData = new String(data, "UTF-8");
+
+                JSONObject jsonObject = new JSONObject(Objects.requireNonNullElse(rawData, ""));
+
+                JSONObject database = jsonObject.getJSONObject("database");
+                REMOTE_DATABASE_CONNECTION = database.getString("remoteDatabaseConnection");
+                REMOTE_DATABASE_DIALECT = database.getString("remoteDatabaseDialect");
+
+                REMOTE_DATABASE_USERNAME = database.getString("remoteDatabaseUsername");
+                REMOTE_DATABASE_PASSWORD = database.getString("remoteDatabasePassword");
+
+                JSONObject dataImport = jsonObject.getJSONObject("dataImport");
+                CLEAR_DOWN_TABLES = dataImport.getBoolean("clearDownTables");
+                IMPORT_DATA_WHEN_STARTING = dataImport.getBoolean("importDataWhenStarting");
+
+                JSONObject paths = jsonObject.getJSONObject("paths");
+                CONFIG_JSON_PATH = paths.getString("configJsonPath");
+                BASE_DATA_PATH = paths.getString("baseDataPath");
+
+                log.info("Loaded database from config file");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

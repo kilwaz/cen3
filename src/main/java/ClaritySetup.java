@@ -9,6 +9,7 @@ import data.SelectResultRow;
 import data.model.dao.HierarchyTreeDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
+import utils.ApplicationParams;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ClaritySetup {
 
     public static void main(String[] args) {
         ApplicationInitialiser.init(); // Connects to the database/inits web sockets
-        if (clearDownDatabase) {
+        if (ApplicationParams.getClearDownTables()) {
             clearDatabase();
         }
         Definitions.getInstance(); // Load in data from database
@@ -31,14 +32,31 @@ public class ClaritySetup {
 //        countryMatrix.addItem(new MatrixEntry("USA", "United States"));
 //        countryMatrix.addItem(new MatrixEntry("ESP", "Spain"));
 
-        setupDB();
+//        setupDB();
 
-        File fileJson = new File("C:\\Users\\alex\\Downloads\\Arup HR Roles 2023\\Uploads\\configjson.json");
-        Load.configJSON(fileJson).process();
+        if (ApplicationParams.getImportDataWhenStarting()) {
+            File fileJson = new File(ApplicationParams.getConfigJsonPath());
+            Load.configJSON(fileJson).process();
+        }
 
         Definitions.getInstance().rebuild();
 
         Infer.infer();
+
+        if (ApplicationParams.getImportDataWhenStarting()) {
+            File fileExcel = new File(ApplicationParams.getBaseDataPath());
+            Load.excel(fileExcel).process();
+
+            HierarchyTreeDAO hierarchyTreeDAO = new HierarchyTreeDAO();
+            HierarchyTree hierarchyTree = hierarchyTreeDAO.getHierarchyTreeByName("ARUP");
+
+            ProcedureQuery procedureQuery = new ProcedureQuery("{ call tree_populate(?)}");
+            procedureQuery.addParameter(hierarchyTree.getUuidString());
+            procedureQuery.execute();
+        }
+
+        log.info("Ready!");
+
 
 //        Record record = Record.create("Employee");
 //        List<Entry> entries = new ArrayList<>();
@@ -90,18 +108,6 @@ public class ClaritySetup {
 //        Infer.me(records.get(0));
 
 //        Record bonusTest = records.get(0).getChildren(Definitions.getInstance().findRecordDefinition("Bonus")).get(0);
-
-        File fileExcel = new File("C:\\Users\\alex\\Downloads\\Arup HR Roles 2023\\Uploads\\Test.xlsx");
-        Load.excel(fileExcel).process();
-
-        HierarchyTreeDAO hierarchyTreeDAO = new HierarchyTreeDAO();
-        HierarchyTree hierarchyTree = hierarchyTreeDAO.getHierarchyTreeByName("ARUP");
-
-        ProcedureQuery procedureQuery = new ProcedureQuery("{ call tree_populate(?)}");
-        procedureQuery.addParameter(hierarchyTree.getUuidString());
-        procedureQuery.execute();
-
-        log.info("Ready!");
     }
 
     private static void setupDB() {

@@ -5,6 +5,7 @@ import clarity.load.data.Value;
 import clarity.load.excel.Template;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -33,7 +34,8 @@ public class Excel implements Loader {
             try {
                 log.info("Start");
                 long startMili = System.currentTimeMillis();
-                workbook = new XSSFWorkbook(excelFileToLoad);
+                workbook = WorkbookFactory.create(excelFileToLoad);
+
                 Sheet datatypeSheet = workbook.getSheetAt(0);
 
                 Template template = new Template();
@@ -69,7 +71,7 @@ public class Excel implements Loader {
                 }
 
                 log.info("Done " + (System.currentTimeMillis() - startMili));
-            } catch (IOException | InvalidFormatException ex) {
+            } catch (IOException ex) {
                 log.error(ex);
             } finally {
                 if (workbook != null) {

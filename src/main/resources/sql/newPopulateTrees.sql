@@ -226,23 +226,23 @@ BEGIN
 
 
     -- Move any flattened employees
-    MERGE INTO hierarchy_nodes_calc hnc
-    USING
-        (select
-             hnc.node_reference,
-             hnc.parent_reference,
-             hnc2.path_from_top || '.' || hnc.node_reference as new_path_from_top,
-             hnc.tree_uuid,
-             hnc.node_type
-         from hierarchy_nodes_calc hnc
-                  left join hierarchy_nodes_calc hnc2 on (hnc2.tree_uuid = hnc.tree_uuid and hnc2.node_type = 'Node' and hnc2.node_reference = hnc.parent_reference)
-         where
-                 hnc.tree_uuid = tree_uuid_to_calc
-           and hnc.node_type = 'Employee'
-        ) ilv
-    ON(hnc.node_reference = ilv.node_reference and hnc.tree_uuid = ilv.tree_uuid and hnc.node_type = 'Employee')
-    WHEN MATCHED THEN UPDATE SET
-        hnc.path_from_top = ilv.new_path_from_top;
+--    MERGE INTO hierarchy_nodes_calc hnc
+--    USING
+--        (select
+--             hnc.node_reference,
+--             hnc.parent_reference,
+--             hnc2.path_from_top || '.' || hnc.node_reference as new_path_from_top,
+--             hnc.tree_uuid,
+--             hnc.node_type
+--         from hierarchy_nodes_calc hnc
+--                  left join hierarchy_nodes_calc hnc2 on (hnc2.tree_uuid = hnc.tree_uuid and hnc2.node_type = 'Node' and hnc2.node_reference = hnc.parent_reference)
+--         where
+--                 hnc.tree_uuid = tree_uuid_to_calc
+--           and hnc.node_type = 'Employee'
+--        ) ilv
+--    ON(hnc.node_reference = ilv.node_reference and hnc.tree_uuid = ilv.tree_uuid and hnc.node_type = 'Employee')
+--    WHEN MATCHED THEN UPDATE SET
+--        hnc.path_from_top = ilv.new_path_from_top;
 
     -- Generate node names and link to employees as required
     MERGE INTO hierarchy_nodes_calc hnc
@@ -293,8 +293,7 @@ BEGIN
         ) ilv
     ON(hnc.node_reference = ilv.node_reference and hnc.tree_uuid = ilv.tree_uuid)
     WHEN MATCHED THEN UPDATE SET
-                                 hnc.node_name = initcap(trim(ilv.node_name)),
-                                 hnc.uuid = ilv.uuid;
+        hnc.node_name = initcap(trim(ilv.node_name));
 
     --    -- Generate node names for R9 nodes
 --    MERGE INTO fr_arup_nodes_calc an

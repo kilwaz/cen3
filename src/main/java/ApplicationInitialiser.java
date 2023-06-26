@@ -3,6 +3,7 @@ import core.builders.requests.WebSocketMessageMapping;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import utils.AppManager;
+import utils.ApplicationParams;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -15,6 +16,7 @@ public class ApplicationInitialiser {
     }
 
     public static void init() {
+        ApplicationParams.loadFromXML();
         AppManager.init();
         RequestMapper.buildMappings();
         WebSocketMessageMapping.buildMappings();
