@@ -11,4 +11,14 @@
   <div>
     Max Memory: {{maxMemory$ | async}}
   </div>
+
+  <div>
+    <button (click)="triggerDownload()">
+      Download
+    </button>
+  </div>
+
+  <a [href]="fileUrl$ | async" download="The file.xlsx">Click this to download</a>
+
+  {{fileUrl$ | async}}
 </div>

@@ -6,7 +6,13 @@ import {map, tap} from 'rxjs/operators';
 import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 // Actions
-import {ManagementActionTypes, ProcessResults, QueryManagement} from '../actions/management.actions';
+import {
+  DownloadTestRequest,
+  ManagementActionTypes,
+  ProcessDownloadResults,
+  ProcessResults,
+  QueryManagement
+} from '../actions/management.actions';
 import {ManagementService} from '../service/management.service';
 import {ManagementState} from "../reducers/management.reducers";
 import {selectManagement} from "../selectors/management.selectors";
@@ -31,6 +37,30 @@ export class ManagementEffects {
                 totalMemory: result.totalMemory,
                 freeMemory: result.freeMemory,
                 maxMemory: result.maxMemory
+              }));
+            }),
+          ).subscribe(); // Does this subscribe forever?
+      }));
+  }, {dispatch: false});
+
+  downloadTestRequest$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<DownloadTestRequest>(ManagementActionTypes.DownloadTestRequest),
+      map(() => {
+        this.managementService.downloadTest()
+          .pipe(
+            tap(result => {
+              let data = atob(result.content);
+              let dataArray = new Uint8Array(data.length);
+
+              for (let i = 0; i < data.length; i++) {
+                dataArray[i] = data.charCodeAt(i);
+              }
+
+              let blob = new Blob([dataArray]);
+
+              this.store.dispatch(new ProcessDownloadResults({
+                fileData: blob
               }));
             }),
           ).subscribe(); // Does this subscribe forever?

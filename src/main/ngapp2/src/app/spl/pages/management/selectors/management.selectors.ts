@@ -9,3 +9,6 @@ export const totalMemory = createSelector(selectManagement, management => manage
 export const freeMemory = createSelector(selectManagement, management => management?.freeMemory);
 export const maxMemory = createSelector(selectManagement, management => management?.maxMemory);
 
+export const fileData = createSelector(selectManagement, management => management?.fileData);
+export const fileUrl = createSelector(selectManagement, management => management?.fileUrl);
+

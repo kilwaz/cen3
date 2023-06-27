@@ -1,16 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 // RxJS
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 // Store
 import {select, Store} from '@ngrx/store';
 import {ManagementState} from './reducers/management.reducers';
 
 // Selectors
-import {freeMemory, maxMemory, totalMemory} from './selectors/management.selectors';
+import {fileData, fileUrl, freeMemory, maxMemory, totalMemory} from './selectors/management.selectors';
 import {ManagementService} from './service/management.service';
-import {QueryManagement} from "./actions/management.actions";
+import {DownloadTestRequest, QueryManagement, UpdateFileURL} from "./actions/management.actions";
 
 // Action
 
@@ -24,13 +24,17 @@ export class ManagementComponent implements OnInit, OnDestroy {
   freeMemory$: Observable<number>;
   maxMemory$: Observable<number>;
 
-  private unsubscribe: Subject<any>;
+  fileData$: Observable<Blob>;
+  fileUrl$: Observable<string>;
+
+  url: string;
+  test: string;
+
+  private unsubscribe: Subscription[] = [];
 
   constructor(
     private hierarchyService: ManagementService,
     private store: Store<ManagementState>) {
-
-    this.unsubscribe = new Subject();
   }
 
   ngOnInit(): void {
@@ -38,10 +42,33 @@ export class ManagementComponent implements OnInit, OnDestroy {
     this.freeMemory$ = this.store.pipe(select(freeMemory));
     this.maxMemory$ = this.store.pipe(select(maxMemory));
 
+    this.fileData$ = this.store.pipe(select(fileData));
+    this.fileUrl$ = this.store.pipe(select(fileUrl));
+
     this.store.dispatch(new QueryManagement({}));
+
+    this.unsubscribe.push(
+      this.fileData$.subscribe(blob => {
+        if (blob !== null && blob !== undefined) {
+          console.log("Blob is");
+          console.log(blob);
+          console.log("This was triggered file");
+
+          this.store.dispatch(new UpdateFileURL({
+            fileUrl: URL.createObjectURL(blob)
+          }));
+        }
+      })
+    );
+
+    this.test = "Hello!";
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.complete();
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  triggerDownload(): void {
+    this.store.dispatch(new DownloadTestRequest({}));
   }
 }
