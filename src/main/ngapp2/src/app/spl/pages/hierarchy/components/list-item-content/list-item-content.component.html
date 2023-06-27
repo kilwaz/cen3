@@ -1,6 +1,6 @@
 <span (click)="clicked()" [class.selected]="isSelected">
 
-  <ng-container *ngIf="hierarchyListItem.childrenId !== undefined && hierarchyListItem.childrenId.length > 0; else childNode">
+  <ng-container *ngIf="hierarchyListItem.childrenIds !== undefined && hierarchyListItem.childrenIds.length > 0; else childNode">
       <ng-container *ngIf="hierarchyListItem.expanded">
         <i class="fa-solid fa-folder-open" (click)="collapse()"></i>
       </ng-container>

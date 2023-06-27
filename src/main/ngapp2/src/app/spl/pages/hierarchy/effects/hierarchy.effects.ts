@@ -28,13 +28,12 @@ export class HierarchyEffects {
           .pipe(
             tap(result => {
               this.store.dispatch(new LoadHierarchy({
-                hierarchyItems: result.hierarchyNewItems
+                hierarchyItems: result.hierarchyItems
               }));
             }),
           ).subscribe();
       })
     );
   }, {dispatch: false});
-
 
 }

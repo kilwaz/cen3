@@ -25,7 +25,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.children$ = this.store.select(selectYourEntityByIds(this.hierarchyListItem.childrenId));
+    this.children$ = this.store.select(selectYourEntityByIds(this.hierarchyListItem.childrenIds));
   }
 
   ngOnDestroy() {

@@ -101,9 +101,9 @@ public class HierarchyNode extends DatabaseObject {
             }
 
             if (followChildren) {
-                hierarchyListItem.setChildren(children);
+//                hierarchyListItem.setChildren(children);
             } else {
-                hierarchyListItem.setChildrenId(children);
+                hierarchyListItem.setChildrenIds(children);
             }
         }
 

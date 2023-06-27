@@ -22,14 +22,9 @@ public class HierarchyListItem extends JSONWeb {
     private Boolean expanded = false;
 
     @WSDataOutgoing
-    @WSDataJSONArrayClass(HierarchyListItem.class)
-    @WSDataReference(WSData.HIERARCHY_LIST_ITEM_CHILDREN)
-    private JSONArray children = null;
-
-    @WSDataOutgoing
     @WSDataJSONArrayClass(String.class)
     @WSDataReference(WSData.HIERARCHY_LIST_ITEM_CHILDREN_ID)
-    private JSONArray childrenId = null;
+    private JSONArray childrenIds = null;
 
     public HierarchyListItem(String title, String nodeReference) {
         this.title = title;
@@ -42,14 +37,6 @@ public class HierarchyListItem extends JSONWeb {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public JSONArray getChildren() {
-        return children;
-    }
-
-    public void setChildren(JSONArray children) {
-        this.children = children;
     }
 
     public String getNodeReference() {
@@ -68,11 +55,11 @@ public class HierarchyListItem extends JSONWeb {
         this.expanded = expanded;
     }
 
-    public JSONArray getChildrenId() {
-        return childrenId;
+    public JSONArray getChildrenIds() {
+        return childrenIds;
     }
 
-    public void setChildrenId(JSONArray childrenId) {
-        this.childrenId = childrenId;
+    public void setChildrenIds(JSONArray childrenIds) {
+        this.childrenIds = childrenIds;
     }
 }

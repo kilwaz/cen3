@@ -65,11 +65,15 @@ public class TypeScriptBuilder {
                     } else if (!field.isAnnotationPresent(WSDataIgnore.class)) {
                         if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                             WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
-                            if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}")) {
-                                tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"../wsObjects/")
-                                        .append(Character.toLowerCase(wsDataJSONArrayClass.value().getSimpleName().charAt(0)))
-                                        .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
-                                        .append("\";").append(nl);
+                            String simpleName = wsDataJSONArrayClass.value().getSimpleName();
+
+                            if (!"String".equals(simpleName)) {
+                                if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}")) {
+                                    tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"../wsObjects/")
+                                            .append(Character.toLowerCase(wsDataJSONArrayClass.value().getSimpleName().charAt(0)))
+                                            .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
+                                            .append("\";").append(nl);
+                                }
                             }
                         }
                     }
@@ -170,11 +174,15 @@ public class TypeScriptBuilder {
                         }
                     } else if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                         WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
-                        if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}") && !clazz.getSimpleName().equals(wsDataJSONArrayClass.value().getSimpleName())) {
-                            tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"./")
-                                    .append(Character.toLowerCase(wsDataJSONArrayClass.value().getSimpleName().charAt(0)))
-                                    .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
-                                    .append("\";").append(nl);
+                        String simpleName = wsDataJSONArrayClass.value().getSimpleName();
+
+                        if (!"String".equals(simpleName)) {
+                            if (!tsClassBuilder.toString().contains("import {" + wsDataJSONArrayClass.value().getSimpleName() + "}") && !clazz.getSimpleName().equals(wsDataJSONArrayClass.value().getSimpleName())) {
+                                tsClassBuilder.append("import {").append(wsDataJSONArrayClass.value().getSimpleName()).append("} from \"./")
+                                        .append(Character.toLowerCase(wsDataJSONArrayClass.value().getSimpleName().charAt(0)))
+                                        .append(wsDataJSONArrayClass.value().getSimpleName().substring(1))
+                                        .append("\";").append(nl);
+                            }
                         }
                     }
                 }
@@ -256,10 +264,15 @@ public class TypeScriptBuilder {
                 if (field.isAnnotationPresent(WSDataJSONArrayClass.class)) {
                     WSDataJSONArrayClass wsDataJSONArrayClass = field.getAnnotation(WSDataJSONArrayClass.class);
 
+                    String simpleName = wsDataJSONArrayClass.value().getSimpleName();
+                    if ("String".equals(simpleName)) {
+                        simpleName = "string";
+                    }
+
                     if (declaration) {
-                        return "Array<" + wsDataJSONArrayClass.value().getSimpleName() + "> = []";
+                        return "Array<" + simpleName + "> = []";
                     } else {
-                        return "Array<" + wsDataJSONArrayClass.value().getSimpleName() + ">";
+                        return "Array<" + simpleName + ">";
                     }
                 }
             case "List":

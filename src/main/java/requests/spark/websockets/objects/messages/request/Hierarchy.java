@@ -20,20 +20,12 @@ public class Hierarchy extends Message {
 
     public void process() {
         HierarchyData hierarchyData = (HierarchyData) this.getWebSocketData();
-        JSONArray hierarchyJSON = new JSONArray();
-
         HierarchyNodeDAO hierarchyNodeDAO = new HierarchyNodeDAO();
         HierarchyNode hierarchyNode = hierarchyNodeDAO.getNodeByReference("ARUP");
         hierarchyNode = hierarchyNodeDAO.populateChildren(hierarchyNode);
 
-        hierarchyJSON.put(hierarchyNode.getAsHierarchyListItem(true).prepareForJSON());
-
-        hierarchyData.setHierarchyItems(hierarchyJSON);
-
-
         List<HierarchyNode> list = new ArrayList<>();
         list = unpackHierarchy(hierarchyNode, list);
-
 
         JSONArray hierarchyJSONNew = new JSONArray();
 
@@ -41,7 +33,7 @@ public class Hierarchy extends Message {
             hierarchyJSONNew.put(hierarchyNode1.getAsHierarchyListItem(false).prepareForJSON());
         }
 
-        hierarchyData.setHierarchyNewItems(hierarchyJSONNew);
+        hierarchyData.setHierarchyItems(hierarchyJSONNew);
     }
 
     private List<HierarchyNode> unpackHierarchy(HierarchyNode hierarchyNode, List<HierarchyNode> list) {
