@@ -24,6 +24,7 @@ import {ClickStopPropagation} from "./directives/click-stop-propagation";
 import {SortFilterService} from "./service/sort-filter.service";
 import {UpdateService} from "./service/update.service";
 import {WorksheetPaginationComponent} from "./components/worksheet-pagination/worksheet-pagination.component";
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [
@@ -53,6 +54,8 @@ import {WorksheetPaginationComponent} from "./components/worksheet-pagination/wo
     MatFormFieldModule,
     NgbNavModule,
     MatInputModule,
+
+    ScrollingModule,
 
     StoreModule.forFeature('worksheet', worksheetReducer),
     EffectsModule.forFeature([WorksheetEffects]),

@@ -46,12 +46,15 @@
 
     <div class="filterCheckboxesParent">
       <input id="filterSearchBox" type="text" placeholder="Search" onkeyup=""/>
+
       <div id="filterCheckboxes">
-        <ul>
-          <li *ngFor="let listItem of filteredList$ | async">
-            <p><input type="checkbox" onclick="" value="{{listItem}}"/>{{listItem}}</p>
-          </li>
-        </ul>
+          <cdk-virtual-scroll-viewport itemSize="20" class="example-viewport">
+              <ul>
+                <li *cdkVirtualFor="let listItem of filteredList$ | async" class="example-item">
+                  <p><input type="checkbox" onclick="" value="{{listItem}}"/>{{listItem}}</p>
+                </li>
+              </ul>
+          </cdk-virtual-scroll-viewport>
       </div>
     </div>
 
