@@ -1,3 +1,17 @@
 <span (click)="clicked()" [class.selected]="isSelected">
-  <i class="fa-solid fa-folder"></i> {{hierarchyListItem.title}} <i class="fa-solid fa-folder" (click)="worksheetClicked()"></i>
+
+  <ng-container *ngIf="hierarchyListItem.childrenId !== undefined && hierarchyListItem.childrenId.length > 0; else childNode">
+      <ng-container *ngIf="hierarchyListItem.expanded">
+        <i class="fa-solid fa-folder-open" (click)="collapse()"></i>
+      </ng-container>
+      <ng-container *ngIf="!hierarchyListItem.expanded">
+        <i class="fa-solid fa-folder" (click)="expand()"></i>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #childNode>
+      <i class="fa-regular fa-folder"></i>
+    </ng-template>
+
+  {{hierarchyListItem.title}} <i class="fa-solid fa-folder" (click)="worksheetClicked()"></i>
 </span>

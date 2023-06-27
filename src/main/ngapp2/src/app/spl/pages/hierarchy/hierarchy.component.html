@@ -1,3 +1,7 @@
 <div class="card card-custom gutter-b">
-    <list-item [hierarchyListItem]="hierarchyItems$ | async"></list-item>
+  <ng-container *ngFor="let node of rootNodes$ | async">
+    <list-item-content [hierarchyListItem]="node"></list-item-content>
+  </ng-container>
+
+  <list-item *ngFor="let node of rootNodes$ | async" [hierarchyListItem]="node"></list-item>
 </div>

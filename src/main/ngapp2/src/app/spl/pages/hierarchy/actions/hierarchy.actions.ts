@@ -4,7 +4,9 @@ import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
 export enum HierarchyActionTypes {
   RequestHierarchy = '[Hierarchy-RequestHierarchy] Action',
   LoadHierarchy = '[Hierarchy-LoadHierarchy] Action',
-  ClickedHierarchy = '[Hierarchy-ClickedHierarchy] Action'
+  ClickedHierarchy = '[Hierarchy-ClickedHierarchy] Action',
+
+  ExpandCollapseHierarchy = '[Hierarchy-ExpandCollapseHierarchy] Action'
 }
 
 export class LoadHierarchy implements Action {
@@ -32,7 +34,17 @@ export class ClickedHierarchy implements Action {
   }
 }
 
+export class ExpandCollapseHierarchy implements Action {
+  readonly type = HierarchyActionTypes.ExpandCollapseHierarchy;
+
+  constructor(public payload: {
+    update: {id: string, changes: Partial<HierarchyListItem>}
+  }) {
+  }
+}
+
 export type HierarchyActions =
   LoadHierarchy |
   RequestHierarchy |
-  ClickedHierarchy;
+  ClickedHierarchy |
+  ExpandCollapseHierarchy;

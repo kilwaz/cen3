@@ -1,6 +1,6 @@
 // NGRX
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {HierarchyState} from "../reducers/hierarchy.reducers";
+import {adapter, HierarchyState} from "../reducers/hierarchy.reducers";
 import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
 
 // Selectors
@@ -9,6 +9,34 @@ export const selectHierarchy = createFeatureSelector<HierarchyState>('hierarchy'
 export const hierarchyItems = createSelector(selectHierarchy, hierarchy => hierarchy?.hierarchyItems);
 
 export const selectedItem = createSelector(selectHierarchy, hierarchy => hierarchy?.selectedItem);
+
+export const {
+  selectAll,
+  selectEntities,
+  selectIds,
+  selectTotal
+} = adapter.getSelectors();
+
+// create a selector to select entities
+export const selectAllYourEntities = createSelector(
+  selectHierarchy,
+  (state: HierarchyState) => state.hierarchyItems.entities
+);
+
+// create a selector to select a single entity by id
+export const selectYourEntityById = (id: string) =>
+  createSelector(
+    selectAllYourEntities,
+    (entities) => entities[id]
+  );
+
+
+// create a selector to select a single entity by id
+export const selectYourEntityByIds = (ids: string[]) =>
+  createSelector(
+    selectAllYourEntities,
+    entities => ids.map(id => entities[id]).filter(entity => entity != null)
+  );
 
 export const isSelectedItem = (hierarchyListItem: HierarchyListItem) =>
   createSelector(

@@ -28,7 +28,7 @@ export class HierarchyEffects {
           .pipe(
             tap(result => {
               this.store.dispatch(new LoadHierarchy({
-                hierarchyItems: result.hierarchyItems
+                hierarchyItems: result.hierarchyNewItems
               }));
             }),
           ).subscribe();

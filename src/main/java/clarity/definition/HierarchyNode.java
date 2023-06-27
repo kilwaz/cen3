@@ -87,15 +87,24 @@ public class HierarchyNode extends DatabaseObject {
         return this;
     }
 
-    public HierarchyListItem getAsHierarchyListItem() {
+    public HierarchyListItem getAsHierarchyListItem(Boolean followChildren) {
         HierarchyListItem hierarchyListItem = new HierarchyListItem(this.nodeName, this.nodeReference);
 
         if (this.children.size() > 0) {
             JSONArray children = new JSONArray();
             for (HierarchyNode hierarchyNode : this.children) {
-                children.put(hierarchyNode.getAsHierarchyListItem().prepareForJSON());
+                if (followChildren) {
+                    children.put(hierarchyNode.getAsHierarchyListItem(followChildren).prepareForJSON());
+                } else {
+                    children.put(hierarchyNode.getNodeReference());
+                }
             }
-            hierarchyListItem.setChildren(children);
+
+            if (followChildren) {
+                hierarchyListItem.setChildren(children);
+            } else {
+                hierarchyListItem.setChildrenId(children);
+            }
         }
 
         return hierarchyListItem;

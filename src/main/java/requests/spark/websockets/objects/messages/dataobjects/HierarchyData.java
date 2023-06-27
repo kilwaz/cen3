@@ -13,11 +13,23 @@ public class HierarchyData extends WebSocketData {
     @WSDataJSONArrayClass(HierarchyListItem.class)
     private JSONArray hierarchyItems = null;
 
+    @WSDataOutgoing
+    @WSDataJSONArrayClass(HierarchyListItem.class)
+    private JSONArray hierarchyNewItems = null;
+
     public JSONArray getHierarchyItems() {
         return hierarchyItems;
     }
 
     public void setHierarchyItems(JSONArray hierarchyItems) {
         this.hierarchyItems = hierarchyItems;
+    }
+
+    public JSONArray getHierarchyNewItems() {
+        return hierarchyNewItems;
+    }
+
+    public void setHierarchyNewItems(JSONArray hierarchyNewItems) {
+        this.hierarchyNewItems = hierarchyNewItems;
     }
 }

@@ -1,9 +1,9 @@
 <ul>
-  <li *ngFor="let hierarchyListItem of hierarchyListItems">
+  <li *ngFor="let hierarchyListItem of children$ | async">
     <list-item-content [hierarchyListItem]="hierarchyListItem"></list-item-content>
 
-    <ng-container *ngIf="hierarchyListItem.children !== undefined && hierarchyListItem.children.length > 0">
-      <list-item [hierarchyListItem]="hierarchyListItem.children"></list-item>
+    <ng-container *ngIf="hierarchyListItem.childrenId !== undefined && hierarchyListItem.childrenId.length > 0 && hierarchyListItem.expanded">
+      <list-item [hierarchyListItem]="hierarchyListItem"></list-item>
     </ng-container>
   </li>
 </ul>
