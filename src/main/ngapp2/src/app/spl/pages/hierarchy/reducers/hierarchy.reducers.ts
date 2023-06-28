@@ -6,6 +6,8 @@ import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 export interface HierarchyState {
   hierarchyItems: HierarchyItemsState;
   selectedItem: HierarchyListItem;
+
+  reloadHierarchy: boolean;
 }
 
 export interface HierarchyItemsState extends EntityState<HierarchyListItem> {
@@ -14,20 +16,23 @@ export interface HierarchyItemsState extends EntityState<HierarchyListItem> {
 export const adapter: EntityAdapter<HierarchyListItem> = createEntityAdapter<HierarchyListItem>({
   selectId: hierarchyItem => hierarchyItem.nodeReference
 });
-export const initialState: HierarchyItemsState = adapter.getInitialState({});
+export const initialHierarchyItemsState: HierarchyItemsState = adapter.getInitialState({});
 
 
-export const initialAuthState: HierarchyState = {
-  hierarchyItems: initialState,
-  selectedItem: null
+export const initialHierarchyState: HierarchyState = {
+  hierarchyItems: initialHierarchyItemsState,
+  selectedItem: null,
+
+  reloadHierarchy: true
 };
 
-export function hierarchyReducer(state = initialAuthState, action: HierarchyActions): HierarchyState {
+export function hierarchyReducer(state = initialHierarchyState, action: HierarchyActions): HierarchyState {
   switch (action.type) {
     case HierarchyActionTypes.LoadHierarchy: {
       return {
         ...state,
-        hierarchyItems: adapter.setAll(action.payload.hierarchyItems, state.hierarchyItems)
+        hierarchyItems: adapter.setAll(action.payload.hierarchyItems, state.hierarchyItems),
+        reloadHierarchy: false
       };
     }
     case HierarchyActionTypes.ExpandCollapseHierarchy: {

@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 // RxJS
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 // Store
 import {select, Store} from '@ngrx/store';
 import {HierarchyItemsState, HierarchyState} from './reducers/hierarchy.reducers';
 
 // Selectors
-import {hierarchyItems, selectAll, selectYourEntityById, selectYourEntityByIds} from './selectors/hierarchy.selectors';
+import {hierarchyItems, reloadHierarchy, selectAll, selectYourEntityByIds} from './selectors/hierarchy.selectors';
 import {HierarchyService} from './service/hierarchy.service';
 import {HierarchyListItem} from "../../wsObjects/hierarchyListItem";
 import {RequestHierarchy} from "./actions/hierarchy.actions";
@@ -22,32 +22,37 @@ import {RequestHierarchy} from "./actions/hierarchy.actions";
 })
 export class HierarchyComponent implements OnInit, OnDestroy {
   hierarchyItems$: Observable<Array<HierarchyListItem>>;
-  hierarchyItems2$: Observable<HierarchyItemsState>;
+  hierarchyItemsState$: Observable<HierarchyItemsState>;
 
-  rootNode$: Observable<HierarchyListItem>;
+  reloadHierarchy$: Observable<boolean>;
+
   rootNodes$: Observable<Array<HierarchyListItem>>;
 
-  private unsubscribe: Subject<any>;
+  private unsubscribe: Subscription[] = [];
 
   constructor(
     private hierarchyService: HierarchyService,
     private store: Store<HierarchyState>) {
-
-    this.unsubscribe = new Subject();
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new RequestHierarchy({}));
+    this.reloadHierarchy$ = this.store.pipe(select(reloadHierarchy));
 
-    this.rootNode$ = this.store.select(selectYourEntityById('ARUP'));
+    this.unsubscribe.push(
+      this.reloadHierarchy$.subscribe(reloadHierarchy => {
+        if (reloadHierarchy) {
+          this.store.dispatch(new RequestHierarchy({}));
+        }
+      })
+    );
 
     this.rootNodes$ = this.store.select(selectYourEntityByIds(['ARUP']));
 
-    this.hierarchyItems2$ = this.store.pipe(select(hierarchyItems));
-    this.hierarchyItems$ = this.hierarchyItems2$.pipe(select(selectAll));
+    this.hierarchyItemsState$ = this.store.pipe(select(hierarchyItems));
+    this.hierarchyItems$ = this.hierarchyItemsState$.pipe(select(selectAll));
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.complete();
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

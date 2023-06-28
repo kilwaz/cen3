@@ -10,6 +10,8 @@ export const hierarchyItems = createSelector(selectHierarchy, hierarchy => hiera
 
 export const selectedItem = createSelector(selectHierarchy, hierarchy => hierarchy?.selectedItem);
 
+export const reloadHierarchy = createSelector(selectHierarchy, hierarchy => hierarchy?.reloadHierarchy);
+
 export const {
   selectAll,
   selectEntities,
