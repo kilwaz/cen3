@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 // RxJS
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 // Store
 import {select, Store} from '@ngrx/store';
@@ -21,20 +21,18 @@ import {DashboardService} from './service/dashboard.service';
 export class DashboardComponent implements OnInit, OnDestroy {
   textToProcess$: Observable<string>;
 
-  private unsubscribe: Subject<any>;
+  private unsubscribe: Subscription[] = [];
 
   constructor(
     private hierarchyService: DashboardService,
     private store: Store<DashboardState>) {
-
-    this.unsubscribe = new Subject();
   }
 
   ngOnInit(): void {
     this.textToProcess$ = this.store.pipe(select(textToProcess));
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.complete();
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }
