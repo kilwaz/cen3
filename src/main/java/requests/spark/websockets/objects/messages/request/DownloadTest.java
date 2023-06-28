@@ -26,6 +26,7 @@ public class DownloadTest extends Message {
             byte[] fileContent = Files.readAllBytes(file.toPath());
             String encodedString = Base64.getEncoder().encodeToString(fileContent);
             downloadTestData.setContent(encodedString);
+            downloadTestData.setFileName(file.getName());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

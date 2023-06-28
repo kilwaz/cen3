@@ -9,7 +9,6 @@ import {select, Store} from '@ngrx/store';
 import {
   DownloadTestRequest,
   ManagementActionTypes,
-  ProcessDownloadResults,
   ProcessResults,
   QueryManagement
 } from '../actions/management.actions';
@@ -58,10 +57,12 @@ export class ManagementEffects {
               }
 
               let blob = new Blob([dataArray]);
-
-              this.store.dispatch(new ProcessDownloadResults({
-                fileData: blob
-              }));
+              let url = URL.createObjectURL(blob)
+              let link = document.createElement('a');
+              link.href = url;
+              link.download = result.fileName;
+              link.click();
+              URL.revokeObjectURL(url);
             }),
           ).subscribe(); // Does this subscribe forever?
       }));

@@ -4,19 +4,13 @@ import {ManagementActions, ManagementActionTypes} from '../actions/management.ac
 export interface ManagementState {
   totalMemory: number,
   freeMemory: number,
-  maxMemory: number,
-
-  fileData: Blob,
-  fileUrl: string
+  maxMemory: number
 }
 
 export const initialAuthState: ManagementState = {
   totalMemory: 0,
   freeMemory: 0,
-  maxMemory: 0,
-
-  fileData: null,
-  fileUrl: null
+  maxMemory: 0
 };
 
 export function managementReducer(state = initialAuthState, action: ManagementActions): ManagementState {
@@ -27,18 +21,6 @@ export function managementReducer(state = initialAuthState, action: ManagementAc
         totalMemory: action.payload.totalMemory,
         freeMemory: action.payload.freeMemory,
         maxMemory: action.payload.maxMemory
-      };
-    }
-    case ManagementActionTypes.ProcessDownloadResults: {
-      return {
-        ...state,
-        fileData: action.payload.fileData
-      };
-    }
-    case ManagementActionTypes.UpdateFileURL: {
-      return {
-        ...state,
-        fileUrl: action.payload.fileUrl
       };
     }
     default:
