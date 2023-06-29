@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs';
 import {select, Store} from "@ngrx/store";
 import {HierarchyState} from "../../reducers/hierarchy.reducers";
 import {HierarchyListItem} from "../../../../wsObjects/hierarchyListItem";
-import {ClickedHierarchy, ExpandCollapseHierarchy} from "../../actions/hierarchy.actions";
+import {ClickedHierarchy, ExpandCollapseHierarchy, WorksheetLinkClicked} from "../../actions/hierarchy.actions";
 import {isSelectedItem} from "../../selectors/hierarchy.selectors";
 import {Router} from "@angular/router";
 
@@ -22,8 +22,7 @@ export class ListItemContentComponent implements OnInit, OnDestroy {
   // Unsubscribe tracker
   private unsubscribe: Subscription[] = [];
 
-  constructor(private store: Store<HierarchyState>,
-              private router: Router) {
+  constructor(private store: Store<HierarchyState>) {
   }
 
   ngOnInit(): void {
@@ -45,7 +44,10 @@ export class ListItemContentComponent implements OnInit, OnDestroy {
   }
 
   worksheetClicked(): void {
-    this.router.navigate(['/worksheet/' + this.hierarchyListItem.nodeReference + '/' + this.hierarchyListItem.title.replace(/ /g, '-')]);
+    this.store.dispatch(new WorksheetLinkClicked({
+      worksheetId: this.hierarchyListItem.nodeReference,
+      worksheetName: this.hierarchyListItem.title.replace(/ /g, '-')
+    }));
   }
 
   expand(): void {

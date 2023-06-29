@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SideBarService} from "../service/sidebar.service";
 import {select, Store} from "@ngrx/store";
-import {SideBarState} from "../reducers/sidebar.reducers";
-import {menuItems} from "../selectors/sidebar.selectors";
+import {MenuItemsState, MenuState} from "../reducers/sidebar.reducers";
+import {menuItems, selectAll} from "../selectors/sidebar.selectors";
 import {Observable} from "rxjs";
 import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
 
@@ -12,11 +12,14 @@ import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
   styleUrls: ['./sidebar-menu.component.scss']
 })
 export class SidebarMenuComponent implements OnInit {
-  menuItems$: Observable<MenuItem[]>;
+  menuItems$: Observable<Array<MenuItem>>;
+  menuItemsState$: Observable<MenuItemsState>;
 
-  constructor(private sideBarService: SideBarService, private store: Store<SideBarState>) { }
+  constructor(private sideBarService: SideBarService, private store: Store<MenuState>) {
+  }
 
   ngOnInit(): void {
-    this.menuItems$ = this.store.pipe(select(menuItems));
+    this.menuItemsState$ = this.store.pipe(select(menuItems));
+    this.menuItems$ = this.menuItemsState$.pipe(select(selectAll));
   }
 }

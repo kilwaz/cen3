@@ -1,9 +1,16 @@
 // NGRX
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {SideBarState} from "../reducers/sidebar.reducers";
+import {adapter, MenuState} from "../reducers/sidebar.reducers";
 
 // Selectors
-export const selectRoles = createFeatureSelector<SideBarState>('sideBar');
+export const selectRoles = createFeatureSelector<MenuState>('sideBar');
 
-export const menuItems = createSelector(selectRoles, sideBar => sideBar?.menuItem);
+export const menuItems = createSelector(selectRoles, sideBar => sideBar?.menuItems);
+
+export const {
+  selectAll,
+  selectEntities,
+  selectIds,
+  selectTotal
+} = adapter.getSelectors();
 

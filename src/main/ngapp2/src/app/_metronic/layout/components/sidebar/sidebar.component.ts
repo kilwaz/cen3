@@ -4,7 +4,7 @@ import {ILayout, LayoutType} from '../../core/configs/config';
 import {LayoutService} from '../../core/layout.service';
 import {SideBarService} from "./service/sidebar.service";
 import {select, Store} from "@ngrx/store";
-import {SideBarState} from "./reducers/sidebar.reducers";
+import {MenuState} from "./reducers/sidebar.reducers";
 import {RequestMenuLayout} from "./actions/sidebar.actions";
 
 @Component({
@@ -76,7 +76,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   toggleType: string;
   toggleState: string;
 
-  constructor(private layout: LayoutService, private sideBarService: SideBarService, private store: Store<SideBarState>) {
+  constructor(private layout: LayoutService, private sideBarService: SideBarService, private store: Store<MenuState>) {
   }
 
   ngOnInit(): void {
