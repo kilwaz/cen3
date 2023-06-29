@@ -25,6 +25,9 @@ import {SortFilterService} from "./service/sort-filter.service";
 import {UpdateService} from "./service/update.service";
 import {WorksheetPaginationComponent} from "./components/worksheet-pagination/worksheet-pagination.component";
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import {summaryReducer} from "./reducers/summary.reducers";
+import {SummaryEffects} from "./effects/summary.effects";
+import {SummaryService} from "./service/summary.service";
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
   providers: [
     WorksheetService,
     SortFilterService,
-    UpdateService
+    UpdateService,
+    SummaryService
   ],
   imports: [
     CommonModule,
@@ -58,7 +62,8 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
     ScrollingModule,
 
     StoreModule.forFeature('worksheet', worksheetReducer),
-    EffectsModule.forFeature([WorksheetEffects]),
+    StoreModule.forFeature('summary', summaryReducer),
+    EffectsModule.forFeature([WorksheetEffects, SummaryEffects]),
 
     RouterModule.forChild([
       {

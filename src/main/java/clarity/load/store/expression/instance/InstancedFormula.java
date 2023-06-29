@@ -10,12 +10,17 @@ import clarity.load.store.expression.values.Reference;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InstancedFormula {
     private static Logger log = AppLogger.logger();
 
     private Record record;
     private InstancedNode instancedRoot = null;
     private String baseFormula;
+    private int type = 0;
+    private List<Record> records = new ArrayList<>();
 
     public InstancedFormula(Formula formula) {
         this.instancedRoot = formula.getRoot().duplicate().instancedFormula(this);
@@ -25,21 +30,26 @@ public class InstancedFormula {
     public void substituteRecordValues(InstancedNode node) {
         Expression expression = node.getExpression();
         if (expression instanceof Reference) {
-            Definition definition = ((Reference) expression).getValue();
-            node.referenceNode(true);
-            if (definition.isCalculated()) {
-                InstancedFormula instancedFormula = definition.getFormula()
-                        .createInstance()
-                        .record(this.record);
-
-                Expression solvedExpression = instancedFormula.solve();
-                node.instancedFormula(instancedFormula);
-                node.expression(solvedExpression);
+            if(type == 1) {
+                node.referenceNode(true);
+                node.expression(expression);
             } else {
-                if (record.get(definition.getName()) != null) {
-                    node.expression(record.get(definition.getName()).get().toExpression());
-                } else { // If node cannot be found as it is probably null
-                    node.expression(new Number(0));
+                Definition definition = ((Reference) expression).getValue();
+                node.referenceNode(true);
+                if (definition.isCalculated()) {
+                    InstancedFormula instancedFormula = definition.getFormula()
+                            .createInstance()
+                            .record(this.record);
+
+                    Expression solvedExpression = instancedFormula.solve();
+                    node.instancedFormula(instancedFormula);
+                    node.expression(solvedExpression);
+                } else {
+                    if (record.get(definition.getName()) != null) {
+                        node.expression(record.get(definition.getName()).get().toExpression());
+                    } else { // If node cannot be found as it is probably null
+                        node.expression(new Number(0));
+                    }
                 }
             }
         }
@@ -62,7 +72,9 @@ public class InstancedFormula {
 
     public Expression solve() {
         if (instancedRoot != null) {
-            substituteRecordValues(instancedRoot);
+            if (type == 0) {
+                substituteRecordValues(instancedRoot);
+            }
             return instancedRoot.solve();
         }
 
@@ -74,11 +86,29 @@ public class InstancedFormula {
         return this;
     }
 
+    public InstancedFormula records(List<Record> records) {
+        this.records = records;
+        return this;
+    }
+
+    public InstancedFormula type(int type) {
+        this.type = type;
+        return this;
+    }
+
     public InstancedNode getInstancedRoot() {
         return instancedRoot;
     }
 
     public String getBaseFormula() {
         return baseFormula;
+    }
+
+    public Record getRecord() {
+        return record;
+    }
+
+    public List<Record> getRecords() {
+        return records;
     }
 }

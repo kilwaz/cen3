@@ -5,6 +5,7 @@ import clarity.load.store.expression.Function;
 import clarity.load.store.expression.operators.FunctionParameters;
 import clarity.load.store.expression.operators.OperatorDictionary;
 import clarity.load.store.expression.operators.OperatorRepresentation;
+import clarity.load.store.expression.values.Bool;
 import clarity.load.store.expression.values.Evaluation;
 
 import java.util.ArrayList;
@@ -19,8 +20,14 @@ public class If extends Expression implements Function {
     @Override
     public Expression apply(ArrayList<Expression> parameters) {
         if (OperatorDictionary.validateParameterCount(this, parameters)) {
-            if (parameters.get(0) instanceof Evaluation) {
+            if (parameters.get(0) instanceof Evaluation) { // Calculated evaluation
                 if (((Evaluation) parameters.get(0)).getValue()) {
+                    return parameters.get(1);
+                } else {
+                    return parameters.get(2);
+                }
+            } else if (parameters.get(0) instanceof Bool) { // Predefined Boolean value
+                if (((Bool) parameters.get(0)).getValue()) {
                     return parameters.get(1);
                 } else {
                     return parameters.get(2);

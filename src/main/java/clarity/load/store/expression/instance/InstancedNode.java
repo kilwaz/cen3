@@ -1,17 +1,16 @@
 package clarity.load.store.expression.instance;
 
-import clarity.load.store.expression.Expression;
-import clarity.load.store.expression.Function;
-import clarity.load.store.expression.Operator;
-import clarity.load.store.expression.values.Evaluation;
+import clarity.Record;
+import clarity.load.store.expression.*;
+import clarity.load.store.expression.operators.OperatorRepresentation;
 import clarity.load.store.expression.values.Number;
-import clarity.load.store.expression.values.Reference;
-import clarity.load.store.expression.values.Textual;
+import clarity.load.store.expression.values.*;
 import error.Error;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InstancedNode {
     private static Logger log = AppLogger.logger();
@@ -110,9 +109,38 @@ public class InstancedNode {
         return expression;
     }
 
+    public String getStringRepresentation() {
+        String representation = "";
+        if (right != null) {
+            representation += right.getStringRepresentation();
+        }
+        if (left != null) {
+            representation += left.getStringRepresentation();
+        }
+        if (nodeList != null) {
+            int commaCounter = 0;
+            for (InstancedNode node : nodeList) {
+                if (commaCounter > 0) {
+                    representation += ",";
+                }
+                representation += node.getStringRepresentation();
+                commaCounter++;
+            }
+        }
+
+        if (expression instanceof Function || expression instanceof AggFunction) {
+            OperatorRepresentation operatorRepresentation = expression.getClass().getDeclaredAnnotation(OperatorRepresentation.class);
+            representation = operatorRepresentation.formulaRepresentation().toLowerCase() + "(" + representation + ")";
+        } else {
+            representation = expression.getStringRepresentation() + representation;
+        }
+
+        return representation;
+    }
+
     public Expression solve() {
         try {
-            if (expression instanceof Number || expression instanceof Textual || expression instanceof Evaluation) {
+            if (expression instanceof Number || expression instanceof Textual || expression instanceof Bool || expression instanceof Evaluation) {
                 solved = true;
                 solvedExpression = expression;
                 return solvedExpression;
@@ -142,6 +170,37 @@ public class InstancedNode {
                     }
                     solvedExpression = ((Function) expression).apply(expressions);
                 }
+                return solvedExpression;
+            } else if (expression instanceof AggFunction) { // Aggregate functions
+                solved = true;
+
+                List<Record> records = getInstancedFormula().getRecords();
+
+                ArrayList<Expression> expressions = new ArrayList<>();
+                if (nodeList != null) {
+                    StringBuilder formulaBuilder = new StringBuilder();
+                    for (InstancedNode instancedNode : nodeList) { // Get just the expressions out of the instanced to pass on to the function
+                        formulaBuilder.append(instancedNode.getStringRepresentation());
+                    }
+
+                    log.info("Base formula => " + formulaBuilder.toString());
+
+                    // Create the base formula
+                    Formula formula = new Formula(formulaBuilder.toString());
+                    formula.build();
+
+                    for (Record record : records) { // Loop through each record creating an instance and then passing in each record
+                        InstancedFormula instancedFormula = formula.createInstance();
+                        instancedFormula.record(record);
+
+                        Expression result = instancedFormula.solve();
+
+                        expressions.add(result); // Add each result into the aggregate function
+                    }
+                }
+
+                solvedExpression = ((AggFunction) expression).apply(expressions);
+
                 return solvedExpression;
             }
         } catch (Exception ex) {

@@ -51,16 +51,6 @@ export class WorksheetComponent implements OnInit, OnDestroy {
     }));
   }
 
-  clearWorksheetData(): void {
-    this.store.dispatch(new ProcessWorksheetData({
-      requestID: null,
-      worksheetRecords: null,
-      worksheetConfigs: null,
-      worksheetStatus: null
-    }));
-    this.store.dispatch(new ClearSort({}));
-  }
-
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }

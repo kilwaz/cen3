@@ -139,8 +139,8 @@ public class DatabaseCollect {
                 endRange = results.size();
             }
 
-            log.info("Start range = " + startRange);
-            log.info("End range = " + endRange);
+//            log.info("Start range = " + startRange);
+//            log.info("End range = " + endRange);
         }
 
         if (results.size() > 0) {

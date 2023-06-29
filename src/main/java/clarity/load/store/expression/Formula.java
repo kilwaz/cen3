@@ -7,9 +7,8 @@ import clarity.load.store.expression.operators.OperatorDictionary;
 import clarity.load.store.expression.operators.grouping.CloseBracket;
 import clarity.load.store.expression.operators.grouping.Comma;
 import clarity.load.store.expression.operators.grouping.OpenBracket;
+import clarity.load.store.expression.values.*;
 import clarity.load.store.expression.values.Number;
-import clarity.load.store.expression.values.Reference;
-import clarity.load.store.expression.values.Textual;
 import error.Error;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +46,12 @@ public class Formula {
 
     public InstancedFormula createInstance() {
         return new InstancedFormula(this);
+    }
+
+    public InstancedFormula createAggInstance() {
+        InstancedFormula instancedFormula = new InstancedFormula(this);
+        instancedFormula.type(1);
+        return instancedFormula;
     }
 
     private Node build(Node current, String expressionStr) {
@@ -103,11 +108,21 @@ public class Formula {
                     currentLetter = matcher.group();
                     functionName = currentLetter.substring(0, currentLetter.length() - 1); // Removes additional opening bracket
                 }
+                if (functionName.isEmpty()) { // This means we didn't find the end of the function, so we might have a boolean expression instead
+                    Pattern patternEval = Pattern.compile("(?i)^(true|false)");
+                    Matcher matcherEval = patternEval.matcher(expressionStr);
+                    if (matcherEval.find()) {
+                        currentLetter = matcherEval.group();
+                        expression = new Bool(Boolean.valueOf(currentLetter));
+                    }
+                }
             } else { // Single character operators like + - / *
                 functionName = currentLetter;
             }
 
-            expression = OperatorDictionary.getInstance().createExpressionFromReference(functionName);
+            if (!functionName.isEmpty()) {
+                expression = OperatorDictionary.getInstance().createExpressionFromReference(functionName);
+            }
         }
 
         if (expression == null) {
@@ -117,7 +132,7 @@ public class Formula {
         // Tree positioning
         if (current == null) {
             // Creating the root node only once for the first item of the tree
-            if (expression instanceof Function) {
+            if (expression instanceof Function || expression instanceof AggFunction) {
                 current = new Node(expression, Node.NODE_CHILD_TYPE_VARIABLE);
             } else if (expression instanceof Operator || expression instanceof Value) {
                 current = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);
@@ -135,7 +150,7 @@ public class Formula {
             }
 
             if (newCurrent == null) { // Top of the tree has been reached, create a new node here
-                if (expression instanceof Function) {
+                if (expression instanceof Function || expression instanceof AggFunction) {
                     newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_VARIABLE);
                     newCurrent.addToList(current);
                 } else if (expression instanceof Operator || expression instanceof Value) {
@@ -143,8 +158,8 @@ public class Formula {
                     newCurrent.left(current);
                 }
             } else {
-                if (current.getExpression() instanceof Function) { // Children of functions are always treated separately and as a list
-                    if (expression instanceof Function) {
+                if (current.getExpression() instanceof Function || current.getExpression() instanceof AggFunction) { // Children of functions are always treated separately and as a list
+                    if (expression instanceof Function || expression instanceof AggFunction) {
                         newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_VARIABLE);
                     } else if (expression instanceof Operator || expression instanceof Value) {
                         newCurrent = new Node(expression, Node.NODE_CHILD_TYPE_BINARY);
@@ -186,7 +201,7 @@ public class Formula {
     }
 
     private Boolean continueTreeClimb(Expression current, Expression newExpression) {
-        if (newExpression instanceof OpenBracket || newExpression instanceof Comma || newExpression instanceof Function) {
+        if (newExpression instanceof OpenBracket || newExpression instanceof Comma || newExpression instanceof Function || newExpression instanceof AggFunction) {
             return false;
         }
         switch (newExpression.getAssociative()) {

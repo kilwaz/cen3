@@ -54,6 +54,8 @@ public enum WSData {
     WORKSHEET_STATUS_CURRENT_PAGE_NUMBER(),
     WORKSHEET_STATUS_PAGE_SIZE(),
 
+    SUMMARY_SECTION_TITLE(),
+
     WSData() {
     }
 }

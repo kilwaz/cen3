@@ -12,10 +12,11 @@ import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 import java.util.List;
 
 public class WorksheetData extends WebSocketData {
-    // OUTGOING
+    // Incoming
     @WSDataOutgoing @WSDataIncoming
     private String requestID = null;
 
+    // OUTGOING
     @WSDataOutgoing
     @WSDataJSONArrayClass(WebRecord.class)
     @WSDataTypeScriptClass(WebRecord.class)
