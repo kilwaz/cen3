@@ -51,7 +51,8 @@
     "socicon": "3.0.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0",
-    "guid-typescript": "^1.0.9"
+    "guid-typescript": "^1.0.9",
+    "ace-builds": "^1.23.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.1.2",
