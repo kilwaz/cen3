@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {WebRecord} from "../../../../wsObjects/webRecord";
 import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
@@ -14,16 +14,18 @@ export class WorksheetRowComponent implements OnInit, OnDestroy {
   @Input('worksheetConfigs') worksheetConfigs: Array<WebWorksheetConfig>;
 
   // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = [];
 
-  constructor() {
+  constructor(private renderer: Renderer2, private el: ElementRef) {
   }
 
   ngOnInit(): void {
-
+    if (this.worksheetRowRecord.properties !== undefined) {
+      this.renderer.addClass(this.el.nativeElement, 'iaColor');
+    }
   }
 
   ngOnDestroy() {
-    // this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

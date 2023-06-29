@@ -1,6 +1,8 @@
 package clarity.load;
 
 import clarity.definition.*;
+import clarity.load.excel.DefinedBridge;
+import clarity.load.excel.DefinedTemplate;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -94,12 +96,33 @@ public class ConfigJSON implements Loader {
                     hierarchyTree.save();
                 }
 
+                JSONArray importTemplates = jsonObject.getJSONArray("import_templates");
+                for (int i = 0; i < importTemplates.length(); i++) {
+                    JSONObject importTemplatesJson = importTemplates.getJSONObject(i);
+
+                    DefinedTemplate definedTemplate = DefinedTemplate.create(DefinedTemplate.class);
+                    definedTemplate.name(importTemplatesJson.getString("name"));
+                    definedTemplate.primaryKey(Definitions.getInstance().getDefinition(importTemplatesJson.getString("primary_key")));
+                    definedTemplate.save();
+
+                    JSONArray definedBridges = importTemplatesJson.getJSONArray("defined_bridges");
+                    for (int j = 0; j < definedBridges.length(); j++) {
+                        JSONObject definedBridgesJson = definedBridges.getJSONObject(j);
+
+                        DefinedBridge definedBridge = DefinedBridge.create(DefinedBridge.class);
+                        definedBridge.definition(Definitions.getInstance().getDefinition(definedBridgesJson.getString("definition")));
+                        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition(definedBridgesJson.getString("record_definition")));
+                        definedBridge.columnTitle(definedBridgesJson.getString("column_title"));
+                        definedBridge.definedTemplate(definedTemplate);
+                        definedBridge.save();
+                    }
+                }
+
                 log.info("Finished loading");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
         log.info("This file was processed");
-
     }
 }

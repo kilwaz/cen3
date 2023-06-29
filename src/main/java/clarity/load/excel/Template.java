@@ -21,87 +21,7 @@ public class Template {
     private LoadedRecord headerRecord = null;
 
     public Template() {
-        DefinedTemplate definedTemplate = DefinedTemplate.create(DefinedTemplate.class);
-        definedTemplate.name("Test import");
-        definedTemplate.primaryKey(Definitions.getInstance().getDefinition("Employee_Number"));
-        definedTemplate.save();
 
-        DefinedBridge definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("First_Name"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("First Name");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Last_Name"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Last Name");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Preferred_Name"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Preferred Name");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Employee_Number"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Employee Number");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Assignment_Status"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Assignment Status");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Grade"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Grade");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Employment_Category"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Employment Category");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Office_Location"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Office Location");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Currency"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Currency");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Salary"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Salary");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
-
-        definedBridge = DefinedBridge.create(DefinedBridge.class);
-        definedBridge.definition(Definitions.getInstance().getDefinition("Reviewing_Manager_ID"));
-        definedBridge.recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"));
-        definedBridge.columnTitle("Reviewing Manager ID");
-        definedBridge.definedTemplate(definedTemplate);
-        definedBridge.save();
     }
 
     public Template headerRecord(LoadedRecord headerRecord) {
@@ -151,7 +71,6 @@ public class Template {
                 }
             }
         }
-
 
         dbRecord.save(RecordState.RAW);
         Infer.me(dbRecord);

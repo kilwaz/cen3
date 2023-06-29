@@ -15,6 +15,7 @@ import log.EventLogCreator;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
+import requests.spark.websockets.objects.messages.dataitems.WebProperty;
 import requests.spark.websockets.objects.messages.dataitems.WebRecord;
 import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
 import requests.spark.websockets.objects.messages.dataitems.WorksheetStatus;
@@ -58,6 +59,7 @@ public class Worksheet extends Message {
                 .collect();
 
         List<WebRecord> worksheetRecords = new ArrayList<>();
+        int counter = 0;
         for (Record record : empRecords) {
             WebRecord webRecord = new WebRecord();
             webRecord.setUuid(record.getUuidString());
@@ -71,6 +73,14 @@ public class Worksheet extends Message {
 
             webRecord.setEntriesFromClarity(Arrays.asList(entriesToShow));
             worksheetRecords.add(webRecord);
+
+            if (counter == 2) {
+                List<WebProperty> properties = new ArrayList<>();
+                properties.add(new WebProperty("worksheetRowColor", "iaColor"));
+                webRecord.setProperties(properties);
+            }
+
+            counter++;
         }
 
         worksheetData.setWorksheetRecords(worksheetRecords);

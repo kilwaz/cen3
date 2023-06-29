@@ -14,8 +14,14 @@ $highlight-color: #FFECEE;
 $highlight-alternating: #FBFCFD;
 $highlight-white: #FFF;
 
+$highlight-ia: #FAD2D4;
+
 table tr:nth-child(odd) {
   background-color: $highlight-alternating;
+
+  &.iaColor {
+    background-color: $highlight-ia;
+  }
 
   &:hover {
     background-color: $highlight-color;
@@ -24,6 +30,10 @@ table tr:nth-child(odd) {
 
 table tr:nth-child(even) {
   background-color: $highlight-white;
+
+  &.iaColor {
+    background-color: $highlight-ia;
+  }
 
   &:hover {
     background-color: $highlight-color;

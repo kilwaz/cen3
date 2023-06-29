@@ -15,11 +15,15 @@ public enum WSData {
 
     RECORD_UUID(),
     RECORD_ENTRIES(),
+    RECORD_PROPERTIES(),
 
     ENTRY_UUID(),
     ENTRY_NAME(),
     ENTRY_VALUE(),
     ENTRY_RECORD_UUID(),
+
+    PROPERTY_NAME(),
+    PROPERTY_VALUE(),
 
     DEFINITION_UUID(),
     DEFINITION_NAME(),

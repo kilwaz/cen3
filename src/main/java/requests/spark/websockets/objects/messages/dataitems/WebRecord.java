@@ -19,6 +19,11 @@ public class WebRecord extends JSONWeb {
     @WSDataTypeScriptClass(WebEntry.class)
     private List<WebEntry> entries = null;
 
+    @WSDataReference(WSData.RECORD_PROPERTIES)
+    @WSDataJSONArrayClass(WebProperty.class)
+    @WSDataTypeScriptClass(WebProperty.class)
+    private List<WebProperty> properties = null;
+
     public WebRecord() {
 
     }
@@ -48,5 +53,13 @@ public class WebRecord extends JSONWeb {
 
     public void setEntries(List<WebEntry> entries) {
         this.entries = entries;
+    }
+
+    public List<WebProperty> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<WebProperty> properties) {
+        this.properties = properties;
     }
 }
