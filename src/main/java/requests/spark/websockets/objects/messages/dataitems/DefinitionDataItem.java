@@ -4,7 +4,7 @@ import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class Definition extends JSONWeb {
+public class DefinitionDataItem extends JSONWeb {
     @WSDataReference(WSData.ENTRY_UUID)
     private String uuid = null;
 
@@ -14,7 +14,11 @@ public class Definition extends JSONWeb {
     @WSDataReference(WSData.ENTRY_NAME)
     private String name = null;
 
-    public Definition(clarity.definition.Definition definitionClarity) {
+    public DefinitionDataItem() {
+
+    }
+
+    public DefinitionDataItem(clarity.definition.Definition definitionClarity) {
         this.uuid = definitionClarity.getUuidString();
         this.expression = definitionClarity.getExpression();
         this.name = definitionClarity.getName();

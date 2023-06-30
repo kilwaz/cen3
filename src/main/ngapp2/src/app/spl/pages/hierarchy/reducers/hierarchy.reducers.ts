@@ -13,10 +13,10 @@ export interface HierarchyState {
 export interface HierarchyItemsState extends EntityState<HierarchyListItem> {
 }
 
-export const adapter: EntityAdapter<HierarchyListItem> = createEntityAdapter<HierarchyListItem>({
+export const adaptor: EntityAdapter<HierarchyListItem> = createEntityAdapter<HierarchyListItem>({
   selectId: hierarchyItem => hierarchyItem.nodeReference
 });
-export const initialHierarchyItemsState: HierarchyItemsState = adapter.getInitialState({});
+export const initialHierarchyItemsState: HierarchyItemsState = adaptor.getInitialState({});
 
 
 export const initialHierarchyState: HierarchyState = {
@@ -31,14 +31,14 @@ export function hierarchyReducer(state = initialHierarchyState, action: Hierarch
     case HierarchyActionTypes.LoadHierarchy: {
       return {
         ...state,
-        hierarchyItems: adapter.setAll(action.payload.hierarchyItems, state.hierarchyItems),
+        hierarchyItems: adaptor.setAll(action.payload.hierarchyItems, state.hierarchyItems),
         reloadHierarchy: false
       };
     }
     case HierarchyActionTypes.ExpandCollapseHierarchy: {
       return {
         ...state,
-        hierarchyItems: adapter.updateOne(action.payload.update, state.hierarchyItems)
+        hierarchyItems: adaptor.updateOne(action.payload.update, state.hierarchyItems)
       };
     }
     case HierarchyActionTypes.ClickedHierarchy: {

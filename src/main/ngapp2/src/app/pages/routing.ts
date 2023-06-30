@@ -12,6 +12,11 @@ const Routing: Routes = [
       import('../spl/pages/text-cases/text-cases.module').then((m) => m.TextCasesModule),
   },
   {
+    path: 'configuration',
+    loadChildren: () =>
+      import('../spl/pages/configuration/configuration.module').then((m) => m.ConfigurationModule),
+  },
+  {
     path: 'hierarchy',
     loadChildren: () =>
       import('../spl/pages/hierarchy/hierarchy.module').then((m) => m.HierarchyModule),

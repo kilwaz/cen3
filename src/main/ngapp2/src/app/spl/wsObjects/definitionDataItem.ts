@@ -1,11 +1,11 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.Definition
+requests.spark.websockets.objects.messages.dataitems.DefinitionDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class Definition {
+export class DefinitionDataItem {
 	private _uuid: string;
 	private _expression: string;
 	private _name: string;
@@ -13,7 +13,7 @@ export class Definition {
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : Definition {
+	wsFill(webSocketReference: any) : DefinitionDataItem {
 		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
 		this._expression = webSocketReference.expression != undefined ? webSocketReference.expression : this._expression;
 		this._name = webSocketReference.name != undefined ? webSocketReference.name : this._name;

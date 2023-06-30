@@ -142,6 +142,10 @@ public class Definitions {
         return recordDefinitionHashMap;
     }
 
+    public List<RecordDefinition> getRecordDefinitions() {
+        return new ArrayList<>(recordDefinitionHashMap.values());
+    }
+
     public RecordDefinition getRecordDefinition(String name) {
         return recordDefinitionHashMap.get(name.toLowerCase());
     }

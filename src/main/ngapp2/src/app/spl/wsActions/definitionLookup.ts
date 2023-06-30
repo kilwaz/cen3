@@ -5,10 +5,11 @@ DO NOT MANUALLY CHANGE THIS FILE
 */
 
 import {Message} from "./message";
-import {Definition} from "../wsObjects/definition";
+import {DefinitionDataItem} from "../wsObjects/definitionDataItem";
 
 export class DefinitionLookup extends Message {
-	private _entries: Array<Definition> = [];
+	private _name: string;
+	private _entries: Array<DefinitionDataItem> = [];
 	
 	constructor() {
 		super();
@@ -16,14 +17,23 @@ export class DefinitionLookup extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
+		this._name = msgRaw.name;
 		this._entries = msgRaw.entries;
 	}
 
-	get entries(): Array<Definition> {
+	get name(): string {
+		return this._name;
+	}
+	
+	get entries(): Array<DefinitionDataItem> {
 		return this._entries;
 	}
 	
-	set entries(value: Array<Definition>) {
+	set name(value: string) {
+		this._name = value;
+	}
+	
+	set entries(value: Array<DefinitionDataItem>) {
 		this._entries = value;
 	}
 	

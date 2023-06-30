@@ -1,0 +1,34 @@
+<div class="card card-custom gutter-b">
+
+  <div class="d-flex align-items-center">
+    <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Record definition:</span>
+
+    <select [(ngModel)]="selectedRecordDefinition" class="form-select form-select-sm form-select-solid"
+            data-hide-search="true"
+            (change)="recordDefinitionChanged()">
+      <option *ngFor="let option of recordDefinitions$ | async" [ngValue]="option">{{option.name}}</option>
+    </select>
+  </div>
+
+  <div class="d-flex align-items-center">
+    <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Definition:</span>
+
+    <select [(ngModel)]="selectedDefinition" class="form-select form-select-sm form-select-solid"
+            data-hide-search="true"
+            (change)="definitionChanged()">
+      <option *ngFor="let option of definitions$ | async" [ngValue]="option">{{option.name}}</option>
+    </select>
+  </div>
+
+  <div id="editor"></div>
+
+  <button click-stop-propagation type="button" class="sort-button btn btn-sm btn-icon btn-secondary"
+          data-bs-toggle="tooltip" data-bs-placement="top" title="Save" (click)="save()">
+    Save
+  </button>
+
+  <ul>
+    <li *ngFor="let definition of definitions$ | async">{{definition.name}} - {{definition.expression}}</li>
+  </ul>
+</div>
+

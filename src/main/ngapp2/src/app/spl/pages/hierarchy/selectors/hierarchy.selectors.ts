@@ -1,6 +1,6 @@
 // NGRX
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {adapter, HierarchyState} from "../reducers/hierarchy.reducers";
+import {adaptor, HierarchyState} from "../reducers/hierarchy.reducers";
 import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
 
 // Selectors
@@ -17,7 +17,7 @@ export const {
   selectEntities,
   selectIds,
   selectTotal
-} = adapter.getSelectors();
+} = adaptor.getSelectors();
 
 // create a selector to select entities
 export const selectAllYourEntities = createSelector(
@@ -32,8 +32,7 @@ export const selectYourEntityById = (id: string) =>
     (entities) => entities[id]
   );
 
-
-// create a selector to select a single entity by id
+// create a selector to select multiple entities by ids
 export const selectYourEntityByIds = (ids: string[]) =>
   createSelector(
     selectAllYourEntities,

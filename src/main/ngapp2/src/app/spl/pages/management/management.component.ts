@@ -1,8 +1,7 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 // RxJS
 import {Observable, Subscription} from 'rxjs';
-import * as ace from "ace-builds";
 
 // Store
 import {select, Store} from '@ngrx/store';
@@ -20,7 +19,7 @@ import {DownloadTestRequest, QueryManagement} from "./actions/management.actions
   templateUrl: './management.component.html',
   styleUrls: ['./management.component.scss']
 })
-export class ManagementComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ManagementComponent implements OnInit, OnDestroy {
   totalMemory$: Observable<number>;
   freeMemory$: Observable<number>;
   maxMemory$: Observable<number>;
@@ -38,18 +37,6 @@ export class ManagementComponent implements OnInit, OnDestroy, AfterViewInit {
     this.maxMemory$ = this.store.pipe(select(maxMemory));
 
     this.store.dispatch(new QueryManagement({}));
-  }
-
-  ngAfterViewInit() {
-    ace.require('ace/ext/language_tools');
-    const editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/javascript");
-    editor.setOptions({
-      enableBasicAutocompletion: true,
-      enableSnippets: true,
-      enableLiveAutocompletion: true
-    });
   }
 
   ngOnDestroy() {

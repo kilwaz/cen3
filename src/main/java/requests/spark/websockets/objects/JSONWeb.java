@@ -68,6 +68,9 @@ public class JSONWeb {
                         if (jsonObject.has("_" + fieldName)) {
                             Method fieldMethod = this.getClass().getMethod("set" + capFieldName, String.class);
                             fieldMethod.invoke(this, jsonObject.getString("_" + fieldName));
+                        } else if (jsonObject.has(fieldName)) {
+                            Method fieldMethod = this.getClass().getMethod("set" + capFieldName, String.class);
+                            fieldMethod.invoke(this, jsonObject.getString(fieldName));
                         }
                     }
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException |
