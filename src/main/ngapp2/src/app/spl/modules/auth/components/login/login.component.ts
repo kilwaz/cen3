@@ -10,7 +10,6 @@ import {select, Store} from "@ngrx/store";
 import {username, password, errorMessage} from "../../selectors/auth.selectors";
 import {LoginResultState} from "../../reducers/auth.reducers";
 import {InputPasswordUpdated, InputUsernameUpdated, SubmitLogin} from "../../actions/auth.actions";
-import {ProcessText} from "../../../../pages/text-cases/actions/text-cases.actions";
 
 @Component({
   selector: 'app-login',

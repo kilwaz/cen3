@@ -7,11 +7,6 @@ const Routing: Routes = [
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: 'text-cases',
-    loadChildren: () =>
-      import('../spl/pages/text-cases/text-cases.module').then((m) => m.TextCasesModule),
-  },
-  {
     path: 'configuration',
     loadChildren: () =>
       import('../spl/pages/configuration/configuration.module').then((m) => m.ConfigurationModule),

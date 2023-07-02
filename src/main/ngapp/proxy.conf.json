@@ -1,9 +1,0 @@
-{
-  "/echotest": {
-    "target": "http://localhost:4567/echotest",
-    "secure": false,
-    "pathRewrite": {"^/echotest" : ""},
-    "logLevel": "debug",
-    "changeOrigin": true
-  }
-}
