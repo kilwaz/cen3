@@ -3,6 +3,9 @@ package clarity.load;
 import clarity.definition.*;
 import clarity.load.excel.DefinedBridge;
 import clarity.load.excel.DefinedTemplate;
+import data.model.dao.DefinedTemplateDAO;
+import data.model.dao.HierarchyTreeDAO;
+import data.model.dao.WorksheetConfigDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -11,6 +14,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class ConfigJSON implements Loader {
@@ -123,6 +127,99 @@ public class ConfigJSON implements Loader {
                 throw new RuntimeException(e);
             }
         }
-        log.info("This file was processed");
+    }
+
+    public JSONObject buildJSONFromCurrentConfiguration() {
+        JSONObject root = new JSONObject();
+
+        JSONArray definitions = new JSONArray();
+        List<Definition> definitionList = Definitions.getInstance().getAllDefinitions();
+        for (Definition definition : definitionList) {
+            JSONObject definitionJSON = new JSONObject();
+            String definitionType = null;
+            if (definition.getDefinitionType() == Definition.DEFINITION_TYPE_NUMBER) {
+                definitionType = "Number";
+            } else if (definition.getDefinitionType() == Definition.DEFINITION_TYPE_STRING) {
+                definitionType = "Text";
+            }
+
+            definitionJSON.put("type", definitionType);
+            definitionJSON.put("name", definition.getName());
+            if (definition.isCalculated()) {
+                definitionJSON.put("expression", definition.getExpression());
+            }
+            definitions.put(definitionJSON);
+        }
+        root.put("definitions", definitions);
+
+        JSONArray recordDefinitions = new JSONArray();
+        List<RecordDefinition> recordDefinitionList = Definitions.getInstance().getAllRecordDefinitions();
+        for (RecordDefinition recordDefinition : recordDefinitionList) {
+            JSONObject recordDefinitionJSON = new JSONObject();
+
+            recordDefinitionJSON.put("name", recordDefinition.getName());
+            recordDefinitionJSON.put("primary_key", recordDefinition.getPrimaryKey().getName());
+
+            JSONArray definitionsInRecordArray = new JSONArray();
+            List<Definition> definitionsInRecord = recordDefinition.getDefinitions();
+            for (Definition definition : definitionsInRecord) {
+                definitionsInRecordArray.put(definition.getName());
+            }
+            recordDefinitionJSON.put("definitions", definitionsInRecordArray);
+
+            recordDefinitions.put(recordDefinitionJSON);
+        }
+        root.put("record_definition", recordDefinitions);
+
+        JSONArray worksheetConfigs = new JSONArray();
+        List<WorksheetConfig> worksheetConfigList = new WorksheetConfigDAO().getAllWorksheetConfigs();
+        for (WorksheetConfig worksheetConfig : worksheetConfigList) {
+            JSONObject worksheetConfigJson = new JSONObject();
+
+            worksheetConfigJson.put("column_title", worksheetConfig.getColumnTitle());
+            worksheetConfigJson.put("column_type", worksheetConfig.getColumnType());
+            worksheetConfigJson.put("column_order", worksheetConfig.getColumnOrder());
+            worksheetConfigJson.put("definition", worksheetConfig.getDefinition().getName());
+
+            worksheetConfigs.put(worksheetConfigJson);
+        }
+        root.put("worksheet_config", worksheetConfigs);
+
+        JSONArray hierarchyTrees = new JSONArray();
+        List<HierarchyTree> hierarchyTreesList = new HierarchyTreeDAO().getAllTrees();
+        for (HierarchyTree hierarchyTree : hierarchyTreesList) {
+            JSONObject hierarchyTreeJSON = new JSONObject();
+
+            hierarchyTreeJSON.put("name", hierarchyTree.getName());
+
+            hierarchyTrees.put(hierarchyTreeJSON);
+        }
+        root.put("hierarchy_trees", hierarchyTrees);
+
+        JSONArray definedTemplates = new JSONArray();
+        List<DefinedTemplate> definedTemplateList = new DefinedTemplateDAO().getAllDefinedTemplates();
+        for (DefinedTemplate definedTemplate : definedTemplateList) {
+            JSONObject definedTemplateJSON = new JSONObject();
+
+            definedTemplateJSON.put("name", definedTemplate.getName());
+            definedTemplateJSON.put("primary_key", definedTemplate.getPrimaryKey().getName());
+
+            JSONArray definedBridges = new JSONArray();
+            List<DefinedBridge> definedBridgeList = definedTemplate.getDefinedBridges();
+            for (DefinedBridge definedBridge : definedBridgeList) {
+                JSONObject definedBridgeJSON = new JSONObject();
+
+                definedBridgeJSON.put("definition", definedBridge.getDefinition().getName());
+                definedBridgeJSON.put("record_definition", definedBridge.getRecordDefinition().getName());
+                definedBridgeJSON.put("column_title", definedBridge.getColumnTitle());
+
+                definedBridges.put(definedBridgeJSON);
+            }
+            definedTemplateJSON.put("defined_bridges", definedBridges);
+            definedTemplates.put(definedTemplateJSON);
+        }
+        root.put("import_templates", definedTemplates);
+
+        return root;
     }
 }

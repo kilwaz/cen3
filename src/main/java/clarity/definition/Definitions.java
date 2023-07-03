@@ -138,11 +138,15 @@ public class Definitions {
         return definitionHashMap;
     }
 
+    public List<Definition> getAllDefinitions() {
+        return new ArrayList<>(definitionHashMap.values());
+    }
+
     public HashMap<String, RecordDefinition> getRecordDefinitionHashMap() {
         return recordDefinitionHashMap;
     }
 
-    public List<RecordDefinition> getRecordDefinitions() {
+    public List<RecordDefinition> getAllRecordDefinitions() {
         return new ArrayList<>(recordDefinitionHashMap.values());
     }
 
@@ -152,5 +156,15 @@ public class Definitions {
 
     public Definition getDefinition(String name) {
         return definitionHashMap.get(name.toLowerCase());
+    }
+
+    public List<RecordDefinition> getRecordDefinitionsUsingDefinition(Definition definition) {
+        List<RecordDefinition> recordDefinitions = new ArrayList<>();
+        for (RecordDefinition recordDefinition : recordDefinitionHashMap.values()) {
+            if (recordDefinition.hasDefinition(definition)) {
+                recordDefinitions.add(recordDefinition);
+            }
+        }
+        return recordDefinitions;
     }
 }

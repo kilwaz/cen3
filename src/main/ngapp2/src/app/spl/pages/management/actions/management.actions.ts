@@ -4,7 +4,10 @@ export enum ManagementActionTypes {
   QueryManagement = '[Management-QueryManagement] Action',
   ProcessResults = '[Management-ProcessResults] Action',
 
-  DownloadTestRequest = '[Management-DownloadTestRequest] Action'
+  DownloadTestRequest = '[Management-DownloadTestRequest] Action',
+  DownloadConfigRequest = '[Management-DownloadConfigRequest] Action',
+
+  ProcessDownloadedFile = '[Management-ProcessDownloadedFile] Action'
 }
 
 export class QueryManagement implements Action {
@@ -32,8 +35,27 @@ export class DownloadTestRequest implements Action {
   }
 }
 
+export class DownloadConfigRequest implements Action {
+  readonly type = ManagementActionTypes.DownloadConfigRequest;
+
+  constructor(public payload: {}) {
+  }
+}
+
+export class ProcessDownloadedFile implements Action {
+  readonly type = ManagementActionTypes.ProcessDownloadedFile;
+
+  constructor(public payload: {
+    content: string,
+    fileName: string
+  }) {
+  }
+}
+
 export type ManagementActions =
   QueryManagement |
   ProcessResults |
 
-  DownloadTestRequest;
+  DownloadTestRequest |
+  DownloadConfigRequest |
+  ProcessDownloadedFile;

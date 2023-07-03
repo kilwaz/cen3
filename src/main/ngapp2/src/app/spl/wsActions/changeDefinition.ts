@@ -16,7 +16,6 @@ export class ChangeDefinition extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._definition = msgRaw.definition;
 	}
 
 	get definition(): DefinitionDataItem {

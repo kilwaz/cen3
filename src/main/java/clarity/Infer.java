@@ -1,18 +1,15 @@
 package clarity;
 
-import clarity.definition.Definition;
-import clarity.definition.Hierarchy;
-import clarity.definition.HierarchyTree;
-import clarity.definition.RecordState;
+import clarity.definition.*;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.instance.InstancedFormula;
+import data.model.DatabaseCollect;
+import data.model.dao.HierarchyDAO;
 import data.model.dao.HierarchyTreeDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Infer {
     private static Logger log = AppLogger.logger();
@@ -77,7 +74,31 @@ public class Infer {
         }
     }
 
+    public static void me(Definition definition) {
+        List<RecordDefinition> recordDefinitions = Definitions.getInstance().getRecordDefinitionsUsingDefinition(definition);
+
+        for (RecordDefinition recordDefinition : recordDefinitions) {
+            List<Record> records = DatabaseCollect
+                    .create()
+                    .recordDefinition(recordDefinition)
+                    .state(RecordState.RAW)
+                    .collect();
+
+            Integer count = 0;
+
+            for (Record record : records) { // Pretty brute force approach
+                Infer.me(record);
+                count++;
+                if (count % 10 == 0) {
+                    log.info("Calc = " + count);
+                }
+            }
+        }
+    }
+
     public static void me(Record record) {
+
+
         List<Definition> definitions = record.getRecordDefinition().getDefinitions();
         HierarchyTree hierarchyTree = new HierarchyTreeDAO().getHierarchyTreeByName("ARUP");
 
@@ -91,9 +112,6 @@ public class Infer {
                 record.get(definition.getName()).get().setValue(solvedExpression.getStringRepresentation());
             }
             if ("Reviewing_Manager_ID".equalsIgnoreCase(definition.getName())) { // Hierarchy linked
-                Hierarchy hierarchy = Hierarchy.create(Hierarchy.class);
-                hierarchy.employee(record);
-
                 Object empNumber = record.get("Employee_Number").get().getValue();
                 String value2 = "";
                 if (empNumber instanceof Double) {
@@ -102,6 +120,13 @@ public class Infer {
                     value2 = (String) empNumber;
                 }
 
+                HierarchyDAO hierarchyDAO = new HierarchyDAO();
+                Hierarchy hierarchy = hierarchyDAO.getNodeByReference(value2);
+                if (hierarchy == null) {
+                    hierarchy = Hierarchy.create(Hierarchy.class);
+                }
+
+                hierarchy.employee(record);
                 hierarchy.nodeReference(value2);
                 if (record.has(definition)) { // Check record has this definition
                     Object value = record.get(definition.getName()).get().getValue();
@@ -118,8 +143,13 @@ public class Infer {
                 hierarchy.save();
 
                 // This is to create N9 nodes in the hierarchy
-                hierarchy = Hierarchy.create(Hierarchy.class);
-                hierarchy.nodeReference("N9-" + value2);
+                String n9Reference = "N9-" + value2;
+                hierarchy = hierarchyDAO.getNodeByReference(n9Reference);
+                if (hierarchy == null) {
+                    hierarchy = Hierarchy.create(Hierarchy.class);
+                }
+
+                hierarchy.nodeReference(n9Reference);
                 if (record.has(definition)) { // Check record has this definition
                     Object value = record.get(definition.getName()).get().getValue();
                     String result = "";

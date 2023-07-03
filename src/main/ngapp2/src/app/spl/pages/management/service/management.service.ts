@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {WebSocketService} from '../../../services/websocket.service';
 import {Management} from "../../../wsActions/management";
 import {DownloadTest} from "../../../wsActions/downloadTest";
+import {ExportConfiguration} from "../../../wsActions/exportConfiguration";
 
 @Injectable()
 export class ManagementService {
@@ -19,5 +20,11 @@ export class ManagementService {
     const downloadTestAction: DownloadTest = new DownloadTest();
 
     return this.webSocketService.sendWithObservable(downloadTestAction) as Observable<DownloadTest>;
+  }
+
+  downloadConfig(): Observable<ExportConfiguration> {
+    const exportConfigurationAction: ExportConfiguration = new ExportConfiguration();
+
+    return this.webSocketService.sendWithObservable(exportConfigurationAction) as Observable<ExportConfiguration>;
   }
 }

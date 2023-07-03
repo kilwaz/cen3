@@ -8,6 +8,9 @@ import data.SelectResultRow;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DefinedTemplateDAO {
     private static Logger log = AppLogger.logger();
 
@@ -27,5 +30,19 @@ public class DefinedTemplateDAO {
         }
 
         return definedTemplate;
+    }
+
+    public List<DefinedTemplate> getAllDefinedTemplates() {
+        List<DefinedTemplate> definedTemplates = new ArrayList<>();
+
+        SelectResult selectResult = (SelectResult) new SelectQuery("select uuid from defined_template")
+                .execute();
+
+        for (SelectResultRow resultRow : selectResult.getResults()) {
+            String uuid = resultRow.getString("uuid");
+            definedTemplates.add(DefinedTemplate.load(DAO.UUIDFromString(uuid), DefinedTemplate.class));
+        }
+
+        return definedTemplates;
     }
 }

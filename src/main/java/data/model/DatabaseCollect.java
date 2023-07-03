@@ -147,6 +147,7 @@ public class DatabaseCollect {
             for (int i = startRange; i < endRange; i++) {
                 String uuid = results.get(i).getString("UUID");
                 Record loadedRecord = Record.load(recordDefinition, UUID.fromString(uuid));
+                log.info("Loading " + i);
                 loadedRecord.load(state);
                 resultList.add(loadedRecord);
             }

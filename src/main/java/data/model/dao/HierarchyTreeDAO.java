@@ -7,6 +7,9 @@ import data.SelectResultRow;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HierarchyTreeDAO {
     private static Logger log = AppLogger.logger();
 
@@ -23,5 +26,18 @@ public class HierarchyTreeDAO {
             return HierarchyTree.load(DAO.UUIDFromString(uuid), HierarchyTree.class);
         }
         return null;
+    }
+
+    public List<HierarchyTree> getAllTrees() {
+        SelectResult selectResult = (SelectResult) new SelectQuery("select uuid from hierarchy_trees")
+                .execute();
+
+        List<HierarchyTree> hierarchyTrees = new ArrayList<>();
+        for (SelectResultRow resultRow : selectResult.getResults()) {
+            String uuid = resultRow.getString("uuid");
+
+            hierarchyTrees.add(HierarchyTree.load(DAO.UUIDFromString(uuid), HierarchyTree.class));
+        }
+        return hierarchyTrees;
     }
 }

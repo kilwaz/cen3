@@ -10,7 +10,7 @@ import {ManagementState} from './reducers/management.reducers';
 // Selectors
 import {freeMemory, maxMemory, totalMemory} from './selectors/management.selectors';
 import {ManagementService} from './service/management.service';
-import {DownloadTestRequest, QueryManagement} from "./actions/management.actions";
+import {DownloadConfigRequest, DownloadTestRequest, QueryManagement} from "./actions/management.actions";
 
 // Action
 
@@ -45,5 +45,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
   triggerDownload(): void {
     this.store.dispatch(new DownloadTestRequest({}));
+  }
+
+  triggerConfigDownload(): void {
+    this.store.dispatch(new DownloadConfigRequest({}));
   }
 }

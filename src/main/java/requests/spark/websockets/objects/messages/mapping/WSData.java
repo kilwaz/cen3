@@ -22,6 +22,9 @@ public enum WSData {
     ENTRY_VALUE(),
     ENTRY_RECORD_UUID(),
 
+    DOWNLOAD_FILENAME(),
+    DOWNLOAD_CONTENT(),
+
     PROPERTY_NAME(),
     PROPERTY_VALUE(),
 
