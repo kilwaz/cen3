@@ -2,21 +2,20 @@ package requests.spark.websockets.objects.messages.dataitems;
 
 import clarity.Entry;
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class WebEntry extends JSONWeb {
-    @WSDataReference(WSData.ENTRY_VALUE)
+public class WebEntryDataItem extends JSONWeb {
+    @WSDataReference()
     private String value = null;
 
-    @WSDataReference(WSData.ENTRY_RECORD_UUID)
+    @WSDataReference()
     private String recordUUID = null;
 
-    @WSDataReference(WSData.ENTRY_NAME)
+    @WSDataReference()
     private String name = null;
 
-    public WebEntry(Entry entryClarity) {
-        if(entryClarity.get().getValue() != null){
+    public WebEntryDataItem(Entry entryClarity) {
+        if (entryClarity.get().getValue() != null) {
             this.value = entryClarity.get().getValue().toString();
         }
         this.name = entryClarity.getReference();

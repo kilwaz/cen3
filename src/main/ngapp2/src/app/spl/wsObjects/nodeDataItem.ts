@@ -1,21 +1,21 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.Node
+requests.spark.websockets.objects.messages.dataitems.NodeDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class Node {
+export class NodeDataItem {
 	private _value: string;
-	private _right: Node;
-	private _left: Node;
-	private _nodeList: Array<Node> = [];
+	private _right: NodeDataItem;
+	private _left: NodeDataItem;
+	private _nodeList: Array<NodeDataItem> = [];
 	private _nodeType: number;
 	
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : Node {
+	wsFill(webSocketReference: any) : NodeDataItem {
 		this._value = webSocketReference.value != undefined ? webSocketReference.value : this._value;
 		this._right = webSocketReference.right != undefined ? webSocketReference.right : this._right;
 		this._left = webSocketReference.left != undefined ? webSocketReference.left : this._left;
@@ -28,15 +28,15 @@ export class Node {
 		return this._value;
 	}
 	
-	get right(): Node {
+	get right(): NodeDataItem {
 		return this._right;
 	}
 	
-	get left(): Node {
+	get left(): NodeDataItem {
 		return this._left;
 	}
 	
-	get nodeList(): Array<Node> {
+	get nodeList(): Array<NodeDataItem> {
 		return this._nodeList;
 	}
 	
@@ -48,15 +48,15 @@ export class Node {
 		this._value = value;
 	}
 	
-	set right(value: Node) {
+	set right(value: NodeDataItem) {
 		this._right = value;
 	}
 	
-	set left(value: Node) {
+	set left(value: NodeDataItem) {
 		this._left = value;
 	}
 	
-	set nodeList(value: Array<Node>) {
+	set nodeList(value: Array<NodeDataItem>) {
 		this._nodeList = value;
 	}
 	

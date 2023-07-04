@@ -1,6 +1,6 @@
-import {Component, OnInit, OnDestroy, Input, ViewChild, ElementRef} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
+import {WebWorksheetConfigDataItem} from "../../../../wsObjects/webWorksheetConfigDataItem";
 
 @Component({
   selector: '[worksheet-header]',
@@ -8,10 +8,10 @@ import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
   styleUrls: ['./worksheet-header.component.scss'],
 })
 export class WorksheetHeaderComponent implements OnInit, OnDestroy {
-  @Input('worksheetConfigs') worksheetConfigs: Array<WebWorksheetConfig>;
+  @Input('worksheetConfigs') worksheetConfigs: Array<WebWorksheetConfigDataItem>;
 
   // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = [];
 
   constructor() {
   }
@@ -21,6 +21,6 @@ export class WorksheetHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

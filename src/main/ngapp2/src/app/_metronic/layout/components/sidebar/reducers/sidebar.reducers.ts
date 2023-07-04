@@ -1,17 +1,16 @@
 // Actions
 import {SideBarActions, SideBarActionTypes} from '../actions/sidebar.actions';
-import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
+import {MenuDataItem} from "../../../../../spl/wsObjects/menuDataItem";
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
-import {HierarchyListItem} from "../../../../../spl/wsObjects/hierarchyListItem";
 
 export interface MenuState {
   menuItems: MenuItemsState;
 }
 
-export interface MenuItemsState extends EntityState<MenuItem> {
+export interface MenuItemsState extends EntityState<MenuDataItem> {
 }
 
-export const adapter: EntityAdapter<MenuItem> = createEntityAdapter<MenuItem>({
+export const adapter: EntityAdapter<MenuDataItem> = createEntityAdapter<MenuDataItem>({
   selectId: menuItem => menuItem.title
 });
 export const initialMenuItemsState: MenuItemsState = adapter.getInitialState({});

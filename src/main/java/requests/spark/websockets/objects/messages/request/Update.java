@@ -12,8 +12,8 @@ import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.messages.dataitems.WebRecord;
-import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
+import requests.spark.websockets.objects.messages.dataitems.WebRecordDataItem;
+import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfigDataItem;
 import requests.spark.websockets.objects.messages.dataobjects.UpdateData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
@@ -54,13 +54,13 @@ public class Update extends Message {
             List<WorksheetConfig> webWorksheetConfigs = worksheetConfigDAO.getAllWorksheetConfigs();
             List<String> includeColumnCompareReference = new ArrayList<>();
 
-            List<WebWorksheetConfig> webWorksheetWebConfigs = new ArrayList<>();
+            List<WebWorksheetConfigDataItem> webWorksheetWebConfigs = new ArrayList<>();
             for (WorksheetConfig worksheetConfig : webWorksheetConfigs) {
                 webWorksheetWebConfigs.add(worksheetConfig.getAsWebWorksheetConfig());
                 includeColumnCompareReference.add(worksheetConfig.getDefinition().getUuidString());
             }
 
-            WebRecord webRecord = new WebRecord();
+            WebRecordDataItem webRecord = new WebRecordDataItem();
             webRecord.setUuid(updateRecord.getUuidString());
 
             Entry[] entriesToShow = new Entry[includeColumnCompareReference.size()];

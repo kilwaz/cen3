@@ -24,7 +24,7 @@ import {
 import {selectWorksheet, sortFilter} from "../selectors/worksheet.selectors";
 import {map, tap} from "rxjs/operators";
 import {SortFilterService} from "../service/sort-filter.service";
-import {SortFilter} from "../../../wsObjects/sortFilter";
+import {SortFilterDataItem} from "../../../wsObjects/sortFilterDataItem";
 import {UpdateService} from "../service/update.service";
 
 @Injectable()
@@ -116,7 +116,7 @@ export class WorksheetEffects {
       ),
       tap(() => {
         this.store.dispatch(new UpdateSortFilter({
-          sortFilter: new SortFilter()
+          sortFilter: new SortFilterDataItem()
         }));
       })
     );

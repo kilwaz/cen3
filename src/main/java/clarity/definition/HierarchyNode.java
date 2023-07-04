@@ -2,7 +2,7 @@ package clarity.definition;
 
 import data.model.DatabaseObject;
 import org.json.JSONArray;
-import requests.spark.websockets.objects.messages.dataitems.HierarchyListItem;
+import requests.spark.websockets.objects.messages.dataitems.HierarchyListDataItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,8 +87,8 @@ public class HierarchyNode extends DatabaseObject {
         return this;
     }
 
-    public HierarchyListItem getAsHierarchyListItem(Boolean followChildren) {
-        HierarchyListItem hierarchyListItem = new HierarchyListItem(this.nodeName, this.nodeReference);
+    public HierarchyListDataItem getAsHierarchyListItem(Boolean followChildren) {
+        HierarchyListDataItem hierarchyListItem = new HierarchyListDataItem(this.nodeName, this.nodeReference);
 
         if (this.children.size() > 0) {
             JSONArray children = new JSONArray();

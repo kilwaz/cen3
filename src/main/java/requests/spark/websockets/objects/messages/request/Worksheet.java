@@ -15,10 +15,10 @@ import log.EventLogCreator;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.messages.dataitems.WebProperty;
-import requests.spark.websockets.objects.messages.dataitems.WebRecord;
-import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
-import requests.spark.websockets.objects.messages.dataitems.WorksheetStatus;
+import requests.spark.websockets.objects.messages.dataitems.WebPropertyDataItem;
+import requests.spark.websockets.objects.messages.dataitems.WebRecordDataItem;
+import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfigDataItem;
+import requests.spark.websockets.objects.messages.dataitems.WorksheetStatusDataItem;
 import requests.spark.websockets.objects.messages.dataobjects.WorksheetData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
@@ -38,7 +38,7 @@ public class Worksheet extends Message {
         List<WorksheetConfig> webWorksheetConfigs = worksheetConfigDAO.getAllWorksheetConfigs();
         List<String> includeColumnCompareReference = new ArrayList<>();
 
-        List<WebWorksheetConfig> webWorksheetWebConfigs = new ArrayList<>();
+        List<WebWorksheetConfigDataItem> webWorksheetWebConfigs = new ArrayList<>();
         for (WorksheetConfig worksheetConfig : webWorksheetConfigs) {
             webWorksheetWebConfigs.add(worksheetConfig.getAsWebWorksheetConfig());
             includeColumnCompareReference.add(worksheetConfig.getDefinition().getUuidString());
@@ -46,7 +46,7 @@ public class Worksheet extends Message {
 
         worksheetData.setWorksheetConfig(webWorksheetWebConfigs);
 
-        WorksheetStatus worksheetStatus = worksheetData.getWorksheetStatus();
+        WorksheetStatusDataItem worksheetStatus = worksheetData.getWorksheetStatus();
 
         List<Record> empRecords = DatabaseCollect
                 .create()
@@ -58,10 +58,10 @@ public class Worksheet extends Message {
                 .pageSize(worksheetStatus != null && worksheetStatus.getPageSize() != null ? worksheetStatus.getPageSize() : 25)
                 .collect();
 
-        List<WebRecord> worksheetRecords = new ArrayList<>();
+        List<WebRecordDataItem> worksheetRecords = new ArrayList<>();
         int counter = 0;
         for (Record record : empRecords) {
-            WebRecord webRecord = new WebRecord();
+            WebRecordDataItem webRecord = new WebRecordDataItem();
             webRecord.setUuid(record.getUuidString());
 
             Entry[] entriesToShow = new Entry[includeColumnCompareReference.size()];
@@ -75,8 +75,8 @@ public class Worksheet extends Message {
             worksheetRecords.add(webRecord);
 
             if (counter == 2) {
-                List<WebProperty> properties = new ArrayList<>();
-                properties.add(new WebProperty("worksheetRowColor", "iaColor"));
+                List<WebPropertyDataItem> properties = new ArrayList<>();
+                properties.add(new WebPropertyDataItem("worksheetRowColor", "iaColor"));
                 webRecord.setProperties(properties);
             }
 
@@ -95,9 +95,9 @@ public class Worksheet extends Message {
     private void worksheetStatus() {
         WorksheetData worksheetData = (WorksheetData) this.getWebSocketData();
 
-        WorksheetStatus worksheetStatus = worksheetData.getWorksheetStatus();
+        WorksheetStatusDataItem worksheetStatus = worksheetData.getWorksheetStatus();
         if (worksheetStatus == null) {
-            worksheetStatus = new WorksheetStatus();
+            worksheetStatus = new WorksheetStatusDataItem();
         }
 
         HierarchyNodeDAO hierarchyNodeDAO = new HierarchyNodeDAO();

@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {WebEntry} from "../../../../wsObjects/webEntry";
-import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
+import {WebEntryDataItem} from "../../../../wsObjects/webEntryDataItem";
+import {WebWorksheetConfigDataItem} from "../../../../wsObjects/webWorksheetConfigDataItem";
 import {Store} from "@ngrx/store";
 import {WorksheetState} from "../../reducers/worksheet.reducers";
 import {Update} from "../../actions/worksheet.actions";
@@ -13,8 +13,8 @@ import {Update} from "../../actions/worksheet.actions";
   styleUrls: ['./worksheet-cell.component.scss'],
 })
 export class WorksheetCellComponent implements OnInit, OnDestroy {
-  @Input('worksheetCellEntry') worksheetCellEntry: WebEntry;
-  @Input('worksheetConfig') worksheetConfig: WebWorksheetConfig;
+  @Input('worksheetCellEntry') worksheetCellEntry: WebEntryDataItem;
+  @Input('worksheetConfig') worksheetConfig: WebWorksheetConfigDataItem;
 
   updatedValue: boolean;
   value: string = "";

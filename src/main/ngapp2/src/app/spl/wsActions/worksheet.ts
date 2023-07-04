@@ -5,17 +5,17 @@ DO NOT MANUALLY CHANGE THIS FILE
 */
 
 import {Message} from "./message";
-import {WebRecord} from "../wsObjects/webRecord";
-import {WebWorksheetConfig} from "../wsObjects/webWorksheetConfig";
-import {SortFilter} from "../wsObjects/sortFilter";
-import {WorksheetStatus} from "../wsObjects/worksheetStatus";
+import {WebRecordDataItem} from "../wsObjects/webRecordDataItem";
+import {WebWorksheetConfigDataItem} from "../wsObjects/webWorksheetConfigDataItem";
+import {SortFilterDataItem} from "../wsObjects/sortFilterDataItem";
+import {WorksheetStatusDataItem} from "../wsObjects/worksheetStatusDataItem";
 
 export class Worksheet extends Message {
 	private _requestID: string;
-	private _worksheetRecords: Array<WebRecord> = [];
-	private _worksheetConfig: Array<WebWorksheetConfig> = [];
-	private _sortFilter: SortFilter;
-	private _worksheetStatus: WorksheetStatus;
+	private _worksheetRecords: Array<WebRecordDataItem> = [];
+	private _worksheetConfig: Array<WebWorksheetConfigDataItem> = [];
+	private _sortFilter: SortFilterDataItem;
+	private _worksheetStatus: WorksheetStatusDataItem;
 	
 	constructor() {
 		super();
@@ -34,19 +34,19 @@ export class Worksheet extends Message {
 		return this._requestID;
 	}
 	
-	get worksheetRecords(): Array<WebRecord> {
+	get worksheetRecords(): Array<WebRecordDataItem> {
 		return this._worksheetRecords;
 	}
 	
-	get worksheetConfig(): Array<WebWorksheetConfig> {
+	get worksheetConfig(): Array<WebWorksheetConfigDataItem> {
 		return this._worksheetConfig;
 	}
 	
-	get sortFilter(): SortFilter {
+	get sortFilter(): SortFilterDataItem {
 		return this._sortFilter;
 	}
 	
-	get worksheetStatus(): WorksheetStatus {
+	get worksheetStatus(): WorksheetStatusDataItem {
 		return this._worksheetStatus;
 	}
 	
@@ -54,19 +54,19 @@ export class Worksheet extends Message {
 		this._requestID = value;
 	}
 	
-	set worksheetRecords(value: Array<WebRecord>) {
+	set worksheetRecords(value: Array<WebRecordDataItem>) {
 		this._worksheetRecords = value;
 	}
 	
-	set worksheetConfig(value: Array<WebWorksheetConfig>) {
+	set worksheetConfig(value: Array<WebWorksheetConfigDataItem>) {
 		this._worksheetConfig = value;
 	}
 	
-	set sortFilter(value: SortFilter) {
+	set sortFilter(value: SortFilterDataItem) {
 		this._sortFilter = value;
 	}
 	
-	set worksheetStatus(value: WorksheetStatus) {
+	set worksheetStatus(value: WorksheetStatusDataItem) {
 		this._worksheetStatus = value;
 	}
 	

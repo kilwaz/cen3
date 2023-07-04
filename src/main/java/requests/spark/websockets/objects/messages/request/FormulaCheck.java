@@ -9,6 +9,7 @@ import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
+import requests.spark.websockets.objects.messages.dataitems.FormulaDataItem;
 import requests.spark.websockets.objects.messages.dataobjects.FormulaCheckData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
@@ -41,7 +42,7 @@ public class FormulaCheck extends Message {
                 instancedFormula.solve();
 
                 // Convert to actor formula
-                requests.spark.websockets.objects.messages.dataitems.Formula formula = new requests.spark.websockets.objects.messages.dataitems.Formula();
+                FormulaDataItem formula = new FormulaDataItem();
                 formula.convertClarityNode(instancedFormula);
                 formulaCheckData.setFormula(formula);
             }

@@ -1,9 +1,9 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
-import {ILayout, LayoutType} from '../../core/configs/config';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {ILayout} from '../../core/configs/config';
 import {LayoutService} from '../../core/layout.service';
 import {SideBarService} from "./service/sidebar.service";
-import {select, Store} from "@ngrx/store";
+import {Store} from "@ngrx/store";
 import {MenuState} from "./reducers/sidebar.reducers";
 import {RequestMenuLayout} from "./actions/sidebar.actions";
 

@@ -1,8 +1,8 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
 import clarity.Entry;
-import requests.spark.websockets.objects.messages.dataitems.WebEntry;
-import requests.spark.websockets.objects.messages.dataitems.WebRecord;
+import requests.spark.websockets.objects.messages.dataitems.WebEntryDataItem;
+import requests.spark.websockets.objects.messages.dataitems.WebRecordDataItem;
 import requests.spark.websockets.objects.messages.mapping.*;
 
 import java.util.ArrayList;
@@ -24,15 +24,13 @@ public class UpdateData extends WebSocketData {
     private String updateSource = null;
 
     @WSDataOutgoing
-    @WSDataReference(WSData.RECORD_ENTRIES)
-    @WSDataJSONArrayClass(WebEntry.class)
-    @WSDataTypeScriptClass(WebEntry.class)
-    private List<WebEntry> entries = null;
+    @WSDataJSONArrayClass(WebEntryDataItem.class)
+    @WSDataTypeScriptClass(WebEntryDataItem.class)
+    private List<WebEntryDataItem> entries = null;
 
     @WSDataOutgoing
-    @WSDataReference(WSData.RECORD_ENTRIES)
-    @WSDataTypeScriptClass(WebRecord.class)
-    private WebRecord webRecord = null;
+    @WSDataTypeScriptClass(WebRecordDataItem.class)
+    private WebRecordDataItem webRecord = null;
 
     public String getValue() {
         return value;
@@ -66,30 +64,30 @@ public class UpdateData extends WebSocketData {
         this.updateSource = updateSource;
     }
 
-    public List<WebEntry> getEntries() {
+    public List<WebEntryDataItem> getEntries() {
         return entries;
     }
 
-    public void setEntries(List<WebEntry> entries) {
+    public void setEntries(List<WebEntryDataItem> entries) {
         this.entries = entries;
     }
 
     public void setEntriesFromClarity(List<Entry> entries) {
-        List<WebEntry> webEntries = new ArrayList<>();
+        List<WebEntryDataItem> webEntries = new ArrayList<>();
 
         for (Entry entry : entries) {
-            WebEntry webEntry = new WebEntry(entry);
+            WebEntryDataItem webEntry = new WebEntryDataItem(entry);
             webEntries.add(webEntry);
         }
 
         setEntries(webEntries);
     }
 
-    public WebRecord getWebRecord() {
+    public WebRecordDataItem getWebRecord() {
         return webRecord;
     }
 
-    public void setWebRecord(WebRecord webRecord) {
+    public void setWebRecord(WebRecordDataItem webRecord) {
         this.webRecord = webRecord;
     }
 }

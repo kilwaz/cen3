@@ -2,32 +2,31 @@ package requests.spark.websockets.objects.messages.dataitems;
 
 import org.json.JSONArray;
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class MenuItem extends JSONWeb {
+public class MenuDataItem extends JSONWeb {
     // OUTGOING
-    @WSDataReference(WSData.MENU_ITEM_ROUTE_LINK)
+    @WSDataReference()
     private String routeLink = null;
-    @WSDataReference(WSData.MENU_ITEM_TITLE)
+    @WSDataReference()
     private String title = null;
-    @WSDataReference(WSData.MENU_ITEM_ICON)
+    @WSDataReference()
     private String icon = null;
-    @WSDataReference(WSData.MENU_ITEM_TYPE)
+    @WSDataReference()
     private String type = null;
 
     @WSDataOutgoing
-    @WSDataJSONArrayClass(MenuItem.class)
+    @WSDataJSONArrayClass(MenuDataItem.class)
     private JSONArray children = null;
 
-    public MenuItem(String title, String type) {
+    public MenuDataItem(String title, String type) {
         this.title = title;
         this.type = type;
     }
 
-    public MenuItem(String title, String routeLink, String icon, String type) {
+    public MenuDataItem(String title, String routeLink, String icon, String type) {
         this.routeLink = routeLink;
         this.title = title;
         this.icon = icon;

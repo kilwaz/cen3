@@ -1,17 +1,17 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.SummarySection
+requests.spark.websockets.objects.messages.dataitems.SummarySectionDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class SummarySection {
+export class SummarySectionDataItem {
 	private _title: string;
 	
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : SummarySection {
+	wsFill(webSocketReference: any) : SummarySectionDataItem {
 		this._title = webSocketReference.title != undefined ? webSocketReference.title : this._title;
 		return this;
 	}

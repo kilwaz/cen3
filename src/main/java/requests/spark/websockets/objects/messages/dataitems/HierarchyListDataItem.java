@@ -2,31 +2,30 @@ package requests.spark.websockets.objects.messages.dataitems;
 
 import org.json.JSONArray;
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class HierarchyListItem extends JSONWeb {
+public class HierarchyListDataItem extends JSONWeb {
     // OUTGOING
     @WSDataOutgoing
-    @WSDataReference(WSData.HIERARCHY_LIST_ITEM_TITLE)
+    @WSDataReference()
     private String title = null;
 
     @WSDataOutgoing
-    @WSDataReference(WSData.HIERARCHY_LIST_ITEM_NODE_REFERENCE)
+    @WSDataReference()
     private String nodeReference = null;
 
     @WSDataOutgoing
-    @WSDataReference(WSData.HIERARCHY_LIST_ITEM_EXPANDED)
+    @WSDataReference()
     private Boolean expanded = false;
 
     @WSDataOutgoing
     @WSDataJSONArrayClass(String.class)
-    @WSDataReference(WSData.HIERARCHY_LIST_ITEM_CHILDREN_ID)
+    @WSDataReference()
     private JSONArray childrenIds = null;
 
-    public HierarchyListItem(String title, String nodeReference) {
+    public HierarchyListDataItem(String title, String nodeReference) {
         this.title = title;
         this.nodeReference = nodeReference;
     }

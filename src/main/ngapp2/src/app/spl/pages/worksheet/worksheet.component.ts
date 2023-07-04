@@ -10,9 +10,9 @@ import {WorksheetState} from './reducers/worksheet.reducers';
 // Selectors
 import {WorksheetService} from './service/worksheet.service';
 import {requestID, worksheetConfigs, worksheetRecords} from "./selectors/worksheet.selectors";
-import {ClearSort, ProcessWorksheetData, RequestWorksheetData} from "./actions/worksheet.actions";
-import {WebRecord} from "../../wsObjects/webRecord";
-import {WebWorksheetConfig} from "../../wsObjects/webWorksheetConfig";
+import {RequestWorksheetData} from "./actions/worksheet.actions";
+import {WebRecordDataItem} from "../../wsObjects/webRecordDataItem";
+import {WebWorksheetConfigDataItem} from "../../wsObjects/webWorksheetConfigDataItem";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -22,8 +22,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class WorksheetComponent implements OnInit, OnDestroy {
   requestID$: Observable<string>;
-  worksheetRecords$: Observable<Array<WebRecord>>;
-  worksheetConfigs$: Observable<Array<WebWorksheetConfig>>;
+  worksheetRecords$: Observable<Array<WebRecordDataItem>>;
+  worksheetConfigs$: Observable<Array<WebWorksheetConfigDataItem>>;
 
   worksheetID: string;
 

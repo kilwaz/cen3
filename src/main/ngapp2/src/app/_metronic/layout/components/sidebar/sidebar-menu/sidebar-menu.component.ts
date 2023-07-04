@@ -4,7 +4,7 @@ import {select, Store} from "@ngrx/store";
 import {MenuItemsState, MenuState} from "../reducers/sidebar.reducers";
 import {menuItems, selectAll} from "../selectors/sidebar.selectors";
 import {Observable} from "rxjs";
-import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
+import {MenuDataItem} from "../../../../../spl/wsObjects/menuDataItem";
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -12,7 +12,7 @@ import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
   styleUrls: ['./sidebar-menu.component.scss']
 })
 export class SidebarMenuComponent implements OnInit {
-  menuItems$: Observable<Array<MenuItem>>;
+  menuItems$: Observable<Array<MenuDataItem>>;
   menuItemsState$: Observable<MenuItemsState>;
 
   constructor(private sideBarService: SideBarService, private store: Store<MenuState>) {

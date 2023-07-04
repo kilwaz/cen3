@@ -1,23 +1,23 @@
 // Actions
 import {WorksheetActions, WorksheetActionTypes} from '../actions/worksheet.actions';
-import {WebRecord} from "../../../wsObjects/webRecord";
-import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
-import {SortFilter} from "../../../wsObjects/sortFilter";
-import {WorksheetStatus} from "../../../wsObjects/worksheetStatus";
+import {WebRecordDataItem} from "../../../wsObjects/webRecordDataItem";
+import {WebWorksheetConfigDataItem} from "../../../wsObjects/webWorksheetConfigDataItem";
+import {SortFilterDataItem} from "../../../wsObjects/sortFilterDataItem";
+import {WorksheetStatusDataItem} from "../../../wsObjects/worksheetStatusDataItem";
 
 export interface WorksheetState {
   requestID: string;
-  worksheetRecords: Array<WebRecord>
-  worksheetConfigs: Array<WebWorksheetConfig>,
+  worksheetRecords: Array<WebRecordDataItem>
+  worksheetConfigs: Array<WebWorksheetConfigDataItem>,
 
   isSortFilterOpen: boolean,
-  currentSortFilterColumn: WebWorksheetConfig,
+  currentSortFilterColumn: WebWorksheetConfigDataItem,
   sortFilterPopupX: any,
   sortFilterPopupY: any,
   filteredList: Array<string>,
 
-  sortFilter: SortFilter,
-  worksheetStatus: WorksheetStatus
+  sortFilter: SortFilterDataItem,
+  worksheetStatus: WorksheetStatusDataItem
 }
 
 export const initialAuthState: WorksheetState = {
@@ -31,8 +31,8 @@ export const initialAuthState: WorksheetState = {
   sortFilterPopupY: 0,
   filteredList: undefined,
 
-  sortFilter: new SortFilter(),
-  worksheetStatus: new WorksheetStatus()
+  sortFilter: new SortFilterDataItem(),
+  worksheetStatus: new WorksheetStatusDataItem()
 };
 
 export function worksheetReducer(state = initialAuthState, action: WorksheetActions): WorksheetState {
@@ -49,7 +49,7 @@ export function worksheetReducer(state = initialAuthState, action: WorksheetActi
         requestID: action.payload.requestID,
         worksheetRecords: action.payload.worksheetRecords,
         worksheetConfigs: action.payload.worksheetConfigs,
-        worksheetStatus: new WorksheetStatus().wsFill(action.payload.worksheetStatus)
+        worksheetStatus: new WorksheetStatusDataItem().wsFill(action.payload.worksheetStatus)
       };
     }
     case WorksheetActionTypes.ProcessFilteredListData: {
@@ -91,7 +91,7 @@ export function worksheetReducer(state = initialAuthState, action: WorksheetActi
       };
     }
     case WorksheetActionTypes.PaginationPageSizeChange: {
-      let worksheetStatus: WorksheetStatus = new WorksheetStatus().wsFill(state.worksheetStatus);
+      let worksheetStatus: WorksheetStatusDataItem = new WorksheetStatusDataItem().wsFill(state.worksheetStatus);
       worksheetStatus.pageSize = action.payload.pageSize;
 
       return {
@@ -100,7 +100,7 @@ export function worksheetReducer(state = initialAuthState, action: WorksheetActi
       }
     }
     case WorksheetActionTypes.PaginationPageNumberChange: {
-      let worksheetStatus: WorksheetStatus = new WorksheetStatus().wsFill(state.worksheetStatus);
+      let worksheetStatus: WorksheetStatusDataItem = new WorksheetStatusDataItem().wsFill(state.worksheetStatus);
       worksheetStatus.currentPageNumber = action.payload.currentPageNumber;
 
       return {

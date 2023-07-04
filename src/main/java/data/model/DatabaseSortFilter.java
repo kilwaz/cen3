@@ -1,7 +1,7 @@
 package data.model;
 
-import requests.spark.websockets.objects.messages.dataitems.SortFilter;
-import requests.spark.websockets.objects.messages.dataitems.SortItem;
+import requests.spark.websockets.objects.messages.dataitems.SortFilterDataItem;
+import requests.spark.websockets.objects.messages.dataitems.SortDataItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +9,16 @@ import java.util.List;
 public class DatabaseSortFilter {
     private List<DatabaseSort> sorts = null;
 
-    public DatabaseSortFilter(SortFilter sortFilter) {
+    public DatabaseSortFilter(SortFilterDataItem sortFilter) {
         sorts = new ArrayList<>();
 
         if (sortFilter == null) {
             return;
         }
 
-        List<SortItem> sortItems = sortFilter.getSorts();
+        List<SortDataItem> sortItems = sortFilter.getSorts();
         if (sortItems != null) {
-            for (SortItem sortItem : sortItems) {
+            for (SortDataItem sortItem : sortItems) {
                 sorts.add(new DatabaseSort(sortItem.getDefinitionName(), sortItem.getDirection()));
             }
         }

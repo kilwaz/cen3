@@ -1,18 +1,18 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.WebProperty
+requests.spark.websockets.objects.messages.dataitems.WebPropertyDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class WebProperty {
+export class WebPropertyDataItem {
 	private _name: string;
 	private _value: string;
 	
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : WebProperty {
+	wsFill(webSocketReference: any) : WebPropertyDataItem {
 		this._name = webSocketReference.name != undefined ? webSocketReference.name : this._name;
 		this._value = webSocketReference.value != undefined ? webSocketReference.value : this._value;
 		return this;

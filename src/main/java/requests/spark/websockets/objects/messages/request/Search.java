@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.Message;
 import requests.spark.websockets.objects.MessageType;
-import requests.spark.websockets.objects.messages.dataitems.WebRecord;
+import requests.spark.websockets.objects.messages.dataitems.WebRecordDataItem;
 import requests.spark.websockets.objects.messages.dataobjects.SearchData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
@@ -24,7 +24,7 @@ public class Search extends Message {
 
         JSONArray searchResultsJSON = new JSONArray();
         for (Record record : searchResults) {
-            WebRecord recordActor = new WebRecord();
+            WebRecordDataItem recordActor = new WebRecordDataItem();
             recordActor.setUuid(record.getUuid().toString());
             searchResultsJSON.put(recordActor.prepareForJSON());
         }

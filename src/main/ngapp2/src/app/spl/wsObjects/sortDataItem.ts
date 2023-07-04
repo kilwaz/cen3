@@ -1,18 +1,18 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.SortItem
+requests.spark.websockets.objects.messages.dataitems.SortDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class SortItem {
+export class SortDataItem {
 	private _definitionName: string;
 	private _direction: string;
 	
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : SortItem {
+	wsFill(webSocketReference: any) : SortDataItem {
 		this._definitionName = webSocketReference.definitionName != undefined ? webSocketReference.definitionName : this._definitionName;
 		this._direction = webSocketReference.direction != undefined ? webSocketReference.direction : this._direction;
 		return this;

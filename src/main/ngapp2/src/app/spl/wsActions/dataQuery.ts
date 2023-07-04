@@ -5,12 +5,12 @@ DO NOT MANUALLY CHANGE THIS FILE
 */
 
 import {Message} from "./message";
-import {WebEntry} from "../wsObjects/webEntry";
+import {WebEntryDataItem} from "../wsObjects/webEntryDataItem";
 
 export class DataQuery extends Message {
-	private _requestedEntries: Array<WebEntry> = [];
+	private _requestedEntries: Array<WebEntryDataItem> = [];
 	private _recordToCheck: string;
-	private _entries: Array<WebEntry> = [];
+	private _entries: Array<WebEntryDataItem> = [];
 	
 	constructor() {
 		super();
@@ -21,7 +21,7 @@ export class DataQuery extends Message {
 		this._entries = msgRaw.entries;
 	}
 
-	get requestedEntries(): Array<WebEntry> {
+	get requestedEntries(): Array<WebEntryDataItem> {
 		return this._requestedEntries;
 	}
 	
@@ -29,11 +29,11 @@ export class DataQuery extends Message {
 		return this._recordToCheck;
 	}
 	
-	get entries(): Array<WebEntry> {
+	get entries(): Array<WebEntryDataItem> {
 		return this._entries;
 	}
 	
-	set requestedEntries(value: Array<WebEntry>) {
+	set requestedEntries(value: Array<WebEntryDataItem>) {
 		this._requestedEntries = value;
 	}
 	
@@ -41,7 +41,7 @@ export class DataQuery extends Message {
 		this._recordToCheck = value;
 	}
 	
-	set entries(value: Array<WebEntry>) {
+	set entries(value: Array<WebEntryDataItem>) {
 		this._entries = value;
 	}
 	

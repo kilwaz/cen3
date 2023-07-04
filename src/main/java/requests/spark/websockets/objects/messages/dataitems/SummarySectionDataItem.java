@@ -1,17 +1,16 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class SummarySection extends JSONWeb {
+public class SummarySectionDataItem extends JSONWeb {
     // OUTGOING
     @WSDataOutgoing
-    @WSDataReference(WSData.SUMMARY_SECTION_TITLE)
+    @WSDataReference()
     private String title = null;
 
-    public SummarySection(String title) {
+    public SummarySectionDataItem(String title) {
         this.title = title;
     }
 

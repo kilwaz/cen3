@@ -5,10 +5,10 @@ DO NOT MANUALLY CHANGE THIS FILE
 */
 
 import {Message} from "./message";
-import {MenuItem} from "../wsObjects/menuItem";
+import {MenuDataItem} from "../wsObjects/menuDataItem";
 
 export class Menu extends Message {
-	private _menuItems: Array<MenuItem> = [];
+	private _menuItems: Array<MenuDataItem> = [];
 	
 	constructor() {
 		super();
@@ -19,11 +19,11 @@ export class Menu extends Message {
 		this._menuItems = msgRaw.menuItems;
 	}
 
-	get menuItems(): Array<MenuItem> {
+	get menuItems(): Array<MenuDataItem> {
 		return this._menuItems;
 	}
 	
-	set menuItems(value: Array<MenuItem>) {
+	set menuItems(value: Array<MenuDataItem>) {
 		this._menuItems = value;
 	}
 	

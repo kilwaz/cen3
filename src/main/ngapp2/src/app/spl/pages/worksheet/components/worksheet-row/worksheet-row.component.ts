@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {WebRecord} from "../../../../wsObjects/webRecord";
-import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
+import {WebRecordDataItem} from "../../../../wsObjects/webRecordDataItem";
+import {WebWorksheetConfigDataItem} from "../../../../wsObjects/webWorksheetConfigDataItem";
 
 
 @Component({
@@ -10,8 +10,8 @@ import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
   styleUrls: ['./worksheet-row.component.scss'],
 })
 export class WorksheetRowComponent implements OnInit, OnDestroy {
-  @Input('worksheetRowRecord') worksheetRowRecord: WebRecord;
-  @Input('worksheetConfigs') worksheetConfigs: Array<WebWorksheetConfig>;
+  @Input('worksheetRowRecord') worksheetRowRecord: WebRecordDataItem;
+  @Input('worksheetConfigs') worksheetConfigs: Array<WebWorksheetConfigDataItem>;
 
   // private fields
   private unsubscribe: Subscription[] = [];

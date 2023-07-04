@@ -1,17 +1,16 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
 public class DefinitionDataItem extends JSONWeb {
-    @WSDataReference(WSData.ENTRY_UUID)
+    @WSDataReference()
     private String uuid = null;
 
-    @WSDataReference(WSData.ENTRY_VALUE)
+    @WSDataReference()
     private String expression = null;
 
-    @WSDataReference(WSData.ENTRY_NAME)
+    @WSDataReference()
     private String name = null;
 
     public DefinitionDataItem() {

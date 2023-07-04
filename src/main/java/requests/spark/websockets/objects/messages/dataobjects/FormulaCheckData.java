@@ -1,6 +1,6 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
-import requests.spark.websockets.objects.messages.dataitems.Formula;
+import requests.spark.websockets.objects.messages.dataitems.FormulaDataItem;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
@@ -15,8 +15,8 @@ public class FormulaCheckData extends WebSocketData {
     private String result = null;
 
     @WSDataOutgoing
-    @WSDataTypeScriptClass(Formula.class)
-    private Formula formula = null;
+    @WSDataTypeScriptClass(FormulaDataItem.class)
+    private FormulaDataItem formula = null;
 
     public String getFormulaToCheck() {
         return formulaToCheck;
@@ -34,11 +34,11 @@ public class FormulaCheckData extends WebSocketData {
         this.result = result;
     }
 
-    public void setFormula(Formula formula) {
+    public void setFormula(FormulaDataItem formula) {
         this.formula = formula;
     }
 
-    public Formula getFormula() {
+    public FormulaDataItem getFormula() {
         return formula;
     }
 }

@@ -2,10 +2,9 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {select, Store} from "@ngrx/store";
 import {HierarchyState} from "../../reducers/hierarchy.reducers";
-import {HierarchyListItem} from "../../../../wsObjects/hierarchyListItem";
+import {HierarchyListDataItem} from "../../../../wsObjects/hierarchyListDataItem";
 import {ClickedHierarchy, ExpandCollapseHierarchy, WorksheetLinkClicked} from "../../actions/hierarchy.actions";
 import {isSelectedItem} from "../../selectors/hierarchy.selectors";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'list-item-content',
@@ -13,7 +12,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./list-item-content.component.scss'],
 })
 export class ListItemContentComponent implements OnInit, OnDestroy {
-  @Input('hierarchyListItem') hierarchyListItem: HierarchyListItem;
+  @Input('hierarchyListItem') hierarchyListItem: HierarchyListDataItem;
 
   isSelected: boolean;
 

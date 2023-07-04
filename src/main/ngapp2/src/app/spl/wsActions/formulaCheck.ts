@@ -5,12 +5,12 @@ DO NOT MANUALLY CHANGE THIS FILE
 */
 
 import {Message} from "./message";
-import {Formula} from "../wsObjects/formula";
+import {FormulaDataItem} from "../wsObjects/formulaDataItem";
 
 export class FormulaCheck extends Message {
 	private _formulaToCheck: string;
 	private _result: string;
-	private _formula: Formula;
+	private _formula: FormulaDataItem;
 	
 	constructor() {
 		super();
@@ -30,7 +30,7 @@ export class FormulaCheck extends Message {
 		return this._result;
 	}
 	
-	get formula(): Formula {
+	get formula(): FormulaDataItem {
 		return this._formula;
 	}
 	
@@ -42,7 +42,7 @@ export class FormulaCheck extends Message {
 		this._result = value;
 	}
 	
-	set formula(value: Formula) {
+	set formula(value: FormulaDataItem) {
 		this._formula = value;
 	}
 	

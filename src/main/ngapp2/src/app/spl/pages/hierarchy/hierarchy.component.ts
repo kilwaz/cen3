@@ -10,7 +10,7 @@ import {HierarchyItemsState, HierarchyState} from './reducers/hierarchy.reducers
 // Selectors
 import {hierarchyItems, reloadHierarchy, selectAll, selectYourEntityByIds} from './selectors/hierarchy.selectors';
 import {HierarchyService} from './service/hierarchy.service';
-import {HierarchyListItem} from "../../wsObjects/hierarchyListItem";
+import {HierarchyListDataItem} from "../../wsObjects/hierarchyListDataItem";
 import {RequestHierarchy} from "./actions/hierarchy.actions";
 
 // Action
@@ -21,12 +21,12 @@ import {RequestHierarchy} from "./actions/hierarchy.actions";
   styleUrls: ['./hierarchy.component.scss']
 })
 export class HierarchyComponent implements OnInit, OnDestroy {
-  hierarchyItems$: Observable<Array<HierarchyListItem>>;
+  hierarchyItems$: Observable<Array<HierarchyListDataItem>>;
   hierarchyItemsState$: Observable<HierarchyItemsState>;
 
   reloadHierarchy$: Observable<boolean>;
 
-  rootNodes$: Observable<Array<HierarchyListItem>>;
+  rootNodes$: Observable<Array<HierarchyListDataItem>>;
 
   private unsubscribe: Subscription[] = [];
 

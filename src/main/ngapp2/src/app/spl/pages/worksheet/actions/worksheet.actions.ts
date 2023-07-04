@@ -1,9 +1,9 @@
 import {Action} from '@ngrx/store';
-import {WebRecord} from "../../../wsObjects/webRecord";
-import {WebWorksheetConfig} from "../../../wsObjects/webWorksheetConfig";
-import {SortItem} from "../../../wsObjects/sortItem";
-import {SortFilter} from "../../../wsObjects/sortFilter";
-import {WorksheetStatus} from "../../../wsObjects/worksheetStatus";
+import {WebRecordDataItem} from "../../../wsObjects/webRecordDataItem";
+import {WebWorksheetConfigDataItem} from "../../../wsObjects/webWorksheetConfigDataItem";
+import {SortDataItem} from "../../../wsObjects/sortDataItem";
+import {SortFilterDataItem} from "../../../wsObjects/sortFilterDataItem";
+import {WorksheetStatusDataItem} from "../../../wsObjects/worksheetStatusDataItem";
 
 export enum WorksheetActionTypes {
   RequestWorksheetData = '[Worksheet-RequestWorksheetData] Action',
@@ -40,9 +40,9 @@ export class ProcessWorksheetData implements Action {
 
   constructor(public payload: {
     requestID: string,
-    worksheetRecords: Array<WebRecord>,
-    worksheetConfigs: Array<WebWorksheetConfig>,
-    worksheetStatus: WorksheetStatus
+    worksheetRecords: Array<WebRecordDataItem>,
+    worksheetConfigs: Array<WebWorksheetConfigDataItem>,
+    worksheetStatus: WorksheetStatusDataItem
   }) {
   }
 }
@@ -69,7 +69,7 @@ export class SetSortFilterColumn implements Action {
   readonly type = WorksheetActionTypes.SetSortFilterColumn;
 
   constructor(public payload: {
-    currentSortFilterColumn: WebWorksheetConfig
+    currentSortFilterColumn: WebWorksheetConfigDataItem
   }) {
   }
 }
@@ -88,7 +88,7 @@ export class AddSortItem implements Action {
   readonly type = WorksheetActionTypes.AddSortItem;
 
   constructor(public payload: {
-    sort: SortItem
+    sort: SortDataItem
   }) {
   }
 }
@@ -113,7 +113,7 @@ export class UpdateSortFilter implements Action {
   readonly type = WorksheetActionTypes.UpdateSortFilter;
 
   constructor(public payload: {
-    sortFilter: SortFilter
+    sortFilter: SortFilterDataItem
   }) {
   }
 }
@@ -135,7 +135,7 @@ export class ApplyUpdate implements Action {
 
   constructor(public payload: {
     recordUUID: string,
-    webRecord: WebRecord
+    webRecord: WebRecordDataItem
   }) {
   }
 }

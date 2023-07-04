@@ -1,11 +1,10 @@
-import {Component, OnInit, OnDestroy, Input} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {WebRecord} from "../../../../wsObjects/webRecord";
-import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
+import {WebRecordDataItem} from "../../../../wsObjects/webRecordDataItem";
+import {WebWorksheetConfigDataItem} from "../../../../wsObjects/webWorksheetConfigDataItem";
 import {ToggleSortFilterPopup} from "../../actions/worksheet.actions";
 import {Store} from "@ngrx/store";
 import {WorksheetState} from "../../reducers/worksheet.reducers";
-
 
 @Component({
   selector: 'worksheet-table',
@@ -13,11 +12,11 @@ import {WorksheetState} from "../../reducers/worksheet.reducers";
   styleUrls: ['./worksheet-table.component.scss'],
 })
 export class WorksheetTableComponent implements OnInit, OnDestroy {
-  @Input('worksheetRecords') worksheetRecords: Array<WebRecord>;
-  @Input('worksheetConfigs') worksheetConfigs: Array<WebWorksheetConfig>;
+  @Input('worksheetRecords') worksheetRecords: Array<WebRecordDataItem>;
+  @Input('worksheetConfigs') worksheetConfigs: Array<WebWorksheetConfigDataItem>;
 
   // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = [];
 
   constructor(private store: Store<WorksheetState>) {
   }
@@ -27,10 +26,10 @@ export class WorksheetTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
-  closeSortFilter(){
+  closeSortFilter() {
     this.store.dispatch(new ToggleSortFilterPopup({
       isOpen: false
     }));

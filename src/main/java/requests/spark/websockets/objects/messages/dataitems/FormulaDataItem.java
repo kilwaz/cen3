@@ -9,23 +9,22 @@ import clarity.load.store.expression.values.Textual;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataIgnore;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
-public class Formula extends JSONWeb {
+public class FormulaDataItem extends JSONWeb {
     @WSDataIgnore
     private static Logger log = AppLogger.logger();
 
-    @WSDataReference(WSData.FORMULA_NODE)
-    @WSDataTypeScriptClass(Node.class)
-    private Node rootNode = null;
+    @WSDataReference()
+    @WSDataTypeScriptClass(NodeDataItem.class)
+    private NodeDataItem rootNode = null;
 
-    @WSDataReference(WSData.FORMULA_STR_EXPRESSION)
+    @WSDataReference()
     private String strExpression = "";
 
-    public Formula() {
+    public FormulaDataItem() {
     }
 
     public void convertClarityNode(InstancedFormula instancedFormula) {
@@ -33,11 +32,11 @@ public class Formula extends JSONWeb {
         rootNode = convertToClarityUINode(instancedFormula.getInstancedRoot());
     }
 
-    private Node convertToClarityUINode(InstancedNode instancedNode) {
+    private NodeDataItem convertToClarityUINode(InstancedNode instancedNode) {
         if (instancedNode.getReferenceNode() && instancedNode.getInstancedFormula() != null) { // If node is a reference with instanced formula, skip straight to it
             return convertToClarityUINode(instancedNode.getInstancedFormula().getInstancedRoot());
         } else {
-            Node newNode = new Node();
+            NodeDataItem newNode = new NodeDataItem();
 
             Expression expression = instancedNode.getExpression();
             if (expression instanceof Number || expression instanceof Textual || expression instanceof Evaluation) {
@@ -67,11 +66,11 @@ public class Formula extends JSONWeb {
         }
     }
 
-    public Node getRootNode() {
+    public NodeDataItem getRootNode() {
         return rootNode;
     }
 
-    public void setRootNode(Node rootNode) {
+    public void setRootNode(NodeDataItem rootNode) {
         this.rootNode = rootNode;
     }
 

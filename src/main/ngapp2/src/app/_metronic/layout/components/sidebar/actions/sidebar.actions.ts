@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
+import {MenuDataItem} from "../../../../../spl/wsObjects/menuDataItem";
 
 export enum SideBarActionTypes {
   LoadRoles = '[SideBar-LoadRoles] Action',
@@ -12,7 +12,7 @@ export class LoadRoles implements Action {
   readonly type = SideBarActionTypes.LoadRoles;
 
   constructor(public payload: {
-    menuItems: Array<MenuItem>
+    menuItems: Array<MenuDataItem>
   }) {
   }
 }
@@ -28,7 +28,7 @@ export class UpdateWorksheetLink implements Action {
   readonly type = SideBarActionTypes.UpdateWorksheetLink;
 
   constructor(public payload: {
-    update: { id: string, changes: Partial<MenuItem> }
+    update: { id: string, changes: Partial<MenuDataItem> }
   }) {
   }
 }

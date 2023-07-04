@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
+import {MenuDataItem} from "../../../../../spl/wsObjects/menuDataItem";
 
 @Component({
   selector: 'app-sidebar-item',
@@ -7,7 +7,7 @@ import {MenuItem} from "../../../../../spl/wsObjects/menuItem";
   styleUrls: ['./sidebar-item.component.scss'],
 })
 export class SidebarItemComponent implements OnInit {
-  @Input('menuItem') menuItem: MenuItem;
+  @Input('menuItem') menuItem: MenuDataItem;
 
   constructor() {
   }

@@ -1,6 +1,6 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
-import requests.spark.websockets.objects.messages.dataitems.WebRecord;
+import requests.spark.websockets.objects.messages.dataitems.WebRecordDataItem;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
@@ -16,7 +16,7 @@ public class SearchData extends WebSocketData {
 
     // OUTGOING
     @WSDataOutgoing
-    @WSDataJSONArrayClass(WebRecord.class)
+    @WSDataJSONArrayClass(WebRecordDataItem.class)
     private JSONArray searchResults = null;
 
     public JSONArray getSearchResults() {

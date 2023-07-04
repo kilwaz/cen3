@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
+import {HierarchyListDataItem} from "../../../wsObjects/hierarchyListDataItem";
 
 export enum HierarchyActionTypes {
   RequestHierarchy = '[Hierarchy-RequestHierarchy] Action',
@@ -14,7 +14,7 @@ export class LoadHierarchy implements Action {
   readonly type = HierarchyActionTypes.LoadHierarchy;
 
   constructor(public payload: {
-    hierarchyItems: Array<HierarchyListItem>
+    hierarchyItems: Array<HierarchyListDataItem>
   }) {
   }
 }
@@ -30,7 +30,7 @@ export class ClickedHierarchy implements Action {
   readonly type = HierarchyActionTypes.ClickedHierarchy;
 
   constructor(public payload: {
-    selectedItem: HierarchyListItem
+    selectedItem: HierarchyListDataItem
   }) {
   }
 }
@@ -49,7 +49,7 @@ export class ExpandCollapseHierarchy implements Action {
   readonly type = HierarchyActionTypes.ExpandCollapseHierarchy;
 
   constructor(public payload: {
-    update: { id: string, changes: Partial<HierarchyListItem> }
+    update: { id: string, changes: Partial<HierarchyListDataItem> }
   }) {
   }
 }

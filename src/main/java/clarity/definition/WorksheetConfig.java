@@ -1,7 +1,7 @@
 package clarity.definition;
 
 import data.model.DatabaseObject;
-import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
+import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfigDataItem;
 
 public class WorksheetConfig extends DatabaseObject {
 
@@ -87,8 +87,8 @@ public class WorksheetConfig extends DatabaseObject {
         this.colour = colour;
     }
 
-    public WebWorksheetConfig getAsWebWorksheetConfig() {
-        WebWorksheetConfig webWorksheetConfig = new WebWorksheetConfig();
+    public WebWorksheetConfigDataItem getAsWebWorksheetConfig() {
+        WebWorksheetConfigDataItem webWorksheetConfig = new WebWorksheetConfigDataItem();
         webWorksheetConfig.setName(columnTitle);
         webWorksheetConfig.setColumnType(columnType);
         webWorksheetConfig.setDefinitionName(definition.getName());

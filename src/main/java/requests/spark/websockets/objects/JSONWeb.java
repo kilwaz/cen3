@@ -5,7 +5,6 @@ import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
@@ -14,7 +13,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class JSONWeb {
@@ -84,9 +82,7 @@ public class JSONWeb {
         }
     }
 
-    public JSONObject prepareForJSON(WSData... requestedData) {
-        List<WSData> requestedDataList = new ArrayList<>(Arrays.asList(requestedData));
-
+    public JSONObject prepareForJSON() {
         JSONObject jsonObject = new JSONObject();
         Field[] dataFields = this.getClass().getDeclaredFields();
 
@@ -98,25 +94,23 @@ public class JSONWeb {
                 try {
                     Method fieldMethod = this.getClass().getMethod("get" + capFieldName);
 
-                    if (requestedDataList.size() == 0 || requestedDataList.contains(field.getAnnotation(WSDataReference.class).value())) {
-                        Object valueObject = fieldMethod.invoke(this);
+                    Object valueObject = fieldMethod.invoke(this);
 
-                        if (valueObject instanceof List) {
-                            JSONArray jsonArray = new JSONArray();
-                            List resultList = (List) valueObject;
+                    if (valueObject instanceof List) {
+                        JSONArray jsonArray = new JSONArray();
+                        List resultList = (List) valueObject;
 
-                            for (Object resultListItem : resultList) {
-                                jsonArray.put(((JSONWeb) resultListItem).prepareForJSON());
-                            }
+                        for (Object resultListItem : resultList) {
+                            jsonArray.put(((JSONWeb) resultListItem).prepareForJSON());
+                        }
 
-                            jsonObject.put(field.getName(), jsonArray);
+                        jsonObject.put(field.getName(), jsonArray);
+                    } else {
+                        if (valueObject instanceof JSONWeb) {
+                            JSONWeb jsonWebObject = (JSONWeb) valueObject;
+                            jsonObject.put(field.getName(), jsonWebObject.prepareForJSON());
                         } else {
-                            if (valueObject instanceof JSONWeb) {
-                                JSONWeb jsonWebObject = (JSONWeb) valueObject;
-                                jsonObject.put(field.getName(), jsonWebObject.prepareForJSON());
-                            } else {
-                                jsonObject.put(field.getName(), fieldMethod.invoke(this));
-                            }
+                            jsonObject.put(field.getName(), fieldMethod.invoke(this));
                         }
                     }
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {

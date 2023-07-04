@@ -1,48 +1,47 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 import requests.spark.websockets.objects.messages.mapping.WSDataTypeScriptClass;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node extends JSONWeb {
-    @WSDataReference(WSData.NODE_VALUE)
+public class NodeDataItem extends JSONWeb {
+    @WSDataReference()
     private String value;
 
-    @WSDataReference(WSData.NODE_RIGHT)
-    @WSDataTypeScriptClass(Node.class)
-    private Node right = null;
+    @WSDataReference()
+    @WSDataTypeScriptClass(NodeDataItem.class)
+    private NodeDataItem right = null;
 
-    @WSDataReference(WSData.NODE_LEFT)
-    @WSDataTypeScriptClass(Node.class)
-    private Node left = null;
+    @WSDataReference()
+    @WSDataTypeScriptClass(NodeDataItem.class)
+    private NodeDataItem left = null;
 
-    @WSDataReference(WSData.NODE_LIST)
-    @WSDataTypeScriptClass(Node.class)
-    private List<Node> nodeList = null;
+    @WSDataReference()
+    @WSDataTypeScriptClass(NodeDataItem.class)
+    private List<NodeDataItem> nodeList = null;
 
-    @WSDataReference(WSData.NODE_TYPE)
+    @WSDataReference()
     private Integer nodeType;
 
-    public Node() {
+    public NodeDataItem() {
     }
 
-    public Node getRight() {
+    public NodeDataItem getRight() {
         return right;
     }
 
-    public void setRight(Node right) {
+    public void setRight(NodeDataItem right) {
         this.right = right;
     }
 
-    public Node getLeft() {
+    public NodeDataItem getLeft() {
         return left;
     }
 
-    public void setLeft(Node left) {
+    public void setLeft(NodeDataItem left) {
         this.left = left;
     }
 
@@ -54,11 +53,11 @@ public class Node extends JSONWeb {
         this.value = value;
     }
 
-    public List<Node> getNodeList() {
+    public List<NodeDataItem> getNodeList() {
         return nodeList;
     }
 
-    public void addToList(Node nodeToAdd) {
+    public void addToList(NodeDataItem nodeToAdd) {
         if (nodeList == null) {
             nodeList = new ArrayList<>();
         }

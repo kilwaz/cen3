@@ -1,11 +1,11 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.WorksheetStatus
+requests.spark.websockets.objects.messages.dataitems.WorksheetStatusDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class WorksheetStatus {
+export class WorksheetStatusDataItem {
 	private _worksheetName: string;
 	private _headCount: number;
 	private _totalPages: number;
@@ -15,7 +15,7 @@ export class WorksheetStatus {
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : WorksheetStatus {
+	wsFill(webSocketReference: any) : WorksheetStatusDataItem {
 		this._worksheetName = webSocketReference.worksheetName != undefined ? webSocketReference.worksheetName : this._worksheetName;
 		this._headCount = webSocketReference.headCount != undefined ? webSocketReference.headCount : this._headCount;
 		this._totalPages = webSocketReference.totalPages != undefined ? webSocketReference.totalPages : this._totalPages;

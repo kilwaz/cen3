@@ -1,21 +1,21 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.MenuItem
+requests.spark.websockets.objects.messages.dataitems.MenuDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class MenuItem {
+export class MenuDataItem {
 	private _routeLink: string;
 	private _title: string;
 	private _icon: string;
 	private _type: string;
-	private _children: Array<MenuItem> = [];
+	private _children: Array<MenuDataItem> = [];
 	
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : MenuItem {
+	wsFill(webSocketReference: any) : MenuDataItem {
 		this._routeLink = webSocketReference.routeLink != undefined ? webSocketReference.routeLink : this._routeLink;
 		this._title = webSocketReference.title != undefined ? webSocketReference.title : this._title;
 		this._icon = webSocketReference.icon != undefined ? webSocketReference.icon : this._icon;
@@ -40,7 +40,7 @@ export class MenuItem {
 		return this._type;
 	}
 	
-	get children(): Array<MenuItem> {
+	get children(): Array<MenuDataItem> {
 		return this._children;
 	}
 	
@@ -60,7 +60,7 @@ export class MenuItem {
 		this._type = value;
 	}
 	
-	set children(value: Array<MenuItem>) {
+	set children(value: Array<MenuDataItem>) {
 		this._children = value;
 	}
 	

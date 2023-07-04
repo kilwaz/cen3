@@ -1,25 +1,25 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.Formula
+requests.spark.websockets.objects.messages.dataitems.FormulaDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
-import {Node} from "./node";
+import {NodeDataItem} from "./nodeDataItem";
 
-export class Formula {
-	private _rootNode: Node;
+export class FormulaDataItem {
+	private _rootNode: NodeDataItem;
 	private _strExpression: string;
 	
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : Formula {
+	wsFill(webSocketReference: any) : FormulaDataItem {
 		this._rootNode = webSocketReference.rootNode != undefined ? webSocketReference.rootNode : this._rootNode;
 		this._strExpression = webSocketReference.strExpression != undefined ? webSocketReference.strExpression : this._strExpression;
 		return this;
 	}
 
-	get rootNode(): Node {
+	get rootNode(): NodeDataItem {
 		return this._rootNode;
 	}
 	
@@ -27,7 +27,7 @@ export class Formula {
 		return this._strExpression;
 	}
 	
-	set rootNode(value: Node) {
+	set rootNode(value: NodeDataItem) {
 		this._rootNode = value;
 	}
 	

@@ -1,6 +1,6 @@
 package requests.spark.websockets.objects.messages.request;
 
-import requests.spark.websockets.objects.messages.dataitems.MenuItem;
+import requests.spark.websockets.objects.messages.dataitems.MenuDataItem;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -18,14 +18,14 @@ public class Menu extends Message {
         MenuData menuData = (MenuData) this.getWebSocketData();
         JSONArray menuItemJSON = new JSONArray();
 
-        menuItemJSON.put(new MenuItem("Dashboard", "dashboard", "./assets/media/icons/duotune/general/gen025.svg", "menuItem").prepareForJSON());
-        menuItemJSON.put(new MenuItem("Layout Builder", "builder", "./assets/media/icons/duotune/general/gen019.svg", "menuItem").prepareForJSON());
-        menuItemJSON.put(new MenuItem("Separate", "separator").prepareForJSON());
-        menuItemJSON.put(new MenuItem("Hierarchy", "hierarchy", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
-        menuItemJSON.put(new MenuItem("Worksheet", "worksheet", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
-        menuItemJSON.put(new MenuItem("Management", "management", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
-        menuItemJSON.put(new MenuItem("Configuration", "configuration", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
-        menuItemJSON.put(new MenuItem("Crafted", "separator").prepareForJSON());
+        menuItemJSON.put(new MenuDataItem("Dashboard", "dashboard", "./assets/media/icons/duotune/general/gen025.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuDataItem("Layout Builder", "builder", "./assets/media/icons/duotune/general/gen019.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuDataItem("Separate", "separator").prepareForJSON());
+        menuItemJSON.put(new MenuDataItem("Hierarchy", "hierarchy", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuDataItem("Worksheet", "worksheet", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuDataItem("Management", "management", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuDataItem("Configuration", "configuration", "./assets/media/icons/duotune/arrows/arr001.svg", "menuItem").prepareForJSON());
+        menuItemJSON.put(new MenuDataItem("Crafted", "separator").prepareForJSON());
 
         menuData.setMenuItems(menuItemJSON);
     }

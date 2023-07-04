@@ -1,10 +1,10 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
-import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
+import {WebWorksheetConfigDataItem} from "../../../../wsObjects/webWorksheetConfigDataItem";
 import {select, Store} from "@ngrx/store";
 import {WorksheetState} from "../../reducers/worksheet.reducers";
 import {worksheetStatus} from "../../selectors/worksheet.selectors";
-import {WorksheetStatus} from "../../../../wsObjects/worksheetStatus";
+import {WorksheetStatusDataItem} from "../../../../wsObjects/worksheetStatusDataItem";
 import {PaginationPageNumberChange, PaginationPageSizeChange} from "../../actions/worksheet.actions";
 
 @Component({
@@ -13,12 +13,12 @@ import {PaginationPageNumberChange, PaginationPageSizeChange} from "../../action
   styleUrls: ['./worksheet-pagination.component.scss'],
 })
 export class WorksheetPaginationComponent implements OnInit, OnDestroy {
-  @Input('webWorksheetConfig') webWorksheetConfig: WebWorksheetConfig;
+  @Input('webWorksheetConfig') webWorksheetConfig: WebWorksheetConfigDataItem;
 
   pageSizeOptions: number[] = [25, 50, 100];
 
   // Observables
-  worksheetStatus$: Observable<WorksheetStatus>;
+  worksheetStatus$: Observable<WorksheetStatusDataItem>;
 
   // Derived variables
   pageSize: number = 25;

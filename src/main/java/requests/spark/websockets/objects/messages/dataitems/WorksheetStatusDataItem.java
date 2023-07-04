@@ -1,26 +1,25 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class WorksheetStatus extends JSONWeb {
-    @WSDataReference(WSData.WORKSHEET_STATUS_NAME)
+public class WorksheetStatusDataItem extends JSONWeb {
+    @WSDataReference()
     private String worksheetName;
 
-    @WSDataReference(WSData.WORKSHEET_STATUS_HEAD_COUNT)
+    @WSDataReference()
     private Integer headCount;
 
-    @WSDataReference(WSData.WORKSHEET_STATUS_TOTAL_PAGES)
+    @WSDataReference()
     private Integer totalPages;
 
-    @WSDataReference(WSData.WORKSHEET_STATUS_CURRENT_PAGE_NUMBER)
+    @WSDataReference()
     private Integer currentPageNumber;
 
-    @WSDataReference(WSData.WORKSHEET_STATUS_PAGE_SIZE)
+    @WSDataReference()
     private Integer pageSize;
 
-    public WorksheetStatus() {
+    public WorksheetStatusDataItem() {
     }
 
     public String getWorksheetName() {

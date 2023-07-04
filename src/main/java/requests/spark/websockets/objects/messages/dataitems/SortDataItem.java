@@ -1,17 +1,16 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class SortItem extends JSONWeb {
-    @WSDataReference(WSData.SORT_FILTER_ITEM_DEFINITION)
+public class SortDataItem extends JSONWeb {
+    @WSDataReference()
     private String definitionName = null;
 
-    @WSDataReference(WSData.SORT_FILTER_ITEM_DIRECTION)
+    @WSDataReference()
     private String direction = null;
 
-    public SortItem() {
+    public SortDataItem() {
 
     }
 

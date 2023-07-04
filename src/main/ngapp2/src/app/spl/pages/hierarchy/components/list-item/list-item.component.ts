@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
-import {HierarchyListItem} from "../../../../wsObjects/hierarchyListItem";
+import {HierarchyListDataItem} from "../../../../wsObjects/hierarchyListDataItem";
 import {selectYourEntityByIds} from "../../selectors/hierarchy.selectors";
 import {Store} from "@ngrx/store";
 import {HierarchyState} from "../../reducers/hierarchy.reducers";
@@ -11,11 +11,10 @@ import {HierarchyState} from "../../reducers/hierarchy.reducers";
   styleUrls: ['./list-item.component.scss'],
 })
 export class ListItemComponent implements OnInit, OnDestroy {
-  // @Input('hierarchyListItem') hierarchyListItems: Array<HierarchyListItem>;
-  @Input('hierarchyListItem') hierarchyListItem: HierarchyListItem;
+  @Input('hierarchyListItem') hierarchyListItem: HierarchyListDataItem;
 
   // Observables
-  children$: Observable<Array<HierarchyListItem>>;
+  children$: Observable<Array<HierarchyListDataItem>>;
 
   // Unsubscribe tracker
   private unsubscribe: Subscription[] = [];

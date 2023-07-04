@@ -1,20 +1,19 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class WebWorksheetConfig extends JSONWeb {
-    @WSDataReference(WSData.WORKSHEET_CONFIG_NAME)
+public class WebWorksheetConfigDataItem extends JSONWeb {
+    @WSDataReference()
     private String name = null;
 
-    @WSDataReference(WSData.WORKSHEET_CONFIG_DEFINITION)
+    @WSDataReference()
     private String definitionName = null;
 
-    @WSDataReference(WSData.WORKSHEET_CONFIG_DEFINITION)
+    @WSDataReference()
     private String columnType = null;
 
-    public WebWorksheetConfig() {
+    public WebWorksheetConfigDataItem() {
 
     }
 

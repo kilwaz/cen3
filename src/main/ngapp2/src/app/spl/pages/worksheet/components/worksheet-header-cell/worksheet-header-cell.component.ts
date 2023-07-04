@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
+import {WebWorksheetConfigDataItem} from "../../../../wsObjects/webWorksheetConfigDataItem";
 import {SetSortFilterColumn, SetSortFilterPopupPosition, ToggleSortFilterPopup} from "../../actions/worksheet.actions";
 import {select, Store} from "@ngrx/store";
 import {WorksheetState} from "../../reducers/worksheet.reducers";
@@ -12,7 +12,7 @@ import {isActiveSort} from "../../selectors/worksheet.selectors";
   styleUrls: ['./worksheet-header-cell.component.scss'],
 })
 export class WorksheetHeaderCellComponent implements OnInit, OnDestroy {
-  @Input('webWorksheetConfig') webWorksheetConfig: WebWorksheetConfig;
+  @Input('webWorksheetConfig') webWorksheetConfig: WebWorksheetConfigDataItem;
 
   // Derived variables
   isActiveSort: boolean;

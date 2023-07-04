@@ -1,7 +1,6 @@
 import {Action} from '@ngrx/store';
 import {RecordDefinitionDataItem} from "../../../wsObjects/recordDefinitionDataItem";
 import {DefinitionDataItem} from "../../../wsObjects/definitionDataItem";
-import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
 
 export enum ConfigurationActionTypes {
   RequestRecordDefinitions = '[Configuration-RequestRecordDefinitions] Action',

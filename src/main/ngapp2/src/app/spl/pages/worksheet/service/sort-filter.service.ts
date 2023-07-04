@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {SortItem} from "../../../wsObjects/sortItem";
-import {SortFilter} from "../../../wsObjects/sortFilter";
+import {SortDataItem} from "../../../wsObjects/sortDataItem";
+import {SortFilterDataItem} from "../../../wsObjects/sortFilterDataItem";
 import {Store} from "@ngrx/store";
 import {WorksheetState} from "../reducers/worksheet.reducers";
 import {UpdateSortFilter} from "../actions/worksheet.actions";
@@ -11,8 +11,8 @@ export class SortFilterService {
 
   }
 
-  addSort(sortItem: SortItem, sortFilter: SortFilter): void {
-    let sortFilterCloned: SortFilter = new SortFilter();
+  addSort(sortItem: SortDataItem, sortFilter: SortFilterDataItem): void {
+    let sortFilterCloned: SortFilterDataItem = new SortFilterDataItem();
     // Re-add the sorts but don't include ones that already exist for this reference
     for (let i = 0; i < sortFilter.sorts.length; i++) {
       if (sortFilter.sorts[i].definitionName !== sortItem.definitionName) {
@@ -26,8 +26,8 @@ export class SortFilterService {
     }));
   }
 
-  removeSort(sortReference: string, sortFilter: SortFilter): void {
-    let sortFilterCloned: SortFilter = new SortFilter();
+  removeSort(sortReference: string, sortFilter: SortFilterDataItem): void {
+    let sortFilterCloned: SortFilterDataItem = new SortFilterDataItem();
     for (let i = 0; i < sortFilter.sorts.length; i++) {
       if (sortFilter.sorts[i].definitionName !== sortReference) {
         sortFilterCloned.sorts.push(sortFilter.sorts[i]);

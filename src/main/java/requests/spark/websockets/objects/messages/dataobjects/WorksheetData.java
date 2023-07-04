@@ -1,9 +1,9 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
-import requests.spark.websockets.objects.messages.dataitems.SortFilter;
-import requests.spark.websockets.objects.messages.dataitems.WebRecord;
-import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfig;
-import requests.spark.websockets.objects.messages.dataitems.WorksheetStatus;
+import requests.spark.websockets.objects.messages.dataitems.SortFilterDataItem;
+import requests.spark.websockets.objects.messages.dataitems.WebRecordDataItem;
+import requests.spark.websockets.objects.messages.dataitems.WebWorksheetConfigDataItem;
+import requests.spark.websockets.objects.messages.dataitems.WorksheetStatusDataItem;
 import requests.spark.websockets.objects.messages.mapping.WSDataIncoming;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
@@ -18,22 +18,22 @@ public class WorksheetData extends WebSocketData {
 
     // OUTGOING
     @WSDataOutgoing
-    @WSDataJSONArrayClass(WebRecord.class)
-    @WSDataTypeScriptClass(WebRecord.class)
-    private List<WebRecord> worksheetRecords = null;
+    @WSDataJSONArrayClass(WebRecordDataItem.class)
+    @WSDataTypeScriptClass(WebRecordDataItem.class)
+    private List<WebRecordDataItem> worksheetRecords = null;
 
     @WSDataOutgoing
-    @WSDataJSONArrayClass(WebWorksheetConfig.class)
-    @WSDataTypeScriptClass(WebWorksheetConfig.class)
-    private List<WebWorksheetConfig> worksheetConfig = null;
+    @WSDataJSONArrayClass(WebWorksheetConfigDataItem.class)
+    @WSDataTypeScriptClass(WebWorksheetConfigDataItem.class)
+    private List<WebWorksheetConfigDataItem> worksheetConfig = null;
 
     @WSDataOutgoing @WSDataIncoming
-    @WSDataTypeScriptClass(SortFilter.class)
-    private SortFilter sortFilter = null;
+    @WSDataTypeScriptClass(SortFilterDataItem.class)
+    private SortFilterDataItem sortFilter = null;
 
     @WSDataOutgoing @WSDataIncoming
-    @WSDataTypeScriptClass(WorksheetStatus.class)
-    private WorksheetStatus worksheetStatus = null;
+    @WSDataTypeScriptClass(WorksheetStatusDataItem.class)
+    private WorksheetStatusDataItem worksheetStatus = null;
 
     public String getRequestID() {
         return requestID;
@@ -43,35 +43,35 @@ public class WorksheetData extends WebSocketData {
         this.requestID = requestID;
     }
 
-    public List<WebRecord> getWorksheetRecords() {
+    public List<WebRecordDataItem> getWorksheetRecords() {
         return worksheetRecords;
     }
 
-    public void setWorksheetRecords(List<WebRecord> worksheetRecords) {
+    public void setWorksheetRecords(List<WebRecordDataItem> worksheetRecords) {
         this.worksheetRecords = worksheetRecords;
     }
 
-    public List<WebWorksheetConfig> getWorksheetConfig() {
+    public List<WebWorksheetConfigDataItem> getWorksheetConfig() {
         return worksheetConfig;
     }
 
-    public void setWorksheetConfig(List<WebWorksheetConfig> worksheetConfig) {
+    public void setWorksheetConfig(List<WebWorksheetConfigDataItem> worksheetConfig) {
         this.worksheetConfig = worksheetConfig;
     }
 
-    public SortFilter getSortFilter() {
+    public SortFilterDataItem getSortFilter() {
         return sortFilter;
     }
 
-    public void setSortFilter(SortFilter sortFilter) {
+    public void setSortFilter(SortFilterDataItem sortFilter) {
         this.sortFilter = sortFilter;
     }
 
-    public WorksheetStatus getWorksheetStatus() {
+    public WorksheetStatusDataItem getWorksheetStatus() {
         return worksheetStatus;
     }
 
-    public void setWorksheetStatus(WorksheetStatus worksheetStatus) {
+    public void setWorksheetStatus(WorksheetStatusDataItem worksheetStatus) {
         this.worksheetStatus = worksheetStatus;
     }
 }

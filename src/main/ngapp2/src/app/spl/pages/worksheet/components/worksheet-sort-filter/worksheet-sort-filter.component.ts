@@ -11,10 +11,10 @@ import {
 } from "../../selectors/worksheet.selectors";
 import {select, Store} from "@ngrx/store";
 import {WorksheetState} from "../../reducers/worksheet.reducers";
-import {WebWorksheetConfig} from "../../../../wsObjects/webWorksheetConfig";
-import {SortFilter} from "../../../../wsObjects/sortFilter";
+import {WebWorksheetConfigDataItem} from "../../../../wsObjects/webWorksheetConfigDataItem";
+import {SortFilterDataItem} from "../../../../wsObjects/sortFilterDataItem";
 import {AddSortItem, RemoveSortItem, ToggleSortFilterPopup} from "../../actions/worksheet.actions";
-import {SortItem} from "../../../../wsObjects/sortItem";
+import {SortDataItem} from "../../../../wsObjects/sortDataItem";
 import {switchMap} from "rxjs/operators";
 
 @Component({
@@ -25,20 +25,20 @@ import {switchMap} from "rxjs/operators";
 export class WorksheetSortFilterComponent implements OnInit, OnDestroy {
   // Observables
   isSortFilterOpen$: Observable<boolean>;
-  currentSortFilterColumn$: Observable<WebWorksheetConfig>;
+  currentSortFilterColumn$: Observable<WebWorksheetConfigDataItem>;
 
   sortFilterPopupX$: Observable<any>;
   sortFilterPopupY$: Observable<any>;
 
   filteredList$: Observable<Array<string>>;
 
-  sortFilter$: Observable<SortFilter>;
+  sortFilter$: Observable<SortFilterDataItem>;
 
   // Derived variables
-  currentSortFilterColumn: WebWorksheetConfig;
+  currentSortFilterColumn: WebWorksheetConfigDataItem;
   isActiveSort: boolean;
   activeSortDirection: string;
-  sortFilter: SortFilter;
+  sortFilter: SortFilterDataItem;
 
   // Unsubscribe tracker
   private unsubscribe: Subscription[] = [];
@@ -75,7 +75,7 @@ export class WorksheetSortFilterComponent implements OnInit, OnDestroy {
   }
 
   addSort(direction: string): void {
-    let sortItem = new SortItem();
+    let sortItem = new SortDataItem();
     sortItem.definitionName = this.currentSortFilterColumn.definitionName;
     sortItem.direction = direction;
 

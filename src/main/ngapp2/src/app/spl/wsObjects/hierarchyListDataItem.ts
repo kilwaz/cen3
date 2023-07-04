@@ -1,11 +1,11 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.HierarchyListItem
+requests.spark.websockets.objects.messages.dataitems.HierarchyListDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class HierarchyListItem {
+export class HierarchyListDataItem {
 	private _title: string;
 	private _nodeReference: string;
 	private _expanded: boolean;
@@ -14,7 +14,7 @@ export class HierarchyListItem {
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : HierarchyListItem {
+	wsFill(webSocketReference: any) : HierarchyListDataItem {
 		this._title = webSocketReference.title != undefined ? webSocketReference.title : this._title;
 		this._nodeReference = webSocketReference.nodeReference != undefined ? webSocketReference.nodeReference : this._nodeReference;
 		this._expanded = webSocketReference.expanded != undefined ? webSocketReference.expanded : this._expanded;

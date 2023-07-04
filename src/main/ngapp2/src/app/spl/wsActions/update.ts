@@ -5,16 +5,16 @@ DO NOT MANUALLY CHANGE THIS FILE
 */
 
 import {Message} from "./message";
-import {WebEntry} from "../wsObjects/webEntry";
-import {WebRecord} from "../wsObjects/webRecord";
+import {WebEntryDataItem} from "../wsObjects/webEntryDataItem";
+import {WebRecordDataItem} from "../wsObjects/webRecordDataItem";
 
 export class Update extends Message {
 	private _value: string;
 	private _definitionName: string;
 	private _recordUUID: string;
 	private _updateSource: string;
-	private _entries: Array<WebEntry> = [];
-	private _webRecord: WebRecord;
+	private _entries: Array<WebEntryDataItem> = [];
+	private _webRecord: WebRecordDataItem;
 	
 	constructor() {
 		super();
@@ -43,11 +43,11 @@ export class Update extends Message {
 		return this._updateSource;
 	}
 	
-	get entries(): Array<WebEntry> {
+	get entries(): Array<WebEntryDataItem> {
 		return this._entries;
 	}
 	
-	get webRecord(): WebRecord {
+	get webRecord(): WebRecordDataItem {
 		return this._webRecord;
 	}
 	
@@ -67,11 +67,11 @@ export class Update extends Message {
 		this._updateSource = value;
 	}
 	
-	set entries(value: Array<WebEntry>) {
+	set entries(value: Array<WebEntryDataItem>) {
 		this._entries = value;
 	}
 	
-	set webRecord(value: WebRecord) {
+	set webRecord(value: WebRecordDataItem) {
 		this._webRecord = value;
 	}
 	

@@ -1,17 +1,16 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
 import requests.spark.websockets.objects.JSONWeb;
-import requests.spark.websockets.objects.messages.mapping.WSData;
 import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
-public class WebProperty extends JSONWeb {
-    @WSDataReference(WSData.PROPERTY_NAME)
+public class WebPropertyDataItem extends JSONWeb {
+    @WSDataReference()
     private String name = null;
 
-    @WSDataReference(WSData.PROPERTY_VALUE)
+    @WSDataReference()
     private String value = null;
 
-    public WebProperty(String name, String value) {
+    public WebPropertyDataItem(String name, String value) {
         this.name = name;
         this.value = value;
     }

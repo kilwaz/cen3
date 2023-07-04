@@ -1,16 +1,14 @@
 package requests.spark.websockets.objects.messages.dataobjects;
 
-import requests.spark.websockets.objects.messages.dataitems.HierarchyListItem;
-import requests.spark.websockets.objects.messages.dataitems.MenuItem;
+import requests.spark.websockets.objects.messages.dataitems.HierarchyListDataItem;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
 import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
-import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
 public class HierarchyData extends WebSocketData {
     // OUTGOING
     @WSDataOutgoing
-    @WSDataJSONArrayClass(HierarchyListItem.class)
+    @WSDataJSONArrayClass(HierarchyListDataItem.class)
     private JSONArray hierarchyItems = null;
 
     public JSONArray getHierarchyItems() {

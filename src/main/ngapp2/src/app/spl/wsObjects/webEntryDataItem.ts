@@ -1,11 +1,11 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.WebEntry
+requests.spark.websockets.objects.messages.dataitems.WebEntryDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class WebEntry {
+export class WebEntryDataItem {
 	private _value: string;
 	private _recordUUID: string;
 	private _name: string;
@@ -13,7 +13,7 @@ export class WebEntry {
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : WebEntry {
+	wsFill(webSocketReference: any) : WebEntryDataItem {
 		this._value = webSocketReference.value != undefined ? webSocketReference.value : this._value;
 		this._recordUUID = webSocketReference.recordUUID != undefined ? webSocketReference.recordUUID : this._recordUUID;
 		this._name = webSocketReference.name != undefined ? webSocketReference.name : this._name;

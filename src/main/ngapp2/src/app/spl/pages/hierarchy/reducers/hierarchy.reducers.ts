@@ -1,19 +1,19 @@
 // Actions
 import {HierarchyActions, HierarchyActionTypes} from '../actions/hierarchy.actions';
-import {HierarchyListItem} from "../../../wsObjects/hierarchyListItem";
+import {HierarchyListDataItem} from "../../../wsObjects/hierarchyListDataItem";
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 
 export interface HierarchyState {
   hierarchyItems: HierarchyItemsState;
-  selectedItem: HierarchyListItem;
+  selectedItem: HierarchyListDataItem;
 
   reloadHierarchy: boolean;
 }
 
-export interface HierarchyItemsState extends EntityState<HierarchyListItem> {
+export interface HierarchyItemsState extends EntityState<HierarchyListDataItem> {
 }
 
-export const adaptor: EntityAdapter<HierarchyListItem> = createEntityAdapter<HierarchyListItem>({
+export const adaptor: EntityAdapter<HierarchyListDataItem> = createEntityAdapter<HierarchyListDataItem>({
   selectId: hierarchyItem => hierarchyItem.nodeReference
 });
 export const initialHierarchyItemsState: HierarchyItemsState = adaptor.getInitialState({});
