@@ -20,7 +20,7 @@ table tr:nth-child(odd) {
   background-color: $highlight-alternating;
 
   &.iaColor {
-    background-color: $highlight-ia;
+    background-color: var(--main-color);
   }
 
   &:hover {
@@ -32,7 +32,7 @@ table tr:nth-child(even) {
   background-color: $highlight-white;
 
   &.iaColor {
-    background-color: $highlight-ia;
+    background-color: var(--main-color);
   }
 
   &:hover {

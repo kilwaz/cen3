@@ -20,6 +20,8 @@ export class WorksheetRowComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    document.documentElement.style.setProperty('--main-color', '#a088a8');
+
     if (this.worksheetRowRecord.properties !== undefined) {
       this.renderer.addClass(this.el.nativeElement, 'iaColor');
     }
