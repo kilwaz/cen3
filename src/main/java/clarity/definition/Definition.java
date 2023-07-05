@@ -77,7 +77,7 @@ public class Definition extends DatabaseObject {
     }
 
     public Definition expression(String expression) {
-        this.formula = new Formula(expression);
+        this.formula = new Formula(expression, false);
         calculated(true);
         this.save();
         return this;

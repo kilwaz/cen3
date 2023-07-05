@@ -19,7 +19,7 @@ public class InstancedFormula {
     private Record record;
     private InstancedNode instancedRoot = null;
     private String baseFormula;
-    private int type = 0;
+    private int type = 0; // Explain these types 0 and 1, 0 is normal formula, 1 is Agg formula
     private List<Record> records = new ArrayList<>();
 
     public InstancedFormula(Formula formula) {
@@ -30,7 +30,7 @@ public class InstancedFormula {
     public void substituteRecordValues(InstancedNode node) {
         Expression expression = node.getExpression();
         if (expression instanceof Reference) {
-            if(type == 1) {
+            if (type == 1) {
                 node.referenceNode(true);
                 node.expression(expression);
             } else {
@@ -83,6 +83,7 @@ public class InstancedFormula {
 
     public InstancedFormula record(Record record) {
         this.record = record;
+        instancedRoot.record(record);
         return this;
     }
 
@@ -110,5 +111,9 @@ public class InstancedFormula {
 
     public List<Record> getRecords() {
         return records;
+    }
+
+    public String getStringRepresentation() {
+        return instancedRoot.getStringRepresentation();
     }
 }

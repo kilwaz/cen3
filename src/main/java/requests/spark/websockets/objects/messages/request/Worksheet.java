@@ -6,6 +6,9 @@ import clarity.definition.Definitions;
 import clarity.definition.HierarchyNode;
 import clarity.definition.RecordState;
 import clarity.definition.WorksheetConfig;
+import clarity.load.store.expression.Expression;
+import clarity.load.store.expression.Formula;
+import clarity.load.store.expression.instance.InstancedFormula;
 import data.model.DatabaseCollect;
 import data.model.DatabaseSortFilter;
 import data.model.dao.HierarchyNodeDAO;
@@ -58,8 +61,9 @@ public class Worksheet extends Message {
                 .pageSize(worksheetStatus != null && worksheetStatus.getPageSize() != null ? worksheetStatus.getPageSize() : 25)
                 .collect();
 
+        Formula formula = new Formula("if('International Assignment'=[Assignment_Status],'iaColor','noColor')");
+
         List<WebRecordDataItem> worksheetRecords = new ArrayList<>();
-        int counter = 0;
         for (Record record : empRecords) {
             WebRecordDataItem webRecord = new WebRecordDataItem();
             webRecord.setUuid(record.getUuidString());
@@ -74,13 +78,13 @@ public class Worksheet extends Message {
             webRecord.setEntriesFromClarity(Arrays.asList(entriesToShow));
             worksheetRecords.add(webRecord);
 
-            if (counter == 2) {
-                List<WebPropertyDataItem> properties = new ArrayList<>();
-                properties.add(new WebPropertyDataItem("worksheetRowColor", "iaColor"));
-                webRecord.setProperties(properties);
-            }
+            InstancedFormula instancedFormula = formula.createInstance();
+            instancedFormula.record(record);
+            Expression result = instancedFormula.solve();
 
-            counter++;
+            List<WebPropertyDataItem> properties = new ArrayList<>();
+            properties.add(new WebPropertyDataItem("worksheetRowColor", result.getStringRepresentation()));
+            webRecord.setProperties(properties);
         }
 
         worksheetData.setWorksheetRecords(worksheetRecords);

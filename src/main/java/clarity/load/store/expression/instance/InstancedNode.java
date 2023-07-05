@@ -27,6 +27,7 @@ public class InstancedNode {
     private Boolean solved = false;
 
     private InstancedFormula instancedFormula;
+    private Record record;
 
     private Expression expression;
     private Expression solvedExpression;
@@ -39,12 +40,17 @@ public class InstancedNode {
     public InstancedNode instancedFormula(InstancedFormula instancedFormula) {
         this.instancedFormula = instancedFormula;
 
-        //TODO: What is this bit doing?
+        // Pass the root instanced formula down to any children
         if (left != null) {
             left.instancedFormula(instancedFormula);
         }
         if (right != null) {
             right.instancedFormula(instancedFormula);
+        }
+        if (nodeList != null) {
+            for (InstancedNode instancedNode : nodeList) {
+                instancedNode.instancedFormula(instancedFormula);
+            }
         }
         return this;
     }
@@ -110,29 +116,36 @@ public class InstancedNode {
     }
 
     public String getStringRepresentation() {
-        String representation = "";
+        String rightRepresentation = "";
+        String listRepresentation = "";
+        String leftRepresentation = "";
         if (right != null) {
-            representation += right.getStringRepresentation();
-        }
-        if (left != null) {
-            representation += left.getStringRepresentation();
+            rightRepresentation += right.getStringRepresentation();
         }
         if (nodeList != null) {
             int commaCounter = 0;
             for (InstancedNode node : nodeList) {
                 if (commaCounter > 0) {
-                    representation += ",";
+                    listRepresentation += ",";
                 }
-                representation += node.getStringRepresentation();
+                listRepresentation += node.getStringRepresentation();
                 commaCounter++;
             }
         }
+        if (left != null) {
+            leftRepresentation += left.getStringRepresentation();
+        }
 
+        String representation;
         if (expression instanceof Function || expression instanceof AggFunction) {
             OperatorRepresentation operatorRepresentation = expression.getClass().getDeclaredAnnotation(OperatorRepresentation.class);
-            representation = operatorRepresentation.formulaRepresentation().toLowerCase() + "(" + representation + ")";
+            representation = rightRepresentation + operatorRepresentation.formulaRepresentation().toLowerCase() + "(" + listRepresentation + ")" + leftRepresentation;
+        } else if (expression instanceof Textual) {
+            representation = rightRepresentation + "'" + expression.getStringRepresentation() + "'" + leftRepresentation;
+        } else if (expression instanceof Operator) {
+            representation = rightRepresentation + expression.getStringRepresentation() + leftRepresentation;
         } else {
-            representation = expression.getStringRepresentation() + representation;
+            representation = rightRepresentation + expression.getStringRepresentation() + leftRepresentation;
         }
 
         return representation;
@@ -144,6 +157,11 @@ public class InstancedNode {
                 solved = true;
                 solvedExpression = expression;
                 return solvedExpression;
+            } else if (expression instanceof FormulaNode) {
+                Formula formula = new Formula(((FormulaNode) expression).getValue());
+                InstancedFormula instancedFormula = formula.createInstance();
+                instancedFormula.record(record);
+                return solvedExpression = instancedFormula.solve();
             } else if (expression instanceof Reference) {
                 instancedFormula.substituteRecordValues(this);
             } else if (expression instanceof Operator || expression instanceof Function) {
@@ -187,7 +205,6 @@ public class InstancedNode {
 
                     // Create the base formula
                     Formula formula = new Formula(formulaBuilder.toString());
-                    formula.build();
 
                     for (Record record : records) { // Loop through each record creating an instance and then passing in each record
                         InstancedFormula instancedFormula = formula.createInstance();
@@ -237,5 +254,24 @@ public class InstancedNode {
 
     public Boolean getReferenceNode() {
         return referenceNode;
+    }
+
+    public InstancedNode record(Record record) {
+        this.record = record;
+
+        // Pass the root instanced formula down to any children
+        if (left != null) {
+            left.record(record);
+        }
+        if (right != null) {
+            right.record(record);
+        }
+        if (nodeList != null) {
+            for (InstancedNode instancedNode : nodeList) {
+                instancedNode.record(record);
+            }
+        }
+
+        return this;
     }
 }

@@ -23,7 +23,7 @@ export class WorksheetRowComponent implements OnInit, OnDestroy {
     document.documentElement.style.setProperty('--main-color', '#a088a8');
 
     if (this.worksheetRowRecord.properties !== undefined) {
-      this.renderer.addClass(this.el.nativeElement, 'iaColor');
+      this.renderer.addClass(this.el.nativeElement, this.worksheetRowRecord.properties[0].value);
     }
   }
 

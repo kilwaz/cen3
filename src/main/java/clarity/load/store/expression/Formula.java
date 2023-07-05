@@ -7,8 +7,8 @@ import clarity.load.store.expression.operators.OperatorDictionary;
 import clarity.load.store.expression.operators.grouping.CloseBracket;
 import clarity.load.store.expression.operators.grouping.Comma;
 import clarity.load.store.expression.operators.grouping.OpenBracket;
-import clarity.load.store.expression.values.*;
 import clarity.load.store.expression.values.Number;
+import clarity.load.store.expression.values.*;
 import error.Error;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
@@ -23,9 +23,17 @@ public class Formula {
     private Expression result = null;
     private Boolean isBuilt = false;
 
+
+    public Formula(String strExpression, Boolean dontBuild) {
+        if (strExpression != null) {
+            this.strExpression = strExpression;
+        }
+    }
+
     public Formula(String strExpression) {
         if (strExpression != null) {
             this.strExpression = strExpression;
+            build();
         }
     }
 
@@ -63,7 +71,16 @@ public class Formula {
         Expression expression = null;
 
         // Expression Parsing
-        if ("'".equals(currentLetter)) { // Beginning of a string literal
+        if (current != null && current.getExpression() instanceof Function) {
+            Pattern pattern = Pattern.compile("^[^,\\)]*"); // Find the rest of this functional section
+            Matcher matcher = pattern.matcher(expressionStr);
+            String functionSection = "";
+            if (matcher.find()) {
+                currentLetter = matcher.group();
+                functionSection = currentLetter;  // Trim off single quotes
+            }
+            expression = new FormulaNode(functionSection);
+        } else if ("'".equals(currentLetter)) { // Beginning of a string literal
             Pattern pattern = Pattern.compile("'([^']*)'"); // Find the rest of the text (next single quote)
             Matcher matcher = pattern.matcher(expressionStr);
             String textual = "";

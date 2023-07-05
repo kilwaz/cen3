@@ -39,7 +39,6 @@ public class Summary extends Message {
         Formula formula = new Formula("sumAgg(if(false,1,0))");
 //        Formula formula = new Formula("sum(3,1,0)");
 //        Formula formula = new Formula("sumAgg(if('Grade 4'=[Grade],1,0))");
-        formula.build();
 
 //        InstancedFormula instancedFormula = formula.createInstance();
         InstancedFormula instancedFormula = formula.createAggInstance();
