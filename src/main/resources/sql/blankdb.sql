@@ -12,6 +12,7 @@ create table definition (
   expression varchar(1000),
   calculated int,
   definition_type int,
+  context_type int,
   PRIMARY KEY (uuid));
 
 create table record_definition (
@@ -128,6 +129,23 @@ create table event_log (
     event_comment varchar(200),
     event_date date,
     PRIMARY KEY (uuid));
+
+drop table formula_context;
+create table formula_context (
+    uuid char(36) NOT NULL,
+    name varchar(200),
+    PRIMARY KEY (uuid));
+
+drop table formula_context_group;
+create table formula_context_group (
+    uuid char(36) NOT NULL,
+    definition_id char(36),
+    formula_context_id char(36),
+    PRIMARY KEY (uuid));
+
+
+
+
 
 
 -- Columns say what base data tables have in them

@@ -61,7 +61,7 @@ public class Worksheet extends Message {
                 .pageSize(worksheetStatus != null && worksheetStatus.getPageSize() != null ? worksheetStatus.getPageSize() : 25)
                 .collect();
 
-        Formula formula = new Formula("if('International Assignment'=[Assignment_Status],'iaColor','noColor')");
+        Formula formula = Formula.create("if('International Assignment'=[Assignment_Status],'iaColor','noColor')");
 
         List<WebRecordDataItem> worksheetRecords = new ArrayList<>();
         for (Record record : empRecords) {

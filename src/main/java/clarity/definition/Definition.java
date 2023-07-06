@@ -15,10 +15,16 @@ public class Definition extends DatabaseObject {
     public static final Integer DEFINITION_TYPE_STRING = 2;
     public static final Integer DEFINITION_TYPE_DURATION = 3;
 
+    public static final Integer CONTEXT_TYPE_UNDEFINED = 0;
+    public static final Integer CONTEXT_TYPE_RECORD = 1;
+    public static final Integer CONTEXT_TYPE_AGGREGATE = 2;
+    public static final Integer CONTEXT_TYPE_VIEW = 3;
+
     private String name = "";
     private Formula formula;
     private Boolean calculated = false;
     private Integer definitionType = DEFINITION_TYPE_UNDEFINED;
+    private Integer contextType = CONTEXT_TYPE_UNDEFINED;
     private List<Definition> dependants = new ArrayList<>();
 
     private static Logger log = AppLogger.logger();
@@ -35,12 +41,13 @@ public class Definition extends DatabaseObject {
         this.definitionType = definitionType;
     }
 
-    public static Definition define(String name, Integer type) {
+    public static Definition define(String name, Integer type, Integer contextType) {
         Definition definition;
         Definitions definitions = Definitions.getInstance();
         if (definitions.findDefinition(name) == null) {
             definition = Definition.create(Definition.class);
             definition.name(name);
+            definition.contextType(contextType);
             definition.definitionType(type);
             definitions.addDefinition(definition);
         } else { // If definition already exists, get the already defined version
@@ -77,7 +84,7 @@ public class Definition extends DatabaseObject {
     }
 
     public Definition expression(String expression) {
-        this.formula = new Formula(expression, false);
+        this.formula = Formula.createWithoutBuilding(expression);
         calculated(true);
         this.save();
         return this;
@@ -117,6 +124,10 @@ public class Definition extends DatabaseObject {
         return definitionType;
     }
 
+    public Integer getContextType() {
+        return contextType;
+    }
+
     public void clearDependants() {
         dependants.clear();
     }
@@ -131,6 +142,12 @@ public class Definition extends DatabaseObject {
 
     public Definition definitionType(Integer definitionType) {
         this.definitionType = definitionType;
+        this.save();
+        return this;
+    }
+
+    public Definition contextType(Integer contextType) {
+        this.contextType = contextType;
         this.save();
         return this;
     }

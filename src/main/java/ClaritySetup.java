@@ -186,6 +186,10 @@ public class ClaritySetup {
         // Event Log
         systemTables.add("event_log".toUpperCase());
 
+        // Formula Context
+        systemTables.add("formula_context".toUpperCase());
+        systemTables.add("formula_context_group".toUpperCase());
+
 //        SelectQuery selectQuery = new SelectQuery("show tables");  // MySQL way
         SelectQuery selectQuery = new SelectQuery("SELECT table_name FROM dba_tables where owner = 'CEN'"); // Oracle way
         SelectResult result = (SelectResult) selectQuery.execute();

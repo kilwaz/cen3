@@ -9,6 +9,6 @@ public class Clarity {
     }
 
     public static Formula formula(String expression) {
-        return new Formula(expression);
+        return Formula.create(expression);
     }
 }

@@ -28,6 +28,7 @@ public class InstancedNode {
 
     private InstancedFormula instancedFormula;
     private Record record;
+    private InstancedFormulaView instancedFormulaView;
 
     private Expression expression;
     private Expression solvedExpression;
@@ -144,6 +145,8 @@ public class InstancedNode {
             representation = rightRepresentation + "'" + expression.getStringRepresentation() + "'" + leftRepresentation;
         } else if (expression instanceof Operator) {
             representation = rightRepresentation + expression.getStringRepresentation() + leftRepresentation;
+        } else if (expression instanceof Reference) {
+            representation = rightRepresentation + "[" + ((Reference) expression).getValue().getName() + "]" + leftRepresentation;
         } else {
             representation = rightRepresentation + expression.getStringRepresentation() + leftRepresentation;
         }
@@ -158,7 +161,7 @@ public class InstancedNode {
                 solvedExpression = expression;
                 return solvedExpression;
             } else if (expression instanceof FormulaNode) {
-                Formula formula = new Formula(((FormulaNode) expression).getValue());
+                Formula formula = Formula.create(((FormulaNode) expression).getValue());
                 InstancedFormula instancedFormula = formula.createInstance();
                 instancedFormula.record(record);
                 return solvedExpression = instancedFormula.solve();
@@ -201,10 +204,10 @@ public class InstancedNode {
                         formulaBuilder.append(instancedNode.getStringRepresentation());
                     }
 
-                    log.info("Base formula => " + formulaBuilder.toString());
+//                    log.info("Base formula => " + formulaBuilder.toString());
 
                     // Create the base formula
-                    Formula formula = new Formula(formulaBuilder.toString());
+                    Formula formula = Formula.create(formulaBuilder.toString());
 
                     for (Record record : records) { // Loop through each record creating an instance and then passing in each record
                         InstancedFormula instancedFormula = formula.createInstance();
@@ -269,6 +272,25 @@ public class InstancedNode {
         if (nodeList != null) {
             for (InstancedNode instancedNode : nodeList) {
                 instancedNode.record(record);
+            }
+        }
+
+        return this;
+    }
+
+    public InstancedNode instancedFormulaView(InstancedFormulaView instancedFormulaView) {
+        this.instancedFormulaView = instancedFormulaView;
+
+        // Pass the root instanced formula down to any children
+        if (left != null) {
+            left.instancedFormulaView(instancedFormulaView);
+        }
+        if (right != null) {
+            right.instancedFormulaView(instancedFormulaView);
+        }
+        if (nodeList != null) {
+            for (InstancedNode instancedNode : nodeList) {
+                instancedNode.instancedFormulaView(instancedFormulaView);
             }
         }
 

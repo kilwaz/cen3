@@ -57,7 +57,17 @@ public class ConfigJSON implements Loader {
                         intType = Definition.DEFINITION_TYPE_STRING;
                     }
 
-                    Definition newDefinition = Definition.define(definition.getString("name"), intType);
+                    String contextType = definition.getString("context_type");
+                    Integer intContextType = Definition.CONTEXT_TYPE_UNDEFINED;
+                    if ("Record".equalsIgnoreCase(contextType)) {
+                        intContextType = Definition.CONTEXT_TYPE_RECORD;
+                    } else if ("Aggregate".equalsIgnoreCase(contextType)) {
+                        intContextType = Definition.CONTEXT_TYPE_AGGREGATE;
+                    } else if ("View".equalsIgnoreCase(contextType)) {
+                        intContextType = Definition.CONTEXT_TYPE_VIEW;
+                    }
+
+                    Definition newDefinition = Definition.define(definition.getString("name"), intType, intContextType);
 
                     if (definition.has("expression")) {
                         newDefinition.expression(definition.getString("expression"));
@@ -119,6 +129,23 @@ public class ConfigJSON implements Loader {
                         definedBridge.columnTitle(definedBridgesJson.getString("column_title"));
                         definedBridge.definedTemplate(definedTemplate);
                         definedBridge.save();
+                    }
+                }
+
+                JSONArray formulaContexts = jsonObject.getJSONArray("formula_context");
+                for (int i = 0; i < formulaContexts.length(); i++) {
+                    JSONObject formulaContextJson = formulaContexts.getJSONObject(i);
+
+                    FormulaContext formulaContext = FormulaContext.create(FormulaContext.class);
+                    formulaContext.name(formulaContextJson.getString("name"));
+                    formulaContext.save();
+
+                    JSONArray formulaContextDefinitions = formulaContextJson.getJSONArray("definitions");
+                    for (int j = 0; j < formulaContextDefinitions.length(); j++) {
+                        FormulaContextGroup formulaContextGroup = FormulaContextGroup.create(FormulaContextGroup.class);
+                        formulaContextGroup.definition(Definitions.getInstance().getDefinition(formulaContextDefinitions.getString(j)));
+                        formulaContextGroup.formulaContext(formulaContext);
+                        formulaContextGroup.save();
                     }
                 }
 

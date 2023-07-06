@@ -33,7 +33,7 @@ public class FormulaCheck extends Message {
                 Formula clarityFormula = entry.getDefinition().getFormula();
 
                 if (clarityFormula == null) {
-                    clarityFormula = new Formula(entry.get().getFormulaSafeValue());
+                    clarityFormula = Formula.create(entry.get().getFormulaSafeValue());
                 }
 
                 InstancedFormula instancedFormula = clarityFormula

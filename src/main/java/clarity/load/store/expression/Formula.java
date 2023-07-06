@@ -13,6 +13,7 @@ import error.Error;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,15 +23,29 @@ public class Formula {
     private String strExpression = "";
     private Expression result = null;
     private Boolean isBuilt = false;
+    private Boolean isFormulaView = false;
 
+    public static Formula createForFormulaView(String strExpression) {
+        Formula formula = new Formula(strExpression, false).formulaView(true);
+        formula.build();
+        return formula;
+    }
 
-    public Formula(String strExpression, Boolean dontBuild) {
+    public static Formula createWithoutBuilding(String strExpression) {
+        return new Formula(strExpression, false);
+    }
+
+    public static Formula create(String strExpression) {
+        return new Formula(strExpression);
+    }
+
+    private Formula(String strExpression, Boolean dontBuild) {
         if (strExpression != null) {
             this.strExpression = strExpression;
         }
     }
 
-    public Formula(String strExpression) {
+    private Formula(String strExpression) {
         if (strExpression != null) {
             this.strExpression = strExpression;
             build();
@@ -72,14 +87,17 @@ public class Formula {
 
         // Expression Parsing
         if (current != null && current.getExpression() instanceof Function) {
-            Pattern pattern = Pattern.compile("^[^,\\)]*"); // Find the rest of this functional section
-            Matcher matcher = pattern.matcher(expressionStr);
-            String functionSection = "";
-            if (matcher.find()) {
-                currentLetter = matcher.group();
-                functionSection = currentLetter;  // Trim off single quotes
+
+            current.getExpression().getStringRepresentation();
+
+            String result = extractInnermostParens(current.getExpression().getStringRepresentation() + "(" + expressionStr);
+            if (!result.contains("(")) {  // If no functions are present then pick the first item
+                result = beforeFirstComma(result);
             }
-            expression = new FormulaNode(functionSection);
+
+            currentLetter = result;
+
+            expression = new FormulaNode(result);
         } else if ("'".equals(currentLetter)) { // Beginning of a string literal
             Pattern pattern = Pattern.compile("'([^']*)'"); // Find the rest of the text (next single quote)
             Matcher matcher = pattern.matcher(expressionStr);
@@ -104,15 +122,20 @@ public class Formula {
                 currentLetter = matcher.group();
 
                 String referenceName = currentLetter.substring(1, currentLetter.length() - 1);
-                Definition referenceDefinition = Definitions.getInstance().findDefinition(referenceName);
 
-                if (referenceDefinition != null) {
-                    if (!referenceDefinition.getFormula().isBuilt()) {
-                        referenceDefinition.getFormula().build();
-                    }
-                    expression = new Reference(referenceDefinition);
+                if (isFormulaView) {
+                    expression = new ReferenceView(referenceName);
                 } else {
-                    log.info("Could not find formula reference " + referenceName);
+                    Definition referenceDefinition = Definitions.getInstance().findDefinition(referenceName);
+
+                    if (referenceDefinition != null) {
+                        if (!referenceDefinition.getFormula().isBuilt()) {
+                            referenceDefinition.getFormula().build();
+                        }
+                        expression = new Reference(referenceDefinition);
+                    } else {
+                        log.info("Could not find formula reference " + referenceName);
+                    }
                 }
             }
         } else { // Find any other defined expressions
@@ -242,5 +265,47 @@ public class Formula {
 
     public boolean isBuilt() {
         return isBuilt;
+    }
+
+    public Formula formulaView(Boolean isFormulaView) {
+        this.isFormulaView = isFormulaView;
+        return this;
+    }
+
+    public Boolean isFormulaView() {
+        return isFormulaView;
+    }
+
+    private static String extractInnermostParens(String expression) {
+        Stack<Integer> stack = new Stack<>();
+        String result = "";
+        for (int i = 0; i < expression.length(); i++) {
+            if (expression.charAt(i) == '(') {
+                stack.push(i);
+            } else if (expression.charAt(i) == ')') {
+                if (!stack.isEmpty()) {
+                    int start = stack.pop();
+                    // If stack is now empty, this is the innermost parentheses pair.
+                    if (stack.isEmpty()) {
+                        result += expression.substring(start + 1, i);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private static String beforeFirstComma(String input) {
+        boolean inQuotes = false;
+        StringBuilder result = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            if (c == '\'') {
+                inQuotes = !inQuotes;  // Flip the inQuotes boolean
+            } else if (c == ',' && !inQuotes) {
+                break;  // Stop when finding a comma not in quotes
+            }
+            result.append(c);
+        }
+        return result.toString();
     }
 }

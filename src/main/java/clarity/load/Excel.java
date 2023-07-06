@@ -65,7 +65,7 @@ public class Excel implements Loader {
                         template.integrate(dataRecord);
                     }
                     count++;
-                    if ((count & 10) == 0) {
+                    if (count % 10 == 0) {
                         log.info(count);
                     }
                 }

@@ -1,12 +1,12 @@
 package requests.spark.websockets.objects.messages.request;
 
 import clarity.Record;
-import clarity.definition.Definitions;
-import clarity.definition.RecordState;
-import clarity.load.store.expression.Expression;
+import clarity.definition.*;
 import clarity.load.store.expression.Formula;
-import clarity.load.store.expression.instance.InstancedFormula;
+import clarity.load.store.expression.instance.InstancedFormulaView;
 import data.model.DatabaseCollect;
+import data.model.dao.FormulaContextDAO;
+import data.model.dao.FormulaContextGroupDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
@@ -32,20 +32,25 @@ public class Summary extends Message {
                 .nodeReference(summaryData.getRequestID())
                 .collect();
 
-        long count = System.currentTimeMillis();
 
-//        Formula formula = new Formula("sumAgg([New_Salary]+1000)");
-//        Formula formula = new Formula("if(true,1,0)");
-        Formula formula = new Formula("sumAgg(if(false,1,0))");
-//        Formula formula = new Formula("sum(3,1,0)");
-//        Formula formula = new Formula("sumAgg(if('Grade 4'=[Grade],1,0))");
+        FormulaContextDAO formulaContextDAO = new FormulaContextDAO();
+        FormulaContext formulaContext = formulaContextDAO.getFormulaContextName("Summary");
 
-//        InstancedFormula instancedFormula = formula.createInstance();
-        InstancedFormula instancedFormula = formula.createAggInstance();
-        instancedFormula.records(empRecords);
+        FormulaContextGroupDAO formulaContextGroupDAO = new FormulaContextGroupDAO();
+        List<FormulaContextGroup> formulaContextGroups = formulaContextGroupDAO.getFormulaContextGroupByFormulaContext(formulaContext);
 
-        Expression result = instancedFormula.solve();
+        FormulaView formulaView = new FormulaView();
+        for (FormulaContextGroup formulaContextGroup : formulaContextGroups) {
+            if (Definition.CONTEXT_TYPE_VIEW.equals(formulaContextGroup.getDefinition().getContextType())) {
+                formulaView.add(formulaContextGroup.getDefinition().getName(), Formula.createForFormulaView(formulaContextGroup.getDefinition().getExpression()));
+            } else if (Definition.CONTEXT_TYPE_AGGREGATE.equals(formulaContextGroup.getDefinition().getContextType())) {
+                formulaView.add(formulaContextGroup.getDefinition().getName(), Formula.create(formulaContextGroup.getDefinition().getExpression()));
+            }
+        }
 
-        log.info("End result => " + result.getStringRepresentation() + " in " + (System.currentTimeMillis() - count));
+        InstancedFormulaView instancedFormulaView = formulaView.createInstance();
+        instancedFormulaView.records(empRecords);
+        instancedFormulaView.solve();
+        log.info("Result = " + instancedFormulaView.get("Total").getStringRepresentation());
     }
 }

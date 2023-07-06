@@ -1,11 +1,8 @@
-import {Component, OnInit, OnDestroy, Input} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {select, Store} from "@ngrx/store";
-import {requestID} from "../../selectors/worksheet.selectors";
-import {content, selectSummary} from "../../selectors/summary.selectors";
-import {WorksheetState} from "../../reducers/worksheet.reducers";
+import {content} from "../../selectors/summary.selectors";
 import {SummaryState} from "../../reducers/summary.reducers";
-import {RequestWorksheetData} from "../../actions/worksheet.actions";
 import {LoadSummary} from "../../actions/summary.actions";
 
 
