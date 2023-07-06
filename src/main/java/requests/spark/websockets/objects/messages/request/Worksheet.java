@@ -61,6 +61,8 @@ public class Worksheet extends Message {
                 .pageSize(worksheetStatus != null && worksheetStatus.getPageSize() != null ? worksheetStatus.getPageSize() : 25)
                 .collect();
 
+
+
         Formula formula = Formula.create("if('International Assignment'=[Assignment_Status],'iaColor','noColor')");
 
         List<WebRecordDataItem> worksheetRecords = new ArrayList<>();
@@ -118,7 +120,7 @@ public class Worksheet extends Message {
         if (hierarchyNode != null) {
             worksheetStatus.setWorksheetName(hierarchyNode.getNodeName());
             worksheetStatus.setHeadCount(hierarchyNodeDAO.getHeadCount(hierarchyNode));
-            worksheetStatus.setTotalPages(worksheetStatus.getHeadCount() / worksheetStatus.getPageSize());
+            worksheetStatus.setTotalPages(Double.valueOf(Math.ceil(worksheetStatus.getHeadCount().doubleValue() / worksheetStatus.getPageSize().doubleValue())).intValue()); // This typing is fair silly...
         }
 
         worksheetData.setWorksheetStatus(worksheetStatus);

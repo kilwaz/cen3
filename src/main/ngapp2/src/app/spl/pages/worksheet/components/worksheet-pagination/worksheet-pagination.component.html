@@ -5,7 +5,7 @@
     </div>
 
     <div class="d-flex align-items-center">
-      <button click-stop-propagation type="button" class="sort-button btn btn-sm btn-icon btn-secondary"
+      <button click-stop-propagation type="button" [disabled]="currentPageNumber == 1" class="sort-button btn btn-sm btn-icon btn-secondary"
               data-bs-toggle="tooltip" data-bs-placement="top" title="Previous Page" (click)="previousPage()">
         <i class="fa-solid fa-caret-left"></i>
       </button>
@@ -14,7 +14,7 @@
               (change)="pageNumberChanged()">
         <option *ngFor="let pageNumber of pageNumbers" [value]="pageNumber">{{pageNumber}}</option>
       </select>
-      <button click-stop-propagation type="button" class="sort-button btn btn-sm btn-icon btn-secondary"
+      <button click-stop-propagation type="button" [disabled]="currentPageNumber == pageNumbers.length" class="sort-button btn btn-sm btn-icon btn-secondary"
               data-bs-toggle="tooltip" data-bs-placement="top" title="Next Page" (click)="nextPage()">
         <i class="fa-solid fa-caret-right"></i>
       </button>
