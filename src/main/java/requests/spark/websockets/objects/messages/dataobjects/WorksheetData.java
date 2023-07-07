@@ -14,7 +14,7 @@ import java.util.List;
 public class WorksheetData extends WebSocketData {
     // Incoming
     @WSDataOutgoing @WSDataIncoming
-    private String requestID = null;
+    private String nodeReference = null;
 
     // OUTGOING
     @WSDataOutgoing
@@ -35,12 +35,12 @@ public class WorksheetData extends WebSocketData {
     @WSDataTypeScriptClass(WorksheetStatusDataItem.class)
     private WorksheetStatusDataItem worksheetStatus = null;
 
-    public String getRequestID() {
-        return requestID;
+    public String getNodeReference() {
+        return nodeReference;
     }
 
-    public void setRequestID(String requestID) {
-        this.requestID = requestID;
+    public void setNodeReference(String nodeReference) {
+        this.nodeReference = nodeReference;
     }
 
     public List<WebRecordDataItem> getWorksheetRecords() {

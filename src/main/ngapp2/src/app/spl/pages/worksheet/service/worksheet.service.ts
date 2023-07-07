@@ -11,18 +11,19 @@ export class WorksheetService {
   constructor(private webSocketService: WebSocketService) {
   }
 
-  worksheetRequest(sortFilter: SortFilterDataItem, worksheetId: string, worksheetStatus: WorksheetStatusDataItem): Observable<Worksheet> {
+  worksheetRequest(sortFilter: SortFilterDataItem, nodeReference: string, worksheetStatus: WorksheetStatusDataItem): Observable<Worksheet> {
     const worksheet: Worksheet = new Worksheet();
     worksheet.sortFilter = sortFilter;
-    worksheet.requestID = worksheetId;
+    worksheet.nodeReference = nodeReference;
     worksheet.worksheetStatus = worksheetStatus;
 
     return this.webSocketService.sendWithObservable(worksheet) as Observable<Worksheet>;
   }
 
-  filteredListRequest(definition: string): Observable<FilteredList> {
+  filteredListRequest(definition: string, nodeReference: string): Observable<FilteredList> {
     const filteredList: FilteredList = new FilteredList();
     filteredList.definition = definition;
+    filteredList.nodeReference = nodeReference
 
     return this.webSocketService.sendWithObservable(filteredList) as Observable<FilteredList>;
   }

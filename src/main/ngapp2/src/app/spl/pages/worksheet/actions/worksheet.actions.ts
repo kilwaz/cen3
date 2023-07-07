@@ -6,6 +6,7 @@ import {SortFilterDataItem} from "../../../wsObjects/sortFilterDataItem";
 import {WorksheetStatusDataItem} from "../../../wsObjects/worksheetStatusDataItem";
 
 export enum WorksheetActionTypes {
+  SetCurrentWorksheet = '[Worksheet-SetCurrentWorksheet] Action',
   RequestWorksheetData = '[Worksheet-RequestWorksheetData] Action',
   ProcessWorksheetData = '[Worksheet-ProcessWorksheetData] Action',
   ProcessFilteredListData = '[Worksheet-ProcessFilteredListData] Action',
@@ -26,12 +27,19 @@ export enum WorksheetActionTypes {
   PaginationPageNumberChange = '[Worksheet-PaginationPageNumberChange] Action'
 }
 
+export class SetCurrentWorksheet implements Action {
+  readonly type = WorksheetActionTypes.SetCurrentWorksheet;
+
+  constructor(public payload: {
+    nodeReference: string
+  }) {
+  }
+}
+
 export class RequestWorksheetData implements Action {
   readonly type = WorksheetActionTypes.RequestWorksheetData;
 
-  constructor(public payload: {
-    requestID: string
-  }) {
+  constructor(public payload: {}) {
   }
 }
 
@@ -39,7 +47,7 @@ export class ProcessWorksheetData implements Action {
   readonly type = WorksheetActionTypes.ProcessWorksheetData;
 
   constructor(public payload: {
-    requestID: string,
+    nodeReference: string,
     worksheetRecords: Array<WebRecordDataItem>,
     worksheetConfigs: Array<WebWorksheetConfigDataItem>,
     worksheetStatus: WorksheetStatusDataItem
@@ -159,6 +167,7 @@ export class PaginationPageNumberChange implements Action {
 }
 
 export type WorksheetActions =
+  SetCurrentWorksheet |
   RequestWorksheetData |
   ProcessWorksheetData |
   ToggleSortFilterPopup |

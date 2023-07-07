@@ -9,9 +9,9 @@ export class SummaryService {
 
   }
 
-  loadSummary(worksheetId: string): Observable<Summary> {
+  loadSummary(nodeReference: string): Observable<Summary> {
     const summary: Summary = new Summary();
-    summary.requestID = worksheetId;
+    summary.nodeReference = nodeReference;
 
     return this.webSocketService.sendWithObservable(summary) as Observable<Summary>;
   }

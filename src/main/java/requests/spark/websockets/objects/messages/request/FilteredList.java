@@ -27,14 +27,18 @@ public class FilteredList extends Message {
         Definition definition = Definitions.getInstance().getDefinition(filteredListData.getDefinition());
         RecordDefinition recordDefinition = Definitions.getInstance().getRecordDefinition("Employee");
 
-        var selectQueryBuilder = new StringBuilder();
+        String nodeReference = filteredListData.getNodeReference();
 
-        selectQueryBuilder.
-                append("select ").append(definition.getName()).append(" from ")
-                .append(recordDefinition.getTableNameByState(RecordState.STATIC))
-                .append(" group by ").append(definition.getName())
-                .append(" order by ").append(definition.getName());
-        var selectResult = (SelectResult) new SelectQuery(selectQueryBuilder.toString()).execute();
+        String selectQueryBuilder = "select " + definition.getName() + " from " +
+                recordDefinition.getTableNameByState(RecordState.STATIC) + " res " +
+                " left join hierarchy_nodes hn on (hn.employee_uuid = res.uuid) where hn.parent_reference = ? and hn.node_type = 'Employee' " +
+                " group by " + definition.getName() +
+                " order by " + definition.getName();
+
+        var selectQuery = new SelectQuery(selectQueryBuilder);
+        selectQuery.addParameter(nodeReference);
+
+        var selectResult = (SelectResult) selectQuery.execute();
 
         List<String> itemList = new ArrayList<>();
         for (var resultRow : selectResult.getResults()) {

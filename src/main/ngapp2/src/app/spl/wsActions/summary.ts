@@ -7,7 +7,7 @@ DO NOT MANUALLY CHANGE THIS FILE
 import {Message} from "./message";
 
 export class Summary extends Message {
-	private _requestID: string;
+	private _nodeReference: string;
 	private _content: string;
 	
 	constructor() {
@@ -16,20 +16,20 @@ export class Summary extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._requestID = msgRaw.requestID;
+		this._nodeReference = msgRaw.nodeReference;
 		this._content = msgRaw.content;
 	}
 
-	get requestID(): string {
-		return this._requestID;
+	get nodeReference(): string {
+		return this._nodeReference;
 	}
 	
 	get content(): string {
 		return this._content;
 	}
 	
-	set requestID(value: string) {
-		this._requestID = value;
+	set nodeReference(value: string) {
+		this._nodeReference = value;
 	}
 	
 	set content(value: string) {

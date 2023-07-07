@@ -56,11 +56,10 @@ public class Worksheet extends Message {
                 .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))
                 .sortFilter(new DatabaseSortFilter(worksheetData.getSortFilter()))
                 .state(RecordState.STATIC)
-                .nodeReference(worksheetData.getRequestID())
+                .nodeReference(worksheetData.getNodeReference())
                 .pageNumber(worksheetStatus != null && worksheetStatus.getCurrentPageNumber() != null ? worksheetStatus.getCurrentPageNumber() : 1)
                 .pageSize(worksheetStatus != null && worksheetStatus.getPageSize() != null ? worksheetStatus.getPageSize() : 25)
                 .collect();
-
 
 
         Formula formula = Formula.create("if('International Assignment'=[Assignment_Status],'iaColor','noColor')");
@@ -107,7 +106,7 @@ public class Worksheet extends Message {
         }
 
         HierarchyNodeDAO hierarchyNodeDAO = new HierarchyNodeDAO();
-        HierarchyNode hierarchyNode = hierarchyNodeDAO.getNodeByReference(worksheetData.getRequestID());
+        HierarchyNode hierarchyNode = hierarchyNodeDAO.getNodeByReference(worksheetData.getNodeReference());
 
         if (worksheetStatus.getPageSize() == null) {
             worksheetStatus.setPageSize(25);

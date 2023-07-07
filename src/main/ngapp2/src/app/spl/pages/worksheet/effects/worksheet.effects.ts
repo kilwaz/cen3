@@ -10,12 +10,14 @@ import {WorksheetService} from '../service/worksheet.service';
 import {
   AddSortItem,
   ApplyUpdate,
-  ClearSort, PaginationPageNumberChange,
+  ClearSort,
+  PaginationPageNumberChange,
   PaginationPageSizeChange,
   ProcessFilteredListData,
   ProcessWorksheetData,
   RemoveSortItem,
   RequestWorksheetData,
+  SetCurrentWorksheet,
   ToggleSortFilterPopup,
   Update,
   UpdateSortFilter,
@@ -36,6 +38,14 @@ export class WorksheetEffects {
               private updateService: UpdateService) {
   }
 
+  setCurrentWorksheet$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<SetCurrentWorksheet>(WorksheetActionTypes.SetCurrentWorksheet),
+      tap(() => {
+        this.store.dispatch(new RequestWorksheetData({}));
+      }));
+  }, {dispatch: false});
+
   requestWorksheetData$ = createEffect(() => {
     return this.actions$.pipe(
       ofType<RequestWorksheetData>(WorksheetActionTypes.RequestWorksheetData),
@@ -43,10 +53,10 @@ export class WorksheetEffects {
         this.store.pipe(select(selectWorksheet))
       ),
       map(([, worksheetState]) => {
-        this.worksheetService.worksheetRequest(worksheetState.sortFilter, worksheetState.requestID, worksheetState.worksheetStatus).pipe(
+        this.worksheetService.worksheetRequest(worksheetState.sortFilter, worksheetState.nodeReference, worksheetState.worksheetStatus).pipe(
           tap(result => {
             this.store.dispatch(new ProcessWorksheetData({
-              requestID: result.requestID,
+              nodeReference: result.nodeReference,
               worksheetRecords: result.worksheetRecords,
               worksheetConfigs: result.worksheetConfig,
               worksheetStatus: result.worksheetStatus
@@ -64,7 +74,7 @@ export class WorksheetEffects {
       ),
       tap(([, worksheetState]) => {
         if (worksheetState.isSortFilterOpen) {
-          this.worksheetService.filteredListRequest(worksheetState.currentSortFilterColumn.definitionName).pipe(
+          this.worksheetService.filteredListRequest(worksheetState.currentSortFilterColumn.definitionName, worksheetState.nodeReference).pipe(
             tap(result => {
               this.store.dispatch(new ProcessFilteredListData({
                 filteredList: result.listItem,
@@ -84,10 +94,7 @@ export class WorksheetEffects {
       ),
       tap(([addSortItem, sortFilter]) => {
         this.sortFilterService.addSort(addSortItem.payload.sort, sortFilter);
-
-        this.store.dispatch(new RequestWorksheetData({
-          requestID: '10174'
-        }));
+        this.store.dispatch(new RequestWorksheetData({}));
       })
     );
   }, {dispatch: false});
@@ -100,10 +107,7 @@ export class WorksheetEffects {
       ),
       tap(([removeSortItem, sortFilter]) => {
         this.sortFilterService.removeSort(removeSortItem.payload.sortReference, sortFilter);
-
-        this.store.dispatch(new RequestWorksheetData({
-          requestID: '10174'
-        }));
+        this.store.dispatch(new RequestWorksheetData({}));
       })
     );
   }, {dispatch: false});
@@ -145,13 +149,8 @@ export class WorksheetEffects {
   paginationPageSizeChange$ = createEffect(() => {
     return this.actions$.pipe(
       ofType<PaginationPageSizeChange>(WorksheetActionTypes.PaginationPageSizeChange),
-      concatLatestFrom(() =>
-        this.store.pipe(select(selectWorksheet))
-      ),
-      tap(([, worksheetState]) => {
-        this.store.dispatch(new RequestWorksheetData({
-          requestID: worksheetState.requestID,
-        }));
+      tap(() => {
+        this.store.dispatch(new RequestWorksheetData({}));
       })
     );
   }, {dispatch: false});
@@ -159,13 +158,8 @@ export class WorksheetEffects {
   paginationPageNumberChange$ = createEffect(() => {
     return this.actions$.pipe(
       ofType<PaginationPageNumberChange>(WorksheetActionTypes.PaginationPageNumberChange),
-      concatLatestFrom(() =>
-        this.store.pipe(select(selectWorksheet))
-      ),
-      tap(([, worksheetState]) => {
-        this.store.dispatch(new RequestWorksheetData({
-          requestID: worksheetState.requestID,
-        }));
+      tap(() => {
+        this.store.dispatch(new RequestWorksheetData({}));
       })
     );
   }, {dispatch: false});

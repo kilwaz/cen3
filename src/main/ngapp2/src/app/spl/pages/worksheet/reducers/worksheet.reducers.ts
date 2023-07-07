@@ -1,12 +1,12 @@
 // Actions
-import {WorksheetActions, WorksheetActionTypes} from '../actions/worksheet.actions';
+import {SetCurrentWorksheet, WorksheetActions, WorksheetActionTypes} from '../actions/worksheet.actions';
 import {WebRecordDataItem} from "../../../wsObjects/webRecordDataItem";
 import {WebWorksheetConfigDataItem} from "../../../wsObjects/webWorksheetConfigDataItem";
 import {SortFilterDataItem} from "../../../wsObjects/sortFilterDataItem";
 import {WorksheetStatusDataItem} from "../../../wsObjects/worksheetStatusDataItem";
 
 export interface WorksheetState {
-  requestID: string;
+  nodeReference: string;
   worksheetRecords: Array<WebRecordDataItem>
   worksheetConfigs: Array<WebWorksheetConfigDataItem>,
 
@@ -21,7 +21,7 @@ export interface WorksheetState {
 }
 
 export const initialAuthState: WorksheetState = {
-  requestID: '',
+  nodeReference: '',
   worksheetRecords: undefined,
   worksheetConfigs: undefined,
 
@@ -37,16 +37,16 @@ export const initialAuthState: WorksheetState = {
 
 export function worksheetReducer(state = initialAuthState, action: WorksheetActions): WorksheetState {
   switch (action.type) {
-    case WorksheetActionTypes.RequestWorksheetData: {
+    case WorksheetActionTypes.SetCurrentWorksheet: {
       return {
         ...state,
-        requestID: action.payload.requestID
+        nodeReference: action.payload.nodeReference
       };
     }
     case WorksheetActionTypes.ProcessWorksheetData: {
       return {
         ...state,
-        requestID: action.payload.requestID,
+        nodeReference: action.payload.nodeReference,
         worksheetRecords: action.payload.worksheetRecords,
         worksheetConfigs: action.payload.worksheetConfigs,
         worksheetStatus: new WorksheetStatusDataItem().wsFill(action.payload.worksheetStatus)

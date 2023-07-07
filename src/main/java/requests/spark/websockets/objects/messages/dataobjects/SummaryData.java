@@ -6,7 +6,7 @@ import requests.spark.websockets.objects.messages.mapping.WSDataOutgoing;
 public class SummaryData extends WebSocketData {
     // Incoming
     @WSDataOutgoing @WSDataIncoming
-    private String requestID = null;
+    private String nodeReference = null;
 
     @WSDataOutgoing
     private String content = null;
@@ -19,11 +19,11 @@ public class SummaryData extends WebSocketData {
         this.content = content;
     }
 
-    public String getRequestID() {
-        return requestID;
+    public String getNodeReference() {
+        return nodeReference;
     }
 
-    public void setRequestID(String requestID) {
-        this.requestID = requestID;
+    public void setNodeReference(String nodeReference) {
+        this.nodeReference = nodeReference;
     }
 }

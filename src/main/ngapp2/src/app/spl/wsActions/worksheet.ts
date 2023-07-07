@@ -11,7 +11,7 @@ import {SortFilterDataItem} from "../wsObjects/sortFilterDataItem";
 import {WorksheetStatusDataItem} from "../wsObjects/worksheetStatusDataItem";
 
 export class Worksheet extends Message {
-	private _requestID: string;
+	private _nodeReference: string;
 	private _worksheetRecords: Array<WebRecordDataItem> = [];
 	private _worksheetConfig: Array<WebWorksheetConfigDataItem> = [];
 	private _sortFilter: SortFilterDataItem;
@@ -23,15 +23,15 @@ export class Worksheet extends Message {
 	}
 
 	decodeResponse(msgRaw: any) {
-		this._requestID = msgRaw.requestID;
+		this._nodeReference = msgRaw.nodeReference;
 		this._worksheetRecords = msgRaw.worksheetRecords;
 		this._worksheetConfig = msgRaw.worksheetConfig;
 		this._sortFilter = msgRaw.sortFilter;
 		this._worksheetStatus = msgRaw.worksheetStatus;
 	}
 
-	get requestID(): string {
-		return this._requestID;
+	get nodeReference(): string {
+		return this._nodeReference;
 	}
 	
 	get worksheetRecords(): Array<WebRecordDataItem> {
@@ -50,8 +50,8 @@ export class Worksheet extends Message {
 		return this._worksheetStatus;
 	}
 	
-	set requestID(value: string) {
-		this._requestID = value;
+	set nodeReference(value: string) {
+		this._nodeReference = value;
 	}
 	
 	set worksheetRecords(value: Array<WebRecordDataItem>) {

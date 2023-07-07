@@ -29,7 +29,7 @@ public class Summary extends Message {
                 .create()
                 .recordDefinition(Definitions.getInstance().getRecordDefinition("Employee"))
                 .state(RecordState.STATIC)
-                .nodeReference(summaryData.getRequestID())
+                .nodeReference(summaryData.getNodeReference())
                 .collect();
 
 

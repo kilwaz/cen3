@@ -25,7 +25,7 @@ export class SummaryEffects {
         this.store.pipe(select(selectWorksheet))
       ),
       map(([, worksheetState]) => {
-        this.summaryService.loadSummary(worksheetState.requestID).pipe(
+        this.summaryService.loadSummary(worksheetState.nodeReference).pipe(
           tap(result => {
             this.store.dispatch(new UpdateSummary({
               content: result.content,
