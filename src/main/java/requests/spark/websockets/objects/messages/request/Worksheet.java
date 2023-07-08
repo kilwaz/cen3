@@ -2,10 +2,7 @@ package requests.spark.websockets.objects.messages.request;
 
 import clarity.Entry;
 import clarity.Record;
-import clarity.definition.Definitions;
-import clarity.definition.HierarchyNode;
-import clarity.definition.RecordState;
-import clarity.definition.WorksheetConfig;
+import clarity.definition.*;
 import clarity.load.store.expression.Expression;
 import clarity.load.store.expression.Formula;
 import clarity.load.store.expression.instance.InstancedFormula;
@@ -13,6 +10,7 @@ import data.model.DatabaseCollect;
 import data.model.DatabaseSortFilter;
 import data.model.dao.HierarchyNodeDAO;
 import data.model.dao.WorksheetConfigDAO;
+import data.model.dao.WorksheetConfigDetailsDAO;
 import log.AppLogger;
 import log.EventLogCreator;
 import org.apache.logging.log4j.Logger;
@@ -38,13 +36,16 @@ public class Worksheet extends Message {
         WorksheetData worksheetData = (WorksheetData) this.getWebSocketData();
 
         WorksheetConfigDAO worksheetConfigDAO = new WorksheetConfigDAO();
-        List<WorksheetConfig> webWorksheetConfigs = worksheetConfigDAO.getAllWorksheetConfigs();
+        WorksheetConfig worksheetConfig = worksheetConfigDAO.getWorksheetConfig("Worksheet");
+        WorksheetConfigDetailsDAO worksheetConfigDetailsDAO = new WorksheetConfigDetailsDAO();
+        List<WorksheetConfigDetails> webWorksheetConfigDetails = worksheetConfigDetailsDAO.getWorksheetConfigDetails(worksheetConfig);
+
         List<String> includeColumnCompareReference = new ArrayList<>();
 
         List<WebWorksheetConfigDataItem> webWorksheetWebConfigs = new ArrayList<>();
-        for (WorksheetConfig worksheetConfig : webWorksheetConfigs) {
-            webWorksheetWebConfigs.add(worksheetConfig.getAsWebWorksheetConfig());
-            includeColumnCompareReference.add(worksheetConfig.getDefinition().getUuidString());
+        for (WorksheetConfigDetails worksheetConfigDetails : webWorksheetConfigDetails) {
+            webWorksheetWebConfigs.add(worksheetConfigDetails.getAsWebWorksheetConfig());
+            includeColumnCompareReference.add(worksheetConfigDetails.getDefinition().getUuidString());
         }
 
         worksheetData.setWorksheetConfig(webWorksheetWebConfigs);

@@ -39,7 +39,9 @@ public class ApplicationParams {
     private static Integer DATABASE_DELETE_LIMIT = 100;
 
     // Data clearing / loading
-    private static Boolean CLEAR_DOWN_TABLES = false;
+    private static Boolean CLEAR_DOWN_CONFIG_TABLES = false;
+    private static Boolean CLEAR_DOWN_DATA_TABLES = false;
+    private static Boolean IMPORT_CONFIG_WHEN_STARTING = false;
     private static Boolean IMPORT_DATA_WHEN_STARTING = false;
 
     // Paths
@@ -128,12 +130,20 @@ public class ApplicationParams {
         return DATABASE_ENABLED;
     }
 
-    public static Boolean getClearDownTables() {
-        return CLEAR_DOWN_TABLES;
-    }
-
     public static Boolean getImportDataWhenStarting() {
         return IMPORT_DATA_WHEN_STARTING;
+    }
+
+    public static Boolean getImportConfigWhenStarting() {
+        return IMPORT_CONFIG_WHEN_STARTING;
+    }
+
+    public static Boolean getClearDownConfigTables() {
+        return CLEAR_DOWN_CONFIG_TABLES;
+    }
+
+    public static Boolean getClearDownDataTables() {
+        return CLEAR_DOWN_DATA_TABLES;
     }
 
     public static String getConfigJsonPath() {
@@ -167,7 +177,9 @@ public class ApplicationParams {
                 REMOTE_DATABASE_PASSWORD = database.getString("remoteDatabasePassword");
 
                 JSONObject dataImport = jsonObject.getJSONObject("dataImport");
-                CLEAR_DOWN_TABLES = dataImport.getBoolean("clearDownTables");
+                CLEAR_DOWN_CONFIG_TABLES = dataImport.getBoolean("clearDownConfigTables");
+                CLEAR_DOWN_DATA_TABLES = dataImport.getBoolean("clearDownDataTables");
+                IMPORT_CONFIG_WHEN_STARTING = dataImport.getBoolean("importConfigWhenStarting");
                 IMPORT_DATA_WHEN_STARTING = dataImport.getBoolean("importDataWhenStarting");
 
                 JSONObject paths = jsonObject.getJSONObject("paths");

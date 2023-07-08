@@ -29,9 +29,10 @@ export class SummaryEffects {
           tap(result => {
             this.store.dispatch(new UpdateSummary({
               content: result.content,
+              configurableUi: result.configurableUiDataItems
             }));
           }),
-        ).subscribe(); // Does this subscribe forever?
+        ).subscribe();
       }));
   }, {dispatch: false});
 }

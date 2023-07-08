@@ -1,12 +1,15 @@
 // Actions
 import {SummaryActions, SummaryActionTypes} from "../actions/summary.actions";
+import {ConfigurableUiDataItem} from "../../../wsObjects/configurableUiDataItem";
 
 export interface SummaryState {
   content: string;
+  configurableUi: Array<ConfigurableUiDataItem>
 }
 
 export const initialSummaryState: SummaryState = {
-  content: ''
+  content: '',
+  configurableUi: undefined
 };
 
 export function summaryReducer(state = initialSummaryState, action: SummaryActions): SummaryState {
@@ -19,7 +22,8 @@ export function summaryReducer(state = initialSummaryState, action: SummaryActio
     case SummaryActionTypes.UpdateSummary: {
       return {
         ...state,
-        content: action.payload.content
+        content: action.payload.content,
+        configurableUi: action.payload.configurableUi
       };
     }
     default:

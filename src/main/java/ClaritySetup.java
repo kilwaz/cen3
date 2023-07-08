@@ -22,7 +22,7 @@ public class ClaritySetup {
 
     public static void main(String[] args) {
         ApplicationInitialiser.init(); // Connects to the database/inits web sockets
-        if (ApplicationParams.getClearDownTables()) {
+        if (ApplicationParams.getClearDownDataTables() || ApplicationParams.getClearDownConfigTables()) {
             clearDatabase();
         }
         Definitions.getInstance(); // Load in data from database
@@ -34,7 +34,7 @@ public class ClaritySetup {
 
 //        setupDB();
 
-        if (ApplicationParams.getImportDataWhenStarting()) {
+        if (ApplicationParams.getImportConfigWhenStarting()) {
             File fileJson = new File(ApplicationParams.getConfigJsonPath());
             Load.configJSON(fileJson).process();
         }
@@ -164,46 +164,52 @@ public class ClaritySetup {
     }
 
     public static void clearDatabase() {
-        List<String> systemTables = new ArrayList<>();
+        List<String> configTable = new ArrayList<>();
+        List<String> dataTables = new ArrayList<>();
         // Definitions
-        systemTables.add("definition".toUpperCase());
-        systemTables.add("definition_group".toUpperCase());
-        systemTables.add("record_definition".toUpperCase());
-        systemTables.add("record_definition_child".toUpperCase());
+        configTable.add("definition".toUpperCase());
+        configTable.add("definition_group".toUpperCase());
+        configTable.add("record_definition".toUpperCase());
+        configTable.add("record_definition_child".toUpperCase());
 
         // Imports
-        systemTables.add("defined_template".toUpperCase());
-        systemTables.add("defined_bridge".toUpperCase());
+        configTable.add("defined_template".toUpperCase());
+        configTable.add("defined_bridge".toUpperCase());
 
-        systemTables.add("worksheet_config".toUpperCase());
+        configTable.add("worksheet_config".toUpperCase());
+        configTable.add("worksheet_config_details".toUpperCase());
 
         // Hierarchy
-        systemTables.add("hierarchy_trees".toUpperCase());
-        systemTables.add("hierarchy_nodes".toUpperCase());
-        systemTables.add("hierarchy_nodes_calc".toUpperCase());
-        systemTables.add("hierarchy".toUpperCase());
+        dataTables.add("hierarchy_trees".toUpperCase());
+        dataTables.add("hierarchy_nodes".toUpperCase());
+        dataTables.add("hierarchy_nodes_calc".toUpperCase());
+        dataTables.add("hierarchy".toUpperCase());
 
         // Event Log
-        systemTables.add("event_log".toUpperCase());
+        configTable.add("event_log".toUpperCase());
 
         // Formula Context
-        systemTables.add("formula_context".toUpperCase());
-        systemTables.add("formula_context_group".toUpperCase());
+        configTable.add("formula_context".toUpperCase());
+        configTable.add("formula_context_group".toUpperCase());
 
-//        SelectQuery selectQuery = new SelectQuery("show tables");  // MySQL way
         SelectQuery selectQuery = new SelectQuery("SELECT table_name FROM dba_tables where owner = 'CEN'"); // Oracle way
         SelectResult result = (SelectResult) selectQuery.execute();
-        for (SelectResultRow selectResultRow : result.getResults()) {
-            String tableName = selectResultRow.getString("table_name");
-            if (!systemTables.contains(tableName)) {
-                log.info("Deleting " + tableName);
-                new SelectQuery("truncate table " + tableName).execute();
-                new SelectQuery("drop table " + tableName).execute();
+        if (ApplicationParams.getClearDownDataTables()) {
+            for (SelectResultRow selectResultRow : result.getResults()) {
+                String tableName = selectResultRow.getString("table_name");
+                if (!configTable.contains(tableName)) {
+                    log.info("Deleting " + tableName);
+                    new SelectQuery("truncate table " + tableName).execute();
+                    new SelectQuery("drop table " + tableName).execute();
+                }
             }
         }
 
-        for (String tableName : systemTables) {
-            new SelectQuery("truncate table " + tableName).execute();
+        if (ApplicationParams.getClearDownConfigTables()) {
+            for (String tableName : configTable) {
+                log.info("Truncate " + tableName);
+                new SelectQuery("truncate table " + tableName).execute();
+            }
         }
     }
 }

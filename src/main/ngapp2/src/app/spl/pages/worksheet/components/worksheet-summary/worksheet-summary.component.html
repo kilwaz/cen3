@@ -27,6 +27,21 @@
   </tbody>
 </table>
 
+
+<ng-container *ngFor="let configurableUi of configurableUi$ | async">
+  <ng-container *ngIf="configurableUi.type == 'Table'">
+    <table>
+      <tbody>
+        <tr *ngFor="let record of configurableUi.records">
+          <td *ngFor="let entry of record.entries">
+            {{entry.value}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</ng-container>
+
 <table>
   <tbody>
   <tr>

@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import {ConfigurableUiDataItem} from "../../../wsObjects/configurableUiDataItem";
 
 export enum SummaryActionTypes {
   LoadSummary = '[Worksheet-LoadSummary] Action',
@@ -16,7 +17,8 @@ export class UpdateSummary implements Action {
   readonly type = SummaryActionTypes.UpdateSummary;
 
   constructor(public payload: {
-    content: string
+    content: string,
+    configurableUi: Array<ConfigurableUiDataItem>
   }) {
   }
 }

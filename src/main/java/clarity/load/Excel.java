@@ -5,10 +5,7 @@ import clarity.load.data.Value;
 import clarity.load.excel.Template;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +38,7 @@ public class Excel implements Loader {
                 Template template = new Template();
                 LoadedRecord headerRecord = new LoadedRecord();
                 Integer count = 0;
+                long timer = System.currentTimeMillis();
                 for (Row currentRow : datatypeSheet) {
                     if (currentRow.getRowNum() == 0) { // Construct the header row first to get all the column names
                         for (Cell currentCell : currentRow) {
@@ -66,7 +64,9 @@ public class Excel implements Loader {
                     }
                     count++;
                     if (count % 10 == 0) {
-                        log.info(count);
+                        long timerTick = System.currentTimeMillis();
+                        log.info(count + " - " + (timerTick - timer) + "ms");
+                        timer = timerTick;
                     }
                 }
 

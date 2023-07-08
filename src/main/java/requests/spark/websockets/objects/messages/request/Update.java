@@ -6,8 +6,10 @@ import clarity.Record;
 import clarity.definition.Definitions;
 import clarity.definition.RecordState;
 import clarity.definition.WorksheetConfig;
+import clarity.definition.WorksheetConfigDetails;
 import data.model.DatabaseCollect;
 import data.model.dao.WorksheetConfigDAO;
+import data.model.dao.WorksheetConfigDetailsDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
@@ -45,19 +47,19 @@ public class Update extends Message {
 
             Infer.me(updateEntry);
 
-//            List<Entry> unsavedEntries = updateRecord.getUnsavedEntries();
-
             updateRecord.save(RecordState.STATIC);
 
             // Response from update?
             WorksheetConfigDAO worksheetConfigDAO = new WorksheetConfigDAO();
-            List<WorksheetConfig> webWorksheetConfigs = worksheetConfigDAO.getAllWorksheetConfigs();
+            WorksheetConfig worksheetConfig = worksheetConfigDAO.getWorksheetConfig("Worksheet");
+            WorksheetConfigDetailsDAO worksheetConfigDetailsDAO = new WorksheetConfigDetailsDAO();
+            List<WorksheetConfigDetails> webWorksheetConfigDetails = worksheetConfigDetailsDAO.getWorksheetConfigDetails(worksheetConfig);
             List<String> includeColumnCompareReference = new ArrayList<>();
 
             List<WebWorksheetConfigDataItem> webWorksheetWebConfigs = new ArrayList<>();
-            for (WorksheetConfig worksheetConfig : webWorksheetConfigs) {
-                webWorksheetWebConfigs.add(worksheetConfig.getAsWebWorksheetConfig());
-                includeColumnCompareReference.add(worksheetConfig.getDefinition().getUuidString());
+            for (WorksheetConfigDetails worksheetConfigDetail : webWorksheetConfigDetails) {
+                webWorksheetWebConfigs.add(worksheetConfigDetail.getAsWebWorksheetConfig());
+                includeColumnCompareReference.add(worksheetConfigDetail.getDefinition().getUuidString());
             }
 
             WebRecordDataItem webRecord = new WebRecordDataItem();

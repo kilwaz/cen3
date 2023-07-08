@@ -3,9 +3,7 @@ package clarity.load;
 import clarity.definition.*;
 import clarity.load.excel.DefinedBridge;
 import clarity.load.excel.DefinedTemplate;
-import data.model.dao.DefinedTemplateDAO;
-import data.model.dao.HierarchyTreeDAO;
-import data.model.dao.WorksheetConfigDAO;
+import data.model.dao.*;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -91,13 +89,23 @@ public class ConfigJSON implements Loader {
 
                 JSONArray worksheetConfigs = jsonObject.getJSONArray("worksheet_config");
                 for (int i = 0; i < worksheetConfigs.length(); i++) {
-                    JSONObject worksheetConfigJson = worksheetConfigs.getJSONObject(i);
-
+                    JSONObject worksheetConfigsJson = worksheetConfigs.getJSONObject(i);
                     WorksheetConfig worksheetConfig = WorksheetConfig.create(WorksheetConfig.class);
-                    worksheetConfig.columnTitle(worksheetConfigJson.getString("column_title"));
-                    worksheetConfig.columnType(worksheetConfigJson.getString("column_type"));
-                    worksheetConfig.columnOrder(worksheetConfigJson.getInt("column_order"));
-                    worksheetConfig.definition(Definitions.getInstance().findDefinition(worksheetConfigJson.getString("definition")));
+                    worksheetConfig.name(worksheetConfigsJson.getString("name"));
+
+                    JSONArray worksheetConfigsDetails = worksheetConfigsJson.getJSONArray("worksheet_config_details");
+                    for (int j = 0; j < worksheetConfigsDetails.length(); j++) {
+                        JSONObject worksheetConfigJson = worksheetConfigsDetails.getJSONObject(j);
+
+                        WorksheetConfigDetails worksheetConfigDetails = WorksheetConfigDetails.create(WorksheetConfigDetails.class);
+                        worksheetConfigDetails.columnTitle(worksheetConfigJson.getString("column_title"));
+                        worksheetConfigDetails.columnType(worksheetConfigJson.getString("column_type"));
+                        worksheetConfigDetails.columnOrder(worksheetConfigJson.getInt("column_order"));
+                        worksheetConfigDetails.worksheetConfig(worksheetConfig);
+                        worksheetConfigDetails.definition(Definitions.getInstance().findDefinition(worksheetConfigJson.getString("definition")));
+                        worksheetConfigDetails.save();
+                    }
+
                     worksheetConfig.save();
                 }
 
@@ -170,8 +178,19 @@ public class ConfigJSON implements Loader {
                 definitionType = "Text";
             }
 
+            String contextType = null;
+            if (Objects.equals(definition.getContextType(), Definition.CONTEXT_TYPE_RECORD)) {
+                contextType = "Record";
+            } else if (Objects.equals(definition.getContextType(), Definition.CONTEXT_TYPE_AGGREGATE)) {
+                contextType = "Aggregate";
+            } else if (Objects.equals(definition.getContextType(), Definition.CONTEXT_TYPE_VIEW)) {
+                contextType = "View";
+            }
+
             definitionJSON.put("type", definitionType);
             definitionJSON.put("name", definition.getName());
+            definitionJSON.put("context_type", contextType);
+
             if (definition.isCalculated()) {
                 definitionJSON.put("expression", definition.getExpression());
             }
@@ -198,16 +217,29 @@ public class ConfigJSON implements Loader {
         }
         root.put("record_definition", recordDefinitions);
 
+
+        WorksheetConfigDAO worksheetConfigDAO = new WorksheetConfigDAO();
+        List<WorksheetConfig> worksheetConfigList = worksheetConfigDAO.getAllWorksheetConfigs();
         JSONArray worksheetConfigs = new JSONArray();
-        List<WorksheetConfig> worksheetConfigList = new WorksheetConfigDAO().getAllWorksheetConfigs();
         for (WorksheetConfig worksheetConfig : worksheetConfigList) {
             JSONObject worksheetConfigJson = new JSONObject();
+            worksheetConfigJson.put("name", worksheetConfig.getName());
 
-            worksheetConfigJson.put("column_title", worksheetConfig.getColumnTitle());
-            worksheetConfigJson.put("column_type", worksheetConfig.getColumnType());
-            worksheetConfigJson.put("column_order", worksheetConfig.getColumnOrder());
-            worksheetConfigJson.put("definition", worksheetConfig.getDefinition().getName());
+            List<WorksheetConfigDetails> worksheetConfigDetailsList = new WorksheetConfigDetailsDAO().getWorksheetConfigDetails(worksheetConfig);
+            JSONArray worksheetDetailsConfigs = new JSONArray();
 
+            for (WorksheetConfigDetails worksheetConfigDetail : worksheetConfigDetailsList) {
+                JSONObject worksheetConfigDetailJson = new JSONObject();
+
+                worksheetConfigDetailJson.put("column_title", worksheetConfigDetail.getColumnTitle());
+                worksheetConfigDetailJson.put("column_type", worksheetConfigDetail.getColumnType());
+                worksheetConfigDetailJson.put("column_order", worksheetConfigDetail.getColumnOrder());
+                worksheetConfigDetailJson.put("definition", worksheetConfigDetail.getDefinition().getName());
+
+                worksheetDetailsConfigs.put(worksheetConfigDetailJson);
+            }
+
+            worksheetConfigJson.put("worksheet_config_details", worksheetDetailsConfigs);
             worksheetConfigs.put(worksheetConfigJson);
         }
         root.put("worksheet_config", worksheetConfigs);
@@ -246,6 +278,23 @@ public class ConfigJSON implements Loader {
             definedTemplates.put(definedTemplateJSON);
         }
         root.put("import_templates", definedTemplates);
+
+        JSONArray formulaContexts = new JSONArray();
+        FormulaContextDAO formulaContextDAO = new FormulaContextDAO();
+        List<FormulaContext> formulaContextList = formulaContextDAO.getAllFormulaContexts();
+        for (FormulaContext formulaContext : formulaContextList) {
+            JSONObject formulaContextJSON = new JSONObject();
+            formulaContextJSON.put("name", formulaContext.getName());
+
+            JSONArray definitionsJson = new JSONArray();
+            List<FormulaContextGroup> formulaContextGroups = new FormulaContextGroupDAO().getFormulaContextGroupByFormulaContext(formulaContext);
+            for (FormulaContextGroup formulaContextGroup : formulaContextGroups) {
+                definitionsJson.put(formulaContextGroup.getDefinition().getName());
+            }
+            formulaContextJSON.put("definitions", definitionsJson);
+            formulaContexts.put(formulaContextJSON);
+        }
+        root.put("formula_context", formulaContexts);
 
         return root;
     }

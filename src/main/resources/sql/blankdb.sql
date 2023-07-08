@@ -53,11 +53,17 @@ create table defined_bridge (
 
 drop table worksheet_config;
 create table worksheet_config (
+    uuid char(36) NOT NULL,
+    name varchar(200),
+    PRIMARY KEY (uuid));
+
+drop table worksheet_config_details;
+create table worksheet_config_details (
   uuid char(36) NOT NULL,
+  worksheet_config_id char(36),
   column_title varchar(200),
   definition_id char(36),
   column_type varchar(200),
-  data_type varchar(200),
   column_order int,
   text_align varchar(200),
   colour varchar(200),
@@ -142,7 +148,6 @@ create table formula_context_group (
     definition_id char(36),
     formula_context_id char(36),
     PRIMARY KEY (uuid));
-
 
 
 

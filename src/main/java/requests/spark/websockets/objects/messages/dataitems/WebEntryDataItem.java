@@ -14,6 +14,11 @@ public class WebEntryDataItem extends JSONWeb {
     @WSDataReference()
     private String name = null;
 
+    public WebEntryDataItem(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public WebEntryDataItem(Entry entryClarity) {
         if (entryClarity.get().getValue() != null) {
             this.value = entryClarity.get().getValue().toString();
