@@ -20,7 +20,7 @@ export class WorksheetCellComponent implements OnInit, OnDestroy {
   value: string = "";
 
   // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = [];
 
   constructor(private store: Store<WorksheetState>) {
   }

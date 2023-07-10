@@ -18,6 +18,8 @@ public class ClarityTest {
     public static void main(String[] args) {
         clarityTest = new ClarityTest();
 
+//        log.info("Cores = " + Runtime.getRuntime().availableProcessors());
+
         clarityTest.runStandardTests();
 
         log.info("Tests passed = " + passedCount + "/" + testCount);

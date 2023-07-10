@@ -13,25 +13,46 @@ import {select, Store} from '@ngrx/store';
 
 // Selectors
 import {ConfigurationService} from './service/configuration.service';
-import {ConfigurationState, DefinitionsState, RecordDefinitionsState} from "./reducers/configuration.reducers";
 import {
+  ConfigurationState,
+  DefinitionsState,
+  FormulaContextState,
+  RecordDefinitionsState,
+  WorksheetConfigsState
+} from "./reducers/configuration.reducers";
+import {
+  AddNewWorksheetConfig,
   RequestDefinitions,
-  RequestRecordDefinitions,
+  RequestWorksheetConfigs,
   SaveDefinition,
   SelectDefinition,
-  UpdateDefinition
+  SelectType,
+  SelectWorksheetConfig,
+  UpdateDefinition, UpdateWorksheetConfig
 } from "./actions/configuration.actions";
 import {RecordDefinitionDataItem} from "../../wsObjects/recordDefinitionDataItem";
 import {
   definitions,
+  formulaContexts,
   recordDefinitions,
   selectedDefinition,
-  selectedRecordDefinition, selectYourEntityById
+  selectedFormulaContext,
+  selectedRecordDefinition,
+  selectedType,
+  selectedWorksheetConfig,
+  worksheetConfigs
 } from "./selectors/configuration.selectors";
 import {selectAll as selectAllRecordDefinition} from "./selectors/recordDefinition.selectors";
-import {selectAll as selectAllDefinition} from "./selectors/definition.selectors";
+import {selectAll as selectAllDefinition, selectYourEntityByIds} from "./selectors/definition.selectors";
+import {selectAll as selectAllFormulaContext} from "./selectors/formulaContext.selectors";
+import {selectAll as selectAllWorksheetConfig} from "./selectors/worksheetConfig.selectors";
 import {DefinitionDataItem} from "../../wsObjects/definitionDataItem";
+import {FormulaContextDataItem} from "../../wsObjects/formulaContextDataItem";
+import {WorksheetConfigDataItem} from "../../wsObjects/worksheetConfigDataItem";
+import {WebWorksheetConfigDataItem} from "../../wsObjects/webWorksheetConfigDataItem";
 import Editor = Ace.Editor;
+import {Scope} from "eslint";
+import Definition = Scope.Definition;
 
 // Action
 
@@ -44,8 +65,17 @@ export class ConfigurationComponent implements OnInit, OnDestroy, AfterViewInit 
   definitions$: Observable<Array<DefinitionDataItem>>;
   definitionsState$: Observable<DefinitionsState>;
 
+  definitionsForContext$: Observable<Array<DefinitionDataItem>>;
+  definitionContextList: string[] = [];
+
   recordDefinitions$: Observable<Array<RecordDefinitionDataItem>>;
   recordDefinitionsState$: Observable<RecordDefinitionsState>;
+
+  formulaContexts$: Observable<Array<FormulaContextDataItem>>;
+  formulaContextsStats$: Observable<FormulaContextState>;
+
+  worksheetConfigs$: Observable<Array<WorksheetConfigDataItem>>;
+  worksheetConfigsStats$: Observable<WorksheetConfigsState>;
 
   private unsubscribe: Subscription[] = [];
 
@@ -53,6 +83,15 @@ export class ConfigurationComponent implements OnInit, OnDestroy, AfterViewInit 
   selectedRecordDefinition: RecordDefinitionDataItem;
   selectedDefinition$: Observable<DefinitionDataItem>;
   selectedDefinition: DefinitionDataItem;
+  selectedFormulaContext$: Observable<FormulaContextDataItem>;
+  selectedFormulaContext: FormulaContextDataItem;
+  selectedWorksheetConfig$: Observable<WorksheetConfigDataItem>;
+  selectedWorksheetConfig: WorksheetConfigDataItem;
+  selectedDefinitionToAdd: DefinitionDataItem;
+
+  types: string[] = ["Formula Context", "Record"];
+  selectedType$: Observable<string>;
+  selectedType: string;
 
   editor: Editor;
 
@@ -62,20 +101,33 @@ export class ConfigurationComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngOnInit() {
-    this.store.dispatch(new RequestRecordDefinitions({}));
-
     this.definitionsState$ = this.store.pipe(select(definitions));
     this.definitions$ = this.definitionsState$.pipe(select(selectAllDefinition));
 
     this.recordDefinitionsState$ = this.store.pipe(select(recordDefinitions));
     this.recordDefinitions$ = this.recordDefinitionsState$.pipe(select(selectAllRecordDefinition));
 
-    // selectYourEntityById
+    this.formulaContextsStats$ = this.store.pipe(select(formulaContexts));
+    this.formulaContexts$ = this.formulaContextsStats$.pipe(select(selectAllFormulaContext));
+
+    this.worksheetConfigsStats$ = this.store.pipe(select(worksheetConfigs));
+    this.worksheetConfigs$ = this.worksheetConfigsStats$.pipe(select(selectAllWorksheetConfig));
+
+    this.selectedType$ = this.store.pipe(select(selectedType));
+    this.unsubscribe.push(
+      this.selectedType$.subscribe(selectedType => {
+        this.selectedType = selectedType;
+      })
+    );
 
     this.selectedRecordDefinition$ = this.store.pipe(select(selectedRecordDefinition));
     this.unsubscribe.push(
       this.selectedRecordDefinition$.subscribe(recordDefinitionDataItem => {
         this.selectedRecordDefinition = recordDefinitionDataItem;
+        if (recordDefinitionDataItem !== null) {
+          this.definitionContextList = recordDefinitionDataItem.definitionIds;
+          this.definitionsForContext$ = this.store.select(selectYourEntityByIds(this.definitionContextList)); // We shouldn't have to redefine this...
+        }
       })
     );
 
@@ -85,6 +137,29 @@ export class ConfigurationComponent implements OnInit, OnDestroy, AfterViewInit 
         this.selectedDefinition = definitionDataItem;
       })
     );
+
+    this.selectedFormulaContext$ = this.store.pipe(select(selectedFormulaContext));
+    this.unsubscribe.push(
+      this.selectedFormulaContext$.subscribe(selectedFormulaContext => {
+        this.selectedFormulaContext = selectedFormulaContext;
+        if (selectedFormulaContext !== null) {
+          this.definitionContextList = selectedFormulaContext.definitionIds;
+          this.definitionsForContext$ = this.store.select(selectYourEntityByIds(this.definitionContextList)); // We shouldn't have to redefine this...
+        }
+      })
+    );
+
+    this.selectedWorksheetConfig$ = this.store.pipe(select(selectedWorksheetConfig));
+    this.unsubscribe.push(
+      this.selectedWorksheetConfig$.subscribe(selectedWorksheetConfig => {
+        this.selectedWorksheetConfig = selectedWorksheetConfig;
+      })
+    );
+
+    // ??
+    // this.definitionsForContext$ = this.store.select(selectYourEntityByIds(this.definitionContextList));
+
+    this.store.dispatch(new RequestWorksheetConfigs({}));
   }
 
   ngAfterViewInit() {
@@ -111,10 +186,54 @@ export class ConfigurationComponent implements OnInit, OnDestroy, AfterViewInit 
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
+  typeChanged() {
+    this.store.dispatch(new SelectType({
+      selectedType: this.selectedType
+    }));
+  }
+
   recordDefinitionChanged() {
     this.store.dispatch(new RequestDefinitions({
-      recordDefinition: this.selectedRecordDefinition
+      type: 'All',
+      recordDefinition: this.selectedRecordDefinition,
+      formulaContext: null
     }));
+  }
+
+  formulaContextChanged() {
+    this.store.dispatch(new RequestDefinitions({
+      type: 'All',
+      recordDefinition: null,
+      formulaContext: this.selectedFormulaContext
+    }));
+  }
+
+  worksheetConfigChanged() {
+    this.store.dispatch(new SelectWorksheetConfig({
+      worksheetConfig: this.selectedWorksheetConfig
+    }));
+  }
+
+  addNewWorksheetConfigDetail() {
+    this.store.dispatch(new AddNewWorksheetConfig({
+      worksheetConfigName: this.selectedWorksheetConfig.name,
+      definitionId: this.selectedDefinitionToAdd.uuid
+    }));
+  }
+
+  valueChange(worksheetConfigDetail: WebWorksheetConfigDataItem, event: any, field: string) {
+    let element = event.target;
+
+    this.store.dispatch(new UpdateWorksheetConfig({
+      update: {
+        id: worksheetConfigDetail.definitionId,
+        changes: {name: element.value}
+      }
+    }));
+  }
+
+  focusOut() {
+
   }
 
   definitionChanged() {

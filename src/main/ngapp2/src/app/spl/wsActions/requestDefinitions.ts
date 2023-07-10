@@ -9,6 +9,7 @@ import {DefinitionDataItem} from "../wsObjects/definitionDataItem";
 
 export class RequestDefinitions extends Message {
 	private _requestedRecordDefinitionName: string;
+	private _requestedFormulaContextName: string;
 	private _definitions: Array<DefinitionDataItem> = [];
 	
 	constructor() {
@@ -24,12 +25,20 @@ export class RequestDefinitions extends Message {
 		return this._requestedRecordDefinitionName;
 	}
 	
+	get requestedFormulaContextName(): string {
+		return this._requestedFormulaContextName;
+	}
+	
 	get definitions(): Array<DefinitionDataItem> {
 		return this._definitions;
 	}
 	
 	set requestedRecordDefinitionName(value: string) {
 		this._requestedRecordDefinitionName = value;
+	}
+	
+	set requestedFormulaContextName(value: string) {
+		this._requestedFormulaContextName = value;
 	}
 	
 	set definitions(value: Array<DefinitionDataItem>) {

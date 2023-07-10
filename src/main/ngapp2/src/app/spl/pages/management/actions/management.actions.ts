@@ -7,7 +7,9 @@ export enum ManagementActionTypes {
   DownloadTestRequest = '[Management-DownloadTestRequest] Action',
   DownloadConfigRequest = '[Management-DownloadConfigRequest] Action',
 
-  ProcessDownloadedFile = '[Management-ProcessDownloadedFile] Action'
+  ProcessDownloadedFile = '[Management-ProcessDownloadedFile] Action',
+
+  RecalculateHierarchy = '[Management-RecalculateHierarchy] Action'
 }
 
 export class QueryManagement implements Action {
@@ -52,10 +54,19 @@ export class ProcessDownloadedFile implements Action {
   }
 }
 
+export class RecalculateHierarchy implements Action {
+  readonly type = ManagementActionTypes.RecalculateHierarchy;
+
+  constructor(public payload: {}) {
+  }
+}
+
 export type ManagementActions =
   QueryManagement |
   ProcessResults |
 
   DownloadTestRequest |
   DownloadConfigRequest |
-  ProcessDownloadedFile;
+  ProcessDownloadedFile |
+
+  RecalculateHierarchy;

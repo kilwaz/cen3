@@ -110,12 +110,16 @@ public class ConfigJSON implements Loader {
                 }
 
                 JSONArray hierarchyTrees = jsonObject.getJSONArray("hierarchy_trees");
+                HierarchyTreeDAO hierarchyTreeDAO = new HierarchyTreeDAO();
                 for (int i = 0; i < hierarchyTrees.length(); i++) {
                     JSONObject hierarchyTreeJson = hierarchyTrees.getJSONObject(i);
 
-                    HierarchyTree hierarchyTree = HierarchyTree.create(HierarchyTree.class);
-                    hierarchyTree.name(hierarchyTreeJson.getString("name"));
-                    hierarchyTree.save();
+                    HierarchyTree hierarchyTree = hierarchyTreeDAO.getHierarchyTreeByName(hierarchyTreeJson.getString("name"));
+                    if (hierarchyTree == null) {
+                        hierarchyTree = HierarchyTree.create(HierarchyTree.class);
+                        hierarchyTree.name(hierarchyTreeJson.getString("name"));
+                        hierarchyTree.save();
+                    }
                 }
 
                 JSONArray importTemplates = jsonObject.getJSONArray("import_templates");

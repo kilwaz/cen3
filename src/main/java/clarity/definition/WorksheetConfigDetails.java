@@ -101,10 +101,6 @@ public class WorksheetConfigDetails extends DatabaseObject {
     }
 
     public WebWorksheetConfigDataItem getAsWebWorksheetConfig() {
-        WebWorksheetConfigDataItem webWorksheetConfig = new WebWorksheetConfigDataItem();
-        webWorksheetConfig.setName(columnTitle);
-        webWorksheetConfig.setColumnType(columnType);
-        webWorksheetConfig.setDefinitionName(definition.getName());
-        return webWorksheetConfig;
+        return new WebWorksheetConfigDataItem(this);
     }
 }

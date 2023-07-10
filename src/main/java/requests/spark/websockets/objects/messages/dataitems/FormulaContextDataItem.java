@@ -1,6 +1,7 @@
 package requests.spark.websockets.objects.messages.dataitems;
 
-import clarity.definition.Definition;
+import clarity.definition.FormulaContextGroup;
+import data.model.dao.FormulaContextGroupDAO;
 import org.json.JSONArray;
 import requests.spark.websockets.objects.JSONWeb;
 import requests.spark.websockets.objects.messages.mapping.WSDataJSONArrayClass;
@@ -9,7 +10,7 @@ import requests.spark.websockets.objects.messages.mapping.WSDataReference;
 
 import java.util.List;
 
-public class RecordDefinitionDataItem extends JSONWeb {
+public class FormulaContextDataItem extends JSONWeb {
     @WSDataReference()
     private String uuid = null;
 
@@ -21,14 +22,14 @@ public class RecordDefinitionDataItem extends JSONWeb {
     @WSDataReference()
     private JSONArray definitionIds = null;
 
-    public RecordDefinitionDataItem(clarity.definition.RecordDefinition recordDefinitionClarity) {
-        this.uuid = recordDefinitionClarity.getUuidString();
-        this.name = recordDefinitionClarity.getName();
+    public FormulaContextDataItem(clarity.definition.FormulaContext formulaContext) {
+        this.uuid = formulaContext.getUuidString();
+        this.name = formulaContext.getName();
 
-        List<Definition> definitions = recordDefinitionClarity.getDefinitions();
+        List<FormulaContextGroup> formulaContextGroups = new FormulaContextGroupDAO().getFormulaContextGroupByFormulaContext(formulaContext);
         this.definitionIds = new JSONArray();
-        for (Definition definition : definitions) {
-            this.definitionIds.put(definition.getUuidString());
+        for (FormulaContextGroup formulaContextGroup : formulaContextGroups) {
+            this.definitionIds.put(formulaContextGroup.getDefinition().getUuidString());
         }
     }
 

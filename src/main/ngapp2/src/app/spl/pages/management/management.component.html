@@ -1,15 +1,15 @@
 <div class="card card-custom gutter-b">
   <div>
-    Total Memory: {{totalMemory$ | async}}
+    Total Memory: {{totalMemory$ | async}} MB
   </div>
   <div>
-    Free Memory: {{freeMemory$ | async}}
+    Free Memory: {{freeMemory$ | async}} MB
   </div>
   <div>
-    Used Memory: {{(totalMemory$ | async) - (freeMemory$ | async)}}
+    Used Memory: {{(totalMemory$ | async) - (freeMemory$ | async)}} MB
   </div>
   <div>
-    Max Memory: {{maxMemory$ | async}}
+    Max Memory: {{maxMemory$ | async}} MB
   </div>
 
   <div>
@@ -20,6 +20,11 @@
   <div>
     <button (click)="triggerConfigDownload()">
       Download Config
+    </button>
+  </div>
+  <div>
+    <button (click)="recalculateHierarchy()">
+      Recalculate Hierarchy
     </button>
   </div>
 </div>

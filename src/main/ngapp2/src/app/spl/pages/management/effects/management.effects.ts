@@ -12,7 +12,8 @@ import {
   ManagementActionTypes,
   ProcessDownloadedFile,
   ProcessResults,
-  QueryManagement
+  QueryManagement,
+  RecalculateHierarchy
 } from '../actions/management.actions';
 import {ManagementService} from '../service/management.service';
 import {ManagementState} from "../reducers/management.reducers";
@@ -95,6 +96,14 @@ export class ManagementEffects {
         link.download = result.payload.fileName;
         link.click();
         URL.revokeObjectURL(url);
+      }));
+  }, {dispatch: false});
+
+  recalculateHierarchy$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<RecalculateHierarchy>(ManagementActionTypes.RecalculateHierarchy),
+      map(() => {
+        this.managementService.recalculateHierarchy();
       }));
   }, {dispatch: false});
 }

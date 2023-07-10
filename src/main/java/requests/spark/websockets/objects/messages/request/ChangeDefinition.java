@@ -11,8 +11,6 @@ import requests.spark.websockets.objects.messages.dataitems.DefinitionDataItem;
 import requests.spark.websockets.objects.messages.dataobjects.ChangeDefinitionData;
 import requests.spark.websockets.objects.messages.mapping.WebSocketDataClass;
 
-import static clarity.definition.Definitions.*;
-
 @MessageType("ChangeDefinition")
 @WebSocketDataClass(ChangeDefinitionData.class)
 public class ChangeDefinition extends Message {
@@ -23,12 +21,14 @@ public class ChangeDefinition extends Message {
 
         DefinitionDataItem definitionDataItem = changeDefinitionData.getDefinition();
 
-        if(definitionDataItem != null){
+        if (definitionDataItem != null) {
             Definition definition = Definitions.getInstance().getDefinition(definitionDataItem.getName());
             definition.expression(definitionDataItem.getExpression());
 
-            Definitions.getInstance().rebuild();
-            Infer.me(definition);
+            if (definition.isContextTypeRecord()) {
+                Definitions.getInstance().rebuild();
+                Infer.me(definition);
+            }
         }
     }
 }

@@ -1,15 +1,13 @@
 import clarity.Infer;
 import clarity.definition.Definitions;
-import clarity.definition.HierarchyTree;
 import clarity.load.Load;
-import data.ProcedureQuery;
 import data.SelectQuery;
 import data.SelectResult;
 import data.SelectResultRow;
-import data.model.dao.HierarchyTreeDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import utils.ApplicationParams;
+import utils.HierarchyUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,12 +45,7 @@ public class ClaritySetup {
             File fileExcel = new File(ApplicationParams.getBaseDataPath());
             Load.excel(fileExcel).process();
 
-            HierarchyTreeDAO hierarchyTreeDAO = new HierarchyTreeDAO();
-            HierarchyTree hierarchyTree = hierarchyTreeDAO.getHierarchyTreeByName("ARUP");
-
-            ProcedureQuery procedureQuery = new ProcedureQuery("{ call tree_populate(?)}");
-            procedureQuery.addParameter(hierarchyTree.getUuidString());
-            procedureQuery.execute();
+            HierarchyUtils.recalculate();
         }
 
         log.info("Ready!");
@@ -197,7 +190,7 @@ public class ClaritySetup {
         if (ApplicationParams.getClearDownDataTables()) {
             for (SelectResultRow selectResultRow : result.getResults()) {
                 String tableName = selectResultRow.getString("table_name");
-                if (!configTable.contains(tableName)) {
+                if (!configTable.contains(tableName) && !dataTables.contains(tableName)) {
                     log.info("Deleting " + tableName);
                     new SelectQuery("truncate table " + tableName).execute();
                     new SelectQuery("drop table " + tableName).execute();

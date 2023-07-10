@@ -1,11 +1,11 @@
 /* 
 THIS FILE IS AUTO GENERATED FROM THE SOURCE FILE:
-requests.spark.websockets.objects.messages.dataitems.RecordDefinitionDataItem
+requests.spark.websockets.objects.messages.dataitems.FormulaContextDataItem
 DO NOT MANUALLY CHANGE THIS FILE
 */
 
 
-export class RecordDefinitionDataItem {
+export class FormulaContextDataItem {
 	private _uuid: string;
 	private _name: string;
 	private _definitionIds: Array<string> = [];
@@ -13,7 +13,7 @@ export class RecordDefinitionDataItem {
 	constructor() {
 	}
 	
-	wsFill(webSocketReference: any) : RecordDefinitionDataItem {
+	wsFill(webSocketReference: any) : FormulaContextDataItem {
 		this._uuid = webSocketReference.uuid != undefined ? webSocketReference.uuid : this._uuid;
 		this._name = webSocketReference.name != undefined ? webSocketReference.name : this._name;
 		this._definitionIds = webSocketReference.definitionIds != undefined ? webSocketReference.definitionIds : this._definitionIds;

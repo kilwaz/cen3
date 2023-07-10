@@ -1,15 +1,4 @@
-<div class="card card-custom gutter-b">
-
-  <div class="d-flex align-items-center">
-    <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Record definition:</span>
-
-    <select [(ngModel)]="selectedRecordDefinition" class="form-select form-select-sm form-select-solid"
-            data-hide-search="true"
-            (change)="recordDefinitionChanged()">
-      <option *ngFor="let option of recordDefinitions$ | async" [ngValue]="option">{{option.name}}</option>
-    </select>
-  </div>
-
+<ng-template #definitionSelect>
   <div class="d-flex align-items-center">
     <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Definition:</span>
 
@@ -19,6 +8,46 @@
       <option *ngFor="let option of definitions$ | async" [ngValue]="option">{{option.name}}</option>
     </select>
   </div>
+</ng-template>
+
+<div class="card card-custom gutter-b">
+  <div class="d-flex align-items-center">
+    <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Type:</span>
+
+    <select [(ngModel)]="selectedType" class="form-select form-select-sm form-select-solid"
+            data-hide-search="true"
+            (change)="typeChanged()">
+      <option *ngFor="let option of types" [ngValue]="option">{{option}}</option>
+    </select>
+  </div>
+
+  <ng-container *ngIf="selectedType == 'Record'">
+    <div class="d-flex align-items-center">
+      <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Record definition:</span>
+
+      <select [(ngModel)]="selectedRecordDefinition" class="form-select form-select-sm form-select-solid"
+              data-hide-search="true"
+              (change)="recordDefinitionChanged()">
+        <option *ngFor="let option of recordDefinitions$ | async" [ngValue]="option">{{option.name}} - {{option.definitionIds.length}}</option>
+      </select>
+    </div>
+
+    <ng-container *ngTemplateOutlet="definitionSelect"></ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="selectedType == 'Formula Context'">
+    <div class="d-flex align-items-center">
+      <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Formula Context:</span>
+
+      <select [(ngModel)]="selectedFormulaContext" class="form-select form-select-sm form-select-solid"
+              data-hide-search="true"
+              (change)="formulaContextChanged()">
+        <option *ngFor="let option of formulaContexts$ | async" [ngValue]="option">{{option.name}}</option>
+      </select>
+    </div>
+
+    <ng-container *ngTemplateOutlet="definitionSelect"></ng-container>
+  </ng-container>
 
   <div id="editor"></div>
 
@@ -28,7 +57,45 @@
   </button>
 
   <ul>
-    <li *ngFor="let definition of definitions$ | async">{{definition.name}} - {{definition.expression}}</li>
+    <li *ngFor="let definition of definitionsForContext$ | async; let i = index">{{i + 1}} - {{definition.name}} - {{definition.expression}}</li>
   </ul>
+
+  <div class="d-flex align-items-center">
+    <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Worksheet Configs:</span>
+
+    <select [(ngModel)]="selectedWorksheetConfig" class="form-select form-select-sm form-select-solid"
+            data-hide-search="true"
+            (change)="worksheetConfigChanged()">
+      <option *ngFor="let option of worksheetConfigs$ | async" [ngValue]="option">{{option.name}}</option>
+    </select>
+  </div>
+
+  <ul>
+    <li *ngFor="let worksheetConfigDetail of selectedWorksheetConfig?.worksheetConfigDetails">
+      <input type="text" size="8" [value]="worksheetConfigDetail.name" (input)="valueChange(worksheetConfigDetail, $event, 'name')"
+             (focusout)="focusOut()"/>
+      <input type="text" size="8" [(ngModel)]="worksheetConfigDetail.definitionName" (input)="valueChange(worksheetConfigDetail, $event, 'definitionName')"
+             (focusout)="focusOut()"/>
+      <input type="text" size="8" [(ngModel)]="worksheetConfigDetail.columnOrder" (input)="valueChange(worksheetConfigDetail, $event, 'columnOrder')"
+             (focusout)="focusOut()"/>
+      <input type="text" size="8" [(ngModel)]="worksheetConfigDetail.columnType" (input)="valueChange(worksheetConfigDetail, $event, 'columnType')"
+             (focusout)="focusOut()"/>
+    </li>
+  </ul>
+
+  <button click-stop-propagation type="button" class="sort-button btn btn-sm btn-icon btn-secondary"
+          data-bs-toggle="tooltip" data-bs-placement="top" title="Save" (click)="addNewWorksheetConfigDetail()">
+    Add
+  </button>
+  <div class="d-flex align-items-center">
+    <span class="fs-7 fw-bold text-gray-700 flex-shrink-0 px-3 d-none d-md-block">Definition:</span>
+
+    <select [(ngModel)]="selectedDefinitionToAdd" class="form-select form-select-sm form-select-solid"
+            data-hide-search="true"
+            >
+      <option *ngFor="let option of definitions$ | async" [ngValue]="option">{{option.name}}</option>
+    </select>
+  </div>
+
 </div>
 

@@ -12,10 +12,21 @@ public class RequestDefinitionsData extends WebSocketData {
     @WSDataIncoming
     private String requestedRecordDefinitionName = null;
 
+    @WSDataIncoming
+    private String requestedFormulaContextName = null;
+
     @WSDataOutgoing
     @WSDataJSONArrayClass(DefinitionDataItem.class)
     @WSDataTypeScriptClass(DefinitionDataItem.class)
     private List<DefinitionDataItem> definitions = null;
+
+    public String getRequestedFormulaContextName() {
+        return requestedFormulaContextName;
+    }
+
+    public void setRequestedFormulaContextName(String requestedFormulaContextName) {
+        this.requestedFormulaContextName = requestedFormulaContextName;
+    }
 
     public String getRequestedRecordDefinitionName() {
         return requestedRecordDefinitionName;

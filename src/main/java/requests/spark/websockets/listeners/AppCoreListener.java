@@ -17,11 +17,15 @@ import utils.managers.FileUploadManager;
 import java.io.IOException;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @WebSocket
 @RequestName("ws")
 public class AppCoreListener {
     private static final Logger log = AppLogger.logger();
+
+    private static ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     // New connections trigger here
     @OnWebSocketConnect
@@ -45,29 +49,31 @@ public class AppCoreListener {
     // Incoming messages reach the server via this method
     @OnWebSocketMessage
     public void message(Session session, String rawMessage) {
-        try {
-            log.info("-> I " + humanReadableByteCountBin(rawMessage.length()) + ": " + rawMessage);
-            long startTime = System.currentTimeMillis();
+        executorService.submit(() -> {
+            try {
+                log.info("-> I " + humanReadableByteCountBin(rawMessage.length()) + ": " + rawMessage);
+                long startTime = System.currentTimeMillis();
 
-            JSONContainer messageContainer = new JSONContainer(rawMessage);
+                JSONContainer messageContainer = new JSONContainer(rawMessage);
 
-            WebSocketAction webSocketAction = new WebSocketAction();
-            Message message = webSocketAction.request(messageContainer);
+                WebSocketAction webSocketAction = new WebSocketAction();
+                Message message = webSocketAction.request(messageContainer);
 
-            if (message != null) {
-                message.getWebSocketData().setSession(session);
-                message.process();
-                JSONContainer responseContainer = webSocketAction.response(message);
-                if (session.isOpen()) {
-                    String response = responseContainer.writeResponse();
-                    log.info("<- O " + (System.currentTimeMillis() - startTime) + "ms " + humanReadableByteCountBin(response.length()) + ": " + response);
+                if (message != null) {
+                    message.getWebSocketData().setSession(session);
+                    message.process();
+                    JSONContainer responseContainer = webSocketAction.response(message);
+                    if (session.isOpen()) {
+                        String response = responseContainer.writeResponse();
+                        log.info("<- O " + (System.currentTimeMillis() - startTime) + "ms " + humanReadableByteCountBin(response.length()) + ": " + response);
 //                    log.info("<- O " + (System.currentTimeMillis() - startTime) + "ms " + humanReadableByteCountBin(response.length()));
-                    session.getRemote().sendString(response);
+                        session.getRemote().sendString(response);
+                    }
                 }
+            } catch (Exception ex) {
+                error.Error.GENERIC_WEBSOCKET_EXCEPTION.record().create(ex);
             }
-        } catch (Exception ex) {
-            error.Error.GENERIC_WEBSOCKET_EXCEPTION.record().create(ex);
-        }
+        });
     }
 
     private static String humanReadableByteCountBin(long bytes) {

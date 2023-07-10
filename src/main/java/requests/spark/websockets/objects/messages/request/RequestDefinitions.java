@@ -1,7 +1,11 @@
 package requests.spark.websockets.objects.messages.request;
 
 import clarity.definition.Definition;
+import clarity.definition.FormulaContext;
+import clarity.definition.FormulaContextGroup;
 import clarity.definition.RecordDefinition;
+import data.model.dao.FormulaContextDAO;
+import data.model.dao.FormulaContextGroupDAO;
 import log.AppLogger;
 import org.apache.logging.log4j.Logger;
 import requests.spark.websockets.objects.Message;
@@ -21,14 +25,31 @@ public class RequestDefinitions extends Message {
     public void process() {
         RequestDefinitionsData definitionsData = (RequestDefinitionsData) this.getWebSocketData();
 
-        String definitionName = definitionsData.getRequestedRecordDefinitionName();
-        RecordDefinition recordDefinition = clarity.definition.Definitions.getInstance().getRecordDefinition(definitionName);
+        List<DefinitionDataItem> definitionDataItems = new ArrayList<>();
+        if (definitionsData.getRequestedRecordDefinitionName() != null) {
+            if ("All".equals(definitionsData.getRequestedRecordDefinitionName())) {
+                List<Definition> allDefinitions = clarity.definition.Definitions.getInstance().getAllDefinitions();
+                for (Definition definition : allDefinitions) {
+                    definitionDataItems.add(new DefinitionDataItem(definition));
+                }
+            } else {
+                RecordDefinition recordDefinition = clarity.definition.Definitions.getInstance().getRecordDefinition(definitionsData.getRequestedRecordDefinitionName());
+                for (Definition definition : recordDefinition.getDefinitions()) {
+                    definitionDataItems.add(new DefinitionDataItem(definition));
+                }
+            }
+        } else {
+            FormulaContextDAO formulaContextDAO = new FormulaContextDAO();
+            FormulaContext formulaContext = formulaContextDAO.getFormulaContextName(definitionsData.getRequestedFormulaContextName());
 
-        List<DefinitionDataItem> recordDefinitionDataItems = new ArrayList<>();
-        for (Definition definition : recordDefinition.getDefinitions()) {
-            recordDefinitionDataItems.add(new DefinitionDataItem(definition));
+            FormulaContextGroupDAO formulaContextGroupDAO = new FormulaContextGroupDAO();
+            List<FormulaContextGroup> formulaContextGroups = formulaContextGroupDAO.getFormulaContextGroupByFormulaContext(formulaContext);
+
+            for (FormulaContextGroup formulaContextGroup : formulaContextGroups) {
+                definitionDataItems.add(new DefinitionDataItem(formulaContextGroup.getDefinition()));
+            }
         }
 
-        definitionsData.setDefinitions(recordDefinitionDataItems);
+        definitionsData.setDefinitions(definitionDataItems);
     }
 }

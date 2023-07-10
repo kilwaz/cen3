@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Definition extends DatabaseObject {
@@ -112,6 +113,18 @@ public class Definition extends DatabaseObject {
 
     public Boolean isCalculated() {
         return calculated;
+    }
+
+    public Boolean isContextTypeRecord() {
+        return Objects.equals(this.contextType, CONTEXT_TYPE_RECORD);
+    }
+
+    public Boolean isContextTypeAggregate() {
+        return Objects.equals(this.contextType, CONTEXT_TYPE_AGGREGATE);
+    }
+
+    public Boolean isContextTypeView() {
+        return Objects.equals(this.contextType, CONTEXT_TYPE_VIEW);
     }
 
     public Definition calculated(Boolean calculated) {

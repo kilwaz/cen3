@@ -8,6 +8,7 @@ import {WebRecordDataItem} from "./webRecordDataItem";
 
 export class ConfigurableUiDataItem {
 	private _type: string;
+	private _headers: WebRecordDataItem;
 	private _records: Array<WebRecordDataItem> = [];
 	
 	constructor() {
@@ -15,6 +16,7 @@ export class ConfigurableUiDataItem {
 	
 	wsFill(webSocketReference: any) : ConfigurableUiDataItem {
 		this._type = webSocketReference.type != undefined ? webSocketReference.type : this._type;
+		this._headers = webSocketReference.headers != undefined ? webSocketReference.headers : this._headers;
 		this._records = webSocketReference.records != undefined ? webSocketReference.records : this._records;
 		return this;
 	}
@@ -23,12 +25,20 @@ export class ConfigurableUiDataItem {
 		return this._type;
 	}
 	
+	get headers(): WebRecordDataItem {
+		return this._headers;
+	}
+	
 	get records(): Array<WebRecordDataItem> {
 		return this._records;
 	}
 	
 	set type(value: string) {
 		this._type = value;
+	}
+	
+	set headers(value: WebRecordDataItem) {
+		this._headers = value;
 	}
 	
 	set records(value: Array<WebRecordDataItem>) {
