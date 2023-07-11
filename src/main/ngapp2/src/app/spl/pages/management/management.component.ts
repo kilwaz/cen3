@@ -12,7 +12,7 @@ import {freeMemory, maxMemory, totalMemory} from './selectors/management.selecto
 import {ManagementService} from './service/management.service';
 import {
   DownloadConfigRequest,
-  DownloadTestRequest,
+  DownloadTestRequest, ImportData,
   QueryManagement,
   RecalculateHierarchy
 } from "./actions/management.actions";
@@ -58,5 +58,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
   recalculateHierarchy(): void {
     this.store.dispatch(new RecalculateHierarchy({}));
+  }
+
+  importData(): void {
+    this.store.dispatch(new ImportData({}));
   }
 }

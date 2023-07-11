@@ -5,6 +5,7 @@ import {Management} from "../../../wsActions/management";
 import {DownloadTest} from "../../../wsActions/downloadTest";
 import {ExportConfiguration} from "../../../wsActions/exportConfiguration";
 import {RecalculateHierarchy} from "../../../wsActions/recalculateHierarchy";
+import {ImportData} from "../../../wsActions/importData";
 
 @Injectable()
 export class ManagementService {
@@ -33,5 +34,11 @@ export class ManagementService {
     const recalculateHierarchyAction: RecalculateHierarchy = new RecalculateHierarchy();
 
     return this.webSocketService.sendWithObservable(recalculateHierarchyAction) as Observable<RecalculateHierarchy>;
+  }
+
+  importData(): Observable<ImportData> {
+    const importDataAction: ImportData = new ImportData();
+
+    return this.webSocketService.sendWithObservable(importDataAction) as Observable<ImportData>;
   }
 }

@@ -8,7 +8,7 @@ import {select, Store} from '@ngrx/store';
 // Actions
 import {
   DownloadConfigRequest,
-  DownloadTestRequest,
+  DownloadTestRequest, ImportData,
   ManagementActionTypes,
   ProcessDownloadedFile,
   ProcessResults,
@@ -104,6 +104,14 @@ export class ManagementEffects {
       ofType<RecalculateHierarchy>(ManagementActionTypes.RecalculateHierarchy),
       map(() => {
         this.managementService.recalculateHierarchy();
+      }));
+  }, {dispatch: false});
+
+  importData$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<ImportData>(ManagementActionTypes.ImportData),
+      map(() => {
+        this.managementService.importData();
       }));
   }, {dispatch: false});
 }
